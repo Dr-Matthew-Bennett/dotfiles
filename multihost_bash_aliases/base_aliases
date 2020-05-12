@@ -15,26 +15,23 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias cl='clear'
 alias clc='clear'
 
-# Add an "alert" alias for long running commands.  Use like so:
 # move up 1,2 or 3 directories 
 alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
-# Add an "alert" alias for long running commands.  Use like so:
 # don't show hidden files by default in long list 
 alias l='ls -lhF'
 alias lt="(tput rmam; ls -lhF; tput smam)"
 alias ll='ls -alhF'
 alias llt="(tput rmam; ls -alhF; tput smam)"
 
-# Add an "alert" alias for long running commands.  Use like so:
 alias untar='tar zxvf'
 
 # git
-
 alias gitstat='git status'
 alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(bold yellow)%d%C(reset)' -n5"
+
 # open applications with & to allow me to continue working in the terminal
 alias spyder='spyder &'
 alias itksnap='itksnap &'

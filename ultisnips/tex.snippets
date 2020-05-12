@@ -5,11 +5,11 @@ $0
 endsnippet
 
 snippet lat "article template"
-\documentclass{${1:article}}
+\documentclass{article}
 
 \usepackage{graphicx}
 
-\title{$2}
+\title{$1}
 \author{Matthew Bennett}
 
 \begin{document}
@@ -18,11 +18,11 @@ snippet lat "article template"
     \listoffigures
     \newpage
 
-    \section{$3}
+    \section{$2}
     $0
 
     \newpage
-    \bibliography{mybilbiograph}
+    \bibliography{mybib}
     \bibliographystyle{apalike}
 \end{document}
 endsnippet
