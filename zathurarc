@@ -2,12 +2,15 @@
 set window-width 2000
 set window-height 2000
 
+# start zoomed in (and can't then zoom out...)
+set zoom-min 200
+
 # Appearence 
 set font "monospace 15"
 
 # zathurarc-dark (nicer)
 # go to dark mode
-set recolor "true"
+# set recolor "true"
 
 # similar to zenburn-dark
 set recolor-lightcolor "#3b3936" # background color
@@ -17,7 +20,7 @@ set statusbar-fg "#c7c4bb"
 set statusbar-bg "#2b2a27"
 
 # keep original picure colours as is
-set recolor-reverse-video "true"
+# set recolor-reverse-video "true"
 
 # It seems I need this to be able to toggle to light mode (with ctrl-r)
 set recolor-keephue "true"

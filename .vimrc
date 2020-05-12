@@ -2,7 +2,7 @@
 "{{{
 " - when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-" - replace word under the cursor with work in register
+" - replace word under the cursor with word in register
 " - matlab folds to use 'function', 'for', 'if', 'while' and go to 'end'
 " - format matlab scripts (blank lines etc.) on saving
 " - automatic folding for markdown sections
@@ -76,8 +76,6 @@ Plugin 'jnurmine/Zenburn'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
-Plugin 'python-rope/ropevim'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'jpalardy/vim-slime'

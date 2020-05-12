@@ -4,8 +4,17 @@ $0
 \end{$1}
 endsnippet
 
-snippet lat "article template"
-\documentclass{article}
+snippet fig "\begin{figure}"
+\begin{figure}[h] %{{{
+        \centering
+        \includegraphics[width=\linewidth]{${1:path/to/figure.ext}}
+        \caption[${2:toc shows this}]
+        {${3: Full caption}}
+        \label{fig:$4}
+\end{figure} %}}}
+
+snippet template "article template"
+\documentclass{${1:article}}
 
 \usepackage{graphicx}
 

@@ -1,7 +1,8 @@
 alias sd='shutdown'
 
 # ssh to work stations
-alias sshpony='ssh -X mattb@130.104.83.192'
+alias sshpony='ssh mattb@130.104.83.192'
+alias sshponyx='ssh -X mattb@130.104.83.192'
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
 
 alias skype='skypeforlinux &'
@@ -21,7 +22,8 @@ alias ufcr='mv ${path}${current_vid} ${path}${current_vid::-4}_Watched${current_
 alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
 
 # read book
-alias nerd='evince ~/Documents/UNIX*.pdf &'
+alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
+alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed_solutions/c01.pdf ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed.pdf &'
 
 # plot typing speed 
 alias tc='python3 ~/code/python/speed.py &'

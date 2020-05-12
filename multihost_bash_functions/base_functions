@@ -21,3 +21,14 @@ git add . && git commit -m "$1" && git push
 mkcddir () {
 mkdir -p $1 && cd $1
 }
+
+apa () {
+rename 'y/A-Z/a-z/' *.pdf
+rename 's/ /_/g' *.pdf
+rename 's/_.\.//g' *.pdf
+rename 's/,//g' *.pdf
+rename 's/\)\._/)_/g' *.pdf
+rename 's/\._/_[/g' *.pdf
+rename 's/\)\./)]\./g' *.pdf
+rename 's/_&//g' *.pdf
+}
