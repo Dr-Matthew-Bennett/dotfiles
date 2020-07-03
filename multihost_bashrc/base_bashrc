@@ -132,5 +132,3 @@ fi
 # set IPs as variables so I don't have to look them up all the time
 pony='mattb@130.104.83.192'
 cism='mbennett@storage.cism.ucl.ac.be'
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
