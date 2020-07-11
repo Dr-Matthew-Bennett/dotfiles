@@ -22,11 +22,18 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 
 # Add an "alert" alias for long running commands.  Use like so:
-# don't show hidden files by default in long list 
-alias l='ls -lhF'
-alias lt="(tput rmam; ls -lhF; tput smam)"
-alias ll='ls -alhF'
-alias llt="(tput rmam; ls -alhF; tput smam)"
+# show ls vertically by default using the -1 switch
+alias l='ls -1 -hF'
+# same as above, but with file details too
+alias ll='ls -lhF'
+# same as above, but with hidden files too
+alias lll='ls -alhF'
+# same but sort by date modified
+alias lt="(tput rmam; ls -1 -hF; tput smam)"
+# I wanted the two below to show the list sorted by date modified but they're
+# not working right
+# alias llt="(tput rmam; ls -lhF; tput smam)"
+# alias lllt="(tput rmam; ls -alhF; tput smam)"
 
 # Add an "alert" alias for long running commands.  Use like so:
 alias untar='tar zxvf'
