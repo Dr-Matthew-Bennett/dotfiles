@@ -72,7 +72,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'jnurmine/Zenburn'
+" Plugin 'jnurmine/Zenburn'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
@@ -139,6 +139,11 @@ augroup general
 
     " search and replace word under cursor
     autocmd BufNewFile,BufRead * :nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+
+    " gq until a line beggining with \ 
+    " I figured out the macro (that's everything after the :), but I've
+    " forgotten how to do the remap commands
+    " autocmd BufNewFile,BufRead * :nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 
     " let g modify insert/append to work on visual  lines, in the same way as it
     " modifies motions like 0 and $

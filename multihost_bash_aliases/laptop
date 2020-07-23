@@ -2,7 +2,6 @@ alias sd='shutdown'
 
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be' 
 alias sshoffice='ssh mattb@130.104.83.106'
-alias sshpony='ssh -X mattb@130.104.83.192'
 
 alias skype='skypeforlinux &'
 

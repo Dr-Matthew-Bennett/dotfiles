@@ -20,11 +20,19 @@ alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
-# don't show hidden files by default in long list 
-alias l='ls -lhF'
-alias lt="(tput rmam; ls -lhF; tput smam)"
-alias ll='ls -alhF'
-alias llt="(tput rmam; ls -alhF; tput smam)"
+# Add an "alert" alias for long running commands.  Use like so:
+# show ls vertically by default using the -1 switch
+alias l='ls -1 -hF'
+# same as above, but with file details too
+alias ll='ls -lhF'
+# same as above, but with hidden files too
+alias lll='ls -alhF'
+# same but sort by date modified
+alias lt="(tput rmam; ls -1 -hF; tput smam)"
+# I wanted the two below to show the list sorted by date modified but they're
+# not working right
+# alias llt="(tput rmam; ls -lhF; tput smam)"
+# alias lllt="(tput rmam; ls -alhF; tput smam)"
 
 alias untar='tar zxvf'
 
@@ -49,3 +57,6 @@ alias clip='xclip -selection clipboard'
 
 # set night light temp (default=4000)
 alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature'
+
+alias sshpony='ssh mattb@130.104.83.107'
+alias sshponyx='ssh -X mattb@130.104.83.107'

@@ -2,5 +2,4 @@
 alias vpn='/opt/cisco/anyconnect/bin/vpn' 
 alias vpnui='/opt/cisco/anyconnect/bin/vpnui'
 alias sshgla='ssh -X gpuws4-pc.psy.gla.ac.uk'
-alias sshpony='ssh -X mattb@130.104.83.192'
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'

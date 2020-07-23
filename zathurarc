@@ -3,7 +3,7 @@ set window-width 2000
 set window-height 2000
 
 # start zoomed in (and can't then zoom out...)
-set zoom-min 200
+set zoom-min 180
 
 # Appearence 
 set font "monospace 15"
