@@ -12,6 +12,21 @@ snippet fig "\begin{figure}"
         {${3: Full caption}}
         \label{fig:$4}
 \end{figure} %}}}
+endsnippet
+
+
+snippet tab "make a table"
+\begin{table}[h!] %{{{
+    \begin{center}
+        \caption{${1: descibe what this table shows}}
+        \label{tab:${2:}}
+        \begin{tabular}{${3:l|c|c|r}}
+            \textbf{} & \textbf{} & \textbf{} & \textbf{}\\
+
+            \end{tabular}
+    \end{center}
+\end{table} %}}}
+endsnippet
 
 snippet template "article template"
 \documentclass{${1:article}}
