@@ -14,12 +14,25 @@ snippet fig "\begin{figure}"
 \end{figure} %}}}
 endsnippet
 
+snippet tab "make a table"
+\begin{table}[h!] %{{{
+    \begin{center}
+        \caption{${1: descibe what this table shows}}
+        \label{tab:${2:}}
+        \begin{tabular}{${3:l|c|c|r}}
+            \textbf{} & \textbf{} & \textbf{} & \textbf{}\\
+
+            \end{tabular}
+    \end{center}
+\end{table} %}}}
+endsnippet
+
 snippet template "article template"
 \documentclass{${1:article}}
 
 \usepackage{graphicx}
 
-\title{$2}
+\title{$1}
 \author{Matthew Bennett}
 
 \begin{document}
@@ -28,11 +41,11 @@ snippet template "article template"
     \listoffigures
     \newpage
 
-    \section{$3}
+    \section{$2}
     $0
 
     \newpage
-    \bibliography{mybilbiograph}
+    \bibliography{mybib}
     \bibliographystyle{apalike}
 \end{document}
 endsnippet
