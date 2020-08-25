@@ -15,26 +15,31 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias cl='clear'
 alias clc='clear'
 
-# Add an "alert" alias for long running commands.  Use like so:
 # move up 1,2 or 3 directories 
 alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
 # Add an "alert" alias for long running commands.  Use like so:
-# don't show hidden files by default in long list 
-alias l='ls -lhF'
-alias lt="(tput rmam; ls -lhF; tput smam)"
-alias ll='ls -alhF'
-alias llt="(tput rmam; ls -alhF; tput smam)"
+# show ls vertically by default using the -1 switch
+alias l='ls -1 -hF'
+# same as above, but with file details too
+alias ll='ls -lhF'
+# same as above, but with hidden files too
+alias lll='ls -alhF'
+# same but sort by date modified
+alias lt="(tput rmam; ls -1 -hF; tput smam)"
+# I wanted the two below to show the list sorted by date modified but they're
+# not working right
+# alias llt="(tput rmam; ls -lhF; tput smam)"
+# alias lllt="(tput rmam; ls -alhF; tput smam)"
 
-# Add an "alert" alias for long running commands.  Use like so:
 alias untar='tar zxvf'
 
 # git
-
 alias gitstat='git status'
 alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(bold yellow)%d%C(reset)' -n5"
+
 # open applications with & to allow me to continue working in the terminal
 alias spyder='spyder &'
 alias itksnap='itksnap &'
@@ -55,3 +60,4 @@ alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-t
 
 alias sshpony='ssh mattb@130.104.83.107'
 alias sshponyx='ssh -X mattb@130.104.83.107'
+

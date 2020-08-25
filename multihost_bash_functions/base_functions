@@ -31,11 +31,16 @@ rename 's/\)\._/)_/g' *.pdf
 rename 's/\._/_[/g' *.pdf
 rename 's/\)\./)]\./g' *.pdf
 rename 's/_&//g' *.pdf
+rename 's/:/-/g' *.pdf
 }
 
 cleanname () {
-rename 'y/A-Z/a-z/' *.pdf
-rename 's/ /_/g' *.pdf
-rename "s/'//g" *.pdf
-rename 's/,//g' *.pdf
+rename 'y/A-Z/a-z/' *
+rename 's/ /_/g' *
+rename "s/'//g" *
+rename 's/,//g' *
+rename 's/\./_/g' *  
+# rename 's/_\w+$/.test/g' *
 }
+
+
