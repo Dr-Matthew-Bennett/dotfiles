@@ -117,6 +117,10 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :split /home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
 
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>w :vsplit<cr> :buffer 2<cr> 
+                \:split<cr> :resize -15<cr> :b scratch2.m<cr> <C-W><Left> 
+                \:split<cr> :resize -15<cr> :b scratch1.m<cr> <C-W><Up>
+
     " resize windows (and make it repeatable with dot command)
     " widen the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
@@ -152,10 +156,14 @@ augroup general
     autocmd BufNewFile,BufRead * nnoremap gA g$i
 
     " reminder not to use arrows in insert mode
-    autocmd BufNewFile,BufRead * :inoremap <Left> <esc>mm :echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Right> <esc>mm :echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Up> <esc>mm :echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Down> <esc>mm :echo "Arrows are stupid. Use normal mode to move."<cr>`m
+    autocmd BufNewFile,BufRead * :inoremap <Left> <esc>mm 
+                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
+    autocmd BufNewFile,BufRead * :inoremap <Right> <esc>mm 
+                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
+    autocmd BufNewFile,BufRead * :inoremap <Up> <esc>mm 
+                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
+    autocmd BufNewFile,BufRead * :inoremap <Down> <esc>mm 
+                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
 
     " abbreviations
     autocmd BufNewFile,BufRead * iabbrev keybaord keyboard
@@ -185,8 +193,10 @@ augroup END
 "{{{
 augroup python
     autocmd!
-    autocmd BufNewFile,BufRead *.py set fileformat=unix " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd BufNewFile,BufRead *.py let python_highlight_all=1 " enable all Python syntax highlighting features
+    " avoid conversion issues when checking into GitHub and/or sharing with other users.
+    autocmd BufNewFile,BufRead *.py set fileformat=unix 
+    " enable all Python syntax highlighting features
+    autocmd BufNewFile,BufRead *.py let python_highlight_all=1 
     autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
 augroup END
 "}}}
@@ -211,13 +221,17 @@ augroup markdown
     autocmd BufNewFile,BufRead *.md setlocal wrap 
     autocmd BufNewFile,BufRead *.md setlocal spell
     " inside headed title:
-    autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal! ?^#\\+ \\w\\+.*$\rwvg_"<cr>
+    autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal! 
+                \?^#\\+ \\w\\+.*$\rwvg_"<cr>
     " around headed title:
-    autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal! ?^#\\+ \\w\\+.*$\rvg_"<cr>
+    autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal! 
+                \?^#\\+ \\w\\+.*$\rvg_"<cr>
     " inside headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal! ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
+    autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal! 
+                \?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
     " around headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal! ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
+    autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal! 
+                \?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
 "}}}
 "-----------------------------------------------------------------------------
