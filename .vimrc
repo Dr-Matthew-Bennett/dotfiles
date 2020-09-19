@@ -166,9 +166,12 @@ augroup general
                 \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
 
     " abbreviations
-    autocmd BufNewFile,BufRead * iabbrev keybaord keyboard
+    " emails
     autocmd BufNewFile,BufRead * iabbrev @g bennettmatt4@gmail.com
     autocmd BufNewFile,BufRead * iabbrev @u matthew.bennett@uclouvain.be
+    " common mispellings
+    autocmd BufNewFile,BufRead * iabbrev keybaord keyboard
+    autocmd BufNewFile,BufRead * iabbrev hte the
 augroup END
 "}}}
 "-----------------------------------------------------------------------------
@@ -205,6 +208,7 @@ augroup matlab
     autocmd!
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+    " clean up documentation after func snip (remove lines with unused arguments)
     autocmd BufNewFile,BufRead *.m nnoremap <Leader>d 
                 \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>
 
