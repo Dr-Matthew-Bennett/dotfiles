@@ -205,6 +205,8 @@ augroup matlab
     autocmd!
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>d 
+                \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>
 
     " these next two are buggy:
     " blank lines immediately after for/if

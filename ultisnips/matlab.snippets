@@ -2,12 +2,12 @@ snippet mat "new .m script"
 %% Doc 
 % $1
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%##############################################################################
 $0
 endsnippet
 
-snippet cb "%%%% Break %%%%"
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+snippet cb "%#### Break #####"
+%##############################################################################
 endsnippet
 
 snippet spr "sprintf" i
@@ -19,7 +19,7 @@ fprintf('${1:%s}${2:...\n}', $3);
 endsnippet
 
 snippet for "for loop" b
-for $1idx = ${2:1}:size($3)
+for $1idx = ${2:1:}
 	$0
 end
 endsnippet
@@ -31,9 +31,14 @@ end
 endsnippet
 
 snippet func "define a function"
+ 
+g/% arg :/norm dap
+g/optional_/d
+% s/arg, //g
+
 function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, ${7:arg}, varargin)
-    % documentation:
-    % ${9:describe what the function does}
+    %% documentation:
+    % ${10:describe what the function does}
 
 	% mandory arguments:
 	% $3 :  
@@ -46,27 +51,42 @@ function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, $
 
 	% $7 :  
 
-	% default values for vars not set in varargin:
-	${8:optional_arg1 = blah};
+    % default values for vars not set in varargin:
+    % set optional variables by passing a structure as the last argument of the
+    % function with fieldnames 
+    % $2.$8 = <value1>;
+    % $2.$9 = <value2>;
 
+    % function usage example:
+    % clear $2_params
+    % $2_params.$8 = <value1>;
+    % $2_params.$9 = <value2>;
+    % $1 = $2($3, $4, $5, $6, $7, $2_params);
+
+    %% set default values for optional variables
+	% ${8:optional_arg1};
+	% ${9:optional_arg2};
+
+    %% override optional arguments
     % if varagin variables have been provided, overwrite the above default
     % values with provided values
-	if ~isempty(varargin)
-		if size(fieldnames(varargin{1}), 1) ~= 0
-
-			vars_in_fields = fieldnames(varargin{1});
-			for i = 1:numel(vars_in_fields)
-				if ~exist(vars_in_fields{i}, 'var')
-					error('one or more of varargins does not correspond exactly to any variable name used in the function')
-				end
-			end
-			additional_params = varargin{1};
-
-			for additional_params_index = 1:size(fieldnames(varargin{1}), 1)
-				eval([vars_in_fields{additional_params_index}, ' = additional_params.', vars_in_fields{additional_params_index}, ';'])
-			end
-		end
-	end
+    if ~isempty(varargin)
+        if size(fieldnames(varargin{1}), 1) ~= 0
+            vars_in_fields = fieldnames(varargin{1});
+            for i = 1:numel(vars_in_fields)
+                if ~exist(vars_in_fields{i}, 'var')
+                    error(['one or more of varargins does not correspond ',...
+                        'exactly to any variable name used in the function'])
+                end
+            end
+            additional_params = varargin{1};
+            for additional_params_index = 1:size(fieldnames(varargin{1}), 1)
+                eval([vars_in_fields{additional_params_index},...
+                    ' = additional_params.',...
+                    vars_in_fields{additional_params_index}, ';'])
+            end
+        end
+    end
 
 	%% start the actual fuction
 
