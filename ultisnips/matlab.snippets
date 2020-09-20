@@ -73,10 +73,16 @@ function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, $
     if ~isempty(varargin)
         if size(fieldnames(varargin{1}), 1) ~= 0
             vars_in_fields = fieldnames(varargin{1});
+            % check variable names in varargin are expected by this function 
             for i = 1:numel(vars_in_fields)
                 if ~exist(vars_in_fields{i}, 'var')
-                    error(['one or more of varargins does not correspond ',...
-                        'exactly to any variable name used in the function'])
+                    error(sprintf(['variable <%s> does not correspond ',...
+                        'exactly to any variable name used in the function',...
+                        '\n\nvalid variable names are as follows:',...
+                        '\n'],...
+
+                        
+                        vars_in_fields{i}))
                 end
             end
             additional_params = varargin{1};

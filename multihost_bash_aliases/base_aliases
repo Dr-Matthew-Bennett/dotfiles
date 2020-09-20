@@ -10,8 +10,7 @@
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
-
-### my own aliases ###
+#### my own aliases ###########################################################
 alias cl='clear'
 alias clc='clear'
 
@@ -19,6 +18,18 @@ alias clc='clear'
 alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
+
+# source .bashrc
+alias sob='source ~/.bashrc'
+# edit .bash_aliases
+alias ea='vim ~/linux_config_files/multihost_bash_aliases/base_aliases'
+
+# fzf command to edit a file from linux_config_files using vim
+alias el='vim $(find  ~/linux_config_files -type f | grep -v .git | fzf)'
+alias vim**='vim $(fzf -m)'
+
+# kill tmux
+alias kt='tmux kill-session -t main'
 
 # Add an "alert" alias for long running commands.  Use like so:
 # show ls vertically by default using the -1 switch
@@ -41,9 +52,6 @@ alias gitstat='git status'
 alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(bold yellow)%d%C(reset)' -n5"
 
 # open applications with & to allow me to continue working in the terminal
-alias spyder='spyder &'
-alias itksnap='itksnap &'
-alias matlab='matlab &'
 alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
 #
@@ -56,8 +64,9 @@ alias chrome='google-chrome & tmux new-window'
 alias clip='xclip -selection clipboard'
 
 # set night light temp (default=4000)
-alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature'
+alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000'
+alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 4000'
+alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3000'
 
 alias sshpony='ssh mattb@130.104.83.107'
 alias sshponyx='ssh -X mattb@130.104.83.107'
-

@@ -77,25 +77,20 @@ xterm*|rxvt*)
 esac
 
 # source host specific bashrc file if it exists
-if [ -f ~/linux_config_files/multihost_bashrc/$HOSTNAME ]; then
-	source ~/linux_config_files/multihost_bashrc/$HOSTNAME
-fi
+[ -f ~/linux_config_files/multihost_bashrc/$HOSTNAME ] &&
+source ~/linux_config_files/multihost_bashrc/$HOSTNAME
 # source base bash_aliases if it exists
-if [ -f ~/linux_config_files/multihost_bash_aliases/base_aliases ]; then
-	source ~/linux_config_files/multihost_bash_aliases/base_aliases
-fi
+[ -f ~/linux_config_files/multihost_bash_aliases/base_aliases ] &&
+source ~/linux_config_files/multihost_bash_aliases/base_aliases
 # source host specific bash_aliases if they exist
-if [ -f ~/linux_config_files/multihost_bash_aliases/$HOSTNAME ]; then
-	source ~/linux_config_files/multihost_bash_aliases/$HOSTNAME
-fi
+[ -f ~/linux_config_files/multihost_bash_aliases/$HOSTNAME ] &&
+source ~/linux_config_files/multihost_bash_aliases/$HOSTNAME
 # source base bash_functions if it exists
-if [ -f ~/linux_config_files/multihost_bash_functions/base_functions ]; then
-	source ~/linux_config_files/multihost_bash_functions/base_functions
-fi
+[ -f ~/linux_config_files/multihost_bash_functions/base_functions ] &&
+source ~/linux_config_files/multihost_bash_functions/base_functions
 # source host specific bash_functions if they exist
-if [ -f ~/linux_config_files/multihost_bash_functions/$HOSTNAME ]; then
-	source ~/linux_config_files/multihost_bash_functions/$HOSTNAME
-fi
+[ -f ~/linux_config_files/multihost_bash_functions/$HOSTNAME ] &&
+source ~/linux_config_files/multihost_bash_functions/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -108,13 +103,18 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# fzf setup
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # use vi shortcuts in terminal
 set -o vi
 # make vim my default editor
 export VISUAL=vim
 export EDITOR=$VISUAL
 
-# disable flow control for that terminal completely (to prevent Crtl-s https://unix.stackexchange.com/questions/12107/how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal)
+# disable flow control for that terminal completely (to prevent Crtl-s 
+# https://unix.stackexchange.com/questions/12107/
+# how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal)
 stty -ixon
 
 TERM=xterm-256color  	# I need this to happen before tmux launches 
@@ -135,3 +135,6 @@ cism='mbennett@storage.cism.ucl.ac.be'
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
+
+# fzf config
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'

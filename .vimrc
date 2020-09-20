@@ -56,6 +56,7 @@ syntax enable " highlight special words to aid readability
 "{{{
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
@@ -89,10 +90,10 @@ Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
-" Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plugin 'tpope/vim-fugitive'
 " IGNORANT Plugin 'sheerun/vim-polyglot'
-" IGNORANT Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " IGNORANT Plugin 'vim-airline/vim-airline'
 " IGNORANT Plugin 'vim-airline/vim-airline-themes'
 " IGNORANT Plugin 'airblade/vim-gitgutter'
@@ -115,9 +116,10 @@ augroup general
     " edit common file in split window
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :split $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :split /home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :split 
+                \/home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
 
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>w :vsplit<cr> :buffer 2<cr> 
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>f :vsplit<cr> :buffer 2<cr> 
                 \:split<cr> :resize -15<cr> :b scratch2.m<cr> <C-W><Left> 
                 \:split<cr> :resize -15<cr> :b scratch1.m<cr> <C-W><Up>
 
@@ -140,17 +142,22 @@ augroup general
     nmap <Leader>j <Plug>ShortenSplit
 
     " instantly go with first spelling suggestion
-    :nnoremap <Leader>s a<C-X>s<Esc> 
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>s a<C-X>s<Esc>
+
+    " fzf
+    " edit files using 
+    " insert mode line completion (overwrite vim's default mappings)
+    autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " search and replace word under cursor
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
 
     " gq until a line beggining with \ 
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
     " autocmd BufNewFile,BufRead * :nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 
-    " let g modify insert/append to work on visual  lines, in the same way as it
+    " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
     autocmd BufNewFile,BufRead * nnoremap gI g0i
     autocmd BufNewFile,BufRead * nnoremap gA g$i
@@ -209,8 +216,20 @@ augroup matlab
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
     " clean up documentation after func snip (remove lines with unused arguments)
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>d 
-                \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc 
+                \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
+
+    " add any optional variables to the help docs
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh 
+                \/set default values for optional variables<cr>j0wy}zR
+                \ /'\\n'],<cr>pms
+                \v}k$:norm f=d$<cr>
+                \}yy'sPjwv}k$
+                \:norm ^s[sprintf('\n%s',<cr>
+                \'sv}k$: norm $s)],...<cr>
+                \'skdd=}}2ddG
+
+
 
     " these next two are buggy:
     " blank lines immediately after for/if
