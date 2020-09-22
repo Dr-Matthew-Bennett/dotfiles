@@ -8,8 +8,8 @@ cat "$@" | cut -c -$(($width-3))
 # wrapper for python script (passes all arguments)
 # also displays todo list with nubers
 todo () {
-python3 ~/documents/work_notes/todo.py "$@"
-catc -n ~/documents/work_notes/todo_master.md
+python3 ~/todo/todo.py "$@"
+catc -n ~/todo/todo_master.md
 }
 
 # alias gitup='git add . && git commit -m "upload" && git push'
