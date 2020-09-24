@@ -119,9 +119,9 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :split 
                 \/home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
 
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>f :vsplit<cr> :buffer 2<cr> 
-                \:split<cr> :resize -15<cr> :b scratch2.m<cr> <C-W><Left> 
-                \:split<cr> :resize -15<cr> :b scratch1.m<cr> <C-W><Up>
+    " split vim into 4 windows, load first and second files on buffers 1 and 2.
+    " make the bottom windows short and load scratch*.m
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>f :call WorkSplit()<cr>
 
     " resize windows (and make it repeatable with dot command)
     " widen the split
@@ -229,8 +229,6 @@ augroup matlab
                 \'sv}k$: norm $s)],...<cr>
                 \'skdd=}}2ddG
 
-
-
     " these next two are buggy:
     " blank lines immediately after for/if
 
@@ -335,6 +333,18 @@ let g:ycm_filetype_blacklist = {
 "=============================================================================
 
 "==== functions ==============================================================
+"---- restore cursor postition -----------------------------------------------
+"{{{
+function! WorkSplit()
+    let l:currentWindow=winnr()
+    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
+    execute "normal! :split\<cr> :resize -15\<cr> :b scratch2\<cr>"
+    execute l:currentWindow . "wincmd w"
+    execute "normal! :split\<cr> :resize -15\<cr> :b scratch1\<cr>"
+endfunction 
+"}}}
+"-----------------------------------------------------------------------------
+
 "---- restore cursor postition -----------------------------------------------
 "{{{
 " run a command, but put the cursor back when it's done
