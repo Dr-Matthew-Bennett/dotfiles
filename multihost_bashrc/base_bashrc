@@ -138,3 +138,6 @@ export PATH="$HOME/gems/bin:$PATH"
 
 # fzf config
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+
+# todo path
+export TODO_PATH='/home/mattb/documents/work_notes/.todo'
