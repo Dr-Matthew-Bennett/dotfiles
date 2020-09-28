@@ -14,6 +14,9 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias cl='clear'
 alias clc='clear'
 
+# make it so that cd searches in parent directory as well as current
+CDPATH=$HOME:..
+export CDPATH
 # move up 1,2 or 3 directories 
 alias ..='cd ../'
 alias ...='cd ../../'
