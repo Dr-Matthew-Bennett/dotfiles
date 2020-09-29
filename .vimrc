@@ -225,8 +225,8 @@ augroup matlab
                 \ /'\\n'],<cr>pms
                 \v}k$:norm f=d$<cr>
                 \}yy'sPjwv}k$
-                \:norm ^s[sprintf('\n%s',<cr>
-                \'sv}k$: norm $s)],...<cr>
+                \:norm ^i['\n<cr>
+                \'sv}k$: norm $i'],...<cr>
                 \'skdd=}}2ddG
 
     " these next two are buggy:
