@@ -5,11 +5,11 @@ width=$(tmux display-message -p '#{pane_width}')
 cat "$@" | cut -c -$(($width-3))
 }
 
-# wrapper for python script (passes all arguments)
+# wrapper for bash script (passes all arguments)
 # also displays todo list with nubers
 todo () {
-python3 ~/todo/todo.py "$@"
-catc -n ~/todo/todo_master.md
+~/todo/./todo.sh "$@"
+catc -n $TODO_PATH/master_todo.md
 }
 
 # alias gitup='git add . && git commit -m "upload" && git push'
