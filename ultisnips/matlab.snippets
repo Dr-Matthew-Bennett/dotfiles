@@ -31,11 +31,6 @@ end
 endsnippet
 
 snippet func "define a function"
- 
-g/% arg :/norm dap
-g/optional_/d
-% s/arg, //g
-
 function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, ${7:arg}, varargin)
     %% documentation:
     % ${10:describe what the function does}
@@ -51,11 +46,9 @@ function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, $
 
 	% $7 :  
 
-    % default values for vars not set in varargin:
-    % set optional variables by passing a structure as the last argument of the
-    % function with fieldnames 
-    % $2.$8 = <value1>;
-    % $2.$9 = <value2>;
+    % optional arguments (passed as structure - see usage example below):
+    % $8 :  (default = )
+    % $9 :  (default = )
 
     % function usage example:
     % clear $2_params
@@ -76,13 +69,13 @@ function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, $
             % check variable names in varargin are expected by this function 
             for i = 1:numel(vars_in_fields)
                 if ~exist(vars_in_fields{i}, 'var')
-                    error(sprintf(['variable <%s> does not correspond ',...
+                    error(sprintf([['variable <%s> does not correspond ',...
                         'exactly to any variable name used in the function',...
                         '\n\nvalid variable names are as follows:',...
                         '\n'],...
 
                         
-                        vars_in_fields{i}))
+                        ], vars_in_fields{i}))
                 end
             end
             additional_params = varargin{1};
