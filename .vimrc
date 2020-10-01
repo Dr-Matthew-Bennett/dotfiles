@@ -149,8 +149,11 @@ augroup general
     " insert mode line completion (overwrite vim's default mappings)
     autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
-    " search and replace word under cursor
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
+    " open file under the current directory
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files ~/
+    " search for and jump to line in any open buffer
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
+
 
     " gq until a line beggining with \ 
     " I figured out the macro (that's everything after the :), but I've
