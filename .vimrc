@@ -154,7 +154,6 @@ augroup general
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
 
-
     " gq until a line beggining with \ 
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
@@ -164,16 +163,6 @@ augroup general
     " modifies motions like 0 and $
     autocmd BufNewFile,BufRead * nnoremap gI g0i
     autocmd BufNewFile,BufRead * nnoremap gA g$i
-
-    " reminder not to use arrows in insert mode
-    autocmd BufNewFile,BufRead * :inoremap <Left> <esc>mm 
-                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Right> <esc>mm 
-                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Up> <esc>mm 
-                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
-    autocmd BufNewFile,BufRead * :inoremap <Down> <esc>mm 
-                \:echo "Arrows are stupid. Use normal mode to move."<cr>`m
 
     " abbreviations
     " emails
@@ -379,4 +368,3 @@ command! -register CopyMatches call CopyMatches(<q-reg>)
 "}}}
 "-----------------------------------------------------------------------------
 "=============================================================================
-
