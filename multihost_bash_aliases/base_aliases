@@ -14,13 +14,18 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias cl='clear'
 alias clc='clear'
 
-# make it so that cd searches in parent directory as well as current
-CDPATH=$HOME:..
-export CDPATH
 # move up 1,2 or 3 directories 
 alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
+
+# common cds
+alias cdl='cd ~/linux_config_files'
+alias cdw='cd ~/documents/work_notes'
+alias cdd='cd ~/downloads'
+alias cdn='cd ~/code/matlab/stdp_neural_net_project/STDP_Disparity'
+alias cdm='cd ~/code/matlab/matlab'
+alias cdu='cd /media/mattb'
 
 # source .bashrc
 alias sob='source ~/.bashrc'
