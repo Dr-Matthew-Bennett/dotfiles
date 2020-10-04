@@ -120,7 +120,7 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
-                \/home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
+                \ /home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
 
     " \/ to turn off highlighted searches
     autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
@@ -135,19 +135,19 @@ augroup general
     " resize windows (and make it repeatable with dot command)
     " widen the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
-    \:call repeat#set("\<Plug>WidenSplit")<CR>
+    \ :call repeat#set("\<Plug>WidenSplit")<CR>
     nmap <Leader>h <Plug>WidenSplit
     " thin the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
-    \:call repeat#set("\<Plug>ThinSplit")<CR>
+    \ :call repeat#set("\<Plug>ThinSplit")<CR>
     nmap <Leader>l <Plug>ThinSplit
     " heighten the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
-    \:call repeat#set("\<Plug>HeightenSplit")<CR>
+    \ :call repeat#set("\<Plug>HeightenSplit")<CR>
     nmap <Leader>k <Plug>HeightenSplit
     " shorten the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
-    \:call repeat#set("\<Plug>ShortenSplit")<CR>
+    \ :call repeat#set("\<Plug>ShortenSplit")<CR>
     nmap <Leader>j <Plug>ShortenSplit
 
     " instantly go with first spelling suggestion
@@ -219,29 +219,29 @@ augroup matlab
     autocmd!
 
     " make gcc comment matlab correctly
-    autocmd FileType matlab setlocal commentstring=%\ %s
+    autocmd BufNewFile,BufRead *.m setlocal commentstring=%\ %s
 
-    autocmd FileType matlab iabbrev <buffer> key keyboard
-    autocmd FileType matlab setlocal foldmethod=indent
+    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
+    autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
     " clean up documentation after func snip (remove lines with unused arguments)
-    autocmd FileType matlab nnoremap <Leader>dc
-                \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc
+                \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs
-    autocmd FileType matlab nnoremap <Leader>dh
-                \/set default values for optional variables<cr>j0wy}zR
-                \ /'\\n'],<cr>pms
-                \v}k$:norm f=d$<cr>
-                \}yy'sPjwv}k$
-                \:norm ^i['\n<cr>
-                \'sv}k$: norm $i'],...<cr>
-                \'skdd=}}2ddG
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh
+                \ /set default values for optional variables<cr>j0wy}zR
+                \  /'\\n'],<cr>pms
+                \ v}k$:norm f=d$<cr>
+                \ }yy'sPjwv}k$
+                \ :norm ^i['\n<cr>
+                \ 'sv}k$: norm $i'],...<cr>
+                \ 'skdd=}}2ddG
 
     " these next two are buggy:
     " inside indent block
-    autocmd FileType matlab onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
+    autocmd BufNewFile,BufRead *.m onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
     " around indent block
-    autocmd FileType matlab onoremap ai :<c-u>execute "normal [-V]="<cr>
+    autocmd BufNewFile,BufRead *.m onoremap ai :<c-u>execute "normal [-V]="<cr>
 augroup END
 "}}}
 "{{{
@@ -251,16 +251,16 @@ augroup markdown
     autocmd BufNewFile,BufRead *.md setlocal spell
     " inside headed title:
     autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal!
-                \?^#\\+ \\w\\+.*$\rwvg_"<cr>
+                \ ?^#\\+ \\w\\+.*$\rwvg_"<cr>
     " around headed title:
     autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal!
-                \?^#\\+ \\w\\+.*$\rvg_"<cr>
+                \ ?^#\\+ \\w\\+.*$\rvg_"<cr>
     " inside headed body:
     autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal!
-                \?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
+                \ ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
     " around headed body:
     autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal!
-                \?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
+                \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
 "}}}
 "-----------------------------------------------------------------------------
