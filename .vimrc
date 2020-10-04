@@ -20,6 +20,7 @@ filetype plugin indent on "use default plugins
 "---- general settings -------------------------------------------------------
 "{{{
 set encoding=utf-8
+set number
 set relativenumber
 set hidden " when swtiching buffers, don't complain about unsaved changes
 set splitbelow " where new vim pane splits are positioned
@@ -228,14 +229,14 @@ augroup matlab
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh
-                \ /set default values for optional variables<cr>j0wy}zR
-                \  /'\\n'],<cr>pms
-                \ v}k$:norm f=d$<cr>
-                \ }yy'sPjwv}k$
-                \ :norm ^i['\n<cr>
-                \ 'sv}k$: norm $i'],...<cr>
-                \ 'skdd=}}2ddG
+    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh 
+                \/set default values for optional variables<cr>j0wy}zR
+                \/'\\n'],<cr>pms
+                \v}k$:norm f=d$<cr>
+                \}yy'sPjwv}k$
+                \:norm ^i['\n<cr>
+                \'sv}k$: norm $i'],...<cr>
+                \'skdd=}}2ddG
 
     " these next two are buggy:
     " inside indent block
