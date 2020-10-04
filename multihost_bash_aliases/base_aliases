@@ -6,7 +6,7 @@
  fi	
 
 # Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert   
+#   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
@@ -14,18 +14,48 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias cl='clear'
 alias clc='clear'
 
-# move up 1,2 or 3 directories 
+# move up 1,2 or 3 directories
 alias ..='cd ../'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
-# common cds
-alias cdl='cd ~/linux_config_files'
-alias cdw='cd ~/documents/work_notes'
-alias cdd='cd ~/downloads'
-alias cdn='cd ~/code/matlab/stdp_neural_net_project/STDP_Disparity'
-alias cdm='cd ~/code/matlab/matlab'
-alias cdu='cd /media/mattb'
+# common places to cd, pipe the dir and subdirs (to a given depth) into fzf
+# depth 2
+cdl_arg='cd $(( ls -d  ~/linux_config_files/; \
+                ls -d  ~/linux_config_files/*/) \
+                | grep -v .git | fzf)'
+
+cdd_arg='cd $(( ls -d  ~/downloads/; \
+                ls -d  ~/downloads/*/) \
+                | grep -v .git | fzf)'
+
+cdm_arg='cd $(( ls -d  ~/code/matlab/matlab/; \
+                ls -d  ~/code/matlab/matlab/*/) \
+                | grep -v .git | fzf)'
+
+cdu_arg='cd $(( ls -d  /media/mattb/; \
+                ls -d  /media/mattb/*/) \
+                | grep -v .git | fzf)'
+
+
+# depth 3
+cdw_arg='cd $(( ls -d  ~/documents/work_notes/; \
+                ls -d  ~/documents/work_notes/*/; \
+                ls -d  ~/documents/work_notes/*/*/) \
+                | grep -v .git | fzf)'
+
+cdn_arg='cd $(( ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/;
+                ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/*/;
+                ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/*/*/)
+                | grep -v .git | fzf)'
+
+# assign the cd aliases
+alias cdl=${cdl_arg}
+alias cdd=${cdd_arg}
+alias cdm=${cdm_arg}
+alias cdu=${cdu_arg}
+alias cdw=${cdw_arg}
+alias cdn=${cdw_arg}
 
 # source .bashrc
 alias sob='source ~/.bashrc'
@@ -63,7 +93,7 @@ alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
 
-# in case I start getting errors popping up in the terminal, 
+# in case I start getting errors popping up in the terminal,
 # automatically open a new tmux window:
 alias chrome='google-chrome & tmux new-window'
 

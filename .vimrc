@@ -2,11 +2,10 @@
 "{{{
 " - when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-" - replace word under the cursor with word in register
 " - matlab folds to use 'function', 'for', 'if', 'while' and go to 'end'
 " - format matlab scripts (blank lines etc.) on saving
 " - automatic folding for markdown sections
-" - status bar to display last search term 
+" - status bar to display last search term
 " - paste one space later than cursor (even if we're on at the end of the line)
 "}}}
 "-----------------------------------------------------------------------------
@@ -21,11 +20,11 @@ filetype plugin indent on "use default plugins
 "---- general settings -------------------------------------------------------
 "{{{
 set encoding=utf-8
-set number
-set history=200 " increase search history
+set relativenumber
+set hidden " when swtiching buffers, don't complain about unsaved changes
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
-set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?") 
+set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
@@ -39,7 +38,7 @@ set showmatch " show the matching part of the pair for [] {} and ()
 set nrformats= " don't interpret 007 as an octal (<C-a> will now make 008, not 010)
 set incsearch " show matches for patterns while they are being typed
 set hlsearch " highlight all matches for searched pattern
-set smartcase " With both on, searches with no capitals are case insensitive, while... 
+set smartcase " With both on, searches with no capitals are case insensitive, while...
 set ignorecase " ...searches with capital characters are case sensitive.
 set spell spelllang=en
 set nospell
@@ -92,11 +91,14 @@ Plugin 'SirVer/ultisnips'
 " Plugin 'w0rp/ale'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+Plugin 'simnalamburt/vim-mundo'
+
 " Plugin 'tpope/vim-fugitive'
-" IGNORANT Plugin 'sheerun/vim-polyglot'
-" IGNORANT Plugin 'vim-airline/vim-airline'
-" IGNORANT Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline-themes'
 " IGNORANT Plugin 'airblade/vim-gitgutter'
+" IGNORANT Plugin 'sheerun/vim-polyglot'
 " IGNORANT Plugin 'majutsushi/tagbar'
 
 "" All of your Plugins must be added before the following line
@@ -113,11 +115,18 @@ colorscheme zenburn
 "{{{
 augroup general
     autocmd!
+
     " edit common file in split window
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :split $MYVIMRC<cr>
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :split 
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
                 \/home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
+
+    " \/ to turn off highlighted searches
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
+
+    " substitute word under the cursor
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
@@ -128,7 +137,7 @@ augroup general
     autocmd BufNewFile,BufRead * nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
     \:call repeat#set("\<Plug>WidenSplit")<CR>
     nmap <Leader>h <Plug>WidenSplit
-    " thin the split 
+    " thin the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
     \:call repeat#set("\<Plug>ThinSplit")<CR>
     nmap <Leader>l <Plug>ThinSplit
@@ -136,7 +145,7 @@ augroup general
     autocmd BufNewFile,BufRead * nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
     \:call repeat#set("\<Plug>HeightenSplit")<CR>
     nmap <Leader>k <Plug>HeightenSplit
-    " shorten the split 
+    " shorten the split
     autocmd BufNewFile,BufRead * nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
     \:call repeat#set("\<Plug>ShortenSplit")<CR>
     nmap <Leader>j <Plug>ShortenSplit
@@ -145,7 +154,7 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>s a<C-X>s<Esc>
 
     " fzf
-    " edit files using 
+    " edit files using
     " insert mode line completion (overwrite vim's default mappings)
     autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
@@ -154,7 +163,10 @@ augroup general
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
 
-    " gq until a line beggining with \ 
+    " to see the undo tree
+    autocmd BufNewFile,BufRead * :nnoremap <F5> :MundoToggle<cr>
+
+    " gq until a line beggining with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
     " autocmd BufNewFile,BufRead * :nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
@@ -177,7 +189,7 @@ augroup END
 
 "---- file specific settings -------------------------------------------------
 "{{{
-augroup filetype_vim 
+augroup filetype_vim
     autocmd!
    autocmd FileType vim setlocal foldmethod=marker
    " this next one isn't working for some reason...
@@ -187,32 +199,36 @@ augroup END
 "{{{
 augroup tidy_code
     autocmd!
-    " remove trailing whitespace and perform auto indent 
+    " remove trailing whitespace and perform auto indent
     autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
     autocmd BufWritePre *.m :call Preserve("normal! gg=G")
-augroup END 
+augroup END
 "}}}
 "{{{
 augroup python
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd BufNewFile,BufRead *.py set fileformat=unix 
+    autocmd BufNewFile,BufRead *.py set fileformat=unix
     " enable all Python syntax highlighting features
-    autocmd BufNewFile,BufRead *.py let python_highlight_all=1 
+    autocmd BufNewFile,BufRead *.py let python_highlight_all=1
     autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
 augroup END
 "}}}
 "{{{
 augroup matlab
     autocmd!
-    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
-    autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+
+    " make gcc comment matlab correctly
+    autocmd FileType matlab setlocal commentstring=%\ %s
+
+    autocmd FileType matlab iabbrev <buffer> key keyboard
+    autocmd FileType matlab setlocal foldmethod=indent
     " clean up documentation after func snip (remove lines with unused arguments)
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc 
+    autocmd FileType matlab nnoremap <Leader>dc
                 \:g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh 
+    autocmd FileType matlab nnoremap <Leader>dh
                 \/set default values for optional variables<cr>j0wy}zR
                 \ /'\\n'],<cr>pms
                 \v}k$:norm f=d$<cr>
@@ -222,30 +238,28 @@ augroup matlab
                 \'skdd=}}2ddG
 
     " these next two are buggy:
-    " blank lines immediately after for/if
-
     " inside indent block
-    autocmd BufNewFile,BufRead *.m onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
+    autocmd FileType matlab onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
     " around indent block
-    autocmd BufNewFile,BufRead *.m onoremap ai :<c-u>execute "normal [-V]="<cr>
+    autocmd FileType matlab onoremap ai :<c-u>execute "normal [-V]="<cr>
 augroup END
 "}}}
 "{{{
 augroup markdown
     autocmd!
-    autocmd BufNewFile,BufRead *.md setlocal wrap 
+    autocmd BufNewFile,BufRead *.md setlocal wrap
     autocmd BufNewFile,BufRead *.md setlocal spell
     " inside headed title:
-    autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal! 
+    autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal!
                 \?^#\\+ \\w\\+.*$\rwvg_"<cr>
     " around headed title:
-    autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal! 
+    autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal!
                 \?^#\\+ \\w\\+.*$\rvg_"<cr>
     " inside headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal! 
+    autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal!
                 \?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
     " around headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal! 
+    autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal!
                 \?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
 "}}}
@@ -254,7 +268,7 @@ augroup END
 "---- cursor behaviour -------------------------------------------------------
 "{{{
 augroup cursor_behaviour
-    autocmd!  
+    autocmd!
     autocmd InsertEnter * set cursorline " highlight line when in insert mode
     autocmd InsertLeave * set nocursorline " turn off above when leaving insert mode
     " reset cursor on start:
@@ -277,7 +291,7 @@ command! Bd bprevious | split | bNext | bdelete
 "==== PLUGIN CONFIGS =========================================================
 "---- vim-slime config -------------------------------------------------------
 "{{{
-" vim-slime lets me send visual selections from vim to a tmux pane of my choice. 
+" vim-slime lets me send visual selections from vim to a tmux pane of my choice.
 " You can set the target manually using hitting C-c and then v.
 " ":i.j"    means the ith window, jth pane
 
@@ -285,7 +299,7 @@ let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " I want the default to be to the left of the vim I'm working in
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{left-of}"}
-" and not to ask me about it even on the first time I use it 
+" and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 " make F9 a shortcut for sending N lines to the tmux pane
 :nmap <F9> V<C-c><C-c>
@@ -333,7 +347,7 @@ function! WorkSplit()
     execute "normal! :split\<cr> :resize -15\<cr> :b scratch2\<cr>"
     execute l:currentWindow . "wincmd w"
     execute "normal! :split\<cr> :resize -15\<cr> :b scratch1\<cr>"
-endfunction 
+endfunction
 "}}}
 "-----------------------------------------------------------------------------
 
@@ -350,13 +364,13 @@ function! Preserve(command)
   " Clean up: restore previous search history, and cursor position
   let @/=_s
   call cursor(l, c)
-endfunction 
+endfunction
 "}}}
 "-----------------------------------------------------------------------------
 
 "---- copy matches to register -----------------------------------------------
 "{{{
-" copies only the text that matches search hits. Use with :CopyMatches x 
+" copies only the text that matches search hits. Use with :CopyMatches :
 " where x is any register (supplying no x copies to clipboard
 function! CopyMatches(reg)
   let hits = []

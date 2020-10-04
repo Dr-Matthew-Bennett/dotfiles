@@ -5,10 +5,29 @@ alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
 
 alias skype='skypeforlinux &'
 
-# common cds
-alias cdm='cd ~/music'
-alias cdv='cd ~/videos'
-alias cdut='cd ~/downloads/utorrent'
+# common places to cd, pipe the dir and subdirs (to a given depth) into fzf
+# depth 2
+cdm_arg='cd $(( ls -d  ~/music/; \
+                ls -d  ~/music/*/) \
+                | grep -v .git | fzf)'
+
+# depth 4
+cdd_arg='cd $(( ls -d  ~/downloads/; \
+                ls -d  ~/downloads/*/; \
+                ls -d  ~/downloads/*/*/; \
+                ls -d  ~/downloads/*/*/*/) \
+                | grep -v .git | fzf)'
+
+cdv_arg='cd $(( ls -d  ~/videos/; \
+                ls -d  ~/videos/*/; \
+                ls -d  ~/videos/*/*/; \
+                ls -d  ~/videos/*/*/*/) \
+                | grep -v .git | fzf)'
+
+# assign the cd aliases
+alias cdd=${cdd_arg}
+alias cdm=${cdm_arg}
+alias cdv=${cdv_arg}
 
 # display the ufc video I am watching/should watch next
 alias ufc='path="/home/mattb/videos/ufc/"; \
@@ -28,8 +47,8 @@ alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
 alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
 alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed_solutions/c01.pdf ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed.pdf &'
 
-# plot typing speed 
-alias tc='python3 ~/code/python/speed.py &'
+# plot typing speed
+alias tc='python3 ~/code/python/python_flat/speed.py &'
 
 # show pressed keys onscreen for vim youtube videos
 alias vidkeydisp='screenkey/./screenkey -p fixed -g 750x100+1100+825 &'
