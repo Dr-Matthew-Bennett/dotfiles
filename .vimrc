@@ -163,6 +163,8 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files ~/
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
+    " search through buffers and jump to line in any open buffer
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>b :Buffers<cr>
 
     " to see the undo tree
     autocmd BufNewFile,BufRead * :nnoremap <F5> :MundoToggle<cr>
@@ -224,6 +226,11 @@ augroup matlab
 
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+     
+    " ask whos a variable under the cursor
+    autocmd BufNewFile,BufRead *.m nmap <Leader>w yiwO<Esc>pIwhos <Esc>
+                \V<C-c><C-c>dd
+
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
@@ -299,11 +306,12 @@ command! Bd bprevious | split | bNext | bdelete
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " I want the default to be to the left of the vim I'm working in
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{left-of}"}
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 " make F9 a shortcut for sending N lines to the tmux pane
 :nmap <F9> V<C-c><C-c>
+
 "}}}
 "-----------------------------------------------------------------------------
 
