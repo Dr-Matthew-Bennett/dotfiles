@@ -33,12 +33,17 @@ cdm_arg='cd $(( ls -d  ~/code/matlab/matlab/; \
                 ls -d  ~/code/matlab/matlab/*/) \
                 | grep -v .git | fzf)'
 
-cdu_arg='cd $(( ls -d  /media/mattb/; \
-                ls -d  /media/mattb/*/) \
+# depth 3
+cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
+                ls -d  /media/mattb/usb/*/; \
+                ls -d  /media/mattb/usb/*/*/) \
                 | grep -v .git | fzf)'
 
+cdb_arg='cd $(( ls -d  ~/documents/books/; \
+                ls -d  ~/documents/books/*/; \
+                ls -d  ~/documents/books/*/*/) \
+                | grep -v .git | fzf)'
 
-# depth 3
 cdw_arg='cd $(( ls -d  ~/documents/work_notes/; \
                 ls -d  ~/documents/work_notes/*/; \
                 ls -d  ~/documents/work_notes/*/*/) \
@@ -51,9 +56,10 @@ cdn_arg='cd $(( ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/;
 
 # assign the cd aliases
 alias cdl=${cdl_arg}
-alias cdd=${cdd_arg}
 alias cdm=${cdm_arg}
+alias cdb=${cdb_arg}
 alias cdu=${cdu_arg}
+alias cdd=${cdd_arg}
 alias cdw=${cdw_arg}
 alias cdn=${cdw_arg}
 

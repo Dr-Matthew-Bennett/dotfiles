@@ -2,11 +2,12 @@
 "{{{
 " - when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-" - matlab folds to use 'function', 'for', 'if', 'while' and go to 'end'
 " - format matlab scripts (blank lines etc.) on saving
 " - automatic folding for markdown sections
 " - status bar to display last search term
 " - paste one space later than cursor (even if we're on at the end of the line)
+" - mapping to make a jump twice as big in the opposite direction (for when I
+"   do [count]j instead of [count]k (or vice versa)
 "}}}
 "-----------------------------------------------------------------------------
 
@@ -348,7 +349,38 @@ let g:ycm_filetype_blacklist = {
 "=============================================================================
 
 "==== functions ==============================================================
-"---- restore cursor postition -----------------------------------------------
+
+"----- If pasting a word, preceed with a space if we're at the end of a word -
+" not working, maybe not a great idea anyway...
+
+" autocmd BufNewFile,BufRead * :nnoremap p :call Paste()<cr>
+
+function! Paste()
+    " Check if register contains newline
+    if matchstr(@", '*$*') != @"
+        if EndWord()
+            normal p
+        endif
+    else
+        norm p
+    endif
+endfunction
+"-----------------------------------------------------------------------------
+
+"----- Determine if cursor is on the end of a word ---------------------------
+function! EndWord() abort
+  let pos = getpos('.')
+  normal! gee
+  if pos == getpos('.')
+    return v:true
+  else
+    call setpos('.', pos)
+    return v:false
+  endif
+endfunction
+"-----------------------------------------------------------------------------
+
+"---- Make a 4-way split and resize the windows how I like -------------------
 "{{{
 function! WorkSplit()
     let l:currentWindow=winnr()
