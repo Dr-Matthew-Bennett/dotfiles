@@ -224,10 +224,15 @@ augroup matlab
 
     " make gcc comment matlab correctly
     autocmd BufNewFile,BufRead *.m setlocal commentstring=%\ %s
-
-    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+
+    " abbreviations
+    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
      
+    " display matlab doc
+    autocmd BufNewFile,BufRead *.m nmap <Leader>d yiwO<Esc>pIhelp <Esc>
+                \V<C-c><C-c>dd
+
     " ask whos a variable under the cursor
     autocmd BufNewFile,BufRead *.m nmap <Leader>w yiwO<Esc>pIwhos <Esc>
                 \V<C-c><C-c>dd

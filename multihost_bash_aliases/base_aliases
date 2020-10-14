@@ -54,6 +54,11 @@ cdn_arg='cd $(( ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/;
                 ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/*/*/)
                 | grep -v .git | fzf)'
 
+cdp_arg='cd $(( ls -d  ~/projects/; \
+                ls -d  ~/projects/*/; \
+                ls -d  ~/projects/*/*/) \
+                | grep -v .git | fzf)'
+
 # assign the cd aliases
 alias cdl=${cdl_arg}
 alias cdm=${cdm_arg}
@@ -61,7 +66,8 @@ alias cdb=${cdb_arg}
 alias cdu=${cdu_arg}
 alias cdd=${cdd_arg}
 alias cdw=${cdw_arg}
-alias cdn=${cdw_arg}
+alias cdn=${cdn_arg}
+alias cdp=${cdp_arg}
 
 # source .bashrc
 alias sob='source ~/.bashrc'
