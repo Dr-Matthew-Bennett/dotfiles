@@ -30,6 +30,7 @@ set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
+set wildignorecase " ignore case when completing file names
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
