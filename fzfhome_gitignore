@@ -1,14 +1,13 @@
-# igore every thing
-*
-# except the following directories
-!code/
-!documents/
-!downloads/
-!games_like_EE/
-!linux_config_files/
-!maintenance/
-!music/
-!pictures/
-!test/
-!todo/
-!videos/
+# igore everything in the following directories
+anaconda3/
+arch/
+cache/
+Desktop/
+Downloads/
+games/
+installed/
+nltk_data/
+Public/
+Steam/
+Templates/
+VirtualBox VMs/

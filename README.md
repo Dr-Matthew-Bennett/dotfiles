@@ -76,18 +76,29 @@ mkdir .git
 ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
 ```
 
-Then in the fzfhome_gitignore file, you can put something like the following:
-```shell
-# ignore everything
-*
-# except these directories
-!Documents/
-!Downloads/
-!my_projects/
-```
-
 Then in your .bashrc, add the following line (already added for the .bashrc in
 this repository):
 ```shell
 export FZF_DEFAULT_COMAND='ag --hidden --ignore .git ""'
+```
+
+Then in the fzfhome_gitignore file, you can put something like the following:
+```shell
+# igore everything in the following directories
+anaconda3/
+cache/
+Steam/
+```
+
+If you're using Vim to create the fzfhome_gitignore file, an easy way to get a
+list of all your home directories is the following command:
+```shell
+!!ls ~/
+```
+
+Next, remove the directories you want to be searched. Finally append a '/' to
+all lines by putting the cursor on the first directory in the list and entering
+the following command:
+```shell
+:.,$ norm A/
 ```
