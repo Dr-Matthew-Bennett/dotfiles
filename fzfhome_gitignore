@@ -1,0 +1,14 @@
+# igore every thing
+*
+# except the following directories
+!code/
+!documents/
+!downloads/
+!games_like_EE/
+!linux_config_files/
+!maintenance/
+!music/
+!pictures/
+!test/
+!todo/
+!videos/
