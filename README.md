@@ -132,7 +132,6 @@ list and entering the following command:
 
 Now you can just copy the directories that you do want to search, and place
 them **below** with a '!' preceding them.
-```
 
 Similar to above, insert the '!' before each one by putting the cursor on the
 first directory in the list and entering the following command:
