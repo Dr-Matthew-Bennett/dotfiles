@@ -1,13 +1,38 @@
-# igore everything in the following directories
+# start by igoring every home directory
 anaconda3/
 arch/
 cache/
+code/
 Desktop/
+documents/
+downloads/
 Downloads/
 games/
+games_like_EE/
 installed/
+linux_config_files/
+maintenance/
+music/
 nltk_data/
+pictures/
 Public/
 Steam/
 Templates/
+test/
+todo/
+videos/
 VirtualBox VMs/
+
+# now un-ignore the ones I care about
+!code/
+!Desktop/
+!documents/
+!downloads/
+!games_like_EE/
+!linux_config_files/
+!maintenance/
+!music/
+!pictures/
+!test/
+!todo/
+!videos/

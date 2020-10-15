@@ -55,8 +55,8 @@ respect .gitignore files.
 Sometimes I want to jump to a file in another directory, and I don't want to
 have to specify the path for fzf. My solution is to configure fzf to always
 search a certain set of directories (and all their subdirectories) in my home
-directory (I only have about 10 or so that I would want to search, so this can
-certainly be handled by
+directory (I only have about 10 or so containing ~5000 files that I would want
+to search, so this can certainly be handled by
 [silverseacher-ag](https://github.com/ggreer/the_silver_searcher). This way, no
 matter where I am in my file system, I can always find the file I want without
 thinking about where it is. To achieve this, your home directory must not be a
@@ -82,13 +82,40 @@ this repository):
 export FZF_DEFAULT_COMAND='ag --hidden --ignore .git ""'
 ```
 
-Then in the fzfhome_gitignore file, you can put something like the following:
+Then in the fzfhome_gitignore file, I first list all my home directories, each
+followed by a '/':
 ```shell
-# igore everything in the following directories
+# start by igoring every home directory
 anaconda3/
+arch/
 cache/
-Steam/
+code/
+Desktop/
+  .
+  .
+  .
 ```
+
+Then underneath those, put the directories that you want to be searched, each
+preceded by a '!' and followed by a '/':
+```shell
+# now un-ignore the ones I care about
+!code/
+!Desktop/
+!documents/
+!downloads/
+  .
+  .
+  .
+```
+
+The '!' will 'cancel out' the previous ignore commands.
+
+If you're doing this across multiple machines, you can make a separate home
+directory list of per machine in the fzfhome_gitignore file (it doesn't matter
+if some directories don't exist on some machines, or if some directories are
+repeated between lists). Then after all those, add a single list of directories
+you want to search across any machine.
 
 If you're using Vim to create the fzfhome_gitignore file, an easy way to get a
 list of all your home directories is the following command:
@@ -96,9 +123,16 @@ list of all your home directories is the following command:
 :.!ls ~/
 ```
 
-Next, remove the directories you want to be searched. Finally append a '/' to
-all lines by putting the cursor on the first directory in the list and entering
-the following command:
+Append a '/' to all lines by putting the cursor on the first directory
+in the list and entering the following command:
 ```shell
 :.,$ norm A/
+```
+
+Now you can just copy the directories that you do want to search, and place
+them *below* with a '!' preceding them. Similar to above, insert the '!' before
+each one by putting the cursor on the first directory in the list and entering
+the following command:
+```shell
+:.,$ norm I/
 ```
