@@ -91,9 +91,9 @@ Steam/
 ```
 
 If you're using Vim to create the fzfhome_gitignore file, an easy way to get a
-list of all your home directories is the following command from normal mode:
+list of all your home directories is the following command:
 ```shell
-!!ls ~/
+:.!ls ~/
 ```
 
 Next, remove the directories you want to be searched. Finally append a '/' to
