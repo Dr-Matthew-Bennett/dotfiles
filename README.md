@@ -36,7 +36,7 @@ ln -s ~/linux_config_files/.tmux.conf .tmux.conf
 
 ### Ultisnips
 I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
-snippets in ~/.vim/ultisnips 
+snippets in ~/.vim/ultisnips
 
 In order to keep my .snippets files synched across machines, I keep my ultisnip
 directory in the ~/linux_config_files and create a symbolic link to it from
@@ -50,7 +50,7 @@ I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
 from within Vim using the [fzf.vim
 plugin](https://github.com/junegunn/fzf.vim). I configured it to use
 [silverseacher-ag](https://github.com/ggreer/the_silver_searcher) in order to
-respect .gitignore files. 
+respect .gitignore files.
 
 Sometimes I want to jump to a file in another directory, and I don't want to
 have to specify the path for fzf. My solution is to configure fzf to always
@@ -96,8 +96,9 @@ Desktop/
   .
 ```
 
-Then underneath those, put the directories that you want to be searched, each
+Then **below** those, put the directories that you want to be searched, each
 preceded by a '!' and followed by a '/':
+
 ```shell
 # now un-ignore the ones I care about
 !code/
@@ -111,9 +112,15 @@ preceded by a '!' and followed by a '/':
 
 The '!' will 'cancel out' the previous ignore commands.
 
+Similar to above, insert the '!' before each one by putting the cursor on the
+first directory in the list and entering the following command:
+```shell
+:.,$ norm I!
+```
+
 If you're doing this across multiple machines, you can make a separate home
-directory list of per machine in the fzfhome_gitignore file (it doesn't matter
-if some directories don't exist on some machines, or if some directories are
+directory list per machine in the fzfhome_gitignore file (it doesn't matter if
+some directories don't exist on some machines, or if some directories are
 repeated between lists). Then after all those, add a single list of directories
 you want to search across any machine.
 
@@ -123,16 +130,12 @@ list of all your home directories is the following command:
 :.!ls ~/
 ```
 
-Append a '/' to all lines by putting the cursor on the first directory
-in the list and entering the following command:
+Append a '/' to all lines by putting the cursor on the first directory in the
+list and entering the following command:
 ```shell
 :.,$ norm A/
 ```
 
 Now you can just copy the directories that you do want to search, and place
-them *below* with a '!' preceding them. Similar to above, insert the '!' before
-each one by putting the cursor on the first directory in the list and entering
-the following command:
-```shell
-:.,$ norm I/
+them **below** with a '!' preceding them.
 ```
