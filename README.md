@@ -112,12 +112,6 @@ preceded by a '!' and followed by a '/':
 
 The '!' will 'cancel out' the previous ignore commands.
 
-Similar to above, insert the '!' before each one by putting the cursor on the
-first directory in the list and entering the following command:
-```shell
-:.,$ norm I!
-```
-
 If you're doing this across multiple machines, you can make a separate home
 directory list per machine in the fzfhome_gitignore file (it doesn't matter if
 some directories don't exist on some machines, or if some directories are
@@ -138,4 +132,10 @@ list and entering the following command:
 
 Now you can just copy the directories that you do want to search, and place
 them **below** with a '!' preceding them.
+```
+
+Similar to above, insert the '!' before each one by putting the cursor on the
+first directory in the list and entering the following command:
+```shell
+:.,$ norm I!
 ```
