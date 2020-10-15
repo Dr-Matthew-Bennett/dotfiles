@@ -81,9 +81,9 @@ Then in the fzfhome_gitignore file, you can put something like the following:
 # ignore everything
 *
 # except these directories
-!Documents
-!Downloads
-!my_projects
+!Documents/
+!Downloads/
+!my_projects/
 ```
 
 Then in your .bashrc, add the following line (already added for the .bashrc in
