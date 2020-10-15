@@ -19,7 +19,7 @@ cd ~/
 mv .bashrc .old_bashrc
 mv .inputrc .old_inputrc
 mv .vimrc .old_vimrc
-mv .tmux.conf .tmux.old_conf
+mv .tmux.conf .old_tmux.conf
 ```
 
 3) Replace .bashrc, .inputrc, and any other configuration files that you want
@@ -35,8 +35,8 @@ ln -s ~/linux_config_files/.tmux.conf .tmux.conf
 ```
 
 ### Ultisnips
-I use [Ultisnips](https://github.com/SirVer/ultisnips) in my .vimrc, which
-stores the snippets in ~/.vim/ultisnips 
+I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
+snippets in ~/.vim/ultisnips 
 
 In order to keep my .snippets files synched across machines, I keep my ultisnip
 directory in the ~/linux_config_files and create a symbolic link to it from
@@ -46,16 +46,16 @@ directory in the ~/linux_config_files and create a symbolic link to it from
 cd ~/.vim && ln -sd ~/linux_config_files/ultisnips ultisnips
 ```
 ### FZF
-I [fzf](https://github.com/junegunn/fzf) both as a command line tool and from
-within Vim using [this vim plugin](https://github.com/junegunn/fzf.vim). I
-configured it to use
+I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
+from within Vim using the [fzf.vim
+plugin](https://github.com/junegunn/fzf.vim). I configured it to use
 [silverseacher-ag](https://github.com/ggreer/the_silver_searcher) in order to
 respect .gitignore files. 
 
 Sometimes I want to jump to a file in another directory, and I don't want to
 have to specify the path for fzf. My solution is to configure fzf to always
 search a certain set of directories (and all their subdirectories) in my home
-directory (I only have about 10 or so that I would want to search, so this cant
+directory (I only have about 10 or so that I would want to search, so this can
 certainly be handled by
 [silverseacher-ag](https://github.com/ggreer/the_silver_searcher). This way, no
 matter where I am in my file system, I can always find the file I want without
@@ -64,8 +64,8 @@ git repository, but I don't think anyone does that...
 
 I created a .git directory and a .gitignore file in my home directory. The
 .gitignore file should be symbolically linked to a file in the
-linux_config_files repository [as above](#to-make-this-work). The only
-difference is that the file that it links to can't itself be called
+linux_config_files repository [like in the steps above](#to-make-this-work).
+The only difference is that the file that it links to can't itself be called
 '.gitignore', since there is (or might one day) already exist the 'real
 .gitignore' associated with the linux_config_files repository! So I call it
 fzfhome_gitignore instead.
@@ -81,9 +81,9 @@ Then in the fzfhome_gitignore file, you can put something like the following:
 # ignore everything
 *
 # except these directories
-!~/Documents
-!~/Downloads
-!~/my_projects
+!Documents
+!Downloads
+!my_projects
 ```
 
 Then in your .bashrc, add the following line (already added for the .bashrc in
