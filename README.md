@@ -52,17 +52,23 @@ configured it to use
 [silverseacher-ag](https://github.com/ggreer/the_silver_searcher) in order to
 respect .gitignore files. 
 
-Being able to ignore specific files and directories is nice not only in git
-repositories, but across everything in my home directory. To achieve this, your
-home directory must not be a git repository, but I don't think anyone does
-that...
+Sometimes I want to jump to a file in another directory, and I don't want to
+have to specify the path for fzf. My solution is to configure fzf to always
+search a certain set of directories (and all their subdirectories) in my home
+directory (I only have about 10 or so that I would want to search, so this cant
+certainly be handled by
+[silverseacher-ag](https://github.com/ggreer/the_silver_searcher). This way, no
+matter where I am in my file system, I can always find the file I want without
+thinking about where it is. To achieve this, your home directory must not be a
+git repository, but I don't think anyone does that...
 
 I created a .git directory and a .gitignore file in my home directory. The
 .gitignore file should be symbolically linked to a file in the
-linux_config_files repository as above. The only difference is that the file
-that it links to can't itself be called '.gitignore', since there is (or might
-one day) already exist the 'real .gitignore' associated with the
-linux_config_files repository! So I call it fzfhome_gitignore instead.
+linux_config_files repository [as above](#to-make-this-work). The only
+difference is that the file that it links to can't itself be called
+'.gitignore', since there is (or might one day) already exist the 'real
+.gitignore' associated with the linux_config_files repository! So I call it
+fzfhome_gitignore instead.
 
 ```shell
 cd ~/
@@ -70,8 +76,18 @@ mkdir .git
 ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
 ```
 
-Then in your .bashrc, add the following line (already added for this
-repository):
+Then in the fzfhome_gitignore file, you can put something like the following:
+```shell
+# ignore everything
+*
+# except these directories
+!~/Documents
+!~/Downloads
+!~/my_projects
+```
+
+Then in your .bashrc, add the following line (already added for the .bashrc in
+this repository):
 ```shell
 export FZF_DEFAULT_COMAND='ag --hidden --ignore .git ""'
 ```
