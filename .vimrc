@@ -162,7 +162,7 @@ augroup general
     autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " open file under the current directory
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files ~/
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
     " search through buffers and jump to line in any open buffer
