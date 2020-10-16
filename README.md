@@ -1,7 +1,9 @@
 # linux_config_files
 
 This is how I keep all my configuration files synched across machines. It was
-inspired by a blog post (see pdf in this repository)
+inspired by a [blog
+post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple-hosts/)
+(see pdf in this repository).
 
 ## To make this work
 
