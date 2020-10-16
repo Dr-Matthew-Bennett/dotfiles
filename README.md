@@ -28,7 +28,7 @@ directory like so:
 
 ```shell
 cd ~/
-ln -s ~/linux_config_files/bashrc_multihost/base_bashrc .bashrc
+ln -s ~/linux_config_files/base_bashrc .bashrc
 ln -s ~/linux_config_files/.inputrc .inputrc
 ln -s ~/linux_config_files/.vimrc .vimrc
 ln -s ~/linux_config_files/.tmux.conf .tmux.conf
@@ -79,7 +79,7 @@ ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
 Then in your .bashrc, add the following line (already added for the .bashrc in
 this repository):
 ```shell
-export FZF_DEFAULT_COMAND='ag --hidden --ignore .git ""'
+export FZF_DEFAULT_COMAND='ag --hidden --ignore .git . $HOME'
 ```
 
 Then in the fzfhome_gitignore file, I first list all my home directories, each
