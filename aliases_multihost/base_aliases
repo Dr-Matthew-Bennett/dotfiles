@@ -46,10 +46,10 @@ alias rm*='rm $(fzf)'
 #                 | grep -v .git | fzf)'
 # 
 # # depth 3
-# cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
-#                 ls -d  /media/mattb/usb/*/; \
-#                 ls -d  /media/mattb/usb/*/*/) \
-#                 | grep -v .git | fzf)'
+cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
+                ls -d  /media/mattb/usb/*/; \
+                ls -d  /media/mattb/usb/*/*/) \
+                | grep -v .git | fzf)'
 # 
 # cdb_arg='cd $(( ls -d  ~/documents/books/; \
 #                 ls -d  ~/documents/books/*/; \
@@ -70,7 +70,7 @@ alias rm*='rm $(fzf)'
 # alias cdl=${cdl_arg}
 # alias cdm=${cdm_arg}
 # alias cdb=${cdb_arg}
-# alias cdu=${cdu_arg}
+alias cdu=${cdu_arg}
 # alias cdd=${cdd_arg}
 # alias cdw=${cdw_arg}
 # alias cdn=${cdw_arg}

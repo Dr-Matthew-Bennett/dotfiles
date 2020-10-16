@@ -77,20 +77,20 @@ xterm*|rxvt*)
 esac
 
 # source host specific bashrc file if it exists
-[ -f ~/linux_config_files/multihost_bashrc/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bashrc/$HOSTNAME
+[ -f ~/linux_config_files/bashrc_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/bashrc_multihost/$HOSTNAME
 # source base bash_aliases if it exists
-[ -f ~/linux_config_files/multihost_bash_aliases/base_aliases ] &&
-source ~/linux_config_files/multihost_bash_aliases/base_aliases
+[ -f ~/linux_config_files/aliases_multihost/base_aliases ] &&
+source ~/linux_config_files/aliases_multihost/base_aliases
 # source host specific bash_aliases if they exist
-[ -f ~/linux_config_files/multihost_bash_aliases/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bash_aliases/$HOSTNAME
+[ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/aliases_multihost/$HOSTNAME
 # source base bash_functions if it exists
-[ -f ~/linux_config_files/multihost_bash_functions/base_functions ] &&
-source ~/linux_config_files/multihost_bash_functions/base_functions
+[ -f ~/linux_config_files/functions_multihost/base_functions ] &&
+source ~/linux_config_files/functions_multihost/base_functions
 # source host specific bash_functions if they exist
-[ -f ~/linux_config_files/multihost_bash_functions/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bash_functions/$HOSTNAME
+[ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/functions_multihost/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

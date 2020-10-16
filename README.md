@@ -28,7 +28,7 @@ directory like so:
 
 ```shell
 cd ~/
-ln -s ~/linux_config_files/multihost_bashrc/base_bashrc .bashrc
+ln -s ~/linux_config_files/bashrc_multihost/base_bashrc .bashrc
 ln -s ~/linux_config_files/.inputrc .inputrc
 ln -s ~/linux_config_files/.vimrc .vimrc
 ln -s ~/linux_config_files/.tmux.conf .tmux.conf
