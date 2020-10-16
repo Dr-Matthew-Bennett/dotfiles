@@ -52,6 +52,11 @@ vim-python-ide/
 
 # now un-ignore the ones I care about
 !code/
+!code/matlab/
+!code/matlab/matlab/
+!code/python/psychopy/
+!code/python/python/
+!code/python/python_flat/
 !Desktop/
 !documents/
 !downloads/

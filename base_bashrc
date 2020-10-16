@@ -137,8 +137,7 @@ export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
 # fzf config
-export FZF_DEFAULT_COMAND='ag --hidden --ignore .git . $HOME'
-# export FZF_DEFAULT_COMMAND="fd --hidden --exclude .git . $HOME"
+export FZF_DEFAULT_COMMAND="fd . $HOME"
 export FZF_DEFAULT_OPTS='--height 40% -m --layout=reverse --bind ctrl-a:select-all,ctrl-d:deselect-all'
 
 # todo path

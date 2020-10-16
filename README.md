@@ -12,8 +12,13 @@ linux_config_files directory):
 git clone https://github.com/Matt-A-Bennett/linux_config_files.git
 ```
 
-2) (Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
-any other configuration files that you plan to keep synched across machines:
+2) Rename files in the \*\_multihost directories to match the hostnames of your
+machines. Fill in the base_bashrc, bashrc_multihost, aliases_multihost and any
+other configuration files how you like them.
+
+3) (Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
+any other configuration files that you plan to keep synched across machines
+(alternatively you would have to delete them...):
 ```shell
 cd ~/
 mv .bashrc .old_bashrc
@@ -22,17 +27,20 @@ mv .vimrc .old_vimrc
 mv .tmux.conf .old_tmux.conf
 ```
 
-3) Replace .bashrc, .inputrc, and any other configuration files that you want
+4) Replace .bashrc, .inputrc, and any other configuration files that you want
 to keep synched across machines with symbolic links from your /home/user
 directory like so:
 
 ```shell
 cd ~/
 ln -s ~/linux_config_files/base_bashrc .bashrc
-ln -s ~/linux_config_files/.inputrc .inputrc
-ln -s ~/linux_config_files/.vimrc .vimrc
-ln -s ~/linux_config_files/.tmux.conf .tmux.conf
+ln -s ~/linux_config_files/inputrc .inputrc
+ln -s ~/linux_config_files/vimrc .vimrc
+ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ```
+
+Note that I am intentionally making the files linked to non-hidden. This is so
+that they show up when I search for them using fzf [(see below)](#fzf).
 
 ### Ultisnips
 I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
@@ -49,15 +57,15 @@ cd ~/.vim && ln -sd ~/linux_config_files/ultisnips ultisnips
 I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
 from within Vim using the [fzf.vim
 plugin](https://github.com/junegunn/fzf.vim). I configured it to use
-[silverseacher-ag](https://github.com/ggreer/the_silver_searcher) in order to
+[fd](https://github.com/sharkdp/fd#benchmark) in order to
 respect .gitignore files.
 
 Sometimes I want to jump to a file in another directory, and I don't want to
 have to specify the path for fzf. My solution is to configure fzf to always
 search a certain set of directories (and all their subdirectories) in my home
-directory (I only have about 10 or so containing ~5000 files that I would want
+directory (I only have about 15 or so containing ~5000 files that I would want
 to search, so this can certainly be handled by
-[silverseacher-ag](https://github.com/ggreer/the_silver_searcher). This way, no
+[fd](https://github.com/sharkdp/fd#benchmark). This way, no
 matter where I am in my file system, I can always find the file I want without
 thinking about where it is. To achieve this, your home directory must not be a
 git repository, but I don't think anyone does that...
@@ -79,7 +87,7 @@ ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
 Then in your .bashrc, add the following line (already added for the .bashrc in
 this repository):
 ```shell
-export FZF_DEFAULT_COMAND='ag --hidden --ignore .git . $HOME'
+export FZF_DEFAULT_COMMAND="fd . $HOME"
 ```
 
 Then in the fzfhome_gitignore file, I first list all my home directories, each
@@ -112,6 +120,10 @@ preceded by a '!' and followed by a '/':
 
 The '!' will 'cancel out' the previous ignore commands.
 
+N.B. I have noticed that, for some reason, a couple of subdirectories were not
+showing up in the fzf search, and so I explicitly created some
+'!path/to/missed/directory/' lines in this section...
+
 If you're doing this across multiple machines, you can make a separate home
 directory list per machine in the fzfhome_gitignore file (it doesn't matter if
 some directories don't exist on some machines, or if some directories are
@@ -119,7 +131,7 @@ repeated between lists). Then after all those, add a single list of directories
 you want to search across any machine.
 
 If you're using Vim to create the fzfhome_gitignore file, an easy way to get a
-list of all your home directories is the following command:
+list of all the directories in your home directory is the following command:
 ```shell
 :.!ls ~/
 ```
