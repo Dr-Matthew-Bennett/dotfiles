@@ -41,8 +41,8 @@ ln -s ~/linux_config_files/vimrc .vimrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ```
 
-Note that I am intentionally making the files linked to non-hidden. This is so
-that they show up when I search for them using fzf [(see below)](#fzf).
+Note that I am intentionally making the files that I link to non-hidden. This
+is so that they show up when I search for them using fzf [(see below)](#fzf).
 
 ### Ultisnips
 I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
