@@ -1,3 +1,33 @@
+# Run command/application and choose paths/files with fzf.
+# Always return control of the termainal to user (e.g. when opening GUIs).
+# Usage:
+# f cd (hit enter, choose path)
+# f cat (hit enter, choose files)
+# f vim (hit enter, choose files)
+# f vlc (hit enter, choose files)
+f() {
+    # store the files from fzf
+    IFS=$'\n' files=($(fzf --query="$2" --multi))
+
+    # if no files passed (e.g. if Esc pressed), return to terminal
+    if [ -z "${files}" ]; then
+        return 1
+    fi
+
+    # send the files to a program
+    # some programs should not be run as background
+    if ! [[ $1 =~ ^(cd)$ ]]; then
+        $1 "${files[@]}" &
+    else
+        $1 "${files[@]}"
+    fi
+
+    # if the program is not on the list of GUIs (e.g. vim, cat, etc.) bring it
+    # to foreground so we can see the output. Also put cd on this list.
+    if ! [[ $1 =~ ^(cd|zathura|vlc|eog)$ ]]; then
+        fg %%
+    fi
+}
 
 # cat but just cut at edge of tmux pane
 catc () {
