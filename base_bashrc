@@ -11,6 +11,10 @@ esac
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+# Also, some commands I do often but never go back through my history to
+# repeat. Also I use a function called f all the time but the history isn't
+# diagnostic of what I was doing). 
+HISTIGNORE="cl:clc:l:..:...:....:f *"
 
 # append to the history file, don't overwrite it
 shopt -s histappend

@@ -124,6 +124,8 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
                 \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>eb :vsplit
+                \ /home/mattb/linux_config_files/base_bashrc<cr>
 
     " \/ to turn off highlighted searches
     autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
