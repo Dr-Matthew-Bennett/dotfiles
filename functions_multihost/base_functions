@@ -54,7 +54,7 @@ f() {
     # Put all input arguments on one line and sanitise the command such that
     # spaces and parentheses are properly escaped. More sanitisation
     # substitutions can be added if needed
-    sed -i 's/\n//g; s/ /\\ /g; s/(/\\(/; s/)/\\)/' /tmp/fzf_tmp
+    sed -i 's/\n//g; s/ /\\ /g; s/(/\\(/g; s/)/\\)/g' /tmp/fzf_tmp
 
     # If the program is on the GUI list add a '&' to the command history
     if [[ $1 =~ ^(zathura|vlc|eog|kolourpaint)$ ]]; then
