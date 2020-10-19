@@ -16,4 +16,4 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # fzf config: debian has a different binary name
-export FZF_DEFAULT_COMMAND="fd. $HOME"
+export FZF_DEFAULT_COMMAND="fd . $HOME"
