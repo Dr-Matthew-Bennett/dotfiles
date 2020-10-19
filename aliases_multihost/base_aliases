@@ -20,63 +20,18 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 
 # common places to cd, pipe the dir and subdirs (to a given depth) into fzf
-# depth 2
-cdl_arg='cd $(( ls -d  ~/linux_config_files/; \
-                ls -d  ~/linux_config_files/*/) \
-                | grep -v .git | fzf)'
-
-cdd_arg='cd $(( ls -d  ~/downloads/; \
-                ls -d  ~/downloads/*/) \
-                | grep -v .git | fzf)'
-
-cdm_arg='cd $(( ls -d  ~/code/matlab/matlab/; \
-                ls -d  ~/code/matlab/matlab/*/) \
-                | grep -v .git | fzf)'
-
-# depth 3
 cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
                 ls -d  /media/mattb/usb/*/; \
                 ls -d  /media/mattb/usb/*/*/) \
                 | grep -v .git | fzf)'
 
-cdb_arg='cd $(( ls -d  ~/documents/books/; \
-                ls -d  ~/documents/books/*/; \
-                ls -d  ~/documents/books/*/*/) \
-                | grep -v .git | fzf)'
-
-cdw_arg='cd $(( ls -d  ~/documents/work_notes/; \
-                ls -d  ~/documents/work_notes/*/; \
-                ls -d  ~/documents/work_notes/*/*/) \
-                | grep -v .git | fzf)'
-
-cdn_arg='cd $(( ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/;
-                ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/*/;
-                ls -d  ~/code/matlab/stdp_neural_net_project/STDP_Disparity/*/*/)
-                | grep -v .git | fzf)'
-
-cdp_arg='cd $(( ls -d  ~/projects/; \
-                ls -d  ~/projects/*/; \
-                ls -d  ~/projects/*/*/) \
-                | grep -v .git | fzf)'
-
-# assign the cd aliases
-alias cdl=${cdl_arg}
-alias cdm=${cdm_arg}
-alias cdb=${cdb_arg}
 alias cdu=${cdu_arg}
-alias cdd=${cdd_arg}
-alias cdw=${cdw_arg}
-alias cdn=${cdn_arg}
-alias cdp=${cdp_arg}
 
 # source .bashrc
 alias sob='source ~/.bashrc'
 # edit .bash_aliases
-alias ea='vim ~/linux_config_files/multihost_bash_aliases/base_aliases'
-
-# fzf command to edit a file from linux_config_files using vim
-alias el='vim $(find  ~/linux_config_files -type f | grep -v .git | fzf)'
-alias vim**='vim $(fzf -m)'
+alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
+alias eb='vim ~/linux_config_files/base_bashrc'
 
 # kill tmux
 alias kt='tmux kill-session -t main'

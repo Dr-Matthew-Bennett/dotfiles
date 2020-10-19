@@ -123,7 +123,9 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
-                \ /home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
+                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>eb :vsplit
+                \ /home/mattb/linux_config_files/base_bashrc<cr>
 
     " \/ to turn off highlighted searches
     autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
@@ -162,7 +164,7 @@ augroup general
     autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " open file under the current directory
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files ~/
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
     " search through buffers and jump to line in any open buffer
