@@ -231,12 +231,12 @@ augroup matlab
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
      
     " display matlab doc
-    autocmd BufNewFile,BufRead *.m nmap <Leader>d yiwO<Esc>pIhelp <Esc>
-                \V<C-c><C-c>dd
+    autocmd BufNewFile,BufRead *.m nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+                \V<C-c><C-c>ddg`x
 
     " ask whos a variable under the cursor
-    autocmd BufNewFile,BufRead *.m nmap <Leader>w yiwO<Esc>pIwhos <Esc>
-                \V<C-c><C-c>dd
+    autocmd BufNewFile,BufRead *.m nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+                \V<C-c><C-c>ddg`x
 
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc
