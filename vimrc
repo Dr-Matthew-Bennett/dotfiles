@@ -2,11 +2,12 @@
 "{{{
 " - when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-" - matlab folds to use 'function', 'for', 'if', 'while' and go to 'end'
 " - format matlab scripts (blank lines etc.) on saving
 " - automatic folding for markdown sections
 " - status bar to display last search term
 " - paste one space later than cursor (even if we're on at the end of the line)
+" - mapping to make a jump twice as big in the opposite direction (for when I
+"   do [count]j instead of [count]k (or vice versa)
 "}}}
 "-----------------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
+set wildignorecase " ignore case when completing file names
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -121,7 +123,9 @@ augroup general
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
     autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
-                \ /home/mattb/linux_config_files/multihost_bash_aliases/base_aliases<cr>
+                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>eb :vsplit
+                \ /home/mattb/linux_config_files/base_bashrc<cr>
 
     " \/ to turn off highlighted searches
     autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
@@ -160,9 +164,11 @@ augroup general
     autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " open file under the current directory
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files ~/
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
     " search for and jump to line in any open buffer
     autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
+    " search through buffers and jump to line in any open buffer
+    autocmd BufNewFile,BufRead * :nnoremap <Leader>b :Buffers<cr>
 
     " to see the undo tree
     autocmd BufNewFile,BufRead * :nnoremap <F5> :MundoToggle<cr>
@@ -221,9 +227,19 @@ augroup matlab
 
     " make gcc comment matlab correctly
     autocmd BufNewFile,BufRead *.m setlocal commentstring=%\ %s
-
-    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
     autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+
+    " abbreviations
+    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
+     
+    " display matlab doc
+    autocmd BufNewFile,BufRead *.m nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+                \V<C-c><C-c>ddg`x
+
+    " ask whos a variable under the cursor
+    autocmd BufNewFile,BufRead *.m nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+                \V<C-c><C-c>ddg`x
+
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
@@ -299,11 +315,12 @@ command! Bd bprevious | split | bNext | bdelete
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " I want the default to be to the left of the vim I'm working in
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{left-of}"}
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 " make F9 a shortcut for sending N lines to the tmux pane
 :nmap <F9> V<C-c><C-c>
+
 "}}}
 "-----------------------------------------------------------------------------
 
@@ -340,7 +357,38 @@ let g:ycm_filetype_blacklist = {
 "=============================================================================
 
 "==== functions ==============================================================
-"---- restore cursor postition -----------------------------------------------
+
+"----- If pasting a word, preceed with a space if we're at the end of a word -
+" not working, maybe not a great idea anyway...
+
+" autocmd BufNewFile,BufRead * :nnoremap p :call Paste()<cr>
+
+function! Paste()
+    " Check if register contains newline
+    if matchstr(@", '*$*') != @"
+        if EndWord()
+            normal p
+        endif
+    else
+        norm p
+    endif
+endfunction
+"-----------------------------------------------------------------------------
+
+"----- Determine if cursor is on the end of a word ---------------------------
+function! EndWord() abort
+  let pos = getpos('.')
+  normal! gee
+  if pos == getpos('.')
+    return v:true
+  else
+    call setpos('.', pos)
+    return v:false
+  endif
+endfunction
+"-----------------------------------------------------------------------------
+
+"---- Make a 4-way split and resize the windows how I like -------------------
 "{{{
 function! WorkSplit()
     let l:currentWindow=winnr()

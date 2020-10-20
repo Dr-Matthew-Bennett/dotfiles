@@ -1,4 +1,6 @@
 set editing-mode vi
 set show-mode-in-prompt on
+# make the cursor a thin blinking line in insert mode
 set vi-ins-mode-string \1\e[5 q\2
+# make the cursor a thick non-blinking block in normal mode
 set vi-cmd-mode-string \1\e[2 q\2

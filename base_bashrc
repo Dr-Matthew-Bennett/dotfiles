@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -11,6 +13,10 @@ esac
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+# Also, some commands I do often but never go back through my history to
+# repeat. Also I use a function called f all the time but the history isn't
+# diagnostic of what I was doing). 
+HISTIGNORE="cl:clc:l:..:...:....:f *"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -57,11 +63,13 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # the \n\$ at the end puts the prompt on a newline
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
     # PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;39m\]\w\[\e[38;5;208m\]\$\e[m '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+
 unset color_prompt force_color_prompt
 
 # I don't want a huge path on display
@@ -77,20 +85,20 @@ xterm*|rxvt*)
 esac
 
 # source host specific bashrc file if it exists
-[ -f ~/linux_config_files/multihost_bashrc/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bashrc/$HOSTNAME
+[ -f ~/linux_config_files/bashrc_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/bashrc_multihost/$HOSTNAME
 # source base bash_aliases if it exists
-[ -f ~/linux_config_files/multihost_bash_aliases/base_aliases ] &&
-source ~/linux_config_files/multihost_bash_aliases/base_aliases
+[ -f ~/linux_config_files/aliases_multihost/base_aliases ] &&
+source ~/linux_config_files/aliases_multihost/base_aliases
 # source host specific bash_aliases if they exist
-[ -f ~/linux_config_files/multihost_bash_aliases/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bash_aliases/$HOSTNAME
+[ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/aliases_multihost/$HOSTNAME
 # source base bash_functions if it exists
-[ -f ~/linux_config_files/multihost_bash_functions/base_functions ] &&
-source ~/linux_config_files/multihost_bash_functions/base_functions
+[ -f ~/linux_config_files/functions_multihost/base_functions ] &&
+source ~/linux_config_files/functions_multihost/base_functions
 # source host specific bash_functions if they exist
-[ -f ~/linux_config_files/multihost_bash_functions/$HOSTNAME ] &&
-source ~/linux_config_files/multihost_bash_functions/$HOSTNAME
+[ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/functions_multihost/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -136,8 +144,18 @@ cism='mbennett@storage.cism.ucl.ac.be'
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
-# fzf config
-export FZF_DEFAULT_OPTS='--height 40% -m --layout=reverse'
+### fzf config ################################################################
+# Appearance: Don't fill the terminal with results. Have the best matches at
+# the top. Selected items have a bean marker
+fzf1='--height 40% -m --layout=reverse --marker=o'
+# Every path starts /home/user/... so skip those parts when filtering matches
+fzf2='--with-nth=4.. --delimiter=/'
+# CTRL-A to select all items found, CTRL-D to deselect all
+fzf3='--bind ctrl-a:select-all,ctrl-d:deselect-all'
+
+# enter the above into one long string
+export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3}"
 
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'
+
