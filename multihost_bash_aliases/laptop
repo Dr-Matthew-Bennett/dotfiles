@@ -7,3 +7,6 @@ alias skype='skypeforlinux &'
 
 # launch utorrent server
 alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
+
+# show pressed keys onscreen for vim youtube videos
+#alias vidkeydisp='screenkey/./screenkey -p fixed -g 90%x10%+5%-10%'
