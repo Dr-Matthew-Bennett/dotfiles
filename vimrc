@@ -393,9 +393,9 @@ endfunction
 function! WorkSplit()
     let l:currentWindow=winnr()
     execute "normal! :vsplit\<cr> :buffer 2\<cr>"
-    execute "normal! :split\<cr> :resize -15\<cr> :b scratch2\<cr>"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
     execute l:currentWindow . "wincmd w"
-    execute "normal! :split\<cr> :resize -15\<cr> :b scratch1\<cr>"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
 "}}}
 "-----------------------------------------------------------------------------
