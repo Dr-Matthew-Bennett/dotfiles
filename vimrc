@@ -233,11 +233,18 @@ augroup matlab
     autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
      
     " display matlab doc
-    autocmd BufNewFile,BufRead *.m nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+    autocmd BufNewFile,BufRead *.m nmap <Leader>d mxyiwO<Esc>
+                \pIhelp <Esc>
                 \V<C-c><C-c>ddg`x
 
     " ask whos a variable under the cursor
-    autocmd BufNewFile,BufRead *.m nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+    autocmd BufNewFile,BufRead *.m nmap <Leader>w mxyiwO<Esc>
+                \pIwhos <Esc>
+                \V<C-c><C-c>ddg`x
+
+    " imagesc a variable under the cursor
+    autocmd BufNewFile,BufRead *.m nmap <Leader>i mxyiwO<Esc>
+                \pIfigure, imagesc(<Esc>A) <Esc>
                 \V<C-c><C-c>ddg`x
 
     " clean up documentation after func snip (remove lines with unused arguments)
