@@ -69,31 +69,31 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" other plugins
+" plugins I would put in a new vimrc
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
+Plugin 'vim-scripts/ReplaceWithRegister'
+
+" other plugins I use
 " Plugin 'jnurmine/Zenburn'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'vim-scripts/MatlabFilesEdition'
-Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'jpalardy/vim-slime'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'SirVer/ultisnips'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-"}}}
 "---- plugins I may want to use one day --------------------------------------
-"{{{
 " Plugin 'honza/vim-snippets'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 Plugin 'simnalamburt/vim-mundo'
 

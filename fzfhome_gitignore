@@ -25,30 +25,30 @@ todo/
 videos/
 VirtualBox VMs/
 
-# mattb-UCL
-anaconda3/
-Bivis/
-code/
-Desktop/
-documents/
-downloads/
-from_usb/
-gems/
-linux_config_files/
-maintenance/
-matlab/
-music/
-pictures/
-projects/
-psychopy/
-Public/
-pyPie/
-Templates/
-todo/
-todotmp/
-tools/
-videos/
-vim-python-ide/
+# # mattb-UCL
+# anaconda3/
+# Bivis/
+# code/
+# Desktop/
+# documents/
+# downloads/
+# from_usb/
+# gems/
+# linux_config_files/
+# maintenance/
+# matlab/
+# music/
+# pictures/
+# projects/
+# psychopy/
+# Public/
+# pyPie/
+# Templates/
+# todo/
+# todotmp/
+# tools/
+# videos/
+# vim-python-ide/
 
 # now un-ignore the ones I care about
 !code/
