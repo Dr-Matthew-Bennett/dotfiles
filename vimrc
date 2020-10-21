@@ -69,31 +69,31 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" other plugins
+" plugins I would put in a new vimrc
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
+Plugin 'vim-scripts/ReplaceWithRegister'
+
+" other plugins I use
 " Plugin 'jnurmine/Zenburn'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'vim-scripts/MatlabFilesEdition'
-Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'jpalardy/vim-slime'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'SirVer/ultisnips'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-"}}}
 "---- plugins I may want to use one day --------------------------------------
-"{{{
 " Plugin 'honza/vim-snippets'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 Plugin 'simnalamburt/vim-mundo'
 
@@ -120,76 +120,80 @@ augroup general
     autocmd!
 
     " edit common file in split window
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>sv :source $MYVIMRC<cr>
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>ea :vsplit
+    nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+    nnoremap <Leader>sv :source $MYVIMRC<cr>
+    nnoremap <Leader>ea :vsplit
                 \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>eb :vsplit
+    nnoremap <Leader>eb :vsplit
                 \ /home/mattb/linux_config_files/base_bashrc<cr>
 
+    " store relative line number jumps in the jumplist.
+    nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
+    nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
+
     " \/ to turn off highlighted searches
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>/ :noh<cr>
+    nnoremap <Leader>/ :noh<cr>
 
     " substitute word under the cursor
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+    nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>f :call WorkSplit()<cr>
+    nnoremap <Leader>f :call WorkSplit()<cr>
 
     " resize windows (and make it repeatable with dot command)
     " widen the split
-    autocmd BufNewFile,BufRead * nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
-    \ :call repeat#set("\<Plug>WidenSplit")<CR>
+    nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
+                \ :call repeat#set("\<Plug>WidenSplit")<CR>
     nmap <Leader>h <Plug>WidenSplit
     " thin the split
-    autocmd BufNewFile,BufRead * nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
-    \ :call repeat#set("\<Plug>ThinSplit")<CR>
+    nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
+                \ :call repeat#set("\<Plug>ThinSplit")<CR>
     nmap <Leader>l <Plug>ThinSplit
     " heighten the split
-    autocmd BufNewFile,BufRead * nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
-    \ :call repeat#set("\<Plug>HeightenSplit")<CR>
+    nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
+                \ :call repeat#set("\<Plug>HeightenSplit")<CR>
     nmap <Leader>k <Plug>HeightenSplit
     " shorten the split
-    autocmd BufNewFile,BufRead * nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
-    \ :call repeat#set("\<Plug>ShortenSplit")<CR>
+    nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
+                \ :call repeat#set("\<Plug>ShortenSplit")<CR>
     nmap <Leader>j <Plug>ShortenSplit
 
     " instantly go with first spelling suggestion
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>s a<C-X>s<Esc>
+    nnoremap <Leader>s a<C-X>s<Esc>
 
     " fzf
     " edit files using
     " insert mode line completion (overwrite vim's default mappings)
-    autocmd BufNewFile,BufRead * :imap <c-c><c-l> <Plug>(fzf-complete-line)
+    imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " open file under the current directory
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>z :Files<cr>
+    nnoremap <Leader>z :Files<cr>
     " search for and jump to line in any open buffer
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>g :Lines<cr>
+    nnoremap <Leader>g :Lines<cr>
     " search through buffers and jump to line in any open buffer
-    autocmd BufNewFile,BufRead * :nnoremap <Leader>b :Buffers<cr>
+    nnoremap <Leader>b :Buffers<cr>
 
     " to see the undo tree
-    autocmd BufNewFile,BufRead * :nnoremap <F5> :MundoToggle<cr>
+    nnoremap <F5> :MundoToggle<cr>
 
     " gq until a line beggining with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
-    " autocmd BufNewFile,BufRead * :nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
+    " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
-    autocmd BufNewFile,BufRead * nnoremap gI g0i
-    autocmd BufNewFile,BufRead * nnoremap gA g$i
+    nnoremap gI g0i
+    nnoremap gA g$i
 
     " abbreviations
     " emails
-    autocmd BufNewFile,BufRead * iabbrev @g bennettmatt4@gmail.com
-    autocmd BufNewFile,BufRead * iabbrev @u matthew.bennett@uclouvain.be
+    iabbrev @g bennettmatt4@gmail.com
+    iabbrev @u matthew.bennett@uclouvain.be
     " common mispellings
-    autocmd BufNewFile,BufRead * iabbrev keybaord keyboard
-    autocmd BufNewFile,BufRead * iabbrev hte the
+    iabbrev keybaord keyboard
+    iabbrev hte the
 augroup END
 "}}}
 "-----------------------------------------------------------------------------
@@ -198,9 +202,9 @@ augroup END
 "{{{
 augroup filetype_vim
     autocmd!
-   autocmd FileType vim setlocal foldmethod=marker
-   " this next one isn't working for some reason...
-   autocmd FileType vim setlocal foldlevelstart=0
+    autocmd FileType vim setlocal foldmethod=marker
+    " this next one isn't working for some reason...
+    autocmd FileType vim setlocal foldlevelstart=0
 augroup END
 "}}}
 "{{{
@@ -215,44 +219,46 @@ augroup END
 augroup python
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd BufNewFile,BufRead *.py set fileformat=unix
+    autocmd FileType python3 set fileformat=unix
     " enable all Python syntax highlighting features
-    autocmd BufNewFile,BufRead *.py let python_highlight_all=1
-    autocmd BufNewFile,BufRead *.py setlocal foldmethod=indent
+    autocmd FileType python3 let python_highlight_all=1
+    autocmd FileType python3 setlocal foldmethod=indent
 augroup END
 "}}}
 "{{{
 augroup matlab
     autocmd!
 
+    " " make gcc comment matlab correctly
+    " autocmd FileType matlab setlocal commentstring=%\ %s
+    " autocmd FileType matlab setlocal foldmethod=indent
+
     " make gcc comment matlab correctly
-    autocmd BufNewFile,BufRead *.m setlocal commentstring=%\ %s
-    autocmd BufNewFile,BufRead *.m setlocal foldmethod=indent
+    autocmd FileType matlab setlocal commentstring=%\ %s
+    autocmd FileType matlab setlocal foldmethod=indent
 
     " abbreviations
-    autocmd BufNewFile,BufRead *.m iabbrev <buffer> key keyboard
-     
+    autocmd FileType matlab iabbrev <buffer> key keyboard
+
     " display matlab doc
-    autocmd BufNewFile,BufRead *.m nmap <Leader>d mxyiwO<Esc>
-                \pIhelp <Esc>
+
+    " imagesc a variable under the cursor
+    autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
+                \pIfigure, imagesc(<Esc>A) <Esc>
+
+    autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
                 \V<C-c><C-c>ddg`x
 
     " ask whos a variable under the cursor
-    autocmd BufNewFile,BufRead *.m nmap <Leader>w mxyiwO<Esc>
-                \pIwhos <Esc>
-                \V<C-c><C-c>ddg`x
-
-    " imagesc a variable under the cursor
-    autocmd BufNewFile,BufRead *.m nmap <Leader>i mxyiwO<Esc>
-                \pIfigure, imagesc(<Esc>A) <Esc>
+    autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
                 \V<C-c><C-c>ddg`x
 
     " clean up documentation after func snip (remove lines with unused arguments)
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dc
+    autocmd FileType matlab nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs
-    autocmd BufNewFile,BufRead *.m nnoremap <Leader>dh 
+    autocmd FileType matlab nnoremap <Leader>dh 
                 \/set default values for optional variables<cr>j0wy}zR
                 \/'\\n'],<cr>pms
                 \v}k$:norm f=d$<cr>
@@ -263,27 +269,27 @@ augroup matlab
 
     " these next two are buggy:
     " inside indent block
-    autocmd BufNewFile,BufRead *.m onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
+    autocmd FileType matlab onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
     " around indent block
-    autocmd BufNewFile,BufRead *.m onoremap ai :<c-u>execute "normal [-V]="<cr>
+    autocmd FileType matlab onoremap ai :<c-u>execute "normal [-V]="<cr>
 augroup END
 "}}}
 "{{{
 augroup markdown
     autocmd!
-    autocmd BufNewFile,BufRead *.md setlocal wrap
-    autocmd BufNewFile,BufRead *.md setlocal spell
+    autocmd FileType markdown setlocal wrap
+    autocmd FileType markdown setlocal spell
     " inside headed title:
-    autocmd BufNewFile,BufRead *.md onoremap iht :<c-u>execute "normal!
+    autocmd FileType markdown onoremap iht :<c-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rwvg_"<cr>
     " around headed title:
-    autocmd BufNewFile,BufRead *.md onoremap aht :<c-u>execute "normal!
+    autocmd FileType markdown onoremap aht :<c-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rvg_"<cr>
     " inside headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ihb :<c-u>execute "normal!
+    autocmd FileType markdown onoremap ihb :<c-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
     " around headed body:
-    autocmd BufNewFile,BufRead *.md onoremap ahb :<c-u>execute "normal!
+    autocmd FileType markdown onoremap ahb :<c-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
 "}}}
@@ -348,17 +354,17 @@ let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 " YouCompleteMe has a few filetypes that it doesn't work on by default (no
 " idea why). I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'notes': 1,
-      \ 'netrw': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'leaderf': 1,
-      \ 'mail': 1
-      \}
+            \ 'tagbar': 1,
+            \ 'notes': 1,
+            \ 'netrw': 1,
+            \ 'unite': 1,
+            \ 'text': 1,
+            \ 'vimwiki': 1,
+            \ 'pandoc': 1,
+            \ 'infolog': 1,
+            \ 'leaderf': 1,
+            \ 'mail': 1
+            \}
 "}}}
 "-----------------------------------------------------------------------------
 "=============================================================================
@@ -368,7 +374,7 @@ let g:ycm_filetype_blacklist = {
 "----- If pasting a word, preceed with a space if we're at the end of a word -
 " not working, maybe not a great idea anyway...
 
-" autocmd BufNewFile,BufRead * :nnoremap p :call Paste()<cr>
+" nnoremap p :call Paste()<cr>
 
 function! Paste()
     " Check if register contains newline
@@ -384,14 +390,14 @@ endfunction
 
 "----- Determine if cursor is on the end of a word ---------------------------
 function! EndWord() abort
-  let pos = getpos('.')
-  normal! gee
-  if pos == getpos('.')
-    return v:true
-  else
-    call setpos('.', pos)
-    return v:false
-  endif
+    let pos = getpos('.')
+    normal! gee
+    if pos == getpos('.')
+        return v:true
+    else
+        call setpos('.', pos)
+        return v:false
+    endif
 endfunction
 "-----------------------------------------------------------------------------
 
@@ -411,15 +417,15 @@ endfunction
 "{{{
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  execute a:command
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    execute a:command
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
 endfunction
 "}}}
 "-----------------------------------------------------------------------------
@@ -429,10 +435,10 @@ endfunction
 " copies only the text that matches search hits. Use with :CopyMatches :
 " where x is any register (supplying no x copies to clipboard
 function! CopyMatches(reg)
-  let hits = []
-  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
-  let reg = empty(a:reg) ? '+' : a:reg
-  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+    let hits = []
+    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
+    let reg = empty(a:reg) ? '+' : a:reg
+    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 "}}}
