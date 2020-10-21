@@ -25,30 +25,48 @@ todo/
 videos/
 VirtualBox VMs/
 
-# # mattb-UCL
-# anaconda3/
-# Bivis/
-# code/
-# Desktop/
-# documents/
-# downloads/
-# from_usb/
-# gems/
-# linux_config_files/
-# maintenance/
-# matlab/
-# music/
-# pictures/
-# projects/
-# psychopy/
-# Public/
-# pyPie/
-# Templates/
-# todo/
-# todotmp/
-# tools/
-# videos/
-# vim-python-ide/
+# mattb-UCL
+anaconda3/
+Bivis/
+code/
+Desktop/
+documents/
+downloads/
+from_usb/
+gems/
+linux_config_files/
+maintenance/
+matlab/
+music/
+pictures/
+projects/
+psychopy/
+Public/
+pyPie/
+Templates/
+todo/
+todotmp/
+tools/
+videos/
+vim-python-ide/
+
+code/
+Desktop/
+documents/
+downloads/
+fix/
+linux_config_files/
+local/
+maintenance/
+matlab/
+music/
+pictures/
+projects/
+Public/
+templates/
+todo/
+videos/
+vim_cmds/
 
 # now un-ignore the ones I care about
 !code/
@@ -70,4 +88,5 @@ VirtualBox VMs/
 !videos/
 !projects/
 projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
-
+!fix/
+!vim_cmds/
