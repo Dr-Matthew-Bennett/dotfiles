@@ -34,8 +34,9 @@ snippet 3d "imagesc each slice of 3d matrix"
 figure
 for slice_idx = 1:size($1,${2:1})
     subplot(ceil(sqrt(size($1,$2))), ceil(sqrt(size($1,$2))), slice_idx)
-    imagesc(squeeze(vol($3slice_idx${4:,:,:})))
-    axis image,${5: colormap gray}
+    imagesc(squeeze($1($3slice_idx${4:,:,:})))
+    axis image${5:, colormap gray}
+    caxis([min($1(:)), max($1(:))])
 end
 endsnippet
 

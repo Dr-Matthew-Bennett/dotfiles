@@ -245,6 +245,7 @@ augroup matlab
     " imagesc a variable under the cursor
     autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
                 \pIfigure, imagesc(<Esc>A) <Esc>
+                \V<C-c><C-c>ddg`x
 
     autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
                 \V<C-c><C-c>ddg`x
