@@ -153,7 +153,6 @@ fzf2='--bind ctrl-a:select-all,ctrl-d:deselect-all'
 
 # enter the above into one long string
 export FZF_DEFAULT_OPTS="${fzf1} ${fzf2}"
-# export FZF_DEFAULT_OPTS=""
 
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'
