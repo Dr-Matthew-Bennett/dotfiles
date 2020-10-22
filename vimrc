@@ -96,6 +96,7 @@ Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plugin 'w0rp/ale'
 
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'Matt-A-Bennett/vim-indent-object'
 
 " Plugin 'tpope/vim-fugitive'
 " Plugin 'vim-airline/vim-airline'
@@ -118,6 +119,11 @@ colorscheme zenburn
 "{{{
 augroup general
     autocmd!
+
+    " let g modify insert/append to work on visual lines, in the same way as it
+    " modifies motions like 0 and $
+    nnoremap gI g0i
+    nnoremap gA g$i
 
     " edit common file in split window
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
@@ -182,11 +188,6 @@ augroup general
     " forgotten how to do the remap commands
     " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 
-    " let g modify insert/append to work on visual lines, in the same way as it
-    " modifies motions like 0 and $
-    nnoremap gI g0i
-    nnoremap gA g$i
-
     " abbreviations
     " emails
     iabbrev @g bennettmatt4@gmail.com
@@ -223,6 +224,22 @@ augroup python
     " enable all Python syntax highlighting features
     autocmd FileType python3 let python_highlight_all=1
     autocmd FileType python3 setlocal foldmethod=indent
+
+    
+    " I want to use different remaps in indent-object.vim for python, but I'm
+    " gettign errors
+
+    " set rtp+=~/linux_config_files/vim/functions
+    " runtime indent-object.vim
+
+    " source ~/linux_config_files/vim/functions/indent-object.vim
+
+    " " Mappings excluding line below (good for python?)
+    " onoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
+    " onoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
+    " vnoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
+    " vnoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
+
 augroup END
 "}}}
 "{{{
