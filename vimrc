@@ -147,6 +147,12 @@ augroup general
     " make the bottom windows short and load scratch*.m
     nnoremap <Leader>f :call WorkSplit()<cr>
 
+    " make vim-indent-object repeatable
+    nnoremap <Plug>innerindent ii ii
+                \ :call repeat#set("\<Plug>innerindent")<CR>
+    nnoremap <Plug>aroundindent ai ai
+                \ :call repeat#set("\<Plug>aroundindent")<CR>
+
     " resize windows (and make it repeatable with dot command)
     " widen the split
     nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
