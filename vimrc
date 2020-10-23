@@ -120,6 +120,11 @@ colorscheme zenburn
 augroup general
     autocmd!
 
+    " make the space bar my leader key
+    noremap <Space> <Nop>
+    sunmap <Space>
+    let mapleader=" "
+
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
     nnoremap gI g0i
@@ -310,6 +315,11 @@ augroup markdown
     autocmd FileType markdown onoremap ahb :<c-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
+"}}}
+augroup filetype_tex "{{{
+    autocmd!
+    autocmd FileType tex setlocal foldmethod=marker
+    autocmd FileType tex setlocal foldlevelstart=0
 "}}}
 "-----------------------------------------------------------------------------
 
