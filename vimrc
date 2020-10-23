@@ -150,7 +150,7 @@ augroup general
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
-    nnoremap <Leader>f :call WorkSplit()<cr>
+    nnoremap <Leader>4 :call WorkSplit()<cr>
 
     " make vim-indent-object repeatable
     nnoremap <Plug>innerindent ii ii
@@ -185,7 +185,7 @@ augroup general
     imap <c-c><c-l> <Plug>(fzf-complete-line)
 
     " open file under the current directory
-    nnoremap <Leader>z :Files<cr>
+    nnoremap <Leader>f :Files<cr>
     " search for and jump to line in any open buffer
     nnoremap <Leader>g :Lines<cr>
     " search through buffers and jump to line in any open buffer
@@ -270,11 +270,16 @@ augroup matlab
 
     " display matlab doc
 
-    " imagesc a variable under the cursor
-    autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
-                \pIfigure, imagesc(<Esc>A) <Esc>
+    " send the variable under the cursor to matlab
+    autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
                 \V<C-c><C-c>ddg`x
 
+    " imagesc a variable under the cursor
+    autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
+                \pIfigure, imagesc(<Esc>A), axis image<Esc>
+                \V<C-c><C-c>ddg`x
+
+    " print documentation of matlab function
     autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
                 \V<C-c><C-c>ddg`x
 
