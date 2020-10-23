@@ -145,6 +145,15 @@ augroup general
     " \/ to turn off highlighted searches
     nnoremap <Leader>/ :noh<cr>
 
+    " paste from system CTRL-C clipboard
+    nnoremap <Leader>p "+p
+    " paste from system highlghted clipboard
+    nnoremap <Leader>P "*p
+    " copy contents of unnamed register to system CTRL-C clipboard
+    nnoremap <Leader>y :call Preserve("normal! mxGp\"+u`x")<cr>
+    " copy contents of unnamed register to system highlghted clipboard
+    nnoremap <Leader>Y :call Preserve("normal! mxGp\"*u`x")<cr>
+
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
