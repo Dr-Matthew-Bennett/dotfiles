@@ -150,9 +150,9 @@ augroup general
     " paste from system highlghted clipboard
     nnoremap <Leader>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <Leader>y :call Preserve("normal! mxGp\"+u`x")<cr>
+    nnoremap <Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
     " copy contents of unnamed register to system highlghted clipboard
-    nnoremap <Leader>Y :call Preserve("normal! mxGp\"*u`x")<cr>
+    nnoremap <Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
 
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
