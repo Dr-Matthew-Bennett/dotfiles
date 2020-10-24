@@ -13,8 +13,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 
 #### my own aliases ###########################################################
-alias cl='clear'
-alias clc='clear'
+alias cl='clear && clear'
+alias clc='clear && clear'
 
 # move up 1,2 or 3 directories
 alias ..='cd ../'
