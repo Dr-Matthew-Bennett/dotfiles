@@ -188,7 +188,7 @@ augroup general
     " instantly go with first spelling suggestion
     nnoremap <Leader>s a<C-X>s<Esc>
 
-    " fzf
+    " fzf config
     " edit files using
     " insert mode line completion (overwrite vim's default mappings)
     imap <c-c><c-l> <Plug>(fzf-complete-line)
@@ -199,6 +199,14 @@ augroup general
     nnoremap <Leader>g :Lines<cr>
     " search through buffers and jump to line in any open buffer
     nnoremap <Leader>b :Buffers<cr>
+
+    " This is the default extra key bindings
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-h': 'split',
+      \ 'ctrl-v': 'vsplit' }
+
+    command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 
     " to see the undo tree
     nnoremap <F5> :MundoToggle<cr>
@@ -447,6 +455,20 @@ function! EndWord() abort
         return v:false
     endif
 endfunction
+"-----------------------------------------------------------------------------
+
+"---- Ag: Start ag in the specified directory --------------------------------
+"{{{
+" e.g.
+"   :Ag ~/foo
+function! s:ag_in(bang, ...)
+  if !isdirectory(a:1)
+    throw 'not a valid directory: ' .. a:1
+  endif
+  " Press `?' to enable preview window.
+  call fzf#vim#ag(join(a:000[1:], ' '), fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
+endfunction
+"}}}
 "-----------------------------------------------------------------------------
 
 "---- Make a 4-way split and resize the windows how I like -------------------
