@@ -116,7 +116,7 @@ colorscheme zenburn
 "=============================================================================
 
 "---- remaps -----------------------------------------------------------------
-"{{{
+"{{
 augroup general
     autocmd!
 
@@ -156,6 +156,11 @@ augroup general
 
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+
+    " \ (which has | on it) to generate new vertical split
+    nnoremap <Leader>\ :vsplit<cr>
+    " -  to generate new horizontal split
+    nnoremap <Leader>- :split<cr>
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
