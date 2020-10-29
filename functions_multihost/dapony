@@ -1,8 +1,28 @@
 #!/bin/sh
 
-# | |
-# | |_______
-# | |   |
+# ___________
+# |_|       |
+# | |       |
+# |_|_______|
+#
+tms () {
+    current_dir=$(pwd)
+    tmux split-window -h -c $current_dir
+    tmux selectp -t 0
+    tmux split-window -v -c $current_dir
+    tmux resize-pane -t 0 -x 60
+    tmux resize-pane -t 0 -y 20
+    tmux send-keys -t 0 'clear' Enter
+    tmux send-keys -t 1 'clear' Enter
+    tmux send-keys -t 2 'clear' Enter
+    tmux selectp -t 0
+}
+
+# ___________
+# | |       |
+# | |_______|
+# |_|___|___|
+#
 # tms () {
 #     current_dir=$(pwd)
 #     tmux split-window -h -c $current_dir
@@ -16,19 +36,3 @@
 #     tmux send-keys -t 3 'clear' Enter
 #     tmux selectp -t 1
 # }
-
-# |_|       |
-# | |       |
-# | |       |
-tms () {
-    current_dir=$(pwd)
-    tmux split-window -h -c $current_dir
-    tmux selectp -t 0
-    tmux split-window -v -c $current_dir
-    tmux resize-pane -t 0 -x 60
-    tmux resize-pane -t 0 -y 20
-    tmux send-keys -t 0 'clear' Enter
-    tmux send-keys -t 1 'clear' Enter
-    tmux send-keys -t 2 'clear' Enter
-    tmux selectp -t 0
-}
