@@ -272,24 +272,39 @@ augroup matlab "{{{
     " abbreviations
     autocmd FileType matlab iabbrev <buffer> key keyboard
 
-    " display matlab doc
+    " " send the variable under the cursor to matlab
+    " autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
+    "             \V<C-c><C-c>ddg`x
+
+    " " imagesc a variable under the cursor
+    " autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
+    "             \pIfigure, imagesc(<Esc>A), axis image<Esc>
+    "             \V<C-c><C-c>ddg`x
+
+    " " print documentation of matlab function
+    " autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+    "             \V<C-c><C-c>ddg`x
+
+    " " ask whos a variable under the cursor
+    " autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+    "             \V<C-c><C-c>ddg`x
 
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
-                \V<C-c><C-c>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " imagesc a variable under the cursor
     autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
                 \pIfigure, imagesc(<Esc>A), axis image<Esc>
-                \V<C-c><C-c>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`x
 
     " print documentation of matlab function
     autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
-                \V<C-c><C-c>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`x
 
     " ask whos a variable under the cursor
     autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
-                \V<C-c><C-c>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`x
 
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
