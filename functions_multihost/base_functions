@@ -39,7 +39,7 @@ f() {
     # If the program is not on the list of GUIs (e.g. vim, cat, etc.) bring it
     # to foreground so we can see the output. Also put cd on this list
     # otherwise there will be errors)
-    if ! [[ $1 =~ ^(cd|zathura|vlc|eog|kolourpaint)$ ]]; then
+    if ! [[ $1 =~ ^(cd|zathura|evince|vlc|eog|kolourpaint)$ ]]; then
         fg %%
     fi
 
@@ -57,7 +57,7 @@ f() {
     sed -i 's/\n//g; s/ /\\ /g; s/(/\\(/g; s/)/\\)/g' /tmp/fzf_tmp
 
     # If the program is on the GUI list add a '&' to the command history
-    if [[ $1 =~ ^(zathura|vlc|eog|kolourpaint)$ ]]; then
+    if [[ $1 =~ ^(zathura|evince|vlc|eog|kolourpaint)$ ]]; then
         sed -i '${s/$/ \&/}' /tmp/fzf_tmp
     fi
 
