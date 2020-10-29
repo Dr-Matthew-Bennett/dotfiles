@@ -246,7 +246,6 @@ augroup python "{{{
     autocmd FileType python3 let python_highlight_all=1
     autocmd FileType python3 setlocal foldmethod=indent
 
-    
     " I want to use different remaps in indent-object.vim for python, but I'm
     " gettign errors
 
@@ -296,7 +295,7 @@ augroup matlab "{{{
     autocmd FileType matlab nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
 
-    " add any optional variables to the help docs
+    " add any optional variables to the help docs LEAVE THE SPACE AT THE $!! 
     autocmd FileType matlab nnoremap <Leader>dh 
                 \/set default values for optional variables<cr>j0wy}zR
                 \/'\\n'],<cr>pms
@@ -385,14 +384,13 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "{top-lef
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 
-" " To use vim like mappings instead of emacs keybindings use the following:
-" let g:slime_no_mappings = 1
-" " Send {visual} text.
+" To use vim like mappings instead of emacs keybindings use the following:
+" Send {visual} text.
 xmap <leader>s <Plug>SlimeRegionSend
-" " Send {motion}.
+" Send {motion}.
 nmap <leader>s <Plug>SlimeMotionSend
-" " Send {count} line(s)
-nmap <leader>ss <Plug>SlimeLineSend 
+" Send {count} line(s)
+nmap <leader>ss <Plug>SlimeLineSend
 
 "}}}
 "-----------------------------------------------------------------------------
