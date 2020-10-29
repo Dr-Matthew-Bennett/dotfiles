@@ -8,14 +8,14 @@
 tms () {
     current_dir=$(pwd)
     tmux split-window -h -c $current_dir
-    tmux selectp -t 0
+    tmux selectp -t 1
     tmux split-window -v -c $current_dir
-    tmux resize-pane -t 0 -x 60
-    tmux resize-pane -t 0 -y 20
-    tmux send-keys -t 0 'clear' Enter
+    tmux resize-pane -t 1 -x 60
+    tmux resize-pane -t 1 -y 20
     tmux send-keys -t 1 'clear' Enter
     tmux send-keys -t 2 'clear' Enter
-    tmux selectp -t 0
+    tmux send-keys -t 3 'clear' Enter
+    tmux selectp -t 1
 }
 
 # ___________
@@ -28,11 +28,11 @@ tms () {
 #     tmux split-window -h -c $current_dir
 #     tmux split-window -v -c $current_dir
 #     tmux split-window -h -c $current_dir
-#     tmux resize-pane -t 0 -x 60
-#     tmux resize-pane -t 1 -y 50
-#     tmux resize-pane -t 2 -x 88
-#     tmux send-keys -t 1 'clear' Enter
+#     tmux resize-pane -t 1 -x 60
+#     tmux resize-pane -t 2 -y 50
+#     tmux resize-pane -t 3 -x 88
 #     tmux send-keys -t 2 'clear' Enter
 #     tmux send-keys -t 3 'clear' Enter
-#     tmux selectp -t 1
+#     tmux send-keys -t 4 'clear' Enter
+#     tmux selectp -t 2
 # }
