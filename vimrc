@@ -272,39 +272,24 @@ augroup matlab "{{{
     " abbreviations
     autocmd FileType matlab iabbrev <buffer> key keyboard
 
-    " " send the variable under the cursor to matlab
-    " autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
-    "             \V<C-c><C-c>ddg`x
-
-    " " imagesc a variable under the cursor
-    " autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
-    "             \pIfigure, imagesc(<Esc>A), axis image<Esc>
-    "             \V<C-c><C-c>ddg`x
-
-    " " print documentation of matlab function
-    " autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
-    "             \V<C-c><C-c>ddg`x
-
-    " " ask whos a variable under the cursor
-    " autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
-    "             \V<C-c><C-c>ddg`x
-
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
                 \<Plug>SlimeLineSend<Esc>ddg`xu
+    "             old slime command - can delete this once tested in matlab
+    "             \V<C-c><C-c>ddg`x
 
     " imagesc a variable under the cursor
     autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
                 \pIfigure, imagesc(<Esc>A), axis image<Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " print documentation of matlab function
     autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " ask whos a variable under the cursor
     autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`x
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
@@ -320,11 +305,6 @@ augroup matlab "{{{
                 \'sv}k$: norm $i'],...<cr>
                 \'skdd=}}2ddG
 
-    " these next two are buggy:
-    " inside indent block
-    autocmd FileType matlab onoremap ii :<c-u>execute "normal [-j^v]-kg_"<cr>
-    " around indent block
-    autocmd FileType matlab onoremap ai :<c-u>execute "normal [-V]="<cr>
 augroup END
 "}}}
 augroup markdown "{{{
