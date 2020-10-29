@@ -116,8 +116,7 @@ colorscheme zenburn
 "=============================================================================
 
 "---- remaps -----------------------------------------------------------------
-"{{
-augroup general
+augroup general "{{{
     autocmd!
 
     " make the space bar my leader key
@@ -233,24 +232,14 @@ augroup END
 "-----------------------------------------------------------------------------
 
 "---- file specific settings -------------------------------------------------
-"{{{
-augroup filetype_vim
+augroup filetype_vim "{{{
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
     " this next one isn't working for some reason...
-    autocmd FileType vim setlocal foldlevelstart=0
+    autocmd FileType vim setlocal foldlevel=0
 augroup END
 "}}}
-"{{{
-augroup tidy_code
-    autocmd!
-    " remove trailing whitespace and perform auto indent
-    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
-    autocmd BufWritePre *.m :call Preserve("normal! gg=G")
-augroup END
-"}}}
-"{{{
-augroup python
+augroup python "{{{
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
     autocmd FileType python3 set fileformat=unix
@@ -275,13 +264,8 @@ augroup python
 
 augroup END
 "}}}
-"{{{
-augroup matlab
+augroup matlab "{{{
     autocmd!
-
-    " " make gcc comment matlab correctly
-    " autocmd FileType matlab setlocal commentstring=%\ %s
-    " autocmd FileType matlab setlocal foldmethod=indent
 
     " make gcc comment matlab correctly
     autocmd FileType matlab setlocal commentstring=%\ %s
@@ -330,8 +314,7 @@ augroup matlab
     autocmd FileType matlab onoremap ai :<c-u>execute "normal [-V]="<cr>
 augroup END
 "}}}
-"{{{
-augroup markdown
+augroup markdown "{{{
     autocmd!
     autocmd FileType markdown setlocal wrap
     autocmd FileType markdown setlocal spell
@@ -352,28 +335,38 @@ augroup END
 augroup filetype_tex "{{{
     autocmd!
     autocmd FileType tex setlocal foldmethod=marker
-    autocmd FileType tex setlocal foldlevelstart=0
+    autocmd FileType tex setlocal foldlevel=0
+"}}}
+augroup filetype_tmux "{{{
+    autocmd!
+    autocmd FileType tmux setlocal foldmethod=marker
+    autocmd FileType tmux setlocal foldlevel=0
+"}}}
+augroup tidy_code_matlab_and_python "{{{
+    autocmd!
+    " remove trailing whitespace and perform auto indent
+    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
+    autocmd BufWritePre *.m :call Preserve("normal! gg=G")
+augroup END
 "}}}
 "-----------------------------------------------------------------------------
 
 "---- cursor behaviour -------------------------------------------------------
-"{{{
-augroup cursor_behaviour
+augroup cursor_behaviour "{{{
     autocmd!
     autocmd InsertEnter * set cursorline " highlight line when in insert mode
     autocmd InsertLeave * set nocursorline " turn off above when leaving insert mode
     " reset cursor on start:
     autocmd VimEnter * silent !echo -ne "\e[2 q"
+
+    let &t_SI = "\e[5 q" " cursor blinking bar on insert mode
+    let &t_EI = "\e[2 q" " cursor steady block on command mode
 augroup END
-"}}}
-"{{{
-let &t_SI = "\e[5 q" " cursor blinking bar on insert mode
-let &t_EI = "\e[2 q" " cursor steady block on command mode
 "}}}
 "-----------------------------------------------------------------------------
 
 "---- commands ---------------------------------------------------------------
-"{{{
+augroup general_commands "{{{
 " close buffer without closing window split
 command! Bd bprevious | split | bNext | bdelete
 "}}}
@@ -431,8 +424,8 @@ let g:ycm_filetype_blacklist = {
 "=============================================================================
 
 "==== functions ==============================================================
-
 "----- If pasting a word, preceed with a space if we're at the end of a word -
+"{{{
 " not working, maybe not a great idea anyway...
 
 " nnoremap p :call Paste()<cr>
@@ -447,9 +440,11 @@ function! Paste()
         norm p
     endif
 endfunction
+"}}}
 "-----------------------------------------------------------------------------
 
 "----- Determine if cursor is on the end of a word ---------------------------
+"{{{
 function! EndWord() abort
     let pos = getpos('.')
     normal! gee
@@ -460,6 +455,7 @@ function! EndWord() abort
         return v:false
     endif
 endfunction
+"}}}
 "-----------------------------------------------------------------------------
 
 "---- Ag: Start ag in the specified directory --------------------------------
