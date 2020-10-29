@@ -55,8 +55,7 @@ syntax enable " highlight special words to aid readability
 
 "==== SETUP VUNDLE PLUGIN MANAGER ============================================
 "---- paths ------------------------------------------------------------------
-"{{{
-" set the runtime path to include Vundle and initialize
+" set the runtime path to include Vundle and initialize {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 call vundle#begin()
@@ -190,7 +189,7 @@ augroup general "{{{
     nmap <Leader>j <Plug>ShortenSplit
 
     " instantly go with first spelling suggestion
-    nnoremap <Leader>s a<C-X>s<Esc>
+    nnoremap <Leader>sp a<C-X>s<Esc>
 
     " fzf config
     " edit files using
@@ -385,8 +384,15 @@ let g:slime_paste_file = "$HOME/.slime_paste"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
-" make F9 a shortcut for sending N lines to the tmux pane
-:nmap <F9> V<C-c><C-c>
+
+" " To use vim like mappings instead of emacs keybindings use the following:
+" let g:slime_no_mappings = 1
+" " Send {visual} text.
+xmap <leader>s <Plug>SlimeRegionSend
+" " Send {motion}.
+nmap <leader>s <Plug>SlimeMotionSend
+" " Send {count} line(s)
+nmap <leader>ss <Plug>SlimeLineSend 
 
 "}}}
 "-----------------------------------------------------------------------------
