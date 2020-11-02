@@ -87,7 +87,7 @@ todo () {
 catc -n $TODO_PATH/master_todo.md
 }
 
-# alias gitup='git add . && git commit -m "upload" && git push'
+# to just push everything in one go
 gitup () {
 git add -A && git commit -m "$1" && git push
 }
