@@ -8,6 +8,8 @@
 " - paste one space later than cursor (even if we're on at the end of the line)
 " - mapping to make a jump twice as big in the opposite direction (for when I
 "   do [count]j instead of [count]k (or vice versa)
+" - for my leader resizing commands to simply act to move the bar, and not be
+"   dependent where the cursor is relative to the bar (e.g. which pane I'm in)
 "}}}
 "-----------------------------------------------------------------------------
 
