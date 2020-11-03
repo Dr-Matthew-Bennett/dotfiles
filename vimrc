@@ -178,10 +178,11 @@ let g:ycm_filetype_blacklist = {
 
 "---- targets.vim config -----------------------------------------------------
 "{{{
-" Controls the keys used in maps for seeking next and last text objects. 
-" Required to be either a string or a list with 2 characters/elements.
-" change default from n(ext) and l(ast) to accord with search jumps (n and N)
-" let g:targets_nl = 'nN'
+" Only consider targets fully visible on screen:
+let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
+
+" Only seek if next/last targets touch current line:
+" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
 "}}}
 "-----------------------------------------------------------------------------
 "=============================================================================
