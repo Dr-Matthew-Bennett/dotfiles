@@ -94,6 +94,9 @@ Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
 
+" lots more text objects! looks very good and well made
+Plugin 'wellle/targets.vim' 
+
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 
@@ -110,6 +113,75 @@ call vundle#end()            " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
 colorscheme zenburn
+"}}}
+"-----------------------------------------------------------------------------
+"=============================================================================
+
+"==== PLUGIN CONFIGS =========================================================
+"---- vim-slime config -------------------------------------------------------
+" {{{
+" vim-slime lets me send text objects and visual selections from vim to a tmux
+" pane of my choice.  You can set the target manually using hitting C-c and
+" then v.
+" ":i.j"    means the ith window, jth pane
+
+let g:slime_target = "tmux"
+let g:slime_paste_file = "$HOME/.slime_paste"
+" I want the default to be to the left of the vim I'm working in
+let g:slime_default_config =
+            \ {"socket_name": "default", "target_pane": "{top-left}"}
+" and not to ask me about it even on the first time I use it
+let g:slime_dont_ask_default = 1
+
+" To use vim like mappings instead of emacs keybindings use the following:
+" Send {visual} text.
+xmap <leader>s <Plug>SlimeRegionSend
+" Send {motion}.
+nmap <leader>s <Plug>SlimeMotionSend
+" Send {count} line(s)
+nmap <leader>ss <Plug>SlimeLineSend
+" }}}
+"-----------------------------------------------------------------------------
+
+"---- ultisnips config -------------------------------------------------------
+"{{{
+" Ultisnips trigger configuration. 
+" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+let g:UltiSnipsEditSplit="vertical"
+" where ultisnips looks for snippets 
+" (I think you can add multiple items in the list)
+let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
+"}}}
+"-----------------------------------------------------------------------------
+
+"---- YouCompleteMe config ---------------------------------------------------
+"{{{
+" YouCompleteMe has a few filetypes that it doesn't work on by default.
+" I removed markdown from this list and it seems to work just fine.
+let g:ycm_filetype_blacklist = {
+            \ 'tagbar': 1,
+            \ 'notes': 1,
+            \ 'netrw': 1,
+            \ 'unite': 1,
+            \ 'text': 1,
+            \ 'vimwiki': 1,
+            \ 'pandoc': 1,
+            \ 'infolog': 1,
+            \ 'leaderf': 1,
+            \ 'mail': 1
+            \}
+"}}}
+"-----------------------------------------------------------------------------
+
+"---- targets.vim config -----------------------------------------------------
+"{{{
+" Controls the keys used in maps for seeking next and last text objects. 
+" Required to be either a string or a list with 2 characters/elements.
+" change default from n(ext) and l(ast) to accord with search jumps (n and N)
+" let g:targets_nl = 'nN'
 "}}}
 "-----------------------------------------------------------------------------
 "=============================================================================
@@ -350,6 +422,13 @@ augroup END
 "}}}
 "-----------------------------------------------------------------------------
 
+"---- commands ---------------------------------------------------------------
+augroup general_commands "{{{
+" close buffer without closing window split
+command! Bd bprevious | split | bNext | bdelete
+"}}}
+"-----------------------------------------------------------------------------
+
 "---- cursor behaviour -------------------------------------------------------
 augroup cursor_behaviour "{{{
     autocmd!
@@ -367,74 +446,7 @@ augroup END
 "}}}
 "-----------------------------------------------------------------------------
 
-"---- commands ---------------------------------------------------------------
-augroup general_commands "{{{
-" close buffer without closing window split
-command! Bd bprevious | split | bNext | bdelete
-"}}}
-"-----------------------------------------------------------------------------
-
-"==== PLUGIN CONFIGS =========================================================
-"---- vim-slime config -------------------------------------------------------
-" {{{
-" vim-slime lets me send text objects and visual selections from vim to a tmux
-" pane of my choice.  You can set the target manually using hitting C-c and
-" then v.
-" ":i.j"    means the ith window, jth pane
-
-let g:slime_target = "tmux"
-let g:slime_paste_file = "$HOME/.slime_paste"
-" I want the default to be to the left of the vim I'm working in
-let g:slime_default_config =
-            \ {"socket_name": "default", "target_pane": "{top-left}"}
-" and not to ask me about it even on the first time I use it
-let g:slime_dont_ask_default = 1
-
-" To use vim like mappings instead of emacs keybindings use the following:
-" Send {visual} text.
-xmap <leader>s <Plug>SlimeRegionSend
-" Send {motion}.
-nmap <leader>s <Plug>SlimeMotionSend
-" Send {count} line(s)
-nmap <leader>ss <Plug>SlimeLineSend
-" }}}
-"-----------------------------------------------------------------------------
-
-"---- ultisnips config -------------------------------------------------------
-"{{{
-" Ultisnips trigger configuration. 
-" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
-let g:UltiSnipsEditSplit="vertical"
-" where ultisnips looks for snippets 
-" (I think you can add multiple items in the list)
-let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- YouCompleteMe config ---------------------------------------------------
-"{{{
-" YouCompleteMe has a few filetypes that it doesn't work on by default.
-" I removed markdown from this list and it seems to work just fine.
-let g:ycm_filetype_blacklist = {
-            \ 'tagbar': 1,
-            \ 'notes': 1,
-            \ 'netrw': 1,
-            \ 'unite': 1,
-            \ 'text': 1,
-            \ 'vimwiki': 1,
-            \ 'pandoc': 1,
-            \ 'infolog': 1,
-            \ 'leaderf': 1,
-            \ 'mail': 1
-            \}
-"}}}
-"-----------------------------------------------------------------------------
-"=============================================================================
-
-"==== functions ==============================================================
+"==== FUNCTIONS ==============================================================
 "----- If pasting a word, preceed with a space if we're at the end of a word -
 "{{{
 " not working, maybe not a great idea anyway...
