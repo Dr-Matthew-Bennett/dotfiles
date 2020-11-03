@@ -21,8 +21,8 @@ filetype plugin indent on "use default plugins
 "---- general settings -------------------------------------------------------
 "{{{
 set encoding=utf-8
-set number
-set relativenumber
+set number " put line number where the cursor is
+set relativenumber " number all other lines relative to current line
 set hidden " when swtiching buffers, don't complain about unsaved changes
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
@@ -31,12 +31,12 @@ set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
 set wildignorecase " ignore case when completing file names
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set textwidth=79
 set expandtab " expand tabs into spaces
-set autoindent
+set tabstop=4 " a tab is the same as 4 spaces
+set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
+set autoindent " '=' or '>' or '<' sign to apply auto indent
+set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
+set textwidth=79 " at 79 columns, wrap text
 set showmatch " show the matching part of the pair for [] {} and ()
 set nrformats= " don't interpret 007 as an octal (<C-a> will now make 008, not 010)
 set incsearch " show matches for patterns while they are being typed
@@ -44,7 +44,7 @@ set hlsearch " highlight all matches for searched pattern
 set smartcase " With both on, searches with no capitals are case insensitive, while...
 set ignorecase " ...searches with capital characters are case sensitive.
 set spell spelllang=en
-set nospell
+set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
 set cc=80 "show vertical bar at 80 columns
@@ -128,7 +128,7 @@ augroup general "{{{
     nnoremap gI g0i
     nnoremap gA g$i
 
-    " edit common file in split window
+    " edit/source common file in split window
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
     nnoremap <Leader>ea :vsplit
@@ -140,7 +140,7 @@ augroup general "{{{
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
-    " \/ to turn off highlighted searches
+    " turn off highlighted searches
     nnoremap <Leader>/ :noh<cr>
 
     " paste from system CTRL-C clipboard
@@ -155,10 +155,11 @@ augroup general "{{{
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
-    " \ (which has | on it) to generate new vertical split
-    nnoremap <Leader>\ :vsplit<cr>
-    " -  to generate new horizontal split
-    nnoremap <Leader>- :split<cr>
+    " generate new vertical split with \ (which has | on it) 
+    " and switch to next buffer
+    nnoremap <Leader>\ :vsplit<cr>bn
+    " generate new horizontal split with - and switch to next buffer
+    nnoremap <Leader>- :split<cr>bn
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
@@ -192,32 +193,27 @@ augroup general "{{{
     nnoremap <Leader>sp a<C-X>s<Esc>
 
     " fzf config
-    " edit files using
     " insert mode line completion (overwrite vim's default mappings)
     imap <c-c><c-l> <Plug>(fzf-complete-line)
 
-    " open file under the current directory
+    " search for and open file under the fzf default directory
     nnoremap <Leader>f :Files<cr>
     " search for and jump to line in any open buffer
     nnoremap <Leader>g :Lines<cr>
-    " search through buffers and jump to line in any open buffer
+    " search through and jump to buffer
     nnoremap <Leader>b :Buffers<cr>
 
-    " This is the default extra key bindings
+    " Change CTRL-X to CTRL-V to open file from fzf in vertical split
     let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-h': 'split',
       \ 'ctrl-v': 'vsplit' }
 
+    " Ag call a modified version of Ag where first arg is directory to search
     command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 
-    " to see the undo tree
+    " to see and choose a previous state from the undo tree
     nnoremap <F5> :MundoToggle<cr>
-
-    " gq until a line beggining with \
-    " I figured out the macro (that's everything after the :), but I've
-    " forgotten how to do the remap commands
-    " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 
     " abbreviations
     " emails
@@ -234,7 +230,7 @@ augroup END
 augroup filetype_vim "{{{
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
-    " this next one isn't working for some reason...
+    " start out with everything folded away
     autocmd FileType vim setlocal foldlevel=0
 augroup END
 "}}}
@@ -273,8 +269,12 @@ augroup matlab "{{{
     autocmd FileType matlab iabbrev <buffer> key keyboard
 
     " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
+
+    " the above is much more elegant
+    " autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
+    "             \<Plug>SlimeLineSend<Esc>ddg`xu
+
     "             old slime command - can delete this once tested in matlab
     "             \V<C-c><C-c>ddg`x
 
@@ -309,7 +309,6 @@ augroup END
 "}}}
 augroup markdown "{{{
     autocmd!
-    autocmd FileType markdown setlocal wrap
     autocmd FileType markdown setlocal spell
     " inside headed title:
     autocmd FileType markdown onoremap iht :<c-u>execute "normal!
@@ -328,16 +327,23 @@ augroup END
 augroup filetype_tex "{{{
     autocmd!
     autocmd FileType tex setlocal foldmethod=marker
+    " start out with everything folded away
     autocmd FileType tex setlocal foldlevel=0
+
+    " gq until a line beggining with \
+    " I figured out the macro (that's everything after the :), but I've
+    " forgotten how to do the remap commands
+    " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 "}}}
 augroup filetype_tmux "{{{
     autocmd!
     autocmd FileType tmux setlocal foldmethod=marker
+    " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
 "}}}
 augroup tidy_code_matlab_and_python "{{{
     autocmd!
-    " remove trailing whitespace and perform auto indent
+    " remove trailing whitespace and perform auto indent when writing
     autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
     autocmd BufWritePre *.m :call Preserve("normal! gg=G")
 augroup END
@@ -347,13 +353,16 @@ augroup END
 "---- cursor behaviour -------------------------------------------------------
 augroup cursor_behaviour "{{{
     autocmd!
-    autocmd InsertEnter * set cursorline " highlight line when in insert mode
-    autocmd InsertLeave * set nocursorline " turn off above when leaving insert mode
     " reset cursor on start:
     autocmd VimEnter * silent !echo -ne "\e[2 q"
-
-    let &t_SI = "\e[5 q" " cursor blinking bar on insert mode
-    let &t_EI = "\e[2 q" " cursor steady block on command mode
+    " cursor blinking bar on insert mode
+    let &t_SI = "\e[5 q"
+    " cursor steady block on command mode
+    let &t_EI = "\e[2 q"
+    " highlight current line when in insert mode
+    autocmd InsertEnter * set cursorline
+    " turn off current line hightlighting when leaving insert mode
+    autocmd InsertLeave * set nocursorline
 augroup END
 "}}}
 "-----------------------------------------------------------------------------
@@ -367,15 +376,17 @@ command! Bd bprevious | split | bNext | bdelete
 
 "==== PLUGIN CONFIGS =========================================================
 "---- vim-slime config -------------------------------------------------------
-"{{{
-" vim-slime lets me send visual selections from vim to a tmux pane of my choice.
-" You can set the target manually using hitting C-c and then v.
+" {{{
+" vim-slime lets me send text objects and visual selections from vim to a tmux
+" pane of my choice.  You can set the target manually using hitting C-c and
+" then v.
 " ":i.j"    means the ith window, jth pane
 
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " I want the default to be to the left of the vim I'm working in
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{top-left}"}
+let g:slime_default_config =
+            \ {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 
@@ -386,26 +397,27 @@ xmap <leader>s <Plug>SlimeRegionSend
 nmap <leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <leader>ss <Plug>SlimeLineSend
-
-"}}}
+" }}}
 "-----------------------------------------------------------------------------
 
 "---- ultisnips config -------------------------------------------------------
 "{{{
-" Ultisnips trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" Ultisnips trigger configuration. 
+" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-s>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 let g:UltiSnipsEditSplit="vertical"
-" where ultisnips looks for snippets (I think you can add multiple items in the list)
+" where ultisnips looks for snippets 
+" (I think you can add multiple items in the list)
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 "}}}
 "-----------------------------------------------------------------------------
 
 "---- YouCompleteMe config ---------------------------------------------------
 "{{{
-" YouCompleteMe has a few filetypes that it doesn't work on by default (no
-" idea why). I removed markdown from this list and it seems to work just fine.
+" YouCompleteMe has a few filetypes that it doesn't work on by default.
+" I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
             \ 'tagbar': 1,
             \ 'notes': 1,
