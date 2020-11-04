@@ -9,6 +9,7 @@
 "   do [count]j instead of [count]k (or vice versa)
 " - for my leader resizing commands to simply act to move the bar, and not be
 "   dependent where the cursor is relative to the bar (e.g. which pane I'm in)
+" - for switching buffer to not alter foldlevel
 "}}}--------------------------------------------------------------------------
 "{{{- required ---------------------------------------------------------------
 set nocompatible " don't try to be compatible with Vi
@@ -31,12 +32,12 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-repeat'
 Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins I use
 " Plugin 'jnurmine/Zenburn'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
@@ -47,6 +48,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'SirVer/ultisnips'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'simnalamburt/vim-mundo'
+Plugin 'Matt-A-Bennett/vim-indent-object'
 "}}}
 "{{{- plugins I may want to use one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
@@ -55,15 +58,11 @@ Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'markonm/traces.vim'
-Plugin 'simnalamburt/vim-mundo'
-Plugin 'Matt-A-Bennett/vim-indent-object'
 
 " Plugin 'tpope/vim-fugitive'
+" Plugin 'airblade/vim-gitgutter'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
-" IGNORANT Plugin 'airblade/vim-gitgutter'
-" IGNORANT Plugin 'sheerun/vim-polyglot'
-" IGNORANT Plugin 'majutsushi/tagbar'
 
 "" All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -220,10 +219,11 @@ augroup general
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
     " generate new vertical split with \ (which has | on it)
-    " and switch to next buffer
-    nnoremap <Leader>\ :vsplit<cr>bn
-    " generate new horizontal split with - and switch to next buffer
-    nnoremap <Leader>- :split<cr>bn
+    " and switch to next buffer (if there's more than one buffer)
+    nnoremap <Leader>\ :vsplit<cr>:b#<cr>
+    " generate new horizontal split with - and switch to next buffer (if
+    " there's more than one buffer)
+    nnoremap <Leader>- :split<cr>:b#<cr>
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
@@ -304,7 +304,7 @@ augroup END
 augroup python "{{{
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd FileType python3 set fileformat=unix
+    autocmd FileType python3 setlocal fileformat=unix
     " enable all Python syntax highlighting features
     autocmd FileType python3 let python_highlight_all=1
     autocmd FileType python3 setlocal foldmethod=indent
@@ -434,7 +434,7 @@ augroup END
 "=============================================================================
 
 "==== FUNCTIONS ==============================================================
-"{{{- if pasting a word, preceed with a space if we're at the end of a word --
+"{{{- if pasting at end of a word, preceed with a space ----------------------
 " not working, maybe not a great idea anyway...
 
 " nnoremap p :call Paste()<cr>
