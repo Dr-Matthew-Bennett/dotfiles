@@ -171,7 +171,7 @@ set splitright " where new vim pane splits are positioned
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
-set nowrap " don't wrap lines by default
+set wrap " wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
 set wildignorecase " ignore case when completing file names
