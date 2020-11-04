@@ -1,5 +1,4 @@
-"---- things I would like ----------------------------------------------------
-"{{{
+"{{{- things I would like ----------------------------------------------------
 " - when pasting a line, have it match the indent level of the first
 " non-whitespace line above
 " - format matlab scripts (blank lines etc.) on saving
@@ -10,63 +9,21 @@
 "   do [count]j instead of [count]k (or vice versa)
 " - for my leader resizing commands to simply act to move the bar, and not be
 "   dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- required ---------------------------------------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- required ---------------------------------------------------------------
 set nocompatible " don't try to be compatible with Vi
 filetype plugin indent on "use default plugins
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- general settings -------------------------------------------------------
-"{{{
-set encoding=utf-8
-set number " put line number where the cursor is
-set relativenumber " number all other lines relative to current line
-set hidden " when swtiching buffers, don't complain about unsaved changes
-set splitbelow " where new vim pane splits are positioned
-set splitright " where new vim pane splits are positioned
-set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
-set nowrap " don't wrap lines by default
-set wildmenu " list completion options when typing in command line mode
-set wildmode=longest,list " behave like bash autocomplete rather than zsh
-set wildignorecase " ignore case when completing file names
-set expandtab " expand tabs into spaces
-set tabstop=4 " a tab is the same as 4 spaces
-set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
-set autoindent " '=' or '>' or '<' sign to apply auto indent
-set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
-set textwidth=79 " at 79 columns, wrap text
-set showmatch " show the matching part of the pair for [] {} and ()
-set nrformats= " don't interpret 007 as an octal (<C-a> will now make 008, not 010)
-set incsearch " show matches for patterns while they are being typed
-set hlsearch " highlight all matches for searched pattern
-set smartcase " With both on, searches with no capitals are case insensitive, while...
-set ignorecase " ...searches with capital characters are case sensitive.
-set spell spelllang=en
-set nospell " don't hightlight misspellings unles I say so
-set lazyredraw " don't redraw screen during macros (let them complete faster)
-set foldlevelstart=1 " when opening new files, start with only top folds open
-set cc=80 "show vertical bar at 80 columns
-set t_Co=256 " use full colours
-syntax enable " highlight special words to aid readability
-"}}}
-"-----------------------------------------------------------------------------
+"}}}--------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER ============================================
-"---- paths ------------------------------------------------------------------
-" set the runtime path to include Vundle and initialize {{{
+"{{{- paths ------------------------------------------------------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
-
 "}}}
-"---- plugins ----------------------------------------------------------------
-"{{{
+"{{{- plugins ----------------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -90,15 +47,14 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'SirVer/ultisnips'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
-"---- plugins I may want to use one day --------------------------------------
-" Plugin 'honza/vim-snippets'
+"}}}
+"{{{- plugins I may want to use one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
 
 " lots more text objects! looks very good and well made
-Plugin 'wellle/targets.vim' 
-
+Plugin 'wellle/targets.vim'
+Plugin 'markonm/traces.vim'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 
@@ -115,13 +71,11 @@ call vundle#end()            " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
 colorscheme zenburn
-"}}}
-"-----------------------------------------------------------------------------
+"}}}--------------------------------------------------------------------------
 "=============================================================================
 
-"==== PLUGIN CONFIGS =========================================================
-"---- vim-slime config -------------------------------------------------------
-" {{{
+"==== PLUGIN CONFIGURATIONS ==================================================
+"{{{- vim-slime --------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
 " pane of my choice.  You can set the target manually using hitting C-c and
 " then v.
@@ -142,25 +96,19 @@ xmap <leader>s <Plug>SlimeRegionSend
 nmap <leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <leader>ss <Plug>SlimeLineSend
-" }}}
-"-----------------------------------------------------------------------------
-
-"---- ultisnips config -------------------------------------------------------
-"{{{
-" Ultisnips trigger configuration. 
+" }}}-------------------------------------------------------------------------
+"{{{- ultisnips --------------------------------------------------------------
+" Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
 let g:UltiSnipsJumpForwardTrigger="<c-n>"
 let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 let g:UltiSnipsEditSplit="vertical"
-" where ultisnips looks for snippets 
+" where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- YouCompleteMe config ---------------------------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- YouCompleteMe ----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -175,22 +123,63 @@ let g:ycm_filetype_blacklist = {
             \ 'leaderf': 1,
             \ 'mail': 1
             \}
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- targets.vim config -----------------------------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- targets.vim ------------------------------------------------------------
 " Only consider targets fully visible on screen:
 let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
 
 " Only seek if next/last targets touch current line:
 " let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
-"}}}
-"-----------------------------------------------------------------------------
+"}}}--------------------------------------------------------------------------
+"{{{- traces.vim -------------------------------------------------------------
+" fyi: there is extensive help documentation that's not on the github page
+" immediately highlight numerical ranges once you put the comma :N,N
+let g:traces_num_range_preview = 1
+" window used to show off-screen matches (just 5 since I only want the gist).
+let g:traces_preview_window = "below 5new"
+" if value is 1, view position will not be changed when highlighting ranges or
+" patterns outside initial view position. I like this since I see it all in the
+" preview window setting above
+let g:traces_preserve_view_state = 1
+"}}}--------------------------------------------------------------------------
 "=============================================================================
 
-"---- remaps -----------------------------------------------------------------
-augroup general "{{{
+"==== CUSTOM CONFIGURATIONS ==================================================
+"{{{- general settings -------------------------------------------------------
+set encoding=utf-8
+set t_Co=256 " use full colours
+set number " put line number where the cursor is
+set relativenumber " number all other lines relative to current line
+set hidden " when swtiching buffers, don't complain about unsaved changes
+set undofile " remember changes from previous vim session (so I can still undo)
+set splitbelow " where new vim pane splits are positioned
+set splitright " where new vim pane splits are positioned
+set cc=80 "show vertical bar at 80 columns
+set textwidth=79 " at 79 columns, wrap text
+set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
+set nowrap " don't wrap lines by default
+set wildmenu " list completion options when typing in command line mode
+set wildmode=longest,list " behave like bash autocomplete rather than zsh
+set wildignorecase " ignore case when completing file names
+set expandtab " expand tabs into spaces
+set tabstop=4 " a tab is the same as 4 spaces
+set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
+set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
+set autoindent " when creating a new line, copy indent from line above
+set showmatch " show the matching part of the pair for [] {} and ()
+set incsearch " show matches for patterns while they are being typed
+set hlsearch " highlight all matches for searched pattern
+set smartcase " With both on, searches with no capitals are case insensitive, while...
+set ignorecase " ...searches with capital characters are case sensitive.
+set nrformats= " don't interpret 007 as an octal (<C-a> will now make 008, not 010)
+set spell spelllang=en
+set nospell " don't hightlight misspellings unles I say so
+set lazyredraw " don't redraw screen during macros (let them complete faster)
+set foldlevelstart=1 " when opening new files, start with only top folds open
+syntax enable " highlight special words to aid readability
+"}}}--------------------------------------------------------------------------
+"{{{- general remaps -----------------------------------------------------------------
+augroup general
     autocmd!
 
     " make the space bar my leader key
@@ -230,7 +219,7 @@ augroup general "{{{
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
 
-    " generate new vertical split with \ (which has | on it) 
+    " generate new vertical split with \ (which has | on it)
     " and switch to next buffer
     nnoremap <Leader>\ :vsplit<cr>bn
     " generate new horizontal split with - and switch to next buffer
@@ -298,10 +287,13 @@ augroup general "{{{
     iabbrev keybaord keyboard
     iabbrev hte the
 augroup END
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- file specific settings -------------------------------------------------
+"}}}--------------------------------------------------------------------------
+"{{{- general commands ---------------------------------------------------------------
+augroup general_commands
+" close buffer without closing window split
+command! Bd bprevious | split | bNext | bdelete
+"}}}--------------------------------------------------------------------------
+"{{{- file specific settings -------------------------------------------------
 augroup filetype_vim "{{{
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
@@ -423,17 +415,9 @@ augroup tidy_code_matlab_and_python "{{{
     autocmd BufWritePre *.m :call Preserve("normal! gg=G")
 augroup END
 "}}}
-"-----------------------------------------------------------------------------
-
-"---- commands ---------------------------------------------------------------
-augroup general_commands "{{{
-" close buffer without closing window split
-command! Bd bprevious | split | bNext | bdelete
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- cursor behaviour -------------------------------------------------------
-augroup cursor_behaviour "{{{
+"}}}--------------------------------------------------------------------------
+"{{{- cursor behaviour -------------------------------------------------------
+augroup cursor_behaviour
     autocmd!
     " reset cursor on start:
     autocmd VimEnter * silent !echo -ne "\e[2 q"
@@ -446,12 +430,11 @@ augroup cursor_behaviour "{{{
     " turn off current line hightlighting when leaving insert mode
     autocmd InsertLeave * set nocursorline
 augroup END
-"}}}
-"-----------------------------------------------------------------------------
+"}}}--------------------------------------------------------------------------
+"=============================================================================
 
 "==== FUNCTIONS ==============================================================
-"----- If pasting a word, preceed with a space if we're at the end of a word -
-"{{{
+"{{{- if pasting a word, preceed with a space if we're at the end of a word --
 " not working, maybe not a great idea anyway...
 
 " nnoremap p :call Paste()<cr>
@@ -466,11 +449,8 @@ function! Paste()
         norm p
     endif
 endfunction
-"}}}
-"-----------------------------------------------------------------------------
-
-"----- Determine if cursor is on the end of a word ---------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- determine if cursor is on the end of a word ----------------------------
 function! EndWord() abort
     let pos = getpos('.')
     normal! gee
@@ -481,11 +461,8 @@ function! EndWord() abort
         return v:false
     endif
 endfunction
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- Ag: Start ag in the specified directory --------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- Ag: Start ag in the specified directory --------------------------------
 " e.g.
 "   :Ag ~/foo
 function! s:ag_in(bang, ...)
@@ -495,11 +472,8 @@ function! s:ag_in(bang, ...)
   " Press `?' to enable preview window.
   call fzf#vim#ag(join(a:000[1:], ' '), fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- Make a 4-way split and resize the windows how I like -------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- make a 4-way split and resize the windows how I like -------------------
 function! WorkSplit()
     let l:currentWindow=winnr()
     execute "normal! :vsplit\<cr> :buffer 2\<cr>"
@@ -507,11 +481,8 @@ function! WorkSplit()
     execute l:currentWindow . "wincmd w"
     execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- restore cursor postition -----------------------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- restore cursor postition -----------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
     " Preparation: save last search, and cursor position.
@@ -524,11 +495,8 @@ function! Preserve(command)
     let @/=_s
     call cursor(l, c)
 endfunction
-"}}}
-"-----------------------------------------------------------------------------
-
-"---- copy matches to register -----------------------------------------------
-"{{{
+"}}}--------------------------------------------------------------------------
+"{{{- copy matches to register -----------------------------------------------
 " copies only the text that matches search hits. Use with :CopyMatches :
 " where x is any register (supplying no x copies to clipboard
 function! CopyMatches(reg)
@@ -538,6 +506,5 @@ function! CopyMatches(reg)
     execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
-"}}}
-"-----------------------------------------------------------------------------
+"}}}--------------------------------------------------------------------------
 "=============================================================================
