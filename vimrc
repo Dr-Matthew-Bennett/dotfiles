@@ -1,19 +1,24 @@
-"{{{- things I would like ----------------------------------------------------
-" - when pasting a line, have it match the indent level of the first
+"{{{- wish list --------------------------------------------------------------
+"
+" when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-" - format matlab scripts (blank lines etc.) on saving
-" - automatic folding for markdown sections
-" - status bar to display last search term
-" - paste one space later than cursor (even if we're on at the end of the line)
-" - mapping to make a jump twice as big in the opposite direction (for when I
-"   do [count]j instead of [count]k (or vice versa)
-" - for my leader resizing commands to simply act to move the bar, and not be
-"   dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-" - for switching buffer to not alter foldlevel
-"}}}--------------------------------------------------------------------------
-"{{{- required ---------------------------------------------------------------
-set nocompatible " don't try to be compatible with Vi
-filetype plugin indent on "use default plugins
+"
+" format matlab scripts (blank lines etc.) on saving
+"
+" automatic folding for markdown sections
+"
+" status bar to display last search term
+"
+" paste one space later than cursor (even if we're on at the end of the line)
+"
+" mapping to make a jump twice as big in the opposite direction (for when I
+" do [count]j instead of [count]k (or vice versa)
+"
+" for my leader resizing commands to simply act to move the bar, and not be
+" dependent where the cursor is relative to the bar (e.g. which pane I'm in)
+"
+" for switching buffer to not alter foldlevel
+"
 "}}}--------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER ============================================
@@ -24,7 +29,7 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
 "}}}
-"{{{- plugins ----------------------------------------------------------------
+"{{{ - plugins I use ---------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -34,7 +39,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-scripts/ReplaceWithRegister'
 
-" other plugins I use
+" other plugins that do more exotic things
 " Plugin 'jnurmine/Zenburn'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
@@ -51,29 +56,37 @@ Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 "}}}
-"{{{- plugins I may want to use one day --------------------------------------
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'w0rp/ale'
-
+"{{{- plugins I'm trying out--------------------------------------------------
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'markonm/traces.vim'
-
+"}}}
+"{{{ - plugins I may want to try one day -------------------------------------
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'w0rp/ale'
 " Plugin 'tpope/vim-fugitive'
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
-
-"" All of your Plugins must be added before the following line
+"}}}
+"{{{ - call vundle and overide things ----------------------------------------
+" All of your Plugins must be added before the following line
 call vundle#end()            " required
-
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
-colorscheme zenburn
 "}}}--------------------------------------------------------------------------
 "=============================================================================
 
 "==== PLUGIN CONFIGURATIONS ==================================================
+"{{{- required ---------------------------------------------------------------
+set nocompatible " don't try to be compatible with Vi
+filetype plugin indent on "use default plugins
+
+"make the space bar my leader key (must be before I make <Leader> mappings)
+noremap <Space> <Nop>
+sunmap <Space>
+let mapleader=" "
+"}}}--------------------------------------------------------------------------
 "{{{- vim-slime --------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
 " pane of my choice.  You can set the target manually using hitting C-c and
@@ -90,11 +103,11 @@ let g:slime_dont_ask_default = 1
 
 " To use vim like mappings instead of emacs keybindings use the following:
 " Send {visual} text.
-xmap <leader>s <Plug>SlimeRegionSend
+xmap <Leader>s <Plug>SlimeRegionSend
 " Send {motion}.
-nmap <leader>s <Plug>SlimeMotionSend
+nmap <Leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
-nmap <leader>ss <Plug>SlimeLineSend
+nmap <Leader>ss <Plug>SlimeLineSend
 " }}}-------------------------------------------------------------------------
 "{{{- ultisnips --------------------------------------------------------------
 " Ultisnips trigger configuration.
@@ -145,6 +158,8 @@ let g:traces_preserve_view_state = 1
 
 "==== CUSTOM CONFIGURATIONS ==================================================
 "{{{- general settings -------------------------------------------------------
+colorscheme zenburn
+syntax enable " highlight special words to aid readability
 set encoding=utf-8
 set t_Co=256 " use full colours
 set number " put line number where the cursor is
@@ -175,16 +190,10 @@ set spell spelllang=en
 set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
-syntax enable " highlight special words to aid readability
 "}}}--------------------------------------------------------------------------
 "{{{- general remaps -----------------------------------------------------------------
 augroup general
     autocmd!
-
-    " make the space bar my leader key
-    noremap <Space> <Nop>
-    sunmap <Space>
-    let mapleader=" "
 
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
@@ -257,9 +266,8 @@ augroup general
     nnoremap <Leader>sp a<C-X>s<Esc>
 
     " fzf config
-    " insert mode line completion (overwrite vim's default mappings)
-    imap <c-c><c-l> <Plug>(fzf-complete-line)
-
+    " insert mode line completion
+    imap fc <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory
     nnoremap <Leader>f :Files<cr>
     " search for and jump to line in any open buffer
