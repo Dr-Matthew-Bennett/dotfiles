@@ -50,6 +50,24 @@ tools/
 videos/
 vim-python-ide/
 
+# laptop
+code/
+Desktop/
+documents/
+downloads/
+git_test/
+linux_config_files/
+music/
+pictures/
+projects/
+Public/
+screenkey/
+share/
+snap/
+Templates/
+todo/
+videos/
+
 # now un-ignore the ones I care about
 !code/
 !code/matlab/
