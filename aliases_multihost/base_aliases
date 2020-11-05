@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # grabbed these from the .bashrc
 # enable color support of ls and also add handy aliases
  if [ -x /usr/bin/dircolors ]; then
@@ -11,8 +13,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 
 #### my own aliases ###########################################################
-alias cl='clear'
-alias clc='clear'
+alias cl='clear && clear'
+alias clc='clear && clear'
 
 # move up 1,2 or 3 directories
 alias ..='cd ../'
@@ -26,6 +28,10 @@ cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
                 | grep -v .git | fzf)'
 
 alias cdu=${cdu_arg}
+
+# removed and restore fzf default options (if I want to use it in an usual directory)
+alias fzfcl="export FZF_DEFAULT_COMMAND=''"
+alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 
 # source .bashrc
 alias sob='source ~/.bashrc'
@@ -59,6 +65,9 @@ alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(rese
 alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
+
+# open R with vi shortcuts
+alias vr='rlwrap -a R'
 
 # in case I start getting errors popping up in the terminal,
 # automatically open a new tmux window:

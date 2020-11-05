@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias sd='shutdown'
 
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be' 

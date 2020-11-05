@@ -50,13 +50,35 @@ tools/
 videos/
 vim-python-ide/
 
+# dapony
+code/
+Desktop/
+documents/
+downloads/
+fix/
+linux_config_files/
+local/
+maintenance/
+matlab/
+music/
+pictures/
+projects/
+Public/
+templates/
+todo/
+videos/
+vim_cmds/
+
 # laptop
 code/
 Desktop/
 documents/
 downloads/
-git_test/
+fix/
 linux_config_files/
+local/
+maintenance/
+matlab/
 music/
 pictures/
 projects/
@@ -68,6 +90,23 @@ Templates/
 todo/
 videos/
 
+# glasgow pc
+anaconda3/
+c3d_build/
+Desktop/
+Documents/
+Downloads/
+examples.desktop/
+laynii/
+linux_config_files/
+Music/
+Pictures/
+Public/
+python_scripts/
+segmentator_env/
+Templates/
+Videos/
+ 
 # now un-ignore the ones I care about
 !code/
 !code/matlab/
@@ -86,6 +125,19 @@ videos/
 !test/
 !todo/
 !videos/
+# dapony
 !projects/
 projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
+!fix/
+!vim_cmds/
+# glasgow pc
+!Documents/
+!Downloads/
+!laynii/
+!Music/
+!Pictures/
+!python_scripts/
+!segmentator_env/
+!Videos/
 
+ 

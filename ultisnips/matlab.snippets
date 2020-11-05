@@ -30,6 +30,18 @@ if $1
 end
 endsnippet
 
+snippet 3d "imagesc each slice of 3d matrix"
+figure
+for slice_idx = 1:size($1,${2:1})
+    subplot(ceil(sqrt(size($1,$2))), ceil(sqrt(size($1,$2))), slice_idx)
+    imagesc(squeeze($1($3slice_idx${4:,:,:})))
+    axis image${5:, colormap gray}
+    caxis([min($1(:)), max($1(:))])
+end
+endsnippet
+
+
+
 snippet func "define a function"
 function ${1:out} = ${2:function name}(${3:arg}, ${4:arg}, ${5:arg}, ${6:arg}, ${7:arg}, varargin)
     %% documentation:
