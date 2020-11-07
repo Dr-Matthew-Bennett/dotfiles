@@ -127,6 +127,7 @@ TERM=xterm-256color  	# I need this to happen before tmux launches
 
 # set capslock to escape key  
 setxkbmap -option ‘caps:ctrl_modifier’
+setxkbmap -option ctrl:nocaps
 xcape -e '#66=Escape'
 
 # Launch tmux

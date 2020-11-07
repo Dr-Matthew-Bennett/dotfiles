@@ -92,6 +92,12 @@ this repository):
 export FZF_DEFAULT_COMMAND="fd . $HOME"
 ```
 
+If you're using Ubuntu 19.10 or later, and have installed fd using sudo apt,
+then the above line needs to be modified like so:
+```shell
+export FZF_DEFAULT_COMMAND="fdfind . $HOME"
+```
+
 Then in the fzfhome_gitignore file, I first list all my home directories, each
 followed by a '/':
 ```shell
