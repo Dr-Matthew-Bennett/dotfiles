@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# I don't want numbered lines 
+--style="grid,header"

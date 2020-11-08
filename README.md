@@ -38,9 +38,9 @@ mv .vimrc .old_vimrc
 mv .tmux.conf .old_tmux.conf
 ```
 
-4) Replace .bashrc, .inputrc, and any other configuration files that you want
-to keep synched across machines with symbolic links from your /home/user
-directory like so:
+4) Replace .bashrc, .inputrc, and any other configuration files/directories
+that you want to keep synched across machines with symbolic links from your
+/home/user directory like so:
 
 ```shell
 cd ~/
@@ -48,6 +48,8 @@ ln -s ~/linux_config_files/base_bashrc .bashrc
 ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/vimrc .vimrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
+ln -s ~/linux_config_files/tmux.conf ~/.config/bat
+ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
 ```
 
 Note that I am intentionally making the files that I link to non-hidden. This
@@ -62,7 +64,7 @@ directory in the ~/linux_config_files and create a symbolic link to it from
 ~/.vim/ultsnips
 
 ```shell
-cd ~/.vim && ln -sd ~/linux_config_files/ultisnips ultisnips
+ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
 ```
 ### FZF
 I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
