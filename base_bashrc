@@ -153,6 +153,9 @@ export TODO_PATH='/home/mattb/documents/work_notes/.todo'
 fzf1='--height 40% -m --layout=reverse --marker=o'
 # CTRL-A to select all items found, CTRL-D to deselect all
 fzf2='--bind ctrl-a:select-all,ctrl-d:deselect-all'
+# scroll the preview window
+fzf3='--bind ctrl-y:preview-up,ctrl-e:preview-down'
+
 # enter the above into one long string
-export FZF_DEFAULT_OPTS="${fzf1} ${fzf2}"
+export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3}"
 
