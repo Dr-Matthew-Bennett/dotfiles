@@ -5,6 +5,15 @@ inspired by a [blog
 post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple-hosts/)
 (see pdf in this repository).
 
+## Dependencies for my setup
+ - [fzf](https://github.com/junegunn/fzf)
+ - [fd](https://github.com/sharkdp/fd#benchmark)
+ - [ag](https://github.com/ggreer/the_silver_searcher)
+ - [bat](https://github.com/sharkdp/bat)
+ - xclip
+ - tmux
+ - zathura
+
 ## To make this work
 
 1) Clone this repository into your home directory (you should then have a
