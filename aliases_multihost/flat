@@ -31,16 +31,19 @@ alias cdd=${cdd_arg}
 alias cdm=${cdm_arg}
 alias cdv=${cdv_arg}
 
-# display the ufc video I am watching/should watch next
-alias ufc='path="/home/mattb/videos/ufc/"; \
-	current_vid="$(ls ${path} | grep -vi watched | grep -vi cancelled | head -n1)"; \
-	echo "${current_vid}"'
+# 
+alias ufc='cat ~/code/python/python_flat/ufc_database.txt | fzf'
 
-# play the vid found above in fullscreen mode
-alias ufcp='ufc; vlc -f "${path}${current_vid}" &'
+# # display the ufc video I am watching/should watch next
+# alias ufc='path="/home/mattb/videos/ufc/"; \
+# 	current_vid="$(ls ${path} | grep -vi watched | grep -vi cancelled | head -n1)"; \
+# 	echo "${current_vid}"'
 
-# add '_Watched' at the end of the file name
-alias ufcr='mv ${path}${current_vid} ${path}${current_vid::-4}_Watched${current_vid: -4} && echo "next up:" && ufc'
+# # play the vid found above in fullscreen mode
+# alias ufcp='ufc; vlc -f "${path}${current_vid}" &'
+
+# # add '_Watched' at the end of the file name
+# alias ufcr='mv ${path}${current_vid} ${path}${current_vid::-4}_Watched${current_vid: -4} && echo "next up:" && ufc'
 
 # launch utorrent server
 alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
