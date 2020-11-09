@@ -48,7 +48,7 @@ ln -s ~/linux_config_files/base_bashrc .bashrc
 ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/vimrc .vimrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
-ln -s ~/linux_config_files/tmux.conf ~/.config/bat
+mkdir ~/.config/bat; ln -s ~/linux_config_files/bat_config ~/.config/bat/config
 ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
 ```
 
