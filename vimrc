@@ -158,8 +158,6 @@ let g:traces_preserve_view_state = 1
 
 "==== CUSTOM CONFIGURATIONS ==================================================
 "{{{- general settings -------------------------------------------------------
-colorscheme zenburn
-syntax enable " highlight special words to aid readability
 set encoding=utf-8
 set t_Co=256 " use full colours
 set number " put line number where the cursor is
@@ -190,6 +188,8 @@ set spell spelllang=en
 set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
+colorscheme zenburn " when I moved it to the top of the this section, it failed
+syntax enable " highlight special words to aid readability
 "}}}--------------------------------------------------------------------------
 "{{{- general remaps -----------------------------------------------------------------
 augroup general
