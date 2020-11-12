@@ -267,7 +267,7 @@ augroup general
 
     " fzf config
     " insert mode line completion
-    imap fc <Plug>(fzf-complete-line)
+    imap ;l <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory
     nnoremap <Leader>f :Files<cr>
     " search for and jump to line in any open buffer
