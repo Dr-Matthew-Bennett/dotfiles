@@ -159,7 +159,8 @@ let g:traces_preserve_view_state = 1
 "==== CUSTOM CONFIGURATIONS ==================================================
 "{{{- general settings -------------------------------------------------------
 set encoding=utf-8
-set t_Co=256 " use full colours
+" set t_Co=256 " use full colours
+set termguicolors " use true colours (the highlight of searched words is weak...)
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
 set hidden " when swtiching buffers, don't complain about unsaved changes
