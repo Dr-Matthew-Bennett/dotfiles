@@ -16,7 +16,7 @@ HISTCONTROL=ignoreboth
 # Also, some commands I do often but never go back through my history to
 # repeat. Also I use a function called f all the time but the history isn't
 # diagnostic of what I was doing). 
-HISTIGNORE="cl:clc:l:..:...:....:f *"
+HISTIGNORE="cd:cl:clc:ls:l:..:...:....:sob:f *"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
