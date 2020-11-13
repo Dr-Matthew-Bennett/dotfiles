@@ -159,8 +159,6 @@ let g:traces_preserve_view_state = 1
 "==== CUSTOM CONFIGURATIONS ==================================================
 "{{{- general settings -------------------------------------------------------
 set encoding=utf-8
-" set t_Co=256 " use full colours
-set termguicolors " use true colours (the highlight of searched words is weak...)
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
 set hidden " when swtiching buffers, don't complain about unsaved changes
@@ -189,10 +187,11 @@ set spell spelllang=en
 set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
+set t_Co=256 " use full colours
 colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}--------------------------------------------------------------------------
-"{{{- general remaps -----------------------------------------------------------------
+"{{{- general remaps ---------------------------------------------------------
 augroup general
     autocmd!
 
@@ -297,7 +296,7 @@ augroup general
     iabbrev hte the
 augroup END
 "}}}--------------------------------------------------------------------------
-"{{{- general commands ---------------------------------------------------------------
+"{{{- general commands -------------------------------------------------------
 augroup general_commands
 " close buffer without closing window split
 command! Bd bprevious | split | bNext | bdelete
@@ -440,6 +439,10 @@ augroup cursor_behaviour
     autocmd InsertLeave * set nocursorline
 augroup END
 "}}}--------------------------------------------------------------------------
+"{{{ - tweak zenburn colorscheme 
+" make the highlighted seached words less distracting
+highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
+"}}}--------------------------------------------------------------------------
 "=============================================================================
 
 "==== FUNCTIONS ==============================================================
@@ -517,3 +520,4 @@ endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 "}}}--------------------------------------------------------------------------
 "=============================================================================
+
