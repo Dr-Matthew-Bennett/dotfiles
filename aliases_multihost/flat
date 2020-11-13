@@ -32,7 +32,7 @@ alias cdm=${cdm_arg}
 alias cdv=${cdv_arg}
 
 # 
-alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf'
+alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf | sort'
 
 # # display the ufc video I am watching/should watch next
 # alias ufc='path="/home/mattb/videos/ufc/"; \
