@@ -204,6 +204,7 @@ augroup general
     " edit/source common file in split window
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
+
     nnoremap <Leader>ea :vsplit
                 \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
     nnoremap <Leader>eb :vsplit
@@ -222,9 +223,11 @@ augroup general
     " paste from system highlghted clipboard
     nnoremap <Leader>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
+    nnoremap <silent><Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
+                \ :echo 'copied to CTRL-C clipboard'<cr>
     " copy contents of unnamed register to system highlghted clipboard
-    nnoremap <Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
+    nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
+                \ :echo 'copied to highlight clipboard'<cr>
 
     " substitute word under the cursor
     nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
@@ -236,9 +239,12 @@ augroup general
     " there's more than one buffer)
     nnoremap <Leader>- :split<cr>:b#<cr>
 
+    " open current split in own tab (like zoom in tmux) and keep cursor " pos
+    nnoremap <Leader>z mx:tabedit %<cr>g`x
+
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
-    nnoremap <Leader>4 :call WorkSplit()<cr>
+    nnoremap <silent><Leader>4 :call WorkSplit()<cr>
 
     " make vim-indent-object repeatable
     nnoremap <Plug>innerindent ii ii
@@ -249,18 +255,18 @@ augroup general
     " resize windows (and make it repeatable with dot command)
     " widen the split
     nmap <Leader>H <Plug>WidenSplit
-    nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
+    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<cr>
                 \ :call repeat#set("\<Plug>WidenSplit")<CR>
     " thin the split
-    nmap <Leader>h <Plug>ThinSplit
+    nmap <silent><Leader>h <Plug>ThinSplit
     nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
                 \ :call repeat#set("\<Plug>ThinSplit")<CR>
     " heighten the split
-    nmap <Leader>J <Plug>HeightenSplit
+    nmap <silent><Leader>J <Plug>HeightenSplit
     nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
                 \ :call repeat#set("\<Plug>HeightenSplit")<CR>
     " shorten the split
-    nmap <Leader>j <Plug>ShortenSplit
+    nmap <silent><Leader>j <Plug>ShortenSplit
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
