@@ -213,8 +213,9 @@ augroup general
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
-    " turn off highlighted searches
-    nnoremap <Leader>/ :noh<cr>
+    " toggle highlighted searches
+    nnoremap <silent><expr> <Leader>/
+                \ (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " paste from system CTRL-C clipboard
     nnoremap <Leader>p "+p
@@ -247,21 +248,21 @@ augroup general
 
     " resize windows (and make it repeatable with dot command)
     " widen the split
+    nmap <Leader>H <Plug>WidenSplit
     nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
                 \ :call repeat#set("\<Plug>WidenSplit")<CR>
-    nmap <Leader>h <Plug>WidenSplit
     " thin the split
+    nmap <Leader>h <Plug>ThinSplit
     nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
                 \ :call repeat#set("\<Plug>ThinSplit")<CR>
-    nmap <Leader>l <Plug>ThinSplit
     " heighten the split
+    nmap <Leader>J <Plug>HeightenSplit
     nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
                 \ :call repeat#set("\<Plug>HeightenSplit")<CR>
-    nmap <Leader>k <Plug>HeightenSplit
     " shorten the split
+    nmap <Leader>j <Plug>ShortenSplit
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
-    nmap <Leader>j <Plug>ShortenSplit
 
     " instantly go with first spelling suggestion
     nnoremap <Leader>sp a<C-X>s<Esc>
@@ -440,7 +441,7 @@ augroup cursor_behaviour
     autocmd InsertLeave * set nocursorline
 augroup END
 "}}}--------------------------------------------------------------------------
-"{{{ - tweak zenburn colorscheme 
+"{{{ - tweak zenburn colorscheme ---------------------------------------------
 " make the highlighted seached words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 "}}}--------------------------------------------------------------------------
