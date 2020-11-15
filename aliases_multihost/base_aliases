@@ -35,9 +35,11 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 
 # source .bashrc
 alias sob='source ~/.bashrc'
-# edit .bash_aliases
+# edit dot files
 alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
 alias eb='vim ~/linux_config_files/base_bashrc'
+alias ev='vim ~/linux_config_files/vimrc'
+alias et='vim ~/linux_config_files/tmux.conf'
 
 # kill tmux
 alias kt='tmux kill-session -t main'

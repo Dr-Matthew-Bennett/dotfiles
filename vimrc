@@ -1,24 +1,27 @@
 "{{{- wish list ---------------------------------------------------------------
-"
+
 " when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-"
+
 " format matlab scripts (blank lines etc.) on saving
-"
+
 " automatic folding for markdown sections
-"
+
 " status bar to display last search term
-"
+
 " paste one space later than cursor (even if we're on at the end of the line)
-"
+
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
-"
+
 " for my leader resizing commands to simply act to move the bar, and not be
 " dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-"
+
 " for switching buffer to not alter foldlevel
-"
+
+" for targets to prioritise things backwards on the line more than forwards but
+" off the line
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -240,7 +243,6 @@ augroup general
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
     nnoremap <Leader>- :split<cr>:b#<cr>
-
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
 
@@ -266,7 +268,7 @@ augroup general
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
     "}}}-----------------------------------------------------------------------
-    "{{{- searching -----------------------------------------------------------
+    "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
     nnoremap <silent><expr> <Leader>/
                 \ (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
@@ -284,7 +286,7 @@ augroup general
     nnoremap <Leader>eb :vsplit
                 \ /home/mattb/linux_config_files/base_bashrc<cr>
     "}}}-----------------------------------------------------------------------
-    "{{{- copy and paste with clipboard ------------------------------------------------------
+    "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
     nnoremap <Leader>p "+p
     " paste from system highlghted clipboard
