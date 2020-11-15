@@ -3,8 +3,6 @@
 " when pasting a line, have it match the indent level of the first
 " non-whitespace line above
 
-" format matlab scripts (blank lines etc.) on saving
-
 " automatic folding for markdown sections
 
 " status bar to display last search term
@@ -14,13 +12,10 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
-" for my leader resizing commands to simply act to move the bar, and not be
-" dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-
-" for switching buffer to not alter foldlevel
-
 " for targets to prioritise things backwards on the line more than forwards but
 " off the line
+
+" keep folds when opening file in split
 
 "}}}---------------------------------------------------------------------------
 
@@ -135,8 +130,8 @@ let g:traces_preserve_view_state = 1
 " Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-N>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
@@ -236,7 +231,6 @@ syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
-    autocmd!
     "{{{- movements -----------------------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
@@ -246,28 +240,15 @@ augroup general
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
-
-    " turn off highlighted searches
-    nnoremap <Leader>/ :noh<cr>
-
-    " paste from system CTRL-C clipboard
-    nnoremap <Leader>P "+p
-    " paste from system highlghted clipboard
-    nnoremap <Leader>p "*p
-    " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
-    " copy contents of unnamed register to system highlghted clipboard
-    nnoremap <Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
-
-    " substitute word under the cursor
-    nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
-
+    "}}}-----------------------------------------------------------------------
+    "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
     " and switch to next buffer (if there's more than one buffer)
     nnoremap <Leader>\ :vsplit<cr>:b#<cr>
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
     nnoremap <Leader>- :split<cr>:b#<cr>
+
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
 
