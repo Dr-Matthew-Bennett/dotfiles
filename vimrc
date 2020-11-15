@@ -1,35 +1,38 @@
-"{{{- wish list --------------------------------------------------------------
-"
+"{{{- wish list ---------------------------------------------------------------
+
 " when pasting a line, have it match the indent level of the first
 " non-whitespace line above
-"
+
 " format matlab scripts (blank lines etc.) on saving
-"
+
 " automatic folding for markdown sections
-"
+
 " status bar to display last search term
-"
+
 " paste one space later than cursor (even if we're on at the end of the line)
-"
+
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
-"
+
 " for my leader resizing commands to simply act to move the bar, and not be
 " dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-"
-" for switching buffer to not alter foldlevel
-"
-"}}}--------------------------------------------------------------------------
 
-"==== SETUP VUNDLE PLUGIN MANAGER ============================================
-"{{{- paths ------------------------------------------------------------------
+" for switching buffer to not alter foldlevel
+
+" for targets to prioritise things backwards on the line more than forwards but
+" off the line
+
+"}}}---------------------------------------------------------------------------
+
+"==== SETUP VUNDLE PLUGIN MANAGER =============================================
+"{{{- paths -------------------------------------------------------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
 "}}}
-"{{{ - plugins I use ---------------------------------------------------------
+"{{{ - plugins I use ----------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -56,12 +59,12 @@ Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 "}}}
-"{{{- plugins I'm trying out--------------------------------------------------
+"{{{- plugins I'm trying out---------------------------------------------------
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'markonm/traces.vim'
 "}}}
-"{{{ - plugins I may want to try one day -------------------------------------
+"{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
 " Plugin 'tpope/vim-fugitive'
@@ -69,16 +72,16 @@ Plugin 'markonm/traces.vim'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
 "}}}
-"{{{ - call vundle and overide things ----------------------------------------
+"{{{ - call vundle and overide things -----------------------------------------
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
-"}}}--------------------------------------------------------------------------
-"=============================================================================
+"}}}---------------------------------------------------------------------------
+"==============================================================================
 
-"==== PLUGIN CONFIGURATIONS ==================================================
-"{{{- required ---------------------------------------------------------------
+"==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
+"{{{- required ----------------------------------------------------------------
 set nocompatible " don't try to be compatible with Vi
 filetype plugin indent on "use default plugins
 
@@ -86,8 +89,65 @@ filetype plugin indent on "use default plugins
 noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
-"}}}--------------------------------------------------------------------------
-"{{{- vim-slime --------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+    " {{{- fzf.vim ------------------------------------------------------------
+    " insert mode line completion
+    imap ;l <Plug>(fzf-complete-line)
+    " search for and open file under the fzf default directory
+    nnoremap <Leader>f :Files<cr>
+    " search for and jump to line in any open buffer
+    nnoremap <Leader>g :Lines<cr>
+    " search through and jump to buffer
+    nnoremap <Leader>b :Buffers<cr>
+
+    " Change CTRL-X to CTRL-V to open file from fzf in vertical split
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-h': 'split',
+      \ 'ctrl-v': 'vsplit' }
+
+    " Ag call a modified version of Ag where first arg is directory to search
+    command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
+    "}}}-----------------------------------------------------------------------
+"{{{- mundo -------------------------------------------------------------------
+" to see and choose a previous state from the undo tree
+nnoremap <F5> :MundoToggle<cr>
+"}}}---------------------------------------------------------------------------
+"{{{- targets.vim -------------------------------------------------------------
+" Only consider targets fully visible on screen:
+let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
+
+" Only seek if next/last targets touch current line:
+" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
+"}}}---------------------------------------------------------------------------
+"{{{- traces.vim --------------------------------------------------------------
+" fyi: there is extensive help documentation that's not on the github page
+" immediately highlight numerical ranges once you put the comma :N,N
+let g:traces_num_range_preview = 1
+" window used to show off-screen matches (just 5 since I only want the gist).
+let g:traces_preview_window = "below 5new"
+" if value is 1, view position will not be changed when highlighting ranges or
+" patterns outside initial view position. I like this since I see it all in the
+" preview window setting above
+let g:traces_preserve_view_state = 1
+"}}}---------------------------------------------------------------------------
+"{{{- ultisnips ---------------------------------------------------------------
+" Ultisnips trigger configuration.
+" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-N>"
+let g:UltiSnipsEditSplit="vertical"
+" where ultisnips looks for snippets
+" (I think you can add multiple items in the list)
+let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
+"}}}---------------------------------------------------------------------------
+"{{{- vim-indent-object -------------------------------------------------------
+" make repeatable
+nnoremap <Plug>innerindent ii ii :call repeat#set("\<Plug>innerindent")<CR>
+nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
+"}}}---------------------------------------------------------------------------
+"{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
 " pane of my choice.  You can set the target manually using hitting C-c and
 " then v.
@@ -135,31 +195,12 @@ let g:ycm_filetype_blacklist = {
             \ 'leaderf': 1,
             \ 'mail': 1
             \}
-"}}}--------------------------------------------------------------------------
-"{{{- targets.vim ------------------------------------------------------------
-" Only consider targets fully visible on screen:
-let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
+"}}}---------------------------------------------------------------------------
+"==============================================================================
 
-" Only seek if next/last targets touch current line:
-" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
-"}}}--------------------------------------------------------------------------
-"{{{- traces.vim -------------------------------------------------------------
-" fyi: there is extensive help documentation that's not on the github page
-" immediately highlight numerical ranges once you put the comma :N,N
-let g:traces_num_range_preview = 1
-" window used to show off-screen matches (just 5 since I only want the gist).
-let g:traces_preview_window = "below 5new"
-" if value is 1, view position will not be changed when highlighting ranges or
-" patterns outside initial view position. I like this since I see it all in the
-" preview window setting above
-let g:traces_preserve_view_state = 1
-"}}}--------------------------------------------------------------------------
-"=============================================================================
-
-"==== CUSTOM CONFIGURATIONS ==================================================
-"{{{- general settings -------------------------------------------------------
+"==== CUSTOM CONFIGURATIONS ===================================================
+"{{{- general settings --------------------------------------------------------
 set encoding=utf-8
-set t_Co=256 " use full colours
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
 set hidden " when swtiching buffers, don't complain about unsaved changes
@@ -178,35 +219,29 @@ set tabstop=4 " a tab is the same as 4 spaces
 set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
+set nojoinspaces " don't join with double spaces when line ending with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
-set hlsearch " highlight all matches for searched pattern
-set smartcase " With both on, searches with no capitals are case insensitive, while...
-set ignorecase " ...searches with capital characters are case sensitive.
-set nrformats= " don't interpret 007 as an octal (<C-a> will now make 008, not 010)
+set hlsearch | noh " highlight matches for searched (turn off when sourcicng)
+set smartcase " with both on, searches with no capitals are case insensitive...
+set ignorecase " ...while searches with capital characters are case sensitive.
+set nrformats= " don't interpret 007 as octal (<C-a> will make 008, not 010)
 set spell spelllang=en
 set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
+set t_Co=256 " use full colours
 colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
-"}}}--------------------------------------------------------------------------
-"{{{- general remaps -----------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
-
+    "{{{- movements -----------------------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
-
-    " edit/source common file in split window
-    nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-    nnoremap <Leader>sv :source $MYVIMRC<cr>
-    nnoremap <Leader>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
-    nnoremap <Leader>eb :vsplit
-                \ /home/mattb/linux_config_files/base_bashrc<cr>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -233,75 +268,81 @@ augroup general
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
     nnoremap <Leader>- :split<cr>:b#<cr>
+    " open current split in own tab (like zoom in tmux) and keep cursor " pos
+    nnoremap <Leader>z mx:tabedit %<cr>g`x
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
-    nnoremap <Leader>4 :call WorkSplit()<cr>
-
-    " make vim-indent-object repeatable
-    nnoremap <Plug>innerindent ii ii
-                \ :call repeat#set("\<Plug>innerindent")<CR>
-    nnoremap <Plug>aroundindent ai ai
-                \ :call repeat#set("\<Plug>aroundindent")<CR>
+    nnoremap <silent><Leader>4 :call WorkSplit()<cr>
 
     " resize windows (and make it repeatable with dot command)
     " widen the split
-    nnoremap <Plug>WidenSplit :exe "vertical resize +5"<cr>
+    nmap <Leader>H <Plug>WidenSplit
+    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<cr>
                 \ :call repeat#set("\<Plug>WidenSplit")<CR>
-    nmap <Leader>h <Plug>WidenSplit
     " thin the split
+    nmap <silent><Leader>h <Plug>ThinSplit
     nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
                 \ :call repeat#set("\<Plug>ThinSplit")<CR>
-    nmap <Leader>l <Plug>ThinSplit
     " heighten the split
+    nmap <silent><Leader>J <Plug>HeightenSplit
     nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
                 \ :call repeat#set("\<Plug>HeightenSplit")<CR>
-    nmap <Leader>k <Plug>HeightenSplit
     " shorten the split
+    nmap <silent><Leader>j <Plug>ShortenSplit
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
-    nmap <Leader>j <Plug>ShortenSplit
+    "}}}-----------------------------------------------------------------------
+    "{{{- searching and substitution ------------------------------------------
+    " toggle highlighted searches
+    nnoremap <silent><expr> <Leader>/
+                \ (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
-    " instantly go with first spelling suggestion
-    nnoremap <Leader>sp a<C-X>s<Esc>
+    " substitute word under the cursor
+    nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+    "}}}-----------------------------------------------------------------------
+    "{{{- common files to edit/source -----------------------------------------
+    " edit/source common file in split window
+    nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+    nnoremap <Leader>sv :source $MYVIMRC<cr>
 
-    " fzf config
-    " insert mode line completion
-    imap fc <Plug>(fzf-complete-line)
-    " search for and open file under the fzf default directory
-    nnoremap <Leader>f :Files<cr>
-    " search for and jump to line in any open buffer
-    nnoremap <Leader>g :Lines<cr>
-    " search through and jump to buffer
-    nnoremap <Leader>b :Buffers<cr>
-
-    " Change CTRL-X to CTRL-V to open file from fzf in vertical split
-    let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-h': 'split',
-      \ 'ctrl-v': 'vsplit' }
-
-    " Ag call a modified version of Ag where first arg is directory to search
-    command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
-
-    " to see and choose a previous state from the undo tree
-    nnoremap <F5> :MundoToggle<cr>
-
-    " abbreviations
+    nnoremap <Leader>ea :vsplit
+                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
+    nnoremap <Leader>eb :vsplit
+                \ /home/mattb/linux_config_files/base_bashrc<cr>
+    "}}}-----------------------------------------------------------------------
+    "{{{- copy and paste with clipboard ---------------------------------------
+    " paste from system CTRL-C clipboard
+    nnoremap <Leader>p "+p
+    " paste from system highlghted clipboard
+    nnoremap <Leader>P "*p
+    " copy contents of unnamed register to system CTRL-C clipboard
+    nnoremap <silent><Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
+                \ :echo 'copied to CTRL-C clipboard'<cr>
+    " copy contents of unnamed register to system highlghted clipboard
+    nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
+                \ :echo 'copied to highlight clipboard'<cr>
+    "}}}-----------------------------------------------------------------------
+    "{{{- abbreviations -------------------------------------------------------
     " emails
     iabbrev @g bennettmatt4@gmail.com
     iabbrev @u matthew.bennett@uclouvain.be
     " common mispellings
     iabbrev keybaord keyboard
     iabbrev hte the
+    "}}}-----------------------------------------------------------------------
+    "{{{- spelling ------------------------------------------------------------
+    " instantly go with first spelling suggestion
+    nnoremap <Leader>sp a<C-X>s<Esc>
+    "}}}-----------------------------------------------------------------------
 augroup END
-"}}}--------------------------------------------------------------------------
-"{{{- general commands ---------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- general commands --------------------------------------------------------
 augroup general_commands
 " close buffer without closing window split
 command! Bd bprevious | split | bNext | bdelete
-"}}}--------------------------------------------------------------------------
-"{{{- file specific settings -------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- file specific settings --------------------------------------------------
 augroup filetype_vim "{{{
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
@@ -423,8 +464,8 @@ augroup tidy_code_matlab_and_python "{{{
     autocmd BufWritePre *.m :call Preserve("normal! gg=G")
 augroup END
 "}}}
-"}}}--------------------------------------------------------------------------
-"{{{- cursor behaviour -------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- cursor behaviour --------------------------------------------------------
 augroup cursor_behaviour
     autocmd!
     " reset cursor on start:
@@ -438,11 +479,15 @@ augroup cursor_behaviour
     " turn off current line hightlighting when leaving insert mode
     autocmd InsertLeave * set nocursorline
 augroup END
-"}}}--------------------------------------------------------------------------
-"=============================================================================
+"}}}---------------------------------------------------------------------------
+"{{{ - tweak zenburn colorscheme ----------------------------------------------
+" make the highlighted seached words less distracting
+highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
+"}}}---------------------------------------------------------------------------
+"==============================================================================
 
-"==== FUNCTIONS ==============================================================
-"{{{- if pasting at end of a word, preceed with a space ----------------------
+"==== FUNCTIONS ===============================================================
+"{{{- if pasting at end of a word, preceed with a space -----------------------
 " not working, maybe not a great idea anyway...
 
 " nnoremap p :call Paste()<cr>
@@ -457,8 +502,8 @@ function! Paste()
         norm p
     endif
 endfunction
-"}}}--------------------------------------------------------------------------
-"{{{- determine if cursor is on the end of a word ----------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- determine if cursor is on the end of a word -----------------------------
 function! EndWord() abort
     let pos = getpos('.')
     normal! gee
@@ -469,8 +514,8 @@ function! EndWord() abort
         return v:false
     endif
 endfunction
-"}}}--------------------------------------------------------------------------
-"{{{- Ag: Start ag in the specified directory --------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- Ag: Start ag in the specified directory ---------------------------------
 " e.g.
 "   :Ag ~/foo
 function! s:ag_in(bang, ...)
@@ -480,8 +525,8 @@ function! s:ag_in(bang, ...)
   " Press `?' to enable preview window.
   call fzf#vim#ag(join(a:000[1:], ' '), fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
-"}}}--------------------------------------------------------------------------
-"{{{- make a 4-way split and resize the windows how I like -------------------
+"}}}---------------------------------------------------------------------------
+"{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
     let l:currentWindow=winnr()
     execute "normal! :vsplit\<cr> :buffer 2\<cr>"
@@ -489,8 +534,8 @@ function! WorkSplit()
     execute l:currentWindow . "wincmd w"
     execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
-"}}}--------------------------------------------------------------------------
-"{{{- restore cursor postition -----------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- restore cursor postition ------------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
     " Preparation: save last search, and cursor position.
@@ -503,8 +548,8 @@ function! Preserve(command)
     let @/=_s
     call cursor(l, c)
 endfunction
-"}}}--------------------------------------------------------------------------
-"{{{- copy matches to register -----------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- copy matches to register ------------------------------------------------
 " copies only the text that matches search hits. Use with :CopyMatches :
 " where x is any register (supplying no x copies to clipboard
 function! CopyMatches(reg)
@@ -514,5 +559,6 @@ function! CopyMatches(reg)
     execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
-"}}}--------------------------------------------------------------------------
-"=============================================================================
+"}}}---------------------------------------------------------------------------
+"==============================================================================
+
