@@ -231,6 +231,7 @@ syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
+    autocmd!
     "{{{- movements -----------------------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
