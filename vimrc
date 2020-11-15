@@ -113,8 +113,8 @@ nmap <Leader>ss <Plug>SlimeLineSend
 " Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-N>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
@@ -216,9 +216,9 @@ augroup general
     nnoremap <Leader>/ :noh<cr>
 
     " paste from system CTRL-C clipboard
-    nnoremap <Leader>p "+p
+    nnoremap <Leader>P "+p
     " paste from system highlghted clipboard
-    nnoremap <Leader>P "*p
+    nnoremap <Leader>p "*p
     " copy contents of unnamed register to system CTRL-C clipboard
     nnoremap <Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
     " copy contents of unnamed register to system highlghted clipboard
