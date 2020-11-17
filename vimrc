@@ -367,13 +367,6 @@ augroup matlab "{{{
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
 
-    " the above is much more elegant
-    " autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
-    "             \<Plug>SlimeLineSend<Esc>ddg`xu
-
-    "             old slime command - can delete this once tested in matlab
-    "             \V<C-c><C-c>ddg`x
-
     " imagesc a variable under the cursor
     autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
                 \pIfigure, imagesc(<Esc>A), axis image<Esc>
