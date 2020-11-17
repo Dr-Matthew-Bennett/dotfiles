@@ -55,11 +55,11 @@ Plugin 'Matt-A-Bennett/vim-indent-object'
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'markonm/traces.vim'
+Plugin 'tpope/vim-fugitive'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
-" Plugin 'tpope/vim-fugitive'
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
@@ -161,8 +161,8 @@ xmap <Leader>s <Plug>SlimeRegionSend
 nmap <Leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <Leader>ss <Plug>SlimeLineSend
-" }}}-------------------------------------------------------------------------
-"{{{- ultisnips --------------------------------------------------------------
+" }}}--------------------------------------------------------------------------
+"{{{- ultisnips ---------------------------------------------------------------
 " Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
@@ -172,8 +172,8 @@ let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}--------------------------------------------------------------------------
-"{{{- YouCompleteMe ----------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -226,6 +226,9 @@ set foldlevelstart=1 " when opening new files, start with only top folds open
 set t_Co=256 " use full colours
 colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
+"}}}---------------------------------------------------------------------------
+"{{{ - status line ------------------------------------------------------------
+set statusline=%<%f\ %{FugitiveStatusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
