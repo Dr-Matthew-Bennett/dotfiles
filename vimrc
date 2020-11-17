@@ -12,9 +12,6 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
-" for targets to prioritise things backwards on the line more than forwards but
-" off the line
-
 " keep folds when opening file in split
 
 "}}}---------------------------------------------------------------------------
