@@ -356,14 +356,13 @@ augroup END
 "}}}
 augroup matlab "{{{
     autocmd!
-
     " make gcc comment matlab correctly
     autocmd FileType matlab setlocal commentstring=%\ %s
     autocmd FileType matlab setlocal foldmethod=indent
 
     " abbreviations
     autocmd FileType matlab iabbrev <buffer> key keyboard
-
+    "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
 
@@ -379,7 +378,8 @@ augroup matlab "{{{
     " ask whos a variable under the cursor
     autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
-
+    "}}}-----------------------------------------------------------------------
+    "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
@@ -393,7 +393,7 @@ augroup matlab "{{{
                 \:norm ^i['\n<cr>
                 \'sv}k$: norm $i'],...<cr>
                 \'skdd=}}2ddG
-
+    "}}}-----------------------------------------------------------------------
 augroup END
 "}}}
 augroup markdown "{{{
