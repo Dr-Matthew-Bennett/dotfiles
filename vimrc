@@ -3,8 +3,6 @@
 " when pasting a line, have it match the indent level of the first
 " non-whitespace line above
 
-" format matlab scripts (blank lines etc.) on saving
-
 " automatic folding for markdown sections
 
 " status bar to display last search term
@@ -14,13 +12,7 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
-" for my leader resizing commands to simply act to move the bar, and not be
-" dependent where the cursor is relative to the bar (e.g. which pane I'm in)
-
-" for switching buffer to not alter foldlevel
-
-" for targets to prioritise things backwards on the line more than forwards but
-" off the line
+" keep folds when opening file in split
 
 "}}}---------------------------------------------------------------------------
 
@@ -63,11 +55,11 @@ Plugin 'Matt-A-Bennett/vim-indent-object'
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'markonm/traces.vim'
+Plugin 'tpope/vim-fugitive'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'w0rp/ale'
-" Plugin 'tpope/vim-fugitive'
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
@@ -115,10 +107,11 @@ nnoremap <F5> :MundoToggle<cr>
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Only consider targets fully visible on screen:
-let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
+" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
 
-" Only seek if next/last targets touch current line:
-" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
+" Same as above, but prioritise pairs fully on line coming before the cursor
+" (ll) more than stuff fully off the line (bb and aa)
+let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb al ll bb aa'
 "}}}---------------------------------------------------------------------------
 "{{{- traces.vim --------------------------------------------------------------
 " fyi: there is extensive help documentation that's not on the github page
@@ -135,8 +128,8 @@ let g:traces_preserve_view_state = 1
 " Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-N>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
@@ -168,8 +161,8 @@ xmap <Leader>s <Plug>SlimeRegionSend
 nmap <Leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <Leader>ss <Plug>SlimeLineSend
-" }}}-------------------------------------------------------------------------
-"{{{- ultisnips --------------------------------------------------------------
+" }}}--------------------------------------------------------------------------
+"{{{- ultisnips ---------------------------------------------------------------
 " Ultisnips trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-s>"
@@ -179,8 +172,8 @@ let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}--------------------------------------------------------------------------
-"{{{- YouCompleteMe ----------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -234,6 +227,9 @@ set t_Co=256 " use full colours
 colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
+"{{{ - status line ------------------------------------------------------------
+set statusline=%<%f\ %{FugitiveStatusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P
+"}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
@@ -246,28 +242,15 @@ augroup general
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
-
-    " turn off highlighted searches
-    nnoremap <Leader>/ :noh<cr>
-
-    " paste from system CTRL-C clipboard
-    nnoremap <Leader>P "+p
-    " paste from system highlghted clipboard
-    nnoremap <Leader>p "*p
-    " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
-    " copy contents of unnamed register to system highlghted clipboard
-    nnoremap <Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
-
-    " substitute word under the cursor
-    nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
-
+    "}}}-----------------------------------------------------------------------
+    "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
     " and switch to next buffer (if there's more than one buffer)
     nnoremap <Leader>\ :vsplit<cr>:b#<cr>
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
     nnoremap <Leader>- :split<cr>:b#<cr>
+
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
 
@@ -376,23 +359,15 @@ augroup END
 "}}}
 augroup matlab "{{{
     autocmd!
-
     " make gcc comment matlab correctly
     autocmd FileType matlab setlocal commentstring=%\ %s
     autocmd FileType matlab setlocal foldmethod=indent
 
     " abbreviations
     autocmd FileType matlab iabbrev <buffer> key keyboard
-
+    "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
-
-    " the above is much more elegant
-    " autocmd FileType matlab nmap <Leader>q mxyiwO<Esc>p
-    "             \<Plug>SlimeLineSend<Esc>ddg`xu
-
-    "             old slime command - can delete this once tested in matlab
-    "             \V<C-c><C-c>ddg`x
 
     " imagesc a variable under the cursor
     autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
@@ -406,7 +381,8 @@ augroup matlab "{{{
     " ask whos a variable under the cursor
     autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
-
+    "}}}-----------------------------------------------------------------------
+    "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
                 \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
@@ -420,7 +396,7 @@ augroup matlab "{{{
                 \:norm ^i['\n<cr>
                 \'sv}k$: norm $i'],...<cr>
                 \'skdd=}}2ddG
-
+    "}}}-----------------------------------------------------------------------
 augroup END
 "}}}
 augroup markdown "{{{
