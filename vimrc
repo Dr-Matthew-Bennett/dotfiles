@@ -59,10 +59,8 @@ Plugin 'tpope/vim-fugitive'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
-" Plugin 'w0rp/ale'
+" Plugin 'dense-analysis/ale'
 " Plugin 'airblade/vim-gitgutter'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
 "}}}
 "{{{ - call vundle and overide things -----------------------------------------
 " All of your Plugins must be added before the following line
