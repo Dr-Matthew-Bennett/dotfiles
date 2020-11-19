@@ -201,7 +201,8 @@ set hidden " when swtiching buffers, don't complain about unsaved changes
 set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
-set diffopt+=vertical " when using diff mode (fugative) have a vertical split
+set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
+set nostartofline " keep cursor on the same column
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
