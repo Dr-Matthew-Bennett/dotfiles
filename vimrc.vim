@@ -83,7 +83,7 @@ noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
 "}}}---------------------------------------------------------------------------
-    " {{{- fzf.vim ------------------------------------------------------------
+" {{{- fzf.vim ----------------------------------------------------------------
     " insert mode line completion
     imap ;l <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory
@@ -101,7 +101,7 @@ let mapleader=" "
 
     " Ag call a modified version of Ag where first arg is directory to search
     command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
-    "}}}-----------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<cr>
@@ -201,6 +201,7 @@ set hidden " when swtiching buffers, don't complain about unsaved changes
 set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
+set diffopt+=vertical " when using diff mode (fugative) have a vertical split
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
