@@ -202,7 +202,7 @@ set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
-set nostartofline " keep cursor on the same column
+set nostartofline " keep cursor on the same column even when no chars are there
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
@@ -236,7 +236,7 @@ set statusline=%<%f\ %{FugitiveStatusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
-    "{{{- movements -----------------------------------------------------------
+    "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
     nnoremap gI g0i
@@ -245,6 +245,10 @@ augroup general
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
+
+    " inner line text object
+    xnoremap <silent> il <Esc>^vg_==
+    onoremap <silent> il :<C-U>normal! ^vg_<CR>==
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
