@@ -61,6 +61,11 @@ Plugin 'tpope/vim-fugitive'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'dense-analysis/ale'
 " Plugin 'airblade/vim-gitgutter'
+
+" This one only works for NeoVim... but it allows to have neo(vim) run in the
+" areas of a browser where you'd enter text (so maybe sending an email etc.)
+" The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
+" Plugin 'glacambre/firenvim' 
 "}}}
 "{{{ - call vundle and overide things -----------------------------------------
 " All of your Plugins must be added before the following line
