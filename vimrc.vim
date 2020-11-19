@@ -246,9 +246,14 @@ augroup general
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
-    " inner line text object
+    " inner/around line text objects
+    " visual mode
     xnoremap <silent> il <Esc>^vg_==
+    xnoremap <silent> al <Esc>0vg_
+    " operator pending mode
     onoremap <silent> il :<C-U>normal! ^vg_<CR>==
+    onoremap <silent> al :<C-U>normal! 0vg_<CR>
+
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
