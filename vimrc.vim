@@ -249,10 +249,10 @@ augroup general
     " inner/around line text objects
     " visual mode
     xnoremap <silent> il <Esc>^vg_==
-    xnoremap <silent> al <Esc>0vg_
+    xnoremap <silent> al <Esc>0v$
     " operator pending mode
     onoremap <silent> il :<C-U>normal! ^vg_<CR>==
-    onoremap <silent> al :<C-U>normal! 0vg_<CR>
+    onoremap <silent> al :<C-U>normal! 0v$<CR>
 
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
