@@ -5,8 +5,6 @@
 
 " automatic folding for markdown sections
 
-" status bar to display last search term
-
 " paste one space later than cursor (even if we're on at the end of the line)
 
 " mapping to make a jump twice as big in the opposite direction (for when I
@@ -231,7 +229,13 @@ colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
-set statusline=%<%f\ %{FugitiveStatusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ 
+set statusline+=%{FugitiveStatusline()}
+set statusline+=%h%m%r%=
+set statusline+=%-14.(%l,%c%V%)
+set statusline+=\/%{LastSearch()}\/
+set statusline+=\ \ \ \ \ 
+set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
@@ -550,6 +554,11 @@ function! CopyMatches(reg)
     execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+"}}}---------------------------------------------------------------------------
+"{{{- last search term -------------------------------------------------------
+function! LastSearch()
+    return @/
+endfunction
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
