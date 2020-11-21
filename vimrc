@@ -5,14 +5,10 @@
 
 " automatic folding for markdown sections
 
-" status bar to display last search term
-
 " paste one space later than cursor (even if we're on at the end of the line)
 
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
-
-" keep folds when opening file in split
 
 "}}}---------------------------------------------------------------------------
 
@@ -59,10 +55,13 @@ Plugin 'tpope/vim-fugitive'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
-" Plugin 'w0rp/ale'
+" Plugin 'dense-analysis/ale'
 " Plugin 'airblade/vim-gitgutter'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
+
+" This one only works for NeoVim... but it allows to have neo(vim) run in the
+" areas of a browser where you'd enter text (so maybe sending an email etc.)
+" The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
+" Plugin 'glacambre/firenvim' 
 "}}}
 "{{{ - call vundle and overide things -----------------------------------------
 " All of your Plugins must be added before the following line
@@ -82,7 +81,7 @@ noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
 "}}}---------------------------------------------------------------------------
-    " {{{- fzf.vim ------------------------------------------------------------
+" {{{- fzf.vim ----------------------------------------------------------------
     " insert mode line completion
     imap ;l <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory
@@ -100,7 +99,7 @@ let mapleader=" "
 
     " Ag call a modified version of Ag where first arg is directory to search
     command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
-    "}}}-----------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<cr>
@@ -200,6 +199,8 @@ set hidden " when swtiching buffers, don't complain about unsaved changes
 set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
+set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
+set nostartofline " keep cursor on the same column even when no chars are there
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
@@ -228,12 +229,18 @@ colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
-set statusline=%<%f\ %{FugitiveStatusline()}%h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ 
+set statusline+=%{FugitiveStatusline()}
+set statusline+=%h%m%r%=
+set statusline+=%-14.(%l,%c%V%)
+set statusline+=\/%{LastSearch()}\/
+set statusline+=\ \ \ \ \ 
+set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
-    "{{{- movements -----------------------------------------------------------
+    "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
     nnoremap gI g0i
@@ -242,6 +249,15 @@ augroup general
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
+
+    " inner/around line text objects
+    " visual mode
+    xnoremap <silent> il <Esc>^vg_
+    xnoremap <silent> al <Esc>0v$
+    " operator pending mode
+    onoremap <silent> il :<C-U>normal! ^vg_<CR>
+    onoremap <silent> al :<C-U>normal! 0v$<CR>
+
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
@@ -326,11 +342,12 @@ augroup general_commands
 command! Bd bprevious | split | bNext | bdelete
 "}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
-augroup filetype_vim "{{{
+augroup vim "{{{
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType vim setlocal foldlevel=0
+    autocmd FileType vim setlocal foldlevelstart=0
 augroup END
 "}}}
 augroup python "{{{
@@ -416,22 +433,24 @@ augroup markdown "{{{
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
 augroup END
 "}}}
-augroup filetype_tex "{{{
+augroup tex "{{{
     autocmd!
     autocmd FileType tex setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType tex setlocal foldlevel=0
+    autocmd FileType tex setlocal foldlevelstart=0
 
     " gq until a line beggining with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
     " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
 "}}}
-augroup filetype_tmux "{{{
+augroup tmux "{{{
     autocmd!
     autocmd FileType tmux setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
+    autocmd FileType tmux setlocal foldlevelstart=0
 "}}}
 augroup tidy_code_matlab_and_python "{{{
     autocmd!
@@ -535,6 +554,11 @@ function! CopyMatches(reg)
     execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+"}}}---------------------------------------------------------------------------
+"{{{- last search term -------------------------------------------------------
+function! LastSearch()
+    return @/
+endfunction
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
