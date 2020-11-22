@@ -1,8 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" when pasting a line, have it match the indent level of the first
-" non-whitespace line above
-
 " automatic folding for markdown sections
 
 " paste one space later than cursor (even if we're on at the end of the line)
