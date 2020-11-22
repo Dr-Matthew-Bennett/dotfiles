@@ -87,7 +87,7 @@ let mapleader=" "
     " search for and open file under the fzf default directory
     nnoremap <Leader>f :Files<cr>
     " search for and jump to line in any open buffer
-    nnoremap <Leader>g :Lines<cr>
+    nnoremap <Leader>l :Lines<cr>
     " search through and jump to buffer
     nnoremap <Leader>b :Buffers<cr>
 
