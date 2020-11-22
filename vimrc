@@ -26,12 +26,12 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'flazz/vim-colorschemes'
 
 " other plugins that do more exotic things
 " Plugin 'jnurmine/Zenburn'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
-Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'ycm-core/YouCompleteMe'
@@ -341,10 +341,15 @@ command! Bd bprevious | split | bNext | bdelete
 "{{{- file specific settings --------------------------------------------------
 augroup vim "{{{
     autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
+
     " start out with everything folded away
+    autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
     autocmd FileType vim setlocal foldlevelstart=0
+
+    " search vim help for word under the cursor
+    autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
+
 augroup END
 "}}}
 augroup python "{{{
@@ -473,7 +478,7 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{ - tweak zenburn colorscheme ----------------------------------------------
-" make the highlighted seached words less distracting
+" make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 "}}}---------------------------------------------------------------------------
 "==============================================================================
