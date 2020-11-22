@@ -226,12 +226,19 @@ colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
+" path/file 
 set statusline=%<%f\ 
+" current git branch
 set statusline+=%{FugitiveStatusline()}
+" is this file: help? modified? read only?
 set statusline+=%h%m%r%=
+" line / column number
 set statusline+=%-14.(%l,%c%V%)
+" last search term
 set statusline+=\/%{LastSearch()}\/
+" space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
+" percent through the file (or top/bottom)
 set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
