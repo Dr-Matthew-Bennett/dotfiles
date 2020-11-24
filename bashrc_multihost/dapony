@@ -2,3 +2,5 @@
 
 # fzf config: debian has a different binary name
 export FZF_DEFAULT_COMMAND="fdfind . $HOME"
+
+export LC_ALL=en_GB.UTF-8
