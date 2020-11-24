@@ -362,24 +362,14 @@ augroup END
 augroup python "{{{
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd FileType python3 setlocal fileformat=unix
+    autocmd FileType python setlocal fileformat=unix
     " enable all Python syntax highlighting features
-    autocmd FileType python3 let python_highlight_all=1
-    autocmd FileType python3 setlocal foldmethod=indent
+    autocmd FileType python let python_highlight_all=1
+    autocmd FileType python setlocal foldmethod=indent
 
-    " I want to use different remaps in indent-object.vim for python, but I'm
-    " gettign errors
-
-    " set rtp+=~/linux_config_files/vim/functions
-    " runtime indent-object.vim
-
-    " source ~/linux_config_files/vim/functions/indent-object.vim
-
-    " " Mappings excluding line below (good for python?)
-    " onoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
-    " onoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
-    " vnoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
-    " vnoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
+    " print a variable under the cursor
+    autocmd FileType python nmap <Leader>q mxyiwO<Esc>pIprint(<Esc>A)<Esc>
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
 augroup END
 "}}}
