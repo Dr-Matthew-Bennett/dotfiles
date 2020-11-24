@@ -378,7 +378,11 @@ augroup matlab "{{{
     autocmd FileType matlab setlocal foldmethod=indent
 
     " abbreviations
+    autocmd FileType matlab iabbrev <buffer> fig figure
     autocmd FileType matlab iabbrev <buffer> key keyboard
+    autocmd FileType matlab iabbrev <buffer> dbq dbquit
+    autocmd FileType matlab iabbrev <buffer> dbc dbcont
+
     "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
