@@ -9,6 +9,8 @@
 
 " for python methods not to open helper window when autocompleting
 
+" for <Leader>\ to use :b# only when the # exists, otherwise use :bn
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -268,10 +270,10 @@ augroup general
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
     " and switch to next buffer (if there's more than one buffer)
-    nnoremap <Leader>\ :vsplit<cr>:b#<cr>
+    nnoremap <Leader>\ :vsplit<cr>:bnext<cr>
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
-    nnoremap <Leader>- :split<cr>:b#<cr>
+    nnoremap <Leader>- :split<cr>:bnext<cr>
 
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
