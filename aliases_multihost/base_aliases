@@ -83,6 +83,11 @@ alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-tem
 alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 4000'
 alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3000'
 
+# ssh conenctions
 # access the pony with or without X11 Forwarding
 alias sshpony='ssh mattb@130.104.83.107'
 alias sshponyx='ssh -X mattb@130.104.83.107'
+# CISM mass storage
+alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
+# Glasgow
+alias sshgla='ssh -X gpuws4-pc.psy.gla.ac.uk'

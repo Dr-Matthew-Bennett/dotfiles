@@ -7,6 +7,8 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
+" for python methods not to open helper window when autocompleting
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
