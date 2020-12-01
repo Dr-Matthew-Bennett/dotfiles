@@ -50,6 +50,12 @@ alias l='ls -1 -hF'
 alias ll='ls -lhF'
 # same as above, but with hidden files too
 alias lll='ls -alhF'
+
+# only list directories
+alias ld='ls -1 -d */'
+# same as above, but with file details too
+alias lld='ls -ld */'
+
 # same but sort by date modified
 alias lt="(tput rmam; ls -1 -hF; tput smam)"
 # I wanted the two below to show the list sorted by date modified but they're
