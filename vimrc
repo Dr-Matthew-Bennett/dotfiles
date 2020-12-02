@@ -7,6 +7,10 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
+" for python methods not to open helper window when autocompleting
+
+" for <Leader>\ to use :b# only when the # exists, otherwise use :bn
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -26,12 +30,12 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'flazz/vim-colorschemes'
 
 " other plugins that do more exotic things
 " Plugin 'jnurmine/Zenburn'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
-Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'ycm-core/YouCompleteMe'
@@ -229,12 +233,19 @@ colorscheme zenburn " when I moved it to the top of the this section, it failed
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
+" path/file 
 set statusline=%<%f\ 
+" current git branch
 set statusline+=%{FugitiveStatusline()}
+" is this file: help? modified? read only?
 set statusline+=%h%m%r%=
+" line / column number
 set statusline+=%-14.(%l,%c%V%)
+" last search term
 set statusline+=\/%{LastSearch()}\/
+" space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
+" percent through the file (or top/bottom)
 set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
@@ -262,10 +273,10 @@ augroup general
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
     " and switch to next buffer (if there's more than one buffer)
-    nnoremap <Leader>\ :vsplit<cr>:b#<cr>
+    nnoremap <Leader>\ :vsplit<cr>:bnext<cr>
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
-    nnoremap <Leader>- :split<cr>:b#<cr>
+    nnoremap <Leader>- :split<cr>:bnext<cr>
 
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
@@ -344,33 +355,28 @@ command! Bd bprevious | split | bNext | bdelete
 "{{{- file specific settings --------------------------------------------------
 augroup vim "{{{
     autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
+
     " start out with everything folded away
+    autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
     autocmd FileType vim setlocal foldlevelstart=0
+
+    " search vim help for word under the cursor
+    autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
+
 augroup END
 "}}}
 augroup python "{{{
     autocmd!
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
-    autocmd FileType python3 setlocal fileformat=unix
+    autocmd FileType python setlocal fileformat=unix
     " enable all Python syntax highlighting features
-    autocmd FileType python3 let python_highlight_all=1
-    autocmd FileType python3 setlocal foldmethod=indent
+    autocmd FileType python let python_highlight_all=1
+    autocmd FileType python setlocal foldmethod=indent
 
-    " I want to use different remaps in indent-object.vim for python, but I'm
-    " gettign errors
-
-    " set rtp+=~/linux_config_files/vim/functions
-    " runtime indent-object.vim
-
-    " source ~/linux_config_files/vim/functions/indent-object.vim
-
-    " " Mappings excluding line below (good for python?)
-    " onoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
-    " onoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 0, [line("."), line("."), col("."), col(".")])<CR>
-    " vnoremap <silent>ai :<C-u>cal <Sid>HandleTextObjectMapping(0, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
-    " vnoremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(1, 0, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
+    " print a variable under the cursor
+    autocmd FileType python nmap <Leader>q mxyiwO<Esc>pIprint(<Esc>A)<Esc>
+                \<Plug>SlimeLineSend<Esc>ddg`xu
 
 augroup END
 "}}}
@@ -480,7 +486,7 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{ - tweak zenburn colorscheme ----------------------------------------------
-" make the highlighted seached words less distracting
+" make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 "}}}---------------------------------------------------------------------------
 "==============================================================================
