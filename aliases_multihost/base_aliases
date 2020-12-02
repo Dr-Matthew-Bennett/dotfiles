@@ -50,6 +50,12 @@ alias l='ls -1 -hF'
 alias ll='ls -lhF'
 # same as above, but with hidden files too
 alias lll='ls -alhF'
+
+# only list directories
+alias ld='ls -1 -d */'
+# same as above, but with file details too
+alias lld='ls -ld */'
+
 # same but sort by date modified
 alias lt="(tput rmam; ls -1 -hF; tput smam)"
 # I wanted the two below to show the list sorted by date modified but they're
@@ -83,6 +89,11 @@ alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-tem
 alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 4000'
 alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3000'
 
+# ssh conenctions
 # access the pony with or without X11 Forwarding
 alias sshpony='ssh mattb@130.104.83.190'
 alias sshponyx='ssh -X mattb@130.104.83.190'
+# CISM mass storage
+alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
+# Glasgow
+alias sshgla='ssh -X gpuws4-pc.psy.gla.ac.uk'
