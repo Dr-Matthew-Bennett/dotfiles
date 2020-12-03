@@ -112,6 +112,9 @@ nnoremap <F5> :MundoToggle<cr>
 " Same as above, but prioritise pairs fully on line coming before the cursor
 " (ll) more than stuff fully off the line (bb and aa)
 let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb al ll bb aa'
+
+" Controls the keys used in maps for seeking next and last text objects.
+let g:targets_nl = 'nN'
 "}}}---------------------------------------------------------------------------
 "{{{- traces.vim --------------------------------------------------------------
 " fyi: there is extensive help documentation that's not on the github page
