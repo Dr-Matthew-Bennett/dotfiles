@@ -91,8 +91,8 @@ alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-t
 
 # ssh conenctions
 # access the pony with or without X11 Forwarding
-alias sshpony='ssh mattb@130.104.83.190'
-alias sshponyx='ssh -X mattb@130.104.83.190'
+alias sshpony='ssh mattb@130.104.83.192'
+alias sshponyx='ssh -X mattb@130.104.83.192'
 # CISM mass storage
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
 # Glasgow
