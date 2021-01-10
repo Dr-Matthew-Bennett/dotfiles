@@ -405,56 +405,52 @@ augroup matlab "{{{
     autocmd FileType matlab nmap <Leader>mw mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
-    " " imagesc a variable under the cursor
-    " autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
-    "             \pIfigure, imagesc(<Esc>A), axis image<Esc>
-    "             \<Plug>SlimeLineSend<Esc>ddg`xu
-
-    " mark the current cursor position
-    " visually select and yank bewteen opfunc marks
-    " paste below and wrap in code
-    " send it to the tmux window
-    " move cursor back to original position
-
     " imagesc <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=Imagesc<CR>g@
     function! Imagesc(type)
-        silent :execute "normal! mx"
-        silent :execute "normal! `[v`]y"
+        :call Prep_Code()
         silent :execute "normal! o\<Esc>pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
-        silent :execute "normal\<Plug>SlimeLineSend"
-        silent :execute "normal! dd`xu"
+        :call Execute_Code()
     endfunction
 
     " plot <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=Plot<CR>g@
     function! Plot(type)
-        silent :execute "normal! mx"
-        silent :execute "normal! `[v`]y"
+        :call Prep_Code()
         silent :execute "normal! o\<Esc>pIfigure, plot(\<Esc>A)\<Esc>"
-        silent :execute "normal\<Plug>SlimeLineSend"
-        silent :execute "normal! dd`xu"
+        :call Execute_Code()
     endfunction
 
     " histogram of <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=Hist<CR>g@
     function! Hist(type)
-        silent :execute "normal! mx"
-        silent :execute "normal! `[v`]y"
+        :call Prep_Code()
         silent :execute "normal! o\<Esc>pIfigure, hist(\<Esc>A, 100)\<Esc>"
-        silent :execute "normal\<Plug>SlimeLineSend"
-        silent :execute "normal! dd`xu"
+        :call Execute_Code()
     endfunction
 
     " summary info of <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
     function! Summarise(type)
-        silent :execute "normal! mx"
-        silent :execute "normal! `[v`]y"
+        :call Prep_Code()
         silent :execute "normal! o\<Esc>pI[min(\<Esc>A), max(\<Esc>p\<Esc>A)]"
+        :call Execute_Code()
+    endfunction
+
+    " helper functions
+    function! Prep_Code()
+        " mark the current cursor position
+        silent :execute "normal! mx"
+        " visually select and yank bewteen opfunc marks
+        silent :execute "normal! `[v`]y"
+    endfunction
+    function! Execute_Code()
+        " send it to the tmux window
         silent :execute "normal\<Plug>SlimeLineSend"
+        " move cursor back to original position
         silent :execute "normal! dd`xu"
     endfunction
+
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
