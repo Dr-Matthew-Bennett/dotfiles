@@ -433,7 +433,7 @@ augroup matlab "{{{
 	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
     function! Summarise(type)
         :call Prep_Code()
-        silent :execute "normal! pI[min(\<Esc>A), max(\<Esc>p\<Esc>A)]"
+        silent :execute "normal! pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
         :call Execute_Code()
     endfunction
 
