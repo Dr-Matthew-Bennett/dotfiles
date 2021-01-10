@@ -362,7 +362,8 @@ augroup vim "{{{
     autocmd FileType vim setlocal foldlevelstart=0
 
     " search vim help for word under the cursor
-    autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
+    " (not working right - overwriting matlab version)
+    " autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
 
 augroup END
 "}}}
@@ -394,20 +395,66 @@ augroup matlab "{{{
 
     "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
-
-    " imagesc a variable under the cursor
-    autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
-                \pIfigure, imagesc(<Esc>A), axis image<Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType matlab nmap <Leader>mq viw<Plug>SlimeRegionSend
 
     " print documentation of matlab function
-    autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+    autocmd FileType matlab nmap <Leader>md mxyiwO<Esc>pIhelp <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " ask whos a variable under the cursor
-    autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+    autocmd FileType matlab nmap <Leader>mw mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
+
+    " " imagesc a variable under the cursor
+    " autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
+    "             \pIfigure, imagesc(<Esc>A), axis image<Esc>
+    "             \<Plug>SlimeLineSend<Esc>ddg`xu
+
+    " mark the current cursor position
+    " visually select and yank bewteen opfunc marks
+    " paste below and wrap in code
+    " send it to the tmux window
+    " move cursor back to original position
+
+    " imagesc <motion> under the cursor
+	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=Imagesc<CR>g@
+    function! Imagesc(type)
+        silent :execute "normal! mx"
+        silent :execute "normal! `[v`]y"
+        silent :execute "normal! o\<Esc>pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
+        silent :execute "normal\<Plug>SlimeLineSend"
+        silent :execute "normal! dd`xu"
+    endfunction
+
+    " plot <motion> under the cursor
+	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=Plot<CR>g@
+    function! Plot(type)
+        silent :execute "normal! mx"
+        silent :execute "normal! `[v`]y"
+        silent :execute "normal! o\<Esc>pIfigure, plot(\<Esc>A)\<Esc>"
+        silent :execute "normal\<Plug>SlimeLineSend"
+        silent :execute "normal! dd`xu"
+    endfunction
+
+    " histogram of <motion> under the cursor
+	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=Hist<CR>g@
+    function! Hist(type)
+        silent :execute "normal! mx"
+        silent :execute "normal! `[v`]y"
+        silent :execute "normal! o\<Esc>pIfigure, hist(\<Esc>A, 100)\<Esc>"
+        silent :execute "normal\<Plug>SlimeLineSend"
+        silent :execute "normal! dd`xu"
+    endfunction
+
+    " summary info of <motion> under the cursor
+	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
+    function! Summarise(type)
+        silent :execute "normal! mx"
+        silent :execute "normal! `[v`]y"
+        silent :execute "normal! o\<Esc>pI[min(\<Esc>A), max(\<Esc>p\<Esc>A)]"
+        silent :execute "normal\<Plug>SlimeLineSend"
+        silent :execute "normal! dd`xu"
+    endfunction
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
