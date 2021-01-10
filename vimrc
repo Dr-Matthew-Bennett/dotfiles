@@ -406,39 +406,39 @@ augroup matlab "{{{
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " imagesc <motion> under the cursor
-	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=Imagesc<CR>g@
-    function! Imagesc(type)
-        :call Prep_Code()
+	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=MatlabImagesc<CR>g@
+    function! Matlab_Imagesc(type)
+        :call Matlab_Prep_Code()
         silent :execute "normal! pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
-        :call Execute_Code()
+        :call Matlab_Execute_Code()
     endfunction
 
     " plot <motion> under the cursor
-	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=Plot<CR>g@
-    function! Plot(type)
-        :call Prep_Code()
+	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=MatlabPlot<CR>g@
+    function! Matlab_Plot(type)
+        :call Matlab_Prep_Code()
         silent :execute "normal! pIfigure, plot(\<Esc>A)\<Esc>"
-        :call Execute_Code()
+        :call Matlab_Execute_Code()
     endfunction
 
     " histogram of <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=Hist<CR>g@
-    function! Hist(type)
-        :call Prep_Code()
+    function! Matlab_Hist(type)
+        :call Matlab_Prep_Code()
         silent :execute "normal! pIfigure, hist(\<Esc>A, 100)\<Esc>"
-        :call Execute_Code()
+        :call Matlab_Execute_Code()
     endfunction
 
     " summary info of <motion> under the cursor
 	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
-    function! Summarise(type)
-        :call Prep_Code()
+    function! Matlab_Summarise(type)
+        :call Matlab_Prep_Code()
         silent :execute "normal! pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
-        :call Execute_Code()
+        :call Matlab_Execute_Code()
     endfunction
 
     " helper functions
-    function! Prep_Code()
+    function! Matlab_Prep_Code()
         " mark the current cursor position
         silent :execute "normal! mx"
         " visually select and yank bewteen opfunc marks
@@ -446,7 +446,7 @@ augroup matlab "{{{
         " drop down to a new line, ready for composition
         silent :execute "normal! o\<Esc>"
     endfunction
-    function! Execute_Code()
+    function! Matlab_Execute_Code()
         " send it to the tmux window
         silent :execute "normal\<Plug>SlimeLineSend"
         " move cursor back to original position
