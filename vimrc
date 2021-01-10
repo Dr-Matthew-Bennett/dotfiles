@@ -409,7 +409,7 @@ augroup matlab "{{{
 	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=Imagesc<CR>g@
     function! Imagesc(type)
         :call Prep_Code()
-        silent :execute "normal! o\<Esc>pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
+        silent :execute "normal! pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
         :call Execute_Code()
     endfunction
 
@@ -417,7 +417,7 @@ augroup matlab "{{{
 	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=Plot<CR>g@
     function! Plot(type)
         :call Prep_Code()
-        silent :execute "normal! o\<Esc>pIfigure, plot(\<Esc>A)\<Esc>"
+        silent :execute "normal! pIfigure, plot(\<Esc>A)\<Esc>"
         :call Execute_Code()
     endfunction
 
@@ -425,7 +425,7 @@ augroup matlab "{{{
 	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=Hist<CR>g@
     function! Hist(type)
         :call Prep_Code()
-        silent :execute "normal! o\<Esc>pIfigure, hist(\<Esc>A, 100)\<Esc>"
+        silent :execute "normal! pIfigure, hist(\<Esc>A, 100)\<Esc>"
         :call Execute_Code()
     endfunction
 
@@ -433,7 +433,7 @@ augroup matlab "{{{
 	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
     function! Summarise(type)
         :call Prep_Code()
-        silent :execute "normal! o\<Esc>pI[min(\<Esc>A), max(\<Esc>p\<Esc>A)]"
+        silent :execute "normal! pI[min(\<Esc>A), max(\<Esc>p\<Esc>A)]"
         :call Execute_Code()
     endfunction
 
@@ -443,6 +443,8 @@ augroup matlab "{{{
         silent :execute "normal! mx"
         " visually select and yank bewteen opfunc marks
         silent :execute "normal! `[v`]y"
+        " drop down to a new line, ready for composition
+        silent :execute "normal! o\<Esc>"
     endfunction
     function! Execute_Code()
         " send it to the tmux window
