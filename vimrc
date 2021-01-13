@@ -411,9 +411,9 @@ augroup matlab "{{{
     " plot <motion>
 	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=Hist<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=Summarise<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
@@ -576,33 +576,35 @@ function! LastSearch()
     return @/
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- Matlab functions for easy interrogation of variables --------------------
-    function! Matlab_Imagesc(type)
-        :call Matlab_Prep_Code()
+"{{{- matlab functions for easy interrogation of variables --------------------
+    function! MatlabImagesc(type)
+        :call MatlabPrepCode()
         silent :execute "normal! pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
-        :call Matlab_Execute_Code()
+        :call MatlabExecuteCode()
     endfunction
 
-    function! Matlab_Plot(type)
-        :call Matlab_Prep_Code()
+    function! MatlabPlot(type)
+        :call MatlabPrepCode()
         silent :execute "normal! pIfigure, plot(\<Esc>A)\<Esc>"
-        :call Matlab_Execute_Code()
+        :call MatlabExecuteCode()
     endfunction
 
-    function! Matlab_Hist(type)
-        :call Matlab_Prep_Code()
+    function! Matlabist(type)
+        :call MatlabPrepCode()
         silent :execute "normal! pIfigure, hist(\<Esc>A, 100)\<Esc>"
-        :call Matlab_Execute_Code()
+        :call MatlabExecuteCode()
     endfunction
 
-    function! Matlab_Summarise(type)
-        :call Matlab_Prep_Code()
-        silent :execute "normal! pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
-        :call Matlab_Execute_Code()
+    function! MatlabSummarise(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! pA(1:5, 1:5)\<Esc>"
+        :call MatlabExecuteCode()
+        silent :execute "normal! o\<Esc>pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
+        :call MatlabExecuteCode()
     endfunction
 
     " helper functions
-    function! Matlab_Prep_Code()
+    function! MatlabPrepCode()
         " mark the current cursor position
         silent :execute "normal! mx"
         " visually select and yank bewteen opfunc marks
@@ -611,11 +613,11 @@ endfunction
         silent :execute "normal! o\<Esc>"
     endfunction
 
-    function! Matlab_Execute_Code()
+    function! MatlabExecuteCode()
         " send it to the tmux window
         silent :execute "normal\<Plug>SlimeLineSend"
         " move cursor back to original position
-        silent :execute "normal! dd`xu"
+        silent :execute "normal! \"_dd`xu"
     endfunction
 "}}}---------------------------------------------------------------------------
 "==============================================================================
