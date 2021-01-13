@@ -205,6 +205,7 @@ set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
+set scrolloff=8 " show 8 lines between cursor and top/bottom of page
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
