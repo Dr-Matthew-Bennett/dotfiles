@@ -136,7 +136,8 @@ if command -v tmux>/dev/null; then
 fi
 
 # set IPs as variables so I don't have to look them up all the time
-pony='130.104.83.107'
+pony='130.104.83.190'
+gla='gpuws4-pc.psy.gla.ac.uk'
 cism='mbennett@storage.cism.ucl.ac.be'
 
 # Install Ruby Gems to ~/gems
