@@ -205,6 +205,7 @@ set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
+set scrolloff=8 " show 8 lines between cursor and top/bottom of page
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
@@ -339,6 +340,7 @@ augroup general
     iabbrev @u matthew.bennett@uclouvain.be
     " common mispellings
     iabbrev keybaord keyboard
+    iabbrev laod load
     iabbrev hte the
     "}}}-----------------------------------------------------------------------
     "{{{- spelling ------------------------------------------------------------
@@ -362,7 +364,8 @@ augroup vim "{{{
     autocmd FileType vim setlocal foldlevelstart=0
 
     " search vim help for word under the cursor
-    autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
+    " (not working right - overwriting matlab version)
+    " autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
 
 augroup END
 "}}}
@@ -394,20 +397,24 @@ augroup matlab "{{{
 
     "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <Leader>q viw<Plug>SlimeRegionSend
-
-    " imagesc a variable under the cursor
-    autocmd FileType matlab nmap <Leader>i mxyiwO<Esc>
-                \pIfigure, imagesc(<Esc>A), axis image<Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType matlab nmap <Leader>mq viw<Plug>SlimeRegionSend
 
     " print documentation of matlab function
-    autocmd FileType matlab nmap <Leader>d mxyiwO<Esc>pIhelp <Esc>
+    autocmd FileType matlab nmap <Leader>md mxyiwO<Esc>pIhelp <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " ask whos a variable under the cursor
-    autocmd FileType matlab nmap <Leader>w mxyiwO<Esc>pIwhos <Esc>
+    autocmd FileType matlab nmap <Leader>mw mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
+
+    " imagesc <motion>
+	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=MatlabImagesc<CR>g@
+    " plot <motion>
+	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=MatlabPlot<CR>g@
+    " histogram <motion>
+	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=MatlabHist<CR>g@
+    " summary info of <motion>
+	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
@@ -565,10 +572,53 @@ function! CopyMatches(reg)
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 "}}}---------------------------------------------------------------------------
-"{{{- last search term -------------------------------------------------------
+"{{{- last search term --------------------------------------------------------
 function! LastSearch()
     return @/
 endfunction
 "}}}---------------------------------------------------------------------------
-"==============================================================================
+"{{{- matlab functions for easy interrogation of variables --------------------
+    function! MatlabImagesc(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
+        :call MatlabExecuteCode()
+    endfunction
 
+    function! MatlabPlot(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! pIfigure, plot(\<Esc>A)\<Esc>"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! Matlabist(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! pIfigure, hist(\<Esc>A, 100)\<Esc>"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! MatlabSummarise(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! pA(1:5, 1:5)\<Esc>"
+        :call MatlabExecuteCode()
+        silent :execute "normal! o\<Esc>pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
+        :call MatlabExecuteCode()
+    endfunction
+
+    " helper functions
+    function! MatlabPrepCode()
+        " mark the current cursor position
+        silent :execute "normal! mx"
+        " visually select and yank bewteen opfunc marks
+        silent :execute "normal! `[v`]y"
+        " drop down to a new line, ready for composition
+        silent :execute "normal! o\<Esc>"
+    endfunction
+
+    function! MatlabExecuteCode()
+        " send it to the tmux window
+        silent :execute "normal\<Plug>SlimeLineSend"
+        " move cursor back to original position
+        silent :execute "normal! \"_dd`xu"
+    endfunction
+"}}}---------------------------------------------------------------------------
+"==============================================================================
