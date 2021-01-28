@@ -74,10 +74,6 @@ alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
 
-# open ipython with vi shortcuts and no autoindent (it messes with pasting from
-# vim with slime, where the code is already indented)
-alias vipython="ipython --no-autoindent --TerminalInteractiveShell.editing_mode='vi'"
-
 # open R with vi shortcuts
 alias vr='rlwrap -a R'
 
