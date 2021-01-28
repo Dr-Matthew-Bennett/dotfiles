@@ -282,6 +282,9 @@ augroup general
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
     nnoremap <Leader>z mx:tabedit %<cr>g`x
 
+    " close current buffer, keep window and switch to last used buffer
+    nnoremap <Leader>x :b# \| bd #<cr>
+
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
     nnoremap <silent><Leader>4 :call WorkSplit()<cr>
@@ -580,27 +583,27 @@ endfunction
 "{{{- matlab functions for easy interrogation of variables --------------------
     function! MatlabImagesc(type)
         :call MatlabPrepCode()
-        silent :execute "normal! pIfigure, imagesc(\<Esc>A), axis image\<Esc>"
+        silent :execute "normal! o figure, imagesc(V__), axis image"
         :call MatlabExecuteCode()
     endfunction
 
     function! MatlabPlot(type)
         :call MatlabPrepCode()
-        silent :execute "normal! pIfigure, plot(\<Esc>A)\<Esc>"
+        silent :execute "normal! o figure, plot(V__), axis image"
         :call MatlabExecuteCode()
     endfunction
 
-    function! Matlabist(type)
+    function! MatlabHist(type)
         :call MatlabPrepCode()
-        silent :execute "normal! pIfigure, hist(\<Esc>A, 100)\<Esc>"
+        silent :execute "normal! o figure, hist(V__,100), axis image"
         :call MatlabExecuteCode()
     endfunction
 
     function! MatlabSummarise(type)
         :call MatlabPrepCode()
-        silent :execute "normal! pA(1:5, 1:5)\<Esc>"
-        :call MatlabExecuteCode()
-        silent :execute "normal! o\<Esc>pI[min(\<Esc>A(:)), max(\<Esc>p\<Esc>A(:))]"
+        silent :execute "normal! o whos V__"
+        silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
+        silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
         :call MatlabExecuteCode()
     endfunction
 
@@ -609,14 +612,21 @@ endfunction
         " mark the current cursor position
         silent :execute "normal! mx"
         " visually select and yank bewteen opfunc marks
-        silent :execute "normal! `[v`]y"
+        silent :execute "normal! `[v`]\"my"
         " drop down to a new line, ready for composition
-        silent :execute "normal! o\<Esc>"
+        " silent :execute "normal! o \<Esc>"
+        " reassign variable for use in code
+        silent :execute "normal! o V__ = \<Esc>\"mpA;"
+        :call MatlabExecuteCode()
     endfunction
 
     function! MatlabExecuteCode()
+        " create a space after
+        silent :execute "normal! o \<Esc>"
+        " move back line below mark, and visually select to end of paragraph
+        silent :execute "normal! `xj0v}"
         " send it to the tmux window
-        silent :execute "normal\<Plug>SlimeLineSend"
+        silent :execute "normal\<Plug>SlimeRegionSend"
         " move cursor back to original position
         silent :execute "normal! \"_dd`xu"
     endfunction
