@@ -7,8 +7,6 @@
 " mapping to make a jump twice as big in the opposite direction (for when I
 " do [count]j instead of [count]k (or vice versa)
 
-" for python methods not to open helper window when autocompleting
-
 " for <Leader>\ to use :b# only when the # exists, otherwise use :bn
 
 "}}}---------------------------------------------------------------------------
@@ -46,12 +44,12 @@ Plugin 'SirVer/ultisnips'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
-Plugin 'markonm/traces.vim'
 Plugin 'tpope/vim-fugitive'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
@@ -374,6 +372,7 @@ augroup END
 "}}}
 augroup python "{{{
     autocmd!
+    set completeopt-=preview "don't have preview window on python autocomplete
     " avoid conversion issues when checking into GitHub and/or sharing with other users.
     autocmd FileType python setlocal fileformat=unix
     " enable all Python syntax highlighting features
