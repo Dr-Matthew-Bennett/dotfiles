@@ -497,6 +497,7 @@ augroup END
 "{{{ - tweak zenburn colorscheme ----------------------------------------------
 " make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
+nnoremap <F12> :syntax sync fromstart<cr>
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
