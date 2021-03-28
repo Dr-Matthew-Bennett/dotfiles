@@ -96,7 +96,8 @@ alias sshponyx='ssh -X mattb@130.104.83.192'
 # CISM mass storage
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
 # Glasgow
-alias sshgla='ssh -X gpuws4-pc.psy.gla.ac.uk'
+alias sshgla='ssh gpuws4-pc.psy.gla.ac.uk'
+alias sshglax='ssh -X gpuws4-pc.psy.gla.ac.uk'
 
 # connect or dissconnect to UCLouvain vpn
 alias uvc='nmcli con up ae483762-6fb0-49b0-a450-a280099d5eb8 UCL'
