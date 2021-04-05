@@ -51,10 +51,10 @@ Plugin 'Matt-A-Bennett/vim-indent-object'
 " lots more text objects! looks very good and well made
 Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'dense-analysis/ale'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
-" Plugin 'dense-analysis/ale'
 " Plugin 'airblade/vim-gitgutter'
 
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
@@ -89,6 +89,9 @@ let mapleader=" "
     nnoremap <Leader>l :Lines<cr>
     " search through and jump to buffer
     nnoremap <Leader>b :Buffers<cr>
+
+    " when I search for a file, show results in a window at the bottom
+    let g:fzf_layout = { 'down': '~40%' }
 
     " Change CTRL-X to CTRL-V to open file from fzf in vertical split
     let g:fzf_action = {
@@ -175,6 +178,10 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
+" open the full documentation in a split window below
+" nnoremap <Leader>d :call Matt() \| call Matt2()<cr>
+" let g:ycm_autoclose_preview_window_after_completion = 0
+
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -189,6 +196,9 @@ let g:ycm_filetype_blacklist = {
             \ 'leaderf': 1,
             \ 'mail': 1
             \}
+"}}}---------------------------------------------------------------------------
+"{{{- ALE ---------------------------------------------------------------------
+let b:ale_fixers = ['black']
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -383,6 +393,11 @@ augroup python "{{{
     autocmd FileType python nmap <Leader>q mxyiwO<Esc>pIprint(<Esc>A)<Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
+    " bring up the full python docs on thing under the cursor
+    nnoremap <Leader>d :YcmCompleter GetDoc<cr>
+    " I don't want to navigate to the window and close it myself
+    autocmd InsertLeave *py call Close_YCM_Docs()
+
 augroup END
 "}}}
 augroup matlab "{{{
@@ -527,6 +542,14 @@ function! EndWord() abort
     else
         call setpos('.', pos)
         return v:false
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- Fucntion to close any YCM doc pages -------------------------------------
+function! Close_YCM_Docs()
+    if bufexists(bufname('/tmp/*/\d\+'))
+        let file = bufname('/tmp/*\d\+')
+        execute 'bwipeout ' file
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
