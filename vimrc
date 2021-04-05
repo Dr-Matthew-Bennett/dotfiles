@@ -285,6 +285,12 @@ augroup general
     onoremap <silent> il :<C-U>normal! ^vg_<CR>
     onoremap <silent> al :<C-U>normal! 0v$<CR>
 
+    " Mappings for warnings from Worp/Ale in the style of unimpaired-next
+    nmap <silent> [W <Plug>(ale_first)
+    nmap <silent> [w <Plug>(ale_previous)
+    nmap <silent> ]w <Plug>(ale_next)
+    nmap <silent> ]W <Plug>(ale_last)
+
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
