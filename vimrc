@@ -1,4 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
+" For tagets not to go crazy anytime I source my vimrc
 
 " automatic folding for markdown sections
 
@@ -198,7 +199,10 @@ let g:ycm_filetype_blacklist = {
             \}
 "}}}---------------------------------------------------------------------------
 "{{{- ALE ---------------------------------------------------------------------
-let b:ale_fixers = ['black']
+let g:ale_fixers = ['black']
+" other symbols: https://coolsymbol.com/
+let g:ale_sign_error = '☠ '
+let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -393,10 +397,8 @@ augroup python "{{{
     autocmd FileType python nmap <Leader>q mxyiwO<Esc>pIprint(<Esc>A)<Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
-    " bring up the full python docs on thing under the cursor
-    nnoremap <Leader>d :YcmCompleter GetDoc<cr>
-    " I don't want to navigate to the window and close it myself
-    autocmd InsertLeave *py call Close_YCM_Docs()
+    " open/close the full python docs on thing under the cursor
+    nnoremap <Leader>cd :call YCM_Toggle_Docs()<cr>
 
 augroup END
 "}}}
@@ -414,24 +416,24 @@ augroup matlab "{{{
 
     "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <Leader>mq viw<Plug>SlimeRegionSend
+    autocmd FileType matlab nmap <Leader>cq viw<Plug>SlimeRegionSend
 
     " print documentation of matlab function
-    autocmd FileType matlab nmap <Leader>md mxyiwO<Esc>pIhelp <Esc>
+    autocmd FileType matlab nmap <Leader>cd mxyiwO<Esc>pIhelp <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " ask whos a variable under the cursor
-    autocmd FileType matlab nmap <Leader>mw mxyiwO<Esc>pIwhos <Esc>
+    autocmd FileType matlab nmap <Leader>cw mxyiwO<Esc>pIwhos <Esc>
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " imagesc <motion>
-	autocmd FileType matlab noremap <silent> <Leader>mi :set opfunc=MatlabImagesc<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ci :set opfunc=MatlabImagesc<CR>g@
     " plot <motion>
-	autocmd FileType matlab noremap <silent> <Leader>mp :set opfunc=MatlabPlot<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cp :set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <Leader>mh :set opfunc=MatlabHist<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ch :set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ms :set opfunc=MatlabSummarise<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cs :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean up documentation after func snip (remove lines with unused arguments)
@@ -545,11 +547,13 @@ function! EndWord() abort
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- close any YCM doc pages -------------------------------------------------
-function! Close_YCM_Docs()
-    if bufexists(bufname('/tmp/*/\d\+'))
-        let file = bufname('/tmp/*\d\+')
-        execute 'bwipeout ' file
+"{{{- open/close YCM doc pages ------------------------------------------------
+function! YCM_Toggle_Docs()
+    let doc_file = bufname('/tmp/*\d\+')
+    if !bufexists(doc_file)
+        YcmCompleter GetDoc
+    else
+        execute 'bwipeout ' doc_file
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
