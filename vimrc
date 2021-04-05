@@ -1,12 +1,9 @@
 "{{{- wish list ---------------------------------------------------------------
-" For tagets not to go crazy anytime I source my vimrc
+" For tagets.vim not to go crazy anytime I source my vimrc
 
 " automatic folding for markdown sections
 
 " paste one space later than cursor (even if we're on at the end of the line)
-
-" mapping to make a jump twice as big in the opposite direction (for when I
-" do [count]j instead of [count]k (or vice versa)
 
 " for <Leader>\ to use :b# only when the # exists, otherwise use :bn
 
@@ -199,7 +196,13 @@ let g:ycm_filetype_blacklist = {
             \}
 "}}}---------------------------------------------------------------------------
 "{{{- ALE ---------------------------------------------------------------------
+" needs a linter and a fixer installed on the system to work. I'm using:
+" pip3 install flake8
+" pip3 install black
+
+" use black
 let g:ale_fixers = ['black']
+
 " other symbols: https://coolsymbol.com/
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '⚠ '
