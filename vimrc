@@ -545,7 +545,7 @@ function! EndWord() abort
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- Fucntion to close any YCM doc pages -------------------------------------
+"{{{- close any YCM doc pages -------------------------------------------------
 function! Close_YCM_Docs()
     if bufexists(bufname('/tmp/*/\d\+'))
         let file = bufname('/tmp/*\d\+')
