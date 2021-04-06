@@ -1,5 +1,7 @@
 "{{{- wish list ---------------------------------------------------------------
 " For tagets.vim not to go crazy anytime I source my vimrc
+"
+" smooth scrolling on ctrl-u ctrl-d ctrl-f
 
 " automatic folding for markdown sections
 
