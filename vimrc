@@ -224,7 +224,7 @@ set nostartofline " keep cursor on the same column even when no chars are there
 set scrolloff=8 " show 8 lines between cursor and top/bottom of page
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
-set linebreak " wrap long lines at a character in 'breakat' (default " ^I!@*-+;:,./?")
+set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
 set wildmode=longest,list " behave like bash autocomplete rather than zsh
@@ -438,18 +438,23 @@ augroup matlab "{{{
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " imagesc <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ci :set opfunc=MatlabImagesc<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ci 
+                \:set opfunc=MatlabImagesc<CR>g@
     " plot <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cp :set opfunc=MatlabPlot<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cp 
+                \:set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ch :set opfunc=MatlabHist<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ch 
+                \:set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cs :set opfunc=MatlabSummarise<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cs 
+                \:set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
-    " clean up documentation after func snip (remove lines with unused arguments)
+    " clean documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
-                \ :g/% arg :/norm dap <cr> :g/optional_/d <cr> :%s/arg, //g <cr>G
+                \ :g/% arg :/norm dap <cr> 
+                \:g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs LEAVE THE SPACE AT THE $!! 
     autocmd FileType matlab nnoremap <Leader>dh 
@@ -581,7 +586,8 @@ function! s:ag_in(bang, ...)
     throw 'not a valid directory: ' .. a:1
   endif
   " Press `?' to enable preview window.
-  call fzf#vim#ag(join(a:000[1:], ' '), fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
+  call fzf#vim#ag(join(a:000[1:], ' '), 
+              \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
