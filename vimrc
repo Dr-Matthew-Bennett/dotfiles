@@ -247,6 +247,8 @@ set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
 set t_Co=256 " use full colours
 colorscheme zenburn " when I moved it to the top of the this section, it failed
+" make the highlighted searched words less distracting
+highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 syntax enable " highlight special words to aid readability
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
@@ -268,6 +270,11 @@ set statusline+=%P
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
+    "{{{- colorscheme switches ------------------------------------------------
+    " If the syntax highlighting goes weird, F12 to redo it
+    nnoremap <F12> :syntax sync fromstart<cr>
+    nnoremap <Leader>o :call Toggle_Light_Dark_Colorscheme()<cr>
+    "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
     " modifies motions like 0 and $
@@ -374,15 +381,9 @@ augroup general
     "}}}-----------------------------------------------------------------------
 augroup END
 "}}}---------------------------------------------------------------------------
-"{{{- general commands --------------------------------------------------------
-augroup general_commands
-" close buffer without closing window split
-command! Bd bprevious | split | bNext | bdelete
-"}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
 augroup vim "{{{
     autocmd!
-
     " start out with everything folded away
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
@@ -520,13 +521,6 @@ augroup cursor_behaviour
     " turn off current line hightlighting when leaving insert mode
     autocmd InsertLeave * set nocursorline
 augroup END
-"}}}---------------------------------------------------------------------------
-"{{{ - tweak colorscheme ------------------------------------------------------
-" make the highlighted searched words less distracting
-highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
-" If the syntax highlighting goes weird, F12 to redo it
-nnoremap <F12> :syntax sync fromstart<cr>
-nnoremap <Leader>o :call Toggle_Light_Dark_Colorscheme()<cr>
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
