@@ -31,7 +31,6 @@ Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'flazz/vim-colorschemes'
 
 " other plugins that do more exotic things
-" Plugin 'jnurmine/Zenburn'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
 Plugin 'vim-scripts/indentpython.vim'
@@ -522,10 +521,12 @@ augroup cursor_behaviour
     autocmd InsertLeave * set nocursorline
 augroup END
 "}}}---------------------------------------------------------------------------
-"{{{ - tweak zenburn colorscheme ----------------------------------------------
+"{{{ - tweak colorscheme ------------------------------------------------------
 " make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
+" If the syntax highlighting goes weird, F12 to redo it
 nnoremap <F12> :syntax sync fromstart<cr>
+nnoremap <Leader>o :call Toggle_Light_Dark_Colorscheme()<cr>
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -555,6 +556,16 @@ function! EndWord() abort
     else
         call setpos('.', pos)
         return v:false
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- toggle between light and dark colorsheme --------------------------------
+function! Toggle_Light_Dark_Colorscheme()
+    let lights = g:colors_name
+    if lights == 'seoul256-light'
+        colorscheme zenburn
+    else
+        colorscheme seoul256-light
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
