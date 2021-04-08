@@ -60,7 +60,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
 " The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
-" Plugin 'glacambre/firenvim' 
+" Plugin 'glacambre/firenvim'
 "}}}
 "{{{ - call vundle and overide things -----------------------------------------
 " All of your Plugins must be added before the following line
@@ -243,24 +243,22 @@ endfunction
 "{{{- toggle between light and dark colorsheme --------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
-    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
-        colorscheme zenburn " moving this to the top of the this section fails
+    if system('tmux show-environment THEME')[0:9] != 'THEME=dark'
+        colorscheme seoul256-light
     else
-        colorscheme seoul256-light 
+        colorscheme zenburn
     endif
 endfunction
 
 function! Toggle_Light_Dark_Colorscheme()
-    let lights = g:colors_name
-    if lights == 'seoul256-light'
-        colorscheme zenburn
+    if system('tmux show-environment THEME')[0:9] != 'THEME=dark'
         :silent :!tmux source-file ~/.tmux.conf
         :silent :!tmux set-environment THEME 'dark'
     else
-        colorscheme seoul256-light
         :silent :!tmux source-file ~/.tmux_light.conf
         :silent :!tmux set-environment THEME 'light'
     endif
+    :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- open/close YCM doc pages ------------------------------------------------
@@ -281,7 +279,7 @@ function! s:ag_in(bang, ...)
     throw 'not a valid directory: ' .. a:1
   endif
   " Press `?' to enable preview window.
-  call fzf#vim#ag(join(a:000[1:], ' '), 
+  call fzf#vim#ag(join(a:000[1:], ' '),
               \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -422,8 +420,8 @@ call SetColorScheme()
 
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
-" path/file 
-set statusline=%<%f\ 
+" path/file
+set statusline=%<%f\
 " current git branch
 set statusline+=%{FugitiveStatusline()}
 " is this file: help? modified? read only?
@@ -611,23 +609,23 @@ augroup matlab "{{{
                 \<Plug>SlimeLineSend<Esc>ddg`xu
 
     " imagesc <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ci 
-                \:set opfunc=MatlabImagesc<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ci
+                \ :set opfunc=MatlabImagesc<CR>g@
     " plot <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cp 
-                \:set opfunc=MatlabPlot<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cp
+                \ :set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ch 
-                \:set opfunc=MatlabHist<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>ch
+                \ :set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cs 
-                \:set opfunc=MatlabSummarise<CR>g@
+	autocmd FileType matlab noremap <silent> <Leader>cs
+                \ :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <Leader>dc
-                \ :g/% arg :/norm dap <cr> 
-                \:g/optional_/d <cr> :%s/arg, //g <cr>G
+                \ :g/% arg :/norm dap <cr>
+                \ :g/optional_/d <cr> :%s/arg, //g <cr>G
 
     " add any optional variables to the help docs LEAVE THE SPACE AT THE $!! 
     autocmd FileType matlab nnoremap <Leader>dh 
