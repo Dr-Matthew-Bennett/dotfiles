@@ -243,20 +243,20 @@ endfunction
 "{{{- toggle between light and dark colorsheme --------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
-    if system('tmux show-environment THEME')[0:9] != 'THEME=dark'
-        colorscheme seoul256-light
-    else
+    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn
+    else
+        colorscheme seoul256-light
     endif
 endfunction
 
 function! Toggle_Light_Dark_Colorscheme()
-    if system('tmux show-environment THEME')[0:9] != 'THEME=dark'
-        :silent :!tmux source-file ~/.tmux.conf
-        :silent :!tmux set-environment THEME 'dark'
-    else
+    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         :silent :!tmux source-file ~/.tmux_light.conf
         :silent :!tmux set-environment THEME 'light'
+    else
+        :silent :!tmux source-file ~/.tmux.conf
+        :silent :!tmux set-environment THEME 'dark'
     endif
     :call SetColorScheme()
 endfunction
