@@ -565,10 +565,10 @@ function! Toggle_Light_Dark_Colorscheme()
     let lights = g:colors_name
     if lights == 'seoul256-light'
         colorscheme zenburn
-        :silent :!tmux source-file .tmux.conf
+        :silent :!tmux source-file ~/.tmux.conf
     else
         colorscheme seoul256-light
-        :silent :!tmux source-file .tmux_light.conf
+        :silent :!tmux source-file ~/.tmux_light.conf
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
