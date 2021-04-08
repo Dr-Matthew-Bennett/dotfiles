@@ -353,6 +353,8 @@ augroup general
                 \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
     nnoremap <Leader>eb :vsplit
                 \ /home/mattb/linux_config_files/base_bashrc<cr>
+    nnoremap <Leader>et :vsplit
+                \ /home/mattb/linux_config_files/tmux.conf<cr>
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
@@ -563,8 +565,10 @@ function! Toggle_Light_Dark_Colorscheme()
     let lights = g:colors_name
     if lights == 'seoul256-light'
         colorscheme zenburn
+        :silent :!tmux source-file .tmux.conf
     else
         colorscheme seoul256-light
+        :silent :!tmux source-file .tmux_light.conf
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
