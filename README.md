@@ -50,6 +50,7 @@ ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/vimrc .vimrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
+ln -s ~/linux_config_files/tmux_dark.conf .tmux_dark.conf
 mkdir -p ~/.config/bat; ln -s ~/linux_config_files/bat_config ~/.config/bat/config
 ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
 mkdir -p ~/.ipython/profile_default/; ln -s ~/linux_config_files/ipython_config.py ~/.ipython/profile_default/ipython_config.py
