@@ -1,6 +1,6 @@
 "{{{- wish list ---------------------------------------------------------------
 " For tagets.vim not to go crazy anytime I source my vimrc
-"
+
 " smooth scrolling on ctrl-u ctrl-d ctrl-f
 
 " automatic folding for markdown sections
@@ -51,6 +51,7 @@ Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dense-analysis/ale'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'scrooloose/nerdtree'
@@ -210,6 +211,172 @@ let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
+"==== FUNCTIONS ===============================================================
+"{{{- if pasting at end of a word, preceed with a space -----------------------
+" not working, maybe not a great idea anyway...
+
+" nnoremap p :call Paste()<cr>
+
+function! Paste()
+    " Check if register contains newline
+    if matchstr(@", '*$*') != @"
+        if EndWord()
+            normal p
+        endif
+    else
+        norm p
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- determine if cursor is on the end of a word -----------------------------
+function! EndWord() abort
+    let pos = getpos('.')
+    normal! gee
+    if pos == getpos('.')
+        return v:true
+    else
+        call setpos('.', pos)
+        return v:false
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- toggle between light and dark colorsheme --------------------------------
+function! SetColorScheme()
+    " check if we're on a light or dark colorsheme in tmux, and pick accordingly
+    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
+        colorscheme zenburn " moving this to the top of the this section fails
+    else
+        colorscheme seoul256-light 
+    endif
+endfunction
+
+function! Toggle_Light_Dark_Colorscheme()
+    let lights = g:colors_name
+    if lights == 'seoul256-light'
+        colorscheme zenburn
+        :silent :!tmux source-file ~/.tmux.conf
+        :silent :!tmux set-environment THEME 'dark'
+    else
+        colorscheme seoul256-light
+        :silent :!tmux source-file ~/.tmux_light.conf
+        :silent :!tmux set-environment THEME 'light'
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- open/close YCM doc pages ------------------------------------------------
+function! YCM_Toggle_Docs()
+    let doc_file = bufname('/tmp/*\d\+')
+    if !bufexists(doc_file)
+        YcmCompleter GetDoc
+    else
+        execute 'bwipeout ' doc_file
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- Ag: Start ag in the specified directory ---------------------------------
+" e.g.
+"   :Ag ~/foo
+function! s:ag_in(bang, ...)
+  if !isdirectory(a:1)
+    throw 'not a valid directory: ' .. a:1
+  endif
+  " Press `?' to enable preview window.
+  call fzf#vim#ag(join(a:000[1:], ' '), 
+              \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- make a 4-way split and resize the windows how I like --------------------
+function! WorkSplit()
+    let l:currentWindow=winnr()
+    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
+    execute l:currentWindow . "wincmd w"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- restore cursor postition ------------------------------------------------
+" run a command, but put the cursor back when it's done
+function! Preserve(command)
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    execute a:command
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- copy matches to register ------------------------------------------------
+" copies only the text that matches search hits. Use with :CopyMatches :
+" where x is any register (supplying no x copies to clipboard
+function! CopyMatches(reg)
+    let hits = []
+    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
+    let reg = empty(a:reg) ? '+' : a:reg
+    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
+"}}}---------------------------------------------------------------------------
+"{{{- last search term --------------------------------------------------------
+function! LastSearch()
+    return @/
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- matlab functions for easy interrogation of variables --------------------
+    function! MatlabImagesc(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! o figure, imagesc(V__), axis image"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! MatlabPlot(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! o figure, plot(V__), axis image"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! MatlabHist(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! o figure, hist(V__,100), axis image"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! MatlabSummarise(type)
+        :call MatlabPrepCode()
+        silent :execute "normal! o whos V__"
+        silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
+        silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
+        :call MatlabExecuteCode()
+    endfunction
+
+    " helper functions
+    function! MatlabPrepCode()
+        " mark the current cursor position
+        silent :execute "normal! mx"
+        " visually select and yank bewteen opfunc marks
+        silent :execute "normal! `[v`]\"my"
+        " drop down to a new line, ready for composition
+        " silent :execute "normal! o \<Esc>"
+        " reassign variable for use in code
+        silent :execute "normal! o V__ = \<Esc>\"mpA;"
+        :call MatlabExecuteCode()
+    endfunction
+
+    function! MatlabExecuteCode()
+        " create a space after
+        silent :execute "normal! o \<Esc>"
+        " move back line below mark, and visually select to end of paragraph
+        silent :execute "normal! `xj0v}"
+        " send it to the tmux window
+        silent :execute "normal\<Plug>SlimeRegionSend"
+        " move cursor back to original position
+        silent :execute "normal! \"_dd`xu"
+    endfunction
+"}}}---------------------------------------------------------------------------
+"==============================================================================
+
 "==== CUSTOM CONFIGURATIONS ===================================================
 "{{{- general settings --------------------------------------------------------
 set encoding=utf-8
@@ -246,10 +413,13 @@ set nospell " don't hightlight misspellings unles I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
 set t_Co=256 " use full colours
-colorscheme zenburn " when I moved it to the top of the this section, it failed
+syntax enable " highlight special words to aid readability
+
 " make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
-syntax enable " highlight special words to aid readability
+" check if we're on a light or dark colorsheme in tmux, and pick accordingly
+call SetColorScheme()
+
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
 " path/file 
@@ -274,6 +444,7 @@ augroup general
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<cr>
     nnoremap <Leader>o :call Toggle_Light_Dark_Colorscheme()<cr>
+    autocmd FocusGained * :call SetColorScheme()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
@@ -531,157 +702,3 @@ augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
-"==== FUNCTIONS ===============================================================
-"{{{- if pasting at end of a word, preceed with a space -----------------------
-" not working, maybe not a great idea anyway...
-
-" nnoremap p :call Paste()<cr>
-
-function! Paste()
-    " Check if register contains newline
-    if matchstr(@", '*$*') != @"
-        if EndWord()
-            normal p
-        endif
-    else
-        norm p
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- determine if cursor is on the end of a word -----------------------------
-function! EndWord() abort
-    let pos = getpos('.')
-    normal! gee
-    if pos == getpos('.')
-        return v:true
-    else
-        call setpos('.', pos)
-        return v:false
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- toggle between light and dark colorsheme --------------------------------
-function! Toggle_Light_Dark_Colorscheme()
-    let lights = g:colors_name
-    if lights == 'seoul256-light'
-        colorscheme zenburn
-        :silent :!tmux source-file ~/.tmux.conf
-    else
-        colorscheme seoul256-light
-        :silent :!tmux source-file ~/.tmux_light.conf
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- open/close YCM doc pages ------------------------------------------------
-function! YCM_Toggle_Docs()
-    let doc_file = bufname('/tmp/*\d\+')
-    if !bufexists(doc_file)
-        YcmCompleter GetDoc
-    else
-        execute 'bwipeout ' doc_file
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- Ag: Start ag in the specified directory ---------------------------------
-" e.g.
-"   :Ag ~/foo
-function! s:ag_in(bang, ...)
-  if !isdirectory(a:1)
-    throw 'not a valid directory: ' .. a:1
-  endif
-  " Press `?' to enable preview window.
-  call fzf#vim#ag(join(a:000[1:], ' '), 
-              \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- make a 4-way split and resize the windows how I like --------------------
-function! WorkSplit()
-    let l:currentWindow=winnr()
-    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
-    execute l:currentWindow . "wincmd w"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- restore cursor postition ------------------------------------------------
-" run a command, but put the cursor back when it's done
-function! Preserve(command)
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    execute a:command
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- copy matches to register ------------------------------------------------
-" copies only the text that matches search hits. Use with :CopyMatches :
-" where x is any register (supplying no x copies to clipboard
-function! CopyMatches(reg)
-    let hits = []
-    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
-    let reg = empty(a:reg) ? '+' : a:reg
-    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
-endfunction
-command! -register CopyMatches call CopyMatches(<q-reg>)
-"}}}---------------------------------------------------------------------------
-"{{{- last search term --------------------------------------------------------
-function! LastSearch()
-    return @/
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- matlab functions for easy interrogation of variables --------------------
-    function! MatlabImagesc(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, imagesc(V__), axis image"
-        :call MatlabExecuteCode()
-    endfunction
-
-    function! MatlabPlot(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, plot(V__), axis image"
-        :call MatlabExecuteCode()
-    endfunction
-
-    function! MatlabHist(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, hist(V__,100), axis image"
-        :call MatlabExecuteCode()
-    endfunction
-
-    function! MatlabSummarise(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o whos V__"
-        silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
-        silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
-        :call MatlabExecuteCode()
-    endfunction
-
-    " helper functions
-    function! MatlabPrepCode()
-        " mark the current cursor position
-        silent :execute "normal! mx"
-        " visually select and yank bewteen opfunc marks
-        silent :execute "normal! `[v`]\"my"
-        " drop down to a new line, ready for composition
-        " silent :execute "normal! o \<Esc>"
-        " reassign variable for use in code
-        silent :execute "normal! o V__ = \<Esc>\"mpA;"
-        :call MatlabExecuteCode()
-    endfunction
-
-    function! MatlabExecuteCode()
-        " create a space after
-        silent :execute "normal! o \<Esc>"
-        " move back line below mark, and visually select to end of paragraph
-        silent :execute "normal! `xj0v}"
-        " send it to the tmux window
-        silent :execute "normal\<Plug>SlimeRegionSend"
-        " move cursor back to original position
-        silent :execute "normal! \"_dd`xu"
-    endfunction
-"}}}---------------------------------------------------------------------------
-"==============================================================================

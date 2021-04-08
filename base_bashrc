@@ -134,6 +134,7 @@ xcape -e '#66=Escape'
 # Launch tmux
 if command -v tmux>/dev/null; then
 	 [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux new-session -A -s main
+     tmux set-environment THEME 'dark'
 fi
 
 # set IPs as variables so I don't have to look them up all the time
