@@ -242,7 +242,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorsheme --------------------------------
 function! SetColorScheme()
-    " check if we're on a light or dark colorsheme in tmux, and pick accordingly
+    " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn " moving this to the top of the this section fails
     else
