@@ -53,9 +53,9 @@ Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'dbeniamine/cheat.sh-vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
-" Plugin 'dbeniamine/cheat.sh-vim'
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'scrooloose/nerdtree'
 
@@ -81,6 +81,7 @@ filetype plugin indent on "use default plugins
 noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
+
 "}}}---------------------------------------------------------------------------
 " {{{- fzf.vim ----------------------------------------------------------------
     " insert mode line completion
@@ -210,6 +211,39 @@ let g:ale_fixers = ['black']
 " other symbols: https://coolsymbol.com/
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '⚠ '
+"}}}---------------------------------------------------------------------------
+"{{{- cheat.sh ----------------------------------------------------------------
+" cheat sheet base url
+let g:CheatSheetBaseUrl='https://cheat.sh'
+
+" Stay in origin buffer (set to 0 to keep focus on the cheat sheet buffer)
+let g:CheatSheetStayInOrigBuf=0
+
+" I'll make my own mappings
+let g:CheatSheetDoNotMap=1
+
+" Buffer
+nnoremap <script> <silent> <leader>c
+            \ :call cheat#cheat("", getcurpos()[1], getcurpos()[1], 0, 0, '!')<CR>
+vnoremap <script> <silent> <leader>c
+            \ :call cheat#cheat("", -1, -1, 2, 0, '!')<CR>
+
+" Default normal mode selection (line = whole line, word = word under cursor)
+" let g:CheatSheetDefaultSelection="word"
+
+" Next
+" cnq=CheatNextQuestion; cna=CheatNextAnswer; cpq=CheatPreviousQuestion etc.
+nnoremap <script> <silent> <leader>cnq :call cheat#navigate(1,'Q')<CR>
+vnoremap <script> <silent> <leader>cnq :call cheat#navigate(1,'Q')<CR>
+nnoremap <script> <silent> <leader>cna :call cheat#navigate(1, 'A')<CR>
+vnoremap <script> <silent> <leader>cna :call cheat#navigate(1, 'A')<CR>
+
+" Prev
+nnoremap <script> <silent> <leader>cpq :call cheat#navigate(-1,'Q')<CR>
+vnoremap <script> <silent> <leader>cpq :call cheat#navigate(-1,'Q')<CR>
+nnoremap <script> <silent> <leader>cpa :call cheat#navigate(-1,'A')<CR>
+vnoremap <script> <silent> <leader>cpa :call cheat#navigate(-1,'A')<CR>
+
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
