@@ -255,7 +255,7 @@ function! Toggle_Light_Dark_Colorscheme()
         :silent :!tmux source-file ~/.tmux_light.conf
         :silent :!tmux set-environment THEME 'light'
     else
-        :silent :!tmux source-file ~/.tmux.conf
+        :silent :!tmux source-file ~/.tmux_dark.conf
         :silent :!tmux set-environment THEME 'dark'
     endif
     :call SetColorScheme()
