@@ -1,4 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
+
 " For tagets.vim not to go crazy anytime I source my vimrc
 
 " smooth scrolling on ctrl-u ctrl-d ctrl-f
@@ -54,8 +55,9 @@ Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
-" Plugin 'scrooloose/nerdtree'
+" Plugin 'dbeniamine/cheat.sh-vim'
 " Plugin 'airblade/vim-gitgutter'
+" Plugin 'scrooloose/nerdtree'
 
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
