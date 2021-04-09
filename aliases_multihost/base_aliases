@@ -45,7 +45,7 @@ alias et='vim ~/linux_config_files/tmux.conf'
 alias kt='tmux kill-session -t main'
 # switch between light and dark themes
 alias ol="tmux source-file ~/.tmux_light.conf; tmux set-environment THEME 'light'"
-alias od="tmux source-file ~/.tmux.conf; tmux set-environment THEME 'dark'"
+alias od="tmux source-file ~/.tmux_dark.conf; tmux set-environment THEME 'dark'"
 
 # show ls vertically by default using the -1 switch
 alias l='ls -1 -hF'
