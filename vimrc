@@ -228,9 +228,6 @@ nnoremap <script> <silent> <leader>c
 vnoremap <script> <silent> <leader>c
             \ :call cheat#cheat("", -1, -1, 2, 0, '!')<CR>
 
-" Default normal mode selection (line = whole line, word = word under cursor)
-" let g:CheatSheetDefaultSelection="word"
-
 " Next
 " cnq=CheatNextQuestion; cna=CheatNextAnswer; cpq=CheatPreviousQuestion etc.
 nnoremap <script> <silent> <leader>cnq :call cheat#navigate(1,'Q')<CR>
@@ -288,11 +285,11 @@ endfunction
 
 function! Toggle_Light_Dark_Colorscheme()
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
-        :silent :!tmux source-file ~/.tmux_light.conf
         :silent :!tmux set-environment THEME 'light'
+        :silent :!tmux source-file ~/.tmux_light.conf
     else
-        :silent :!tmux source-file ~/.tmux_dark.conf
         :silent :!tmux set-environment THEME 'dark'
+        :silent :!tmux source-file ~/.tmux_dark.conf
     endif
     :call SetColorScheme()
 endfunction
