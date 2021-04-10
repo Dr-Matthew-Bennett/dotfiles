@@ -53,7 +53,6 @@ Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'dbeniamine/cheat.sh-vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -212,36 +211,6 @@ let g:ale_fixers = ['black']
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
-"{{{- cheat.sh ----------------------------------------------------------------
-" cheat sheet base url
-let g:CheatSheetBaseUrl='https://cheat.sh'
-
-" Stay in origin buffer (set to 0 to keep focus on the cheat sheet buffer)
-let g:CheatSheetStayInOrigBuf=0
-
-" I'll make my own mappings
-let g:CheatSheetDoNotMap=1
-
-" Buffer
-nnoremap <script> <silent> <leader>c
-            \ :call cheat#cheat("", getcurpos()[1], getcurpos()[1], 0, 0, '!')<CR>
-vnoremap <script> <silent> <leader>c
-            \ :call cheat#cheat("", -1, -1, 2, 0, '!')<CR>
-
-" Next
-" cnq=CheatNextQuestion; cna=CheatNextAnswer; cpq=CheatPreviousQuestion etc.
-nnoremap <script> <silent> <leader>cnq :call cheat#navigate(1,'Q')<CR>
-vnoremap <script> <silent> <leader>cnq :call cheat#navigate(1,'Q')<CR>
-nnoremap <script> <silent> <leader>cna :call cheat#navigate(1, 'A')<CR>
-vnoremap <script> <silent> <leader>cna :call cheat#navigate(1, 'A')<CR>
-
-" Prev
-nnoremap <script> <silent> <leader>cpq :call cheat#navigate(-1,'Q')<CR>
-vnoremap <script> <silent> <leader>cpq :call cheat#navigate(-1,'Q')<CR>
-nnoremap <script> <silent> <leader>cpa :call cheat#navigate(-1,'A')<CR>
-vnoremap <script> <silent> <leader>cpa :call cheat#navigate(-1,'A')<CR>
-
-"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
@@ -253,6 +222,7 @@ vnoremap <script> <silent> <leader>cpa :call cheat#navigate(-1,'A')<CR>
 function! Paste()
     " Check if register contains newline
     if matchstr(@", '*$*') != @"
+
         if EndWord()
             normal p
         endif
@@ -410,6 +380,10 @@ endfunction
 
 "==== CUSTOM CONFIGURATIONS ===================================================
 "{{{- general settings --------------------------------------------------------
+" keep all the annoying files in one place
+set backupdir=~/linux_config_files/.vim/backup//
+set directory=~/linux_config_files/.vim/swap//
+set undodir=~/linux_config_files/.vim/undo//
 set encoding=utf-8
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
@@ -537,6 +511,12 @@ augroup general
     nmap <silent><Leader>j <Plug>ShortenSplit
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
+
+    " w3m out to /tmp/w3m_scratch
+    nnoremap <leader>wo :silent! saveas! /tmp/w3m_scratch<cr>:q<cr>
+    " w3m in /tmp/w3m_scratch
+    nnoremap <leader>wi :silent! split /tmp/w3m_scratch<cr><cr>
+
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
