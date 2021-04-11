@@ -70,7 +70,7 @@ keymap :t       TAB_MENU        # Tab menu
 #-url operations...............................................................
 keymap f    	GOTO_LINK		# Follow link in current tab
 keymap gf    	TAB_LINK		# Follow link in a new foreground tab
-keymap F   	COMMAND         "TAB_LINK; PREV_TAB" # follow link under cursor in new background tab
+keymap F   	    COMMAND         "TAB_LINK; PREV_TAB" # follow link under cursor in new background tab
 keymap gF       MOVE_LIST_MENU  # link list --> move cursor to link
 
 #-link navigation..............................................................
