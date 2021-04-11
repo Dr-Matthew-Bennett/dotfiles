@@ -13,6 +13,8 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
  - xclip
  - tmux
  - zathura
+ - flake8 (pip3 install flake8)
+ - black (pip3 install black)
 
 ## To make this work
 
