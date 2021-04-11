@@ -100,7 +100,7 @@ keymap !        COMMAND
 keymap |        PIPE_BUF        # Send rendered document to pipe
 
 keymap :h       HELP			# View help
-keymap :v       OPTIONS			# Option setting panel
+keymap :o       OPTIONS			# Option setting panel
 keymap :q       QUIT 			# Quit w3m with confirmation (q alone works too)
 keymap ZZ       EXIT			# Quit w3m without confirmation.
 
@@ -112,7 +112,7 @@ keymap gC-g     INFO			# current page info
 keymap C-g      LINE_INFO		# line under cursor info
 
 #-miscellaneous................................................................
-keymap :e       EDIT_SCREEN		# Edit current rendered document with sensible-editor
+keymap v        EDIT_SCREEN		# Edit current rendered document with sensible-editor
 
 #-unused url operations.......................................................
 # keymap        PEEK						# Show current page url.
