@@ -19,7 +19,7 @@
 #-custom map commands..........................................................
 # switch the color of links for light/dark colourscheme
 keymap  SPCd    COMMAND         "SET_OPTION  anchor_color=yellow"
-keymap  SPCl    COMMAND         "SET_OPTION  anchor_color=blue"
+keymap  SPCl    COMMAND         "SET_OPTION  anchor_color=green"
 # skip past all the cruft on the stack sites to where the question is asked
 keymap  st      COMMAND         "WHEREIS Ask\ Question;  CENTER_V;  NEXT_HALF_PAGE"
 
