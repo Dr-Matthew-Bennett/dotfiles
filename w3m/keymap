@@ -72,6 +72,7 @@ keymap f    	GOTO_LINK		# Follow link in current tab
 keymap gf    	TAB_LINK		# Follow link in a new foreground tab
 keymap F   	    COMMAND         "TAB_LINK; PREV_TAB" # follow link under cursor in new background tab
 keymap gF       MOVE_LIST_MENU  # link list --> move cursor to link
+keymap r        RELOAD			# Reload current page.
 
 #-link navigation..............................................................
 keymap [        NEXT_LEFT_UP
@@ -96,15 +97,15 @@ keymap N        SEARCH_PREV		# Find previous
 
 #-commands.....................................................................
 keymap !        COMMAND         
-keymap :h       HELP			# View help
-keymap *        OPTIONS			# Option setting panel
 keymap |        PIPE_BUF        # Send rendered document to pipe
+
+keymap :h       HELP			# View help
+keymap :v       OPTIONS			# Option setting panel
+keymap :q       QUIT 			# Quit w3m with confirmation (q alone works too)
+keymap ZZ       EXIT			# Quit w3m without confirmation.
 
 # Reload configuration files.
 keymap :s       REINIT
-keymap q        QUIT 			# Quit w3m with confirmation.
-keymap ZZ       EXIT			# Quit w3m without confirmation.
-keymap r        RELOAD			# Reload current page.
 
 #-info.........................................................................
 keymap gC-g     INFO			# current page info
