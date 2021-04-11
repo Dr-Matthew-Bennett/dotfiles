@@ -253,7 +253,7 @@ function! SetColorScheme()
     endif
 endfunction
 
-function! Toggle_Light_Dark_Colorscheme()
+function! ToggleLightDarkColorscheme()
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         :silent :!tmux set-environment THEME 'light'
         :silent :!tmux source-file ~/.tmux_light.conf
@@ -271,6 +271,23 @@ function! YCM_Toggle_Docs()
         YcmCompleter GetDoc
     else
         execute 'bwipeout ' doc_file
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- handle w3m_scratch file and toggle split to use it ----------------------
+function! WriteW3MToScratch()
+    " only if the file matches this highly specific reg exp will we do anything
+    "(e.g. a file that looks like: .w3m/w3mtmp7352-3)
+    if match(@%, "\.w3m/w3mtmp\\d\\{4\\}-\\d") != -1
+        :silent! wq! /tmp/w3m_scratch
+    endif
+endfunction
+
+function! ToggleW3M()
+    if bufexists("/tmp/w3m_scratch")
+        :bwipe! /tmp/w3m_scratch
+    else
+        :silent! split /tmp/w3m_scratch
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -448,8 +465,10 @@ augroup general
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<cr>
-    nnoremap <Leader>o :call Toggle_Light_Dark_Colorscheme()<cr>
+    nnoremap <Leader>o :call ToggleLightDarkColorscheme()<cr>
     autocmd FocusGained * :call SetColorScheme()
+    " anytime we read in a buffer, if it came from w3m then write to scratch
+    autocmd BufReadPost * :call WriteW3MToScratch()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
@@ -512,10 +531,8 @@ augroup general
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
-    " w3m out to /tmp/w3m_scratch
-    nnoremap <leader>wo :silent! saveas! /tmp/w3m_scratch<cr>:q<cr>
-    " w3m in /tmp/w3m_scratch
-    nnoremap <leader>wi :silent! split /tmp/w3m_scratch<cr><cr>
+    " open/close horizontal split containing w3m_scratch
+    nnoremap <leader>w :call ToggleW3M()<cr>
 
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
