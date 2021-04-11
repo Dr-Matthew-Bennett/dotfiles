@@ -69,9 +69,9 @@ keymap :t       TAB_MENU        # Tab menu
 
 #-url operations...............................................................
 keymap f    	GOTO_LINK		# Follow link in current tab
-keymap F    	TAB_LINK		# Follow link in a new foreground tab
+keymap gf    	TAB_LINK		# Follow link in a new foreground tab
+keymap F   	COMMAND         "TAB_LINK; PREV_TAB" # follow link under cursor in new background tab
 keymap gF       MOVE_LIST_MENU  # link list --> move cursor to link
-# keymap gf   	COMMAND         "TAB_LINK; PREV_TAB" # follow link under cursor in new background tab
 
 #-link navigation..............................................................
 keymap [        NEXT_LEFT_UP
@@ -109,7 +109,6 @@ keymap r        RELOAD			# Reload current page.
 #-info.........................................................................
 keymap gC-g     INFO			# current page info
 keymap C-g      LINE_INFO		# line under cursor info
-keymap gf       VIEW			# See source of current page. dwb key
 
 #-miscellaneous................................................................
 keymap :e       EDIT_SCREEN		# Edit current rendered document with sensible-editor
