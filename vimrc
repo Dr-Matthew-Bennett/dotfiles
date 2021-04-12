@@ -277,7 +277,7 @@ endfunction
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
-    "(e.g. a file that looks like: .w3m/w3mtmp7352-3)
+    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{nunber})
     if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") != -1
         :silent! wq! /tmp/w3m_scratch
     endif
