@@ -135,9 +135,9 @@ xcape -e '#66=Escape'
 if command -v tmux>/dev/null; then
     [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux new-session -A -s main
 
-    # check if we have been switched to light, else go dark
-    [[ ! $(tmux show-environment | grep THEME) =~ 'THEME=light' ]] && 
-    tmux set-environment THEME dark
+    # check if we have been switched to dark, else go light
+    [[ ! $(tmux show-environment | grep THEME) =~ 'THEME=dark' ]] && 
+    tmux set-environment THEME light
 fi
 
 # set IPs as variables so I don't have to look them up all the time
