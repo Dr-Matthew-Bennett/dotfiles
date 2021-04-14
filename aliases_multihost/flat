@@ -28,6 +28,8 @@ alias cdd=${cdd_arg}
 alias cdm=${cdm_arg}
 alias cdv=${cdv_arg}
 
+alias box='vlc --random --loop --fullscreen ~/videos/boxing_highlights/*.mp4 &'
+
 # ufc
 alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf | sort'
 alias ufcud='python3 /home/mattb/code/python/python_flat/random/ufc_database.py' 
