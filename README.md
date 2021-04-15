@@ -49,10 +49,12 @@ that you want to keep synched across machines with symbolic links from your
 cd ~/
 ln -s ~/linux_config_files/base_bashrc .bashrc
 ln -s ~/linux_config_files/inputrc .inputrc
-ln -s ~/linux_config_files/vimrc .vimrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
 ln -s ~/linux_config_files/tmux_dark.conf .tmux_dark.conf
+mkdir -p linux_config_files/.vim/{backup,undo,swap}
+ln -s ~/linux_config_files/vimrc .vimrc
+mkdir ~/.w3m
 ln -s ~/linux_config_files/w3m/keymap ~/.w3m/keymap
 ln -s ~/linux_config_files/w3m/config ~/.w3m/config
 ln -s ~/linux_config_files/w3m/functions_info.txt ~/.w3m/functions_info.txt 
