@@ -1,7 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" For my split sizes to remain after plugins bring up a split of their own
-
 " For tagets.vim not to go crazy anytime I source my vimrc
 
 " smooth scrolling on ctrl-u ctrl-d ctrl-f
@@ -314,6 +312,25 @@ function! WorkSplit()
     execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- smoothly scroll the screen up and down ----------------------------------
+function SmoothScroll(scroll_direction, n_scroll)
+    let n_scroll = a:n_scroll
+    if a:scroll_direction == 1
+        let scrollaction=""
+    else 
+        let scrollaction=""
+    endif
+    exec "normal " . scrollaction
+    redraw
+    let counter=1
+    while counter<&scroll*n_scroll
+        let counter+=1
+        sleep 8m " ms per line
+        redraw
+        exec "normal " . scrollaction
+    endwhile
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- restore cursor postition ------------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
@@ -410,6 +427,7 @@ set hidden " when swtiching buffers, don't complain about unsaved changes
 set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
+set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
 set scrolloff=8 " show 8 lines between cursor and top/bottom of page
@@ -477,6 +495,12 @@ augroup general
     " modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
+
+    " smoothly scroll the screen for some scrolling operations
+    nnoremap <C-U> :call SmoothScroll(1,1)<cr>
+    nnoremap <C-D> :call SmoothScroll(2,1)<cr>
+    nnoremap <C-B> :call SmoothScroll(1,2)<cr>
+    nnoremap <C-F> :call SmoothScroll(2,2)<cr>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -731,4 +755,3 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-
