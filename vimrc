@@ -1,5 +1,7 @@
 "{{{- wish list ---------------------------------------------------------------
 
+" For my split sizes to remain after plugins bring up a split of their own
+
 " For tagets.vim not to go crazy anytime I source my vimrc
 
 " smooth scrolling on ctrl-u ctrl-d ctrl-f
@@ -207,7 +209,7 @@ let g:ycm_filetype_blacklist = {
 " use black
 let g:ale_fixers = ['black']
 
-" other symbols: https://coolsymbol.com/
+" other symbols: https://coolsymbol.com/ 
 let g:ale_sign_error = '☠ '
 let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
