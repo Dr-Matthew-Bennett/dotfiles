@@ -2,11 +2,9 @@
 
 " For tagets.vim not to go crazy anytime I source my vimrc
 
-" smooth scrolling on ctrl-u ctrl-d ctrl-f
-
 " automatic folding for markdown sections
 
-" paste one space later than cursor (even if we're on at the end of the line)
+" paste one space later than cursor (even if we're at the end of the line)
 
 " for <Leader>\ to use :b# only when the # exists, otherwise use :bn
 
