@@ -28,7 +28,7 @@ alias cdd=${cdd_arg}
 alias cdm=${cdm_arg}
 alias cdv=${cdv_arg}
 
-alias box='vlc --random --loop --fullscreen ~/videos/boxing_highlights/*.mp4 &'
+alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 
 # ufc
 alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf | sort'
