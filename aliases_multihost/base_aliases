@@ -51,7 +51,7 @@ cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
 alias cdu=${cdu_arg}
 
 # removed and restore fzf default options (if I want to use it in an usual directory)
-alias fzfcl="export FZF_DEFAULT_COMMAND=''"
+alias fzfcl="export FZF_DEFAULT_COMMAND='fd .'"
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 
 # source .bashrc
