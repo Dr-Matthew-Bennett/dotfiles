@@ -67,7 +67,7 @@ f() {
     # Reload the ~/.bash_history into the shell's active history
     history -r
 
-    # Execute the last command in ~/.bash_history
+    # EXECUTE THE LAST COMMAND IN ~/.bash_history #############################
     fc -s -1
 
     # Clean up temporary variables
