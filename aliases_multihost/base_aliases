@@ -57,8 +57,9 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 # source .bashrc
 alias sob='source ~/.bashrc'
 # edit dot files
-alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
 alias eb='vim ~/linux_config_files/base_bashrc'
+alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
+alias ef='vim ~/linux_config_files/functions_multihost/base_functions'
 alias ev='vim ~/linux_config_files/vimrc'
 alias et='vim ~/linux_config_files/tmux.conf'
 
