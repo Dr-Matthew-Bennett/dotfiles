@@ -572,10 +572,12 @@ augroup general
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
 
-    nnoremap <Leader>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
     nnoremap <Leader>eb :vsplit
                 \ /home/mattb/linux_config_files/base_bashrc<cr>
+    nnoremap <Leader>ea :vsplit
+                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
+    nnoremap <Leader>ef :vsplit
+                \ /home/mattb/linux_config_files/functions_multihost/base_functions<cr>
     nnoremap <Leader>et :vsplit
                 \ /home/mattb/linux_config_files/tmux.conf<cr>
     "}}}-----------------------------------------------------------------------
