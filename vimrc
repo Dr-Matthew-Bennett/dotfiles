@@ -51,6 +51,7 @@ Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'vim-scripts/Tabmerge' 
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -165,6 +166,10 @@ xmap <Leader>s <Plug>SlimeRegionSend
 nmap <Leader>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <Leader>ss <Plug>SlimeLineSend
+" }}}--------------------------------------------------------------------------
+"{{{- vim-tmux-navigator ------------------------------------------------------
+" disable tmux navigator when zooming the vim pane
+let g:tmux_navigator_disable_when_zoomed = 1
 " }}}--------------------------------------------------------------------------
 "{{{- ultisnips ---------------------------------------------------------------
 " Ultisnips trigger configuration.
@@ -309,6 +314,19 @@ function! WorkSplit()
     execute l:currentWindow . "wincmd w"
     execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- open a new help page in a new split -------------------------------------
+function! NewHelpSplit(subject)
+    let current_tabpage = string(tabpagenr())
+    " open a help page in a new tab
+    :execute ':tab :help ' a:subject
+    " merge that tab as a split in current tab (left, means the original tab
+    " content will be on the left, and therefore the help will be on the right)
+    :execute ':Tabmerge ' current_tabpage ' bottom'
+endfunction
+
+" make the above function easy to use like :Nhelp topic
+:command -nargs=1 NHelp :call NewHelpSplit("<args>")
 "}}}---------------------------------------------------------------------------
 "{{{- smoothly scroll the screen up and down ----------------------------------
 function SmoothScroll(scroll_direction, n_scroll)
@@ -755,3 +773,5 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
+"
+
