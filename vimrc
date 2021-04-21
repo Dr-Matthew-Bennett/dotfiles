@@ -452,7 +452,8 @@ set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
-set wildmode=longest,list " behave like bash autocomplete rather than zsh
+set wildmode=list:full
+" set wildmode=longest,list " behave like bash autocomplete rather than zsh
 set wildignorecase " ignore case when completing file names
 set expandtab " expand tabs into spaces
 set tabstop=4 " a tab is the same as 4 spaces
