@@ -1,0 +1,58 @@
+"==== SETUP VUNDLE PLUGIN MANAGER =============================================
+set nocompatible " don't try to be compatible with Vi
+filetype plugin indent on " use default plugins
+
+" paths
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" plugins I would put in a new vimrc
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
+Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'flazz/vim-colorschemes'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+" I want to override one of the defaults here, so load it now then overwrite
+runtime! plugin/sensible.vim
+
+"==== SETTINGS ================================================================
+set encoding=utf-8
+set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
+set nowrap " don't wrap lines by default
+set expandtab " expand tabs into spaces
+set tabstop=4 " a tab is the same as 4 spaces
+set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
+set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
+set autoindent " when creating a new line, copy indent from line above
+set incsearch " show matches for patterns while they are being typed
+set smartcase " with both on, searches with no capitals are case insensitive...
+set ignorecase " ...while searches with capital characters are case sensitive.
+set spell spelllang=en
+set nospell " don't hightlight misspellings unles I say so
+set lazyredraw " don't redraw screen during macros (let them complete faster)
+set t_Co=256 " use full colours
+syntax enable " highlight special words to aid readability
+
+colorscheme zenburn
+ 
+"==== FUNCTIONS ===============================================================
+augroup cursor_behaviour
+    autocmd!
+    " reset cursor on start:
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
+    " cursor blinking bar on insert mode
+    let &t_SI = "\e[5 q"
+    " cursor steady block on command mode
+    let &t_EI = "\e[2 q"
+    " highlight current line when in insert mode
+    autocmd InsertEnter * set cursorline
+    " turn off current line hightlighting when leaving insert mode
+    autocmd InsertLeave * set nocursorline
+augroup END
