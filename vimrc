@@ -75,14 +75,13 @@ runtime! plugin/sensible.vim
 "==============================================================================
 
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
-
+"{{{- remap leader key --------------------------------------------------------
 "make the space bar my leader key (must be before I make <Leader> mappings)
 noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
-
 "}}}---------------------------------------------------------------------------
-" {{{- fzf.vim ----------------------------------------------------------------
+"{{{- fzf.vim -----------------------------------------------------------------
     " insert mode line completion
     imap ;l <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory

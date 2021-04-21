@@ -22,7 +22,8 @@ call vundle#end()            " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
 
-"==== SETTINGS ================================================================
+"==== CUSTOM CONFIGURATIONS ===================================================
+"- general settings -----------------------------------------------------------
 set encoding=utf-8
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
@@ -42,7 +43,7 @@ syntax enable " highlight special words to aid readability
 
 colorscheme zenburn
  
-"==== FUNCTIONS ===============================================================
+"- cursor behaviour -----------------------------------------------------------
 augroup cursor_behaviour
     autocmd!
     " reset cursor on start:
