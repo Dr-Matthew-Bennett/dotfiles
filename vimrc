@@ -320,12 +320,12 @@ function! NewHelpSplit(subject)
     let current_tabpage = string(tabpagenr())
     " open a help page in a new tab
     :execute ':tab :help ' a:subject
-    " merge that tab as a split in current tab (left, means the original tab
-    " content will be on the left, and therefore the help will be on the right)
+    " merge that tab as a split in current tab (bottom, means the original tab
+    " content will be on the bottom, and therefore the help will be on the right)
     :execute ':Tabmerge ' current_tabpage ' bottom'
 endfunction
 
-" make the above function easy to use like :Nhelp topic
+" make the above function easy to use like :NHelp topic
 :command -nargs=1 NHelp :call NewHelpSplit("<args>")
 "}}}---------------------------------------------------------------------------
 "{{{- smoothly scroll the screen up and down ----------------------------------
