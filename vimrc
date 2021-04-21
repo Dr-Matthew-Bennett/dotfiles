@@ -60,6 +60,8 @@ Plugin 'vim-scripts/Tabmerge'
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'scrooloose/nerdtree'
+" Plugin 'tommcdo/vim-lion'
+" Plugin 'tpope/vim-eunuch'
 
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
