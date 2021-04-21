@@ -14,6 +14,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 " plugins I would put in a new vimrc
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-scripts/ReplaceWithRegister'
@@ -21,7 +22,7 @@ Plugin 'flazz/vim-colorschemes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-" I want to override one of the defaults here, so load it now then overwrite
+" I want to be able to override the defaults, so load it now
 runtime! plugin/sensible.vim
 
 "==== CUSTOM CONFIGURATIONS ===================================================

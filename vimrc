@@ -28,6 +28,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 " plugins I would put in a new vimrc
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-scripts/ReplaceWithRegister'
@@ -35,7 +36,6 @@ Plugin 'flazz/vim-colorschemes'
 
 " other plugins that do more exotic things
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-repeat'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'ycm-core/YouCompleteMe'
@@ -153,7 +153,7 @@ nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
 
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
-" I want the default to be to the left of the vim I'm working in
+" I want to be able to override the defaults, so load it now
 let g:slime_default_config =
             \ {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
