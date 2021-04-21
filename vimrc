@@ -11,6 +11,10 @@
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
+"{{{- required ----------------------------------------------------------------
+set nocompatible " don't try to be compatible with Vi
+filetype plugin indent on " use default plugins
+"}}}---------------------------------------------------------------------------
 "{{{- paths -------------------------------------------------------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
@@ -71,9 +75,6 @@ runtime! plugin/sensible.vim
 "==============================================================================
 
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
-"{{{- required ----------------------------------------------------------------
-set nocompatible " don't try to be compatible with Vi
-filetype plugin indent on "use default plugins
 
 "make the space bar my leader key (must be before I make <Leader> mappings)
 noremap <Space> <Nop>
@@ -773,5 +774,4 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-"
 
