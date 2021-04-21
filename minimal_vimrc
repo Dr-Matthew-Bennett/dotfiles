@@ -1,4 +1,6 @@
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
+" install plugin manager: https://github.com/VundleVim/Vundle.vim#quick-start
+
 set nocompatible " don't try to be compatible with Vi
 filetype plugin indent on " use default plugins
 
