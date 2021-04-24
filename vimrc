@@ -52,7 +52,7 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 " lots more text objects! looks very good and well made
-Plugin 'dense-analysis/ale'
+" Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'vim-scripts/Tabmerge' 
 Plugin 'wellle/targets.vim'
