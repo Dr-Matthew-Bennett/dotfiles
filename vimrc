@@ -518,9 +518,9 @@ augroup general
     onoremap <silent> il :<C-U>normal! ^vg_<CR>
     onoremap <silent> al :<C-U>normal! 0v$<CR>
 
-    " paste at end of line, with a space
+    " paste at end of line, with an automatic space
     nnoremap <Leader><Leader>p o<C-r>"<Esc>kJ
-    " paste at start of line, with a space
+    " paste at start of line, with an automatic space
     nnoremap <Leader><Leader>P O<C-r>"<Esc>J
 
     " Mappings for warnings from Worp/Ale in the style of unimpaired-next
