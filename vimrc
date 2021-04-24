@@ -77,6 +77,12 @@ runtime! plugin/sensible.vim
 "==============================================================================
 
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
+"{{{- remap leader key --------------------------------------------------------
+"make the space bar my leader key (must be before I make <Leader> mappings)
+noremap <Space> <Nop>
+sunmap <Space>
+let mapleader=" "
+"}}}---------------------------------------------------------------------------
 "{{{- ALE ---------------------------------------------------------------------
 " needs a linter and a fixer installed on the system to work. I'm using:
 " pip3 install flake8
@@ -114,12 +120,6 @@ runtime! plugin/sensible.vim
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<cr>
-"}}}---------------------------------------------------------------------------
-"{{{- remap leader key --------------------------------------------------------
-"make the space bar my leader key (must be before I make <Leader> mappings)
-noremap <Space> <Nop>
-sunmap <Space>
-let mapleader=" "
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Only consider targets fully visible on screen:
