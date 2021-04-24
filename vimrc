@@ -27,35 +27,35 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " plugins I would put in a new vimrc
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
-Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins that do more exotic things
-Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'jeetsukumaran/vim-indentwise'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'vim-scripts/MatlabFilesEdition'
-Plugin 'jpalardy/vim-slime'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'SirVer/ultisnips'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plugin 'simnalamburt/vim-mundo'
-Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-indent-object'
+Plugin 'SirVer/ultisnips'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'jeetsukumaran/vim-indentwise'
+Plugin 'jpalardy/vim-slime'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
+Plugin 'markonm/traces.vim'
+Plugin 'simnalamburt/vim-mundo'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-scripts/MatlabFilesEdition'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 " lots more text objects! looks very good and well made
-Plugin 'wellle/targets.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'vim-scripts/Tabmerge' 
+Plugin 'wellle/targets.vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
