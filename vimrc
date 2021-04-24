@@ -1,6 +1,6 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" For tagets.vim not to go crazy anytime I source my vimrc
+" For targets.vim not to go crazy anytime I source my vimrc
 
 " automatic folding for markdown sections
 
@@ -68,7 +68,7 @@ Plugin 'wellle/targets.vim'
 " The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
 " Plugin 'glacambre/firenvim'
 "}}}
-"{{{ - call vundle and overide things -----------------------------------------
+"{{{ - call vundle and override things -----------------------------------------
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 " I want to override one of the defaults here, so load it now then overwrite
@@ -186,10 +186,6 @@ nmap <Leader>ss <Plug>SlimeLineSend
 let g:tmux_navigator_disable_when_zoomed = 1
 " }}}--------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
-" open the full documentation in a split window below
-" nnoremap <Leader>d :call Matt() \| call Matt2()<cr>
-" let g:ycm_autoclose_preview_window_after_completion = 0
-
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown from this list and it seems to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -208,7 +204,7 @@ let g:ycm_filetype_blacklist = {
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
-"{{{- if pasting at end of a word, preceed with a space -----------------------
+"{{{- if pasting at end of a word, precede with a space -----------------------
 " not working, maybe not a great idea anyway...
 
 " nnoremap p :call Paste()<cr>
@@ -237,7 +233,7 @@ function! EndWord() abort
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- toggle between light and dark colorsheme --------------------------------
+"{{{- toggle between light and dark colorscheme --------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
@@ -271,7 +267,7 @@ endfunction
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
-    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{nunber})
+    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
     if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") != -1
         :silent! wq! /tmp/w3m_scratch
     endif
@@ -338,7 +334,7 @@ function SmoothScroll(scroll_direction, n_scroll)
     endwhile
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- restore cursor postition ------------------------------------------------
+"{{{- restore cursor position ------------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
     " Preparation: save last search, and cursor position.
@@ -399,7 +395,7 @@ endfunction
     function! MatlabPrepCode()
         " mark the current cursor position
         silent :execute "normal! mx"
-        " visually select and yank bewteen opfunc marks
+        " visually select and yank between opfunc marks
         silent :execute "normal! `[v`]\"my"
         " drop down to a new line, ready for composition
         " silent :execute "normal! o \<Esc>"
@@ -430,7 +426,7 @@ set undodir=~/linux_config_files/.vim/undo//
 set encoding=utf-8
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
-set hidden " when swtiching buffers, don't complain about unsaved changes
+set hidden " when switching buffers, don't complain about unsaved changes
 set undofile " remember changes from previous vim session (so I can still undo)
 set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
@@ -454,12 +450,12 @@ set autoindent " when creating a new line, copy indent from line above
 set nojoinspaces " don't join with double spaces when line ending with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
-set hlsearch | noh " highlight matches for searched (turn off when sourcicng)
+set hlsearch | noh " highlight matches for searched (turn off when sourcing)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a> will make 008, not 010)
 set spell spelllang=en
-set nospell " don't hightlight misspellings unles I say so
+set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
 set foldlevelstart=1 " when opening new files, start with only top folds open
 set t_Co=256 " use full colours
@@ -467,7 +463,7 @@ syntax enable " highlight special words to aid readability
 
 " make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
-" check if we're on a light or dark colorsheme in tmux, and pick accordingly
+" check if we're on a light or dark colorscheme in tmux, and pick accordingly
 call SetColorScheme()
 
 "}}}---------------------------------------------------------------------------
@@ -594,12 +590,12 @@ augroup general
     "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
     nnoremap <Leader>p "+p
-    " paste from system highlghted clipboard
+    " paste from system highlighted clipboard
     nnoremap <Leader>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
     nnoremap <silent><Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
                 \ :echo 'copied to CTRL-C clipboard'<cr>
-    " copy contents of unnamed register to system highlghted clipboard
+    " copy contents of unnamed register to system highlighted clipboard
     nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
                 \ :echo 'copied to highlight clipboard'<cr>
     "}}}-----------------------------------------------------------------------
@@ -729,7 +725,7 @@ augroup tex "{{{
     autocmd FileType tex setlocal foldlevel=0
     autocmd FileType tex setlocal foldlevelstart=0
 
-    " gq until a line beggining with \
+    " gq until a line beginning with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
     " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
@@ -760,7 +756,7 @@ augroup cursor_behaviour
     let &t_EI = "\e[2 q"
     " highlight current line when in insert mode
     autocmd InsertEnter * set cursorline
-    " turn off current line hightlighting when leaving insert mode
+    " turn off current line highlighting when leaving insert mode
     autocmd InsertLeave * set nocursorline
 augroup END
 "}}}---------------------------------------------------------------------------
