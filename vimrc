@@ -77,11 +77,17 @@ runtime! plugin/sensible.vim
 "==============================================================================
 
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
-"{{{- remap leader key --------------------------------------------------------
-"make the space bar my leader key (must be before I make <Leader> mappings)
-noremap <Space> <Nop>
-sunmap <Space>
-let mapleader=" "
+"{{{- ALE ---------------------------------------------------------------------
+" needs a linter and a fixer installed on the system to work. I'm using:
+" pip3 install flake8
+" pip3 install black
+
+" " use black
+" let g:ale_fixers = ['black']
+
+" " other symbols: https://coolsymbol.com/ 
+" let g:ale_sign_error = '☠ '
+" let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
     " insert mode line completion
@@ -108,6 +114,12 @@ let mapleader=" "
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<cr>
+"}}}---------------------------------------------------------------------------
+"{{{- remap leader key --------------------------------------------------------
+"make the space bar my leader key (must be before I make <Leader> mappings)
+noremap <Space> <Nop>
+sunmap <Space>
+let mapleader=" "
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Only consider targets fully visible on screen:
@@ -173,17 +185,6 @@ nmap <Leader>ss <Plug>SlimeLineSend
 " disable tmux navigator when zooming the vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
 " }}}--------------------------------------------------------------------------
-"{{{- ultisnips ---------------------------------------------------------------
-" Ultisnips trigger configuration.
-" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:UltiSnipsEditSplit="vertical"
-" where ultisnips looks for snippets
-" (I think you can add multiple items in the list)
-let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " open the full documentation in a split window below
 " nnoremap <Leader>d :call Matt() \| call Matt2()<cr>
@@ -203,18 +204,6 @@ let g:ycm_filetype_blacklist = {
             \ 'leaderf': 1,
             \ 'mail': 1
             \}
-"}}}---------------------------------------------------------------------------
-"{{{- ALE ---------------------------------------------------------------------
-" needs a linter and a fixer installed on the system to work. I'm using:
-" pip3 install flake8
-" pip3 install black
-
-" use black
-let g:ale_fixers = ['black']
-
-" other symbols: https://coolsymbol.com/ 
-let g:ale_sign_error = '☠ '
-let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
