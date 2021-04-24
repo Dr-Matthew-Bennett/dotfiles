@@ -204,35 +204,6 @@ let g:ycm_filetype_blacklist = {
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
-"{{{- if pasting at end of a word, precede with a space -----------------------
-" not working, maybe not a great idea anyway...
-
-" nnoremap p :call Paste()<cr>
-
-function! Paste()
-    " Check if register contains newline
-    if matchstr(@", '*$*') != @"
-
-        if EndWord()
-            normal p
-        endif
-    else
-        norm p
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- determine if cursor is on the end of a word -----------------------------
-function! EndWord() abort
-    let pos = getpos('.')
-    normal! gee
-    if pos == getpos('.')
-        return v:true
-    else
-        call setpos('.', pos)
-        return v:false
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme --------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
