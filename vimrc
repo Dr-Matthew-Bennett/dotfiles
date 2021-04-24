@@ -12,7 +12,9 @@
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
 "{{{- required ----------------------------------------------------------------
-set nocompatible " don't try to be compatible with Vi
+if &compatible
+    set nocompatible " don't try to be compatible with Vi
+endif
 filetype plugin indent on " use default plugins
 "}}}---------------------------------------------------------------------------
 "{{{- paths -------------------------------------------------------------------
