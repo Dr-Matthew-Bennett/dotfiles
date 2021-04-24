@@ -16,8 +16,8 @@ endif
 filetype plugin indent on " use default plugins
 "}}}---------------------------------------------------------------------------
 "{{{- paths -------------------------------------------------------------------
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.fzf
+set runtimepath+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
@@ -70,7 +70,7 @@ Plugin 'wellle/targets.vim'
 "}}}
 "{{{ - call vundle and override things -----------------------------------------
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
 "}}}---------------------------------------------------------------------------
@@ -279,8 +279,13 @@ function! NewHelpSplit(subject)
     " open a help page in a new tab
     :execute ':tab :help ' a:subject
     " merge that tab as a split in current tab (bottom, means the original tab
-    " content will be on the bottom, and therefore the help will be on the right)
+    " content will be on the bottom, and therefore the help will be on the top)
     :execute ':Tabmerge ' current_tabpage ' bottom'
+    " move the cursor the the newest help (basically just go up like a madman)
+    :execute 'wincmd k'
+    :execute 'wincmd k'
+    :execute 'wincmd k'
+    :execute 'wincmd k'
 endfunction
 
 " make the above function easy to use like :NHelp topic
