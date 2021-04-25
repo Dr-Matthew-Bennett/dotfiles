@@ -456,8 +456,6 @@ augroup general
     nnoremap <F12> :syntax sync fromstart<cr>
     nnoremap <Leader>o :call ToggleLightDarkColorscheme()<cr>
     autocmd FocusGained * :call SetColorScheme()
-    " anytime we read in a buffer, if it came from w3m then write to scratch
-    autocmd BufReadPost * :call WriteW3MToScratch()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on visual lines, in the same way as it
@@ -530,9 +528,11 @@ augroup general
     nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
+    " anytime we read in a buffer, if it came from w3m then write to scratch
+    autocmd BufReadPost * :call WriteW3MToScratch()
+
     " open/close horizontal split containing w3m_scratch
     nnoremap <leader>w :call ToggleW3M()<cr>
-
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
@@ -568,18 +568,16 @@ augroup general
     nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
                 \ :echo 'copied to highlight clipboard'<cr>
     "}}}-----------------------------------------------------------------------
-    "{{{- abbreviations -------------------------------------------------------
-    " emails
-    iabbrev @g bennettmatt4@gmail.com
-    iabbrev @u matthew.bennett@uclouvain.be
+    "{{{- spelling and abbreviations ------------------------------------------
+    " instantly go with first spelling suggestion
+    nnoremap <Leader>sp a<C-X>s<Esc>
     " common mispellings
     iabbrev keybaord keyboard
     iabbrev laod load
     iabbrev hte the
-    "}}}-----------------------------------------------------------------------
-    "{{{- spelling ------------------------------------------------------------
-    " instantly go with first spelling suggestion
-    nnoremap <Leader>sp a<C-X>s<Esc>
+    " emails
+    iabbrev @g bennettmatt4@gmail.com
+    iabbrev @u matthew.bennett@uclouvain.be
     "}}}-----------------------------------------------------------------------
 augroup END
 "}}}---------------------------------------------------------------------------
