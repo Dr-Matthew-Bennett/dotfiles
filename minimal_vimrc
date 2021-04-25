@@ -46,7 +46,7 @@ syntax enable " highlight special words to aid readability
 
 colorscheme zenburn
  
-"- cursor behaviour -----------------------------------------------------------
+"- cursor behaviour (make cursor blink for insert mode, block for normal mode -
 augroup cursor_behaviour
     autocmd!
     " reset cursor on start:
