@@ -54,7 +54,7 @@ Plugin 'ycm-core/YouCompleteMe'
 " lots more text objects! looks very good and well made
 " Plugin 'dense-analysis/ale'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'vim-scripts/Tabmerge' 
+Plugin 'vim-scripts/Tabmerge'
 Plugin 'wellle/targets.vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
@@ -91,7 +91,7 @@ let mapleader=" "
 " " use black
 " let g:ale_fixers = ['black']
 
-" " other symbols: https://coolsymbol.com/ 
+" " other symbols: https://coolsymbol.com/
 " let g:ale_sign_error = '☠ '
 " let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
@@ -296,7 +296,7 @@ function SmoothScroll(scroll_direction, n_scroll)
     let n_scroll = a:n_scroll
     if a:scroll_direction == 1
         let scrollaction=""
-    else 
+    else
         let scrollaction=""
     endif
     exec "normal " . scrollaction
@@ -322,11 +322,6 @@ function! Preserve(command)
     " Clean up: restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- last search term --------------------------------------------------------
-function! LastSearch()
-    return @/
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- matlab functions for easy interrogation of variables --------------------
@@ -433,8 +428,8 @@ call SetColorScheme()
 
 "}}}---------------------------------------------------------------------------
 "{{{ - status line ------------------------------------------------------------
-" path/file
-set statusline=%<%f\
+" path/file LEAVE THE TRAILING SPACES AT THE $!! 
+set statusline=%<%f\ 
 " current git branch
 set statusline+=%{FugitiveStatusline()}
 " is this file: help? modified? read only?
@@ -442,7 +437,7 @@ set statusline+=%h%m%r%=
 " line / column number
 set statusline+=%-14.(%l,%c%V%)
 " last search term
-set statusline+=\/%{LastSearch()}\/
+set statusline+=\/%{@/}\/
 " space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
 " percent through the file (or top/bottom)
@@ -568,7 +563,7 @@ augroup general
     nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
                 \ :echo 'copied to highlight clipboard'<cr>
     "}}}-----------------------------------------------------------------------
-    "{{{- spelling and abbreviations ------------------------------------------
+    "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
     nnoremap <Leader>sp a<C-X>s<Esc>
     " common mispellings
