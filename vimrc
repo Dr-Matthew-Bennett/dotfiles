@@ -324,17 +324,6 @@ function! Preserve(command)
     call cursor(l, c)
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- copy matches to register ------------------------------------------------
-" copies only the text that matches search hits. Use with :CopyMatches :
-" where x is any register (supplying no x copies to clipboard
-function! CopyMatches(reg)
-    let hits = []
-    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
-    let reg = empty(a:reg) ? '+' : a:reg
-    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
-endfunction
-command! -register CopyMatches call CopyMatches(<q-reg>)
-"}}}---------------------------------------------------------------------------
 "{{{- last search term --------------------------------------------------------
 function! LastSearch()
     return @/
