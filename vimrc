@@ -187,13 +187,12 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " }}}--------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
-" I removed markdown from this list and it seems to work just fine.
+" I removed markdown and text from this list and they seem to work just fine.
 let g:ycm_filetype_blacklist = {
             \ 'tagbar': 1,
             \ 'notes': 1,
             \ 'netrw': 1,
             \ 'unite': 1,
-            \ 'text': 1,
             \ 'vimwiki': 1,
             \ 'pandoc': 1,
             \ 'infolog': 1,
@@ -539,6 +538,10 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
+
+    " Call a modified version of Ag and pass the help doc directory
+    command! H execute "normal! :Ag /usr/share/vim/vim81/doc/\<cr>"
+
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
 
@@ -723,4 +726,3 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-
