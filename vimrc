@@ -63,7 +63,7 @@ Plugin 'wellle/targets.vim'
 " Plugin 'tommcdo/vim-lion'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tommcdo/vim-exchange'
-
+" Plugin 'tpope/vim-obsession'
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
 " The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
@@ -114,9 +114,6 @@ let mapleader=" "
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-h': 'split',
       \ 'ctrl-v': 'vsplit' }
-
-    " Ag call a modified version of Ag where first arg is directory to search
-    command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
@@ -263,29 +260,32 @@ function! s:ag_in(bang, ...)
   call fzf#vim#ag(join(a:000[1:], ' '),
               \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
+
+" Ag call a modified version of Ag where first arg is directory to search
+command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
-    let l:currentWindow=winnr()
-    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
-    execute l:currentWindow . "wincmd w"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
+let l:currentWindow=winnr()
+execute "normal! :vsplit\<cr> :buffer 2\<cr>"
+execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
+execute l:currentWindow . "wincmd w"
+execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- open a new help page in a new split -------------------------------------
 function! NewHelpSplit(subject)
-    let current_tabpage = string(tabpagenr())
-    " open a help page in a new tab
-    :execute ':tab :help ' a:subject
-    " merge that tab as a split in current tab (bottom, means the original tab
-    " content will be on the bottom, and therefore the help will be on the top)
-    :execute ':Tabmerge ' current_tabpage ' bottom'
-    " move the cursor the the newest help (basically just go up like a madman)
-    :execute 'wincmd k'
-    :execute 'wincmd k'
-    :execute 'wincmd k'
-    :execute 'wincmd k'
+let current_tabpage = string(tabpagenr())
+" open a help page in a new tab
+:execute ':tab :help ' a:subject
+" merge that tab as a split in current tab (bottom, means the original tab
+" content will be on the bottom, and therefore the help will be on the top)
+:execute ':Tabmerge ' current_tabpage ' bottom'
+" move the cursor the the newest help (basically just go up like a madman)
+:execute 'wincmd k'
+:execute 'wincmd k'
+:execute 'wincmd k'
+:execute 'wincmd k'
 endfunction
 
 " make the above function easy to use like :NHelp topic
@@ -325,55 +325,76 @@ function! Preserve(command)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- matlab functions for easy interrogation of variables --------------------
-    function! MatlabImagesc(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, imagesc(V__), axis image"
-        :call MatlabExecuteCode()
-    endfunction
+function! MatlabImagesc(type)
+    :call MatlabPrepCode()
+    silent :execute "normal! o figure, imagesc(V__), axis image"
+    :call MatlabExecuteCode()
+endfunction
 
-    function! MatlabPlot(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, plot(V__), axis image"
-        :call MatlabExecuteCode()
-    endfunction
+function! MatlabPlot(type)
+    :call MatlabPrepCode()
+    silent :execute "normal! o figure, plot(V__), axis image"
+    :call MatlabExecuteCode()
+endfunction
 
-    function! MatlabHist(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o figure, hist(V__,100), axis image"
-        :call MatlabExecuteCode()
-    endfunction
+function! MatlabHist(type)
+    :call MatlabPrepCode()
+    silent :execute "normal! o figure, hist(V__,100), axis image"
+    :call MatlabExecuteCode()
+endfunction
 
-    function! MatlabSummarise(type)
-        :call MatlabPrepCode()
-        silent :execute "normal! o whos V__"
-        silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
-        silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
-        :call MatlabExecuteCode()
-    endfunction
+function! MatlabSummarise(type)
+    :call MatlabPrepCode()
+    silent :execute "normal! o whos V__"
+    silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
+    silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
+    :call MatlabExecuteCode()
+endfunction
 
-    " helper functions
-    function! MatlabPrepCode()
-        " mark the current cursor position
-        silent :execute "normal! mx"
-        " visually select and yank between opfunc marks
-        silent :execute "normal! `[v`]\"my"
-        " drop down to a new line, ready for composition
-        " silent :execute "normal! o \<Esc>"
-        " reassign variable for use in code
-        silent :execute "normal! o V__ = \<Esc>\"mpA;"
-        :call MatlabExecuteCode()
-    endfunction
+" helper functions
+function! MatlabPrepCode()
+    " mark the current cursor position
+    silent :execute "normal! mx"
+    " visually select and yank between opfunc marks
+    silent :execute "normal! `[v`]\"my"
+    " drop down to a new line, ready for composition
+    " silent :execute "normal! o \<Esc>"
+    " reassign variable for use in code
+    silent :execute "normal! o V__ = \<Esc>\"mpA;"
+    :call MatlabExecuteCode()
+endfunction
 
-    function! MatlabExecuteCode()
-        " create a space after
-        silent :execute "normal! o \<Esc>"
-        " move back line below mark, and visually select to end of paragraph
-        silent :execute "normal! `xj0v}"
-        " send it to the tmux window
-        silent :execute "normal\<Plug>SlimeRegionSend"
-        " move cursor back to original position
-        silent :execute "normal! \"_dd`xu"
-    endfunction
+function! MatlabExecuteCode()
+    " create a space after
+    silent :execute "normal! o \<Esc>"
+    " move back line below mark, and visually select to end of paragraph
+    silent :execute "normal! `xj0v}"
+    " send it to the tmux window
+    silent :execute "normal\<Plug>SlimeRegionSend"
+    " move cursor back to original position
+    silent :execute "normal! \"_dd`xu"
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- search the help docs with ag and fzf ------------------------------------
+function! Help_Ag()
+    let orig_file = expand(@%)
+    let v1 = v:version[0]
+    let v2 = v:version[2]
+    " search in the help docs with ag-silver-search and fzf and open file
+    execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<cr>"
+    " if we opened a help doc
+    if orig_file != expand(@%)
+        set nomodifiable
+        " for some reason not all the tags work unless I open the real help
+        " so get whichever help was found and opened through Ag
+        let help_doc=expand("%:t")
+        " open and close that help doc - now the tags will work
+        execute "normal! :help " help_doc "\<cr>:q\<cr>"
+    endif
+endfunction
+
+" get some help
+command! H :call Help_Ag()
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -539,11 +560,6 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
-
-    " Call a modified version of Ag and pass the help doc directory
-    command! H execute "normal! :Ag /usr/share/vim/vim81/doc/\<cr> :set nomodifiable"
-    " close all help buffers
-    command! Hq execute "normal! :bwipeout /usr/share/vim/vim81/doc/\<C-a>\<cr>"
 
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
