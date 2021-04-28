@@ -541,7 +541,9 @@ augroup general
     " edit/source common file in split window
 
     " Call a modified version of Ag and pass the help doc directory
-    command! H execute "normal! :Ag /usr/share/vim/vim81/doc/\<cr>"
+    command! H execute "normal! :Ag /usr/share/vim/vim81/doc/\<cr> :set nomodifiable"
+    " close all help buffers
+    command! Hq execute "normal! :bwipeout /usr/share/vim/vim81/doc/\<C-a>\<cr>"
 
     nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
     nnoremap <Leader>sv :source $MYVIMRC<cr>
