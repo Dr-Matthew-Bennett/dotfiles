@@ -62,6 +62,7 @@ Plugin 'wellle/targets.vim'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'tommcdo/vim-lion'
 " Plugin 'tpope/vim-eunuch'
+" Plugin 'tommcdo/vim-exchange'
 
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
