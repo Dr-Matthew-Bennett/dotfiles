@@ -268,11 +268,11 @@ command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
-let l:currentWindow=winnr()
-execute "normal! :vsplit\<cr> :buffer 2\<cr>"
-execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
-execute l:currentWindow . "wincmd w"
-execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
+    let l:currentWindow=winnr()
+    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
+    execute l:currentWindow . "wincmd w"
+    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- open a new help page in a new split -------------------------------------
