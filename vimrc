@@ -206,10 +206,10 @@ function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn
-        let $BAT_THEME=''
+        :let $BAT_THEME = ''
     else
         colorscheme seoul256-light
-        let $BAT_THEME='Monokai Extended Light'
+        :let $BAT_THEME = 'Monokai Extended Light'
     endif
 endfunction
 
@@ -277,17 +277,17 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- open a new help page in a new split -------------------------------------
 function! NewHelpSplit(subject)
-let current_tabpage = string(tabpagenr())
-" open a help page in a new tab
-:execute ':tab :help ' a:subject
-" merge that tab as a split in current tab (bottom, means the original tab
-" content will be on the bottom, and therefore the help will be on the top)
-:execute ':Tabmerge ' current_tabpage ' bottom'
-" move the cursor the the newest help (basically just go up like a madman)
-:execute 'wincmd k'
-:execute 'wincmd k'
-:execute 'wincmd k'
-:execute 'wincmd k'
+    let current_tabpage = string(tabpagenr())
+    " open a help page in a new tab
+    :execute ':tab :help ' a:subject
+    " merge that tab as a split in current tab (bottom, means the original tab
+    " content will be on the bottom, and therefore the help will be on the top)
+    :execute ':Tabmerge ' current_tabpage ' bottom'
+    " move the cursor the the newest help (basically just go up like a madman)
+    :execute 'wincmd k'
+    :execute 'wincmd k'
+    :execute 'wincmd k'
+    :execute 'wincmd k'
 endfunction
 
 " make the above function easy to use like :NHelp topic
@@ -312,7 +312,7 @@ function SmoothScroll(scroll_direction, n_scroll)
     endwhile
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- restore cursor position ------------------------------------------------
+"{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
     " Preparation: save last search, and cursor position.
@@ -322,7 +322,7 @@ function! Preserve(command)
     " Do the business:
     execute a:command
     " Clean up: restore previous search history, and cursor position
-    let @/=_s
+    @/=_s
     call cursor(l, c)
 endfunction
 "}}}---------------------------------------------------------------------------

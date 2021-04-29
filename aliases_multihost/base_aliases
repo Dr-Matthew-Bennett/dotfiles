@@ -66,8 +66,8 @@ alias et='vim ~/linux_config_files/tmux.conf'
 # kill tmux
 alias kt='tmux kill-session -t main'
 # switch between light and dark themes
-alias ol="tmux source-file ~/.tmux_light.conf; tmux set-environment THEME 'light'"
-alias od="tmux source-file ~/.tmux_dark.conf; tmux set-environment THEME 'dark'"
+alias ol="tmux source-file ~/.tmux_light.conf; tmux set-environment THEME 'light'; export BAT_THEME='Monokai Extended Light'"
+alias od="tmux source-file ~/.tmux_dark.conf; tmux set-environment THEME 'dark'; export BAT_THEME=''"
 
 # w3m
 alias wm="w3m www.google.com"
