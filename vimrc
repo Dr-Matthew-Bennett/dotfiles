@@ -206,8 +206,10 @@ function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn
+        let $BAT_THEME=''
     else
         colorscheme seoul256-light
+        let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
 
@@ -389,7 +391,7 @@ function! Help_Ag()
         " so get whichever help was found and opened through Ag
         let help_doc=expand("%:t")
         " open and close that help doc - now the tags will work
-        execute "normal! :help " help_doc "\<cr>:q\<cr>"
+        execute "normal! :tab :help " help_doc "\<cr>:q\<cr>"
     endif
 endfunction
 
@@ -745,3 +747,4 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
+
