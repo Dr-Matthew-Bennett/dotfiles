@@ -13,6 +13,13 @@
 # f vlc [OPTION]... (hit enter, choose files)
 
 f() {
+    # if no arguments passed, just lauch fzf
+    if [ $# -eq 0 ]
+    then
+        fzf
+        return 0
+    fi
+
     # Store the program
     program="$1"
 
@@ -76,20 +83,20 @@ f() {
 
 # cat but just cut at edge of tmux pane
 catc () {
-width=$(tmux display-message -p '#{pane_width}')
-cat $options | cut -c -$(($width-3))
+    width=$(tmux display-message -p '#{pane_width}')
+    cat $options | cut -c -$(($width-3))
 }
 
 # wrapper for bash script (passes all arguments)
 # also displays todo list with numbers
 todo () {
-~/todo/./todo.sh $options
-catc -n $TODO_PATH/master_todo.md
+    ~/todo/./todo.sh $options
+    catc -n $TODO_PATH/master_todo.md
 }
 
 # to just push everything in one go
 gitup () {
-git add -A && git commit -m $program && git push
+    git add -A && git commit -m $program && git push
 }
 
 # mkdir and cd into it
@@ -98,23 +105,23 @@ mkdir -p $program && cd $program
 }
 
 apa () {
-rename 'y/A-Z/a-z/' *.pdf
-rename 's/ /_/g' *.pdf
-rename 's/_.\.//g' *.pdf
-rename 's/,//g' *.pdf
-rename 's/\)\._/)_/g' *.pdf
-rename 's/\._/_[/g' *.pdf
-rename 's/\)\./)]\./g' *.pdf
-rename 's/_&//g' *.pdf
-rename 's/:/-/g' *.pdf
+    rename 'y/A-Z/a-z/' *.pdf
+    rename 's/ /_/g' *.pdf
+    rename 's/_.\.//g' *.pdf
+    rename 's/,//g' *.pdf
+    rename 's/\)\._/)_/g' *.pdf
+    rename 's/\._/_[/g' *.pdf
+    rename 's/\)\./)]\./g' *.pdf
+    rename 's/_&//g' *.pdf
+    rename 's/:/-/g' *.pdf
 }
 
 cleanname () {
-rename 'y/A-Z/a-z/' *
-rename 's/ /_/g' *
-rename "s/'//g" *
-rename 's/,//g' *
-rename 's/\./_/g' *  
-# rename 's/_\w+$/.test/g' *
+    rename 'y/A-Z/a-z/' *
+    rename 's/ /_/g' *
+    rename "s/'//g" *
+    rename 's/,//g' *
+    rename 's/\./_/g' *  
+    # rename 's/_\w+$/.test/g' *
 }
 
