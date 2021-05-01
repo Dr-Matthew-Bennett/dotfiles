@@ -97,14 +97,14 @@ let mapleader=" "
 " let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
-    " insert mode line completion
-    imap ;l <Plug>(fzf-complete-line)
     " search for and open file under the fzf default directory
     nnoremap <Leader>f :Files<cr>
-    " search for and jump to line in any open buffer
-    nnoremap <Leader>l :Lines<cr>
     " search through and jump to buffer
     nnoremap <Leader>b :Buffers<cr>
+    " search for and jump to line in any open buffer
+    nnoremap <Leader>l :Lines<cr>
+    " insert mode line completion
+    imap ;l <Plug>(fzf-complete-line)
 
     " when I search for a file, show results in a window at the bottom
     let g:fzf_layout = { 'down': '~40%' }
@@ -264,7 +264,7 @@ function! s:ag_in(bang, ...)
 endfunction
 
 " Ag call a modified version of Ag where first arg is directory to search
-command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
+command! -bang -nargs=+ -complete=dir AG call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
@@ -378,7 +378,7 @@ function! MatlabExecuteCode()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
-function! Help_Ag()
+function! Help_AG()
     let orig_file = expand(@%)
     let v1 = v:version[0]
     let v2 = v:version[2]
@@ -396,7 +396,7 @@ function! Help_Ag()
 endfunction
 
 " get some help
-command! H :call Help_Ag()
+command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
