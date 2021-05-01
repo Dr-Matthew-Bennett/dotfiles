@@ -322,7 +322,7 @@ function! Preserve(command)
     " Do the business:
     execute a:command
     " Clean up: restore previous search history, and cursor position
-    @/=_s
+    let @/=_s
     call cursor(l, c)
 endfunction
 "}}}---------------------------------------------------------------------------
