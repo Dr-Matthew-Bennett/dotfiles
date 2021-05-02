@@ -251,20 +251,18 @@ function! ToggleW3M()
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- Ag: Start ag in the specified directory ---------------------------------
-" e.g.
-"   :Ag ~/foo
+"{{{- Ag: Start ag in the specified directory e.g. :Ag ~/foo ------------------
 function! s:ag_in(bang, ...)
-  if !isdirectory(a:1)
-    throw 'not a valid directory: ' .. a:1
-  endif
-  " Press `?' to enable preview window.
-  call fzf#vim#ag(join(a:000[1:], ' '),
-              \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
+    if !isdirectory(a:1)
+        throw 'not a valid directory: ' .. a:1
+    endif
+    " Press `?' to enable preview window.
+    call fzf#vim#ag(join(a:000[1:], ' '),
+                \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
 endfunction
 
 " Ag call a modified version of Ag where first arg is directory to search
-command! -bang -nargs=+ -complete=dir AG call s:ag_in(<bang>0, <f-args>)
+command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
@@ -274,24 +272,6 @@ function! WorkSplit()
     execute l:currentWindow . "wincmd w"
     execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
 endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- open a new help page in a new split -------------------------------------
-function! NewHelpSplit(subject)
-    let current_tabpage = string(tabpagenr())
-    " open a help page in a new tab
-    :execute ':tab :help ' a:subject
-    " merge that tab as a split in current tab (bottom, means the original tab
-    " content will be on the bottom, and therefore the help will be on the top)
-    :execute ':Tabmerge ' current_tabpage ' bottom'
-    " move the cursor the the newest help (basically just go up like a madman)
-    :execute 'wincmd k'
-    :execute 'wincmd k'
-    :execute 'wincmd k'
-    :execute 'wincmd k'
-endfunction
-
-" make the above function easy to use like :NHelp topic
-:command -nargs=1 NHelp :call NewHelpSplit("<args>")
 "}}}---------------------------------------------------------------------------
 "{{{- smoothly scroll the screen up and down ----------------------------------
 function SmoothScroll(scroll_direction, n_scroll)
@@ -397,6 +377,42 @@ endfunction
 
 " get some help
 command! H :call Help_AG()
+"}}}---------------------------------------------------------------------------
+"{{{- functions to 'delete', 'change', 'yank' between any two characters ------
+function! DeleteInside(char)
+    execute "normal! F".a:char
+    execute "normal! ldt".a:char
+endfunction
+function! DeleteAround(char)
+    execute "normal! F".a:char
+    execute "normal! df".a:char
+endfunction
+
+function! ChangeInside(char)
+    :call DeleteInside(a:char)
+    :startinsert
+endfunction
+function! ChangeAround(char)
+    :call DeleteAround(a:char)
+    :startinsert
+endfunction
+
+function! YankInside(char)
+    :call DeleteInside(a:char)
+    execute "normal! u"
+endfunction
+function! YankAround(char)
+    :call DeleteAround(a:char)
+    execute "normal! u"
+endfunction
+
+nnoremap <LEADER>di :call DeleteInside('')<left><left>
+nnoremap <LEADER>ci :call ChangeInside('')<left><left>
+nnoremap <LEADER>yi :call YankInside('')<left><left>
+nnoremap <LEADER>da :call DeleteAround('')<left><left>
+nnoremap <LEADER>ca :call ChangeAround('')<left><left>
+nnoremap <LEADER>ya :call YankAround('')<left><left>
+
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -607,11 +623,6 @@ augroup vim "{{{
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
     autocmd FileType vim setlocal foldlevelstart=0
-
-    " search vim help for word under the cursor
-    " (not working right - overwriting matlab version)
-    " autocmd FileType vim nmap <LEADER>d "hyiw :help <C-r>h<CR>
-
 augroup END
 "}}}
 augroup python "{{{
@@ -747,4 +758,4 @@ augroup cursor_behaviour
 augroup END
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-
+"
