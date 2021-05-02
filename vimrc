@@ -4,7 +4,7 @@
 
 " automatic folding for markdown sections
 
-" for <Leader>\ to use :b# only when the # exists, otherwise use :bn
+" for <LEADER>\ to use :b# only when the # exists, otherwise use :bn
 
 "}}}---------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ runtime! plugin/sensible.vim
 
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
 "{{{- remap leader key --------------------------------------------------------
-"make the space bar my leader key (must be before I make <Leader> mappings)
+"make the space bar my leader key (must be before I make <LEADER> mappings)
 noremap <Space> <Nop>
 sunmap <Space>
 let mapleader=" "
@@ -98,11 +98,11 @@ let mapleader=" "
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
     " search for and open file under the fzf default directory
-    nnoremap <Leader>f :Files<cr>
+    nnoremap <LEADER>f :Files<CR>
     " search through and jump to buffer
-    nnoremap <Leader>b :Buffers<cr>
+    nnoremap <LEADER>b :Buffers<CR>
     " search for and jump to line in any open buffer
-    nnoremap <Leader>l :Lines<cr>
+    nnoremap <LEADER>l :Lines<CR>
     " insert mode line completion
     imap ;l <Plug>(fzf-complete-line)
 
@@ -117,7 +117,7 @@ let mapleader=" "
 "}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
-nnoremap <F5> :MundoToggle<cr>
+nnoremap <F5> :MundoToggle<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Only consider targets fully visible on screen:
@@ -143,10 +143,10 @@ let g:traces_preserve_view_state = 1
 "}}}---------------------------------------------------------------------------
 "{{{- ultisnips ---------------------------------------------------------------
 " Ultisnips trigger configuration.
-" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+" Do not use <TAB> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<C-s>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
@@ -173,11 +173,11 @@ let g:slime_dont_ask_default = 1
 
 " To use vim like mappings instead of emacs keybindings use the following:
 " Send {visual} text.
-xmap <Leader>s <Plug>SlimeRegionSend
+xmap <LEADER>s <Plug>SlimeRegionSend
 " Send {motion}.
-nmap <Leader>s <Plug>SlimeMotionSend
+nmap <LEADER>s <Plug>SlimeMotionSend
 " Send {count} line(s)
-nmap <Leader>ss <Plug>SlimeLineSend
+nmap <LEADER>ss <Plug>SlimeLineSend
 " }}}--------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
@@ -269,10 +269,10 @@ command! -bang -nargs=+ -complete=dir AG call s:ag_in(<bang>0, <f-args>)
 "{{{- make a 4-way split and resize the windows how I like --------------------
 function! WorkSplit()
     let l:currentWindow=winnr()
-    execute "normal! :vsplit\<cr> :buffer 2\<cr>"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch2\<cr>"
+    execute "normal! :vsplit\<CR> :buffer 2\<CR>"
+    execute "normal! :split\<CR> :resize -20\<CR> :b scratch2\<CR>"
     execute l:currentWindow . "wincmd w"
-    execute "normal! :split\<cr> :resize -20\<cr> :b scratch1\<cr>"
+    execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- open a new help page in a new split -------------------------------------
@@ -360,15 +360,15 @@ function! MatlabPrepCode()
     " visually select and yank between opfunc marks
     silent :execute "normal! `[v`]\"my"
     " drop down to a new line, ready for composition
-    " silent :execute "normal! o \<Esc>"
+    " silent :execute "normal! o \<ESC>"
     " reassign variable for use in code
-    silent :execute "normal! o V__ = \<Esc>\"mpA;"
+    silent :execute "normal! o V__ = \<ESC>\"mpA;"
     :call MatlabExecuteCode()
 endfunction
 
 function! MatlabExecuteCode()
     " create a space after
-    silent :execute "normal! o \<Esc>"
+    silent :execute "normal! o \<ESC>"
     " move back line below mark, and visually select to end of paragraph
     silent :execute "normal! `xj0v}"
     " send it to the tmux window
@@ -383,7 +383,7 @@ function! Help_AG()
     let v1 = v:version[0]
     let v2 = v:version[2]
     " search in the help docs with ag-silver-search and fzf and open file
-    execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<cr>"
+    execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<CR>"
     " if we opened a help doc
     if orig_file != expand(@%)
         set nomodifiable
@@ -391,7 +391,7 @@ function! Help_AG()
         " so get whichever help was found and opened through Ag
         let help_doc=expand("%:t")
         " open and close that help doc - now the tags will work
-        execute "normal! :tab :help " help_doc "\<cr>:q\<cr>"
+        execute "normal! :tab :help " help_doc "\<CR>:q\<CR>"
     endif
 endfunction
 
@@ -427,7 +427,7 @@ set wildmode=list:full
 set wildignorecase " ignore case when completing file names
 set expandtab " expand tabs into spaces
 set tabstop=4 " a tab is the same as 4 spaces
-set softtabstop=4 " when I hit <tab> in insert mode, put 4 spaces
+set softtabstop=4 " when I hit <TAB> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
 set nojoinspaces " don't join with double spaces when line ens with ./!/?
@@ -471,8 +471,8 @@ augroup general
     autocmd!
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
-    nnoremap <F12> :syntax sync fromstart<cr>
-    nnoremap <Leader>o :call ToggleLightDarkColorscheme()<cr>
+    nnoremap <F12> :syntax sync fromstart<CR>
+    nnoremap <LEADER>o :call ToggleLightDarkColorscheme()<CR>
     autocmd FocusGained * :call SetColorScheme()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
@@ -482,10 +482,10 @@ augroup general
     nnoremap gA g$i
 
     " smoothly scroll the screen for some scrolling operations
-    nnoremap <C-U> :call SmoothScroll(1,1)<cr>
-    nnoremap <C-D> :call SmoothScroll(2,1)<cr>
-    nnoremap <C-B> :call SmoothScroll(1,2)<cr>
-    nnoremap <C-F> :call SmoothScroll(2,2)<cr>
+    nnoremap <C-u> :call SmoothScroll(1,1)<CR>
+    nnoremap <C-d> :call SmoothScroll(2,1)<CR>
+    nnoremap <C-b> :call SmoothScroll(1,2)<CR>
+    nnoremap <C-f> :call SmoothScroll(2,2)<CR>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -493,16 +493,16 @@ augroup general
 
     " inner/around line text objects
     " visual mode
-    xnoremap <silent> il <Esc>^vg_
-    xnoremap <silent> al <Esc>0v$
+    xnoremap <silent> il <ESC>^vg_
+    xnoremap <silent> al <ESC>0v$
     " operator pending mode
-    onoremap <silent> il :<C-U>normal! ^vg_<CR>
-    onoremap <silent> al :<C-U>normal! 0v$<CR>
+    onoremap <silent> il :<C-u>normal! ^vg_<CR>
+    onoremap <silent> al :<C-u>normal! 0v$<CR>
 
     " paste at end of line, with an automatic space
-    nnoremap <Leader><Leader>p o<C-r>"<Esc>kJ
+    nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
     " paste at start of line, with an automatic space
-    nnoremap <Leader><Leader>P O<C-r>"<Esc>J
+    nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
 
     " Mappings for warnings from Worp/Ale in the style of unimpaired-next
     nmap <silent> [W <Plug>(ale_first)
@@ -513,83 +513,83 @@ augroup general
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
     " and switch to next buffer (if there's more than one buffer)
-    nnoremap <Leader>\ :vsplit<cr>:bnext<cr>
+    nnoremap <LEADER>\ :vsplit<CR>:bnext<CR>
     " generate new horizontal split with - and switch to next buffer (if
     " there's more than one buffer)
-    nnoremap <Leader>- :split<cr>:bnext<cr>
+    nnoremap <LEADER>- :split<CR>:bnext<CR>
 
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
-    nnoremap <Leader>z mx:tabedit %<cr>g`x
+    nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
     " close current buffer, keep window and switch to last used buffer
-    nnoremap <Leader>x :b# \| bd #<cr>
+    nnoremap <LEADER>x :b# \| bd #<CR>
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
-    nnoremap <silent><Leader>4 :call WorkSplit()<cr>
+    nnoremap <silent><LEADER>4 :call WorkSplit()<CR>
 
     " resize windows (and make it repeatable with dot command)
     " widen the split
-    nmap <Leader>H <Plug>WidenSplit
-    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<cr>
+    nmap <LEADER>H <Plug>WidenSplit
+    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<CR>
                 \ :call repeat#set("\<Plug>WidenSplit")<CR>
     " thin the split
-    nmap <silent><Leader>h <Plug>ThinSplit
-    nnoremap <Plug>ThinSplit :exe "vertical resize -5"<cr>
+    nmap <silent><LEADER>h <Plug>ThinSplit
+    nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
                 \ :call repeat#set("\<Plug>ThinSplit")<CR>
     " heighten the split
-    nmap <silent><Leader>J <Plug>HeightenSplit
-    nnoremap <Plug>HeightenSplit :exe "resize +3"<cr>
+    nmap <silent><LEADER>J <Plug>HeightenSplit
+    nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
                 \ :call repeat#set("\<Plug>HeightenSplit")<CR>
     " shorten the split
-    nmap <silent><Leader>j <Plug>ShortenSplit
-    nnoremap <Plug>ShortenSplit :exe "resize -3"<cr>
+    nmap <silent><LEADER>j <Plug>ShortenSplit
+    nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
                 \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
     " anytime we read in a buffer, if it came from w3m then write to scratch
     autocmd BufReadPost * :call WriteW3MToScratch()
 
     " open/close horizontal split containing w3m_scratch
-    nnoremap <leader>w :call ToggleW3M()<cr>
+    nnoremap <LEADER>w :call ToggleW3M()<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
-    nnoremap <silent><expr> <Leader>/
+    nnoremap <silent><expr> <LEADER>/
                 \ (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " substitute word under the cursor
-    nnoremap <Leader>* :%s/\<<C-r><C-w>\>/
+    nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
 
-    nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-    nnoremap <Leader>sv :source $MYVIMRC<cr>
+    nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
+    nnoremap <LEADER>sv :source $MYVIMRC<CR>
 
-    nnoremap <Leader>eb :vsplit
-                \ /home/mattb/linux_config_files/base_bashrc<cr>
-    nnoremap <Leader>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<cr>
-    nnoremap <Leader>ef :vsplit
-                \ /home/mattb/linux_config_files/functions_multihost/base_functions<cr>
-    nnoremap <Leader>et :vsplit
-                \ /home/mattb/linux_config_files/tmux.conf<cr>
+    nnoremap <LEADER>eb :vsplit
+                \ /home/mattb/linux_config_files/base_bashrc<CR>
+    nnoremap <LEADER>ea :vsplit
+                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<CR>
+    nnoremap <LEADER>ef :vsplit
+                \ /home/mattb/linux_config_files/functions_multihost/base_functions<CR>
+    nnoremap <LEADER>et :vsplit
+                \ /home/mattb/linux_config_files/tmux.conf<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
-    nnoremap <Leader>p "+p
+    nnoremap <LEADER>p "+p
     " paste from system highlighted clipboard
-    nnoremap <Leader>P "*p
+    nnoremap <LEADER>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <silent><Leader>y :call Preserve("normal! Gp\"+dGu")<cr>
-                \ :echo 'copied to CTRL-C clipboard'<cr>
+    nnoremap <silent><LEADER>y :call Preserve("normal! Gp\"+dGu")<CR>
+                \ :echo 'copied to CTRL-C clipboard'<CR>
     " copy contents of unnamed register to system highlighted clipboard
-    nnoremap <silent><Leader>Y :call Preserve("normal! Gp\"*dGu")<cr>
-                \ :echo 'copied to highlight clipboard'<cr>
+    nnoremap <silent><LEADER>Y :call Preserve("normal! Gp\"*dGu")<CR>
+                \ :echo 'copied to highlight clipboard'<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
-    nnoremap <Leader>sp a<C-X>s<Esc>
+    nnoremap <LEADER>sp a<C-x>s<ESC>
     " common mispellings
     iabbrev keybaord keyboard
     iabbrev laod load
@@ -610,7 +610,7 @@ augroup vim "{{{
 
     " search vim help for word under the cursor
     " (not working right - overwriting matlab version)
-    " autocmd FileType vim nmap <Leader>d "hyiw :help <c-r>h<cr>
+    " autocmd FileType vim nmap <LEADER>d "hyiw :help <C-r>h<CR>
 
 augroup END
 "}}}
@@ -624,11 +624,11 @@ augroup python "{{{
     autocmd FileType python setlocal foldmethod=indent
 
     " print a variable under the cursor
-    autocmd FileType python nmap <Leader>q mxyiwO<Esc>pIprint(<Esc>A)<Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType python nmap <LEADER>q mxyiwO<ESC>pIprint(<ESC>A)<ESC>
+                \<Plug>SlimeLineSend<ESC>ddg`xu
 
     " open/close the full python docs on thing under the cursor
-    nnoremap <Leader>cd :call YCM_Toggle_Docs()<cr>
+    nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
 
 augroup END
 "}}}
@@ -646,43 +646,43 @@ augroup matlab "{{{
 
     "{{{ - variables/functions under the cursor -------------------------------
     " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <Leader>cq viw<Plug>SlimeRegionSend
+    autocmd FileType matlab nmap <LEADER>cq viw<Plug>SlimeRegionSend
 
     " print documentation of matlab function
-    autocmd FileType matlab nmap <Leader>cd mxyiwO<Esc>pIhelp <Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType matlab nmap <LEADER>cd mxyiwO<ESC>pIhelp <ESC>
+                \<Plug>SlimeLineSend<ESC>ddg`xu
 
     " ask whos a variable under the cursor
-    autocmd FileType matlab nmap <Leader>cw mxyiwO<Esc>pIwhos <Esc>
-                \<Plug>SlimeLineSend<Esc>ddg`xu
+    autocmd FileType matlab nmap <LEADER>cw mxyiwO<ESC>pIwhos <ESC>
+                \<Plug>SlimeLineSend<ESC>ddg`xu
 
     " imagesc <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ci
+	autocmd FileType matlab noremap <silent> <LEADER>ci
                 \ :set opfunc=MatlabImagesc<CR>g@
     " plot <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cp
+	autocmd FileType matlab noremap <silent> <LEADER>cp
                 \ :set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <Leader>ch
+	autocmd FileType matlab noremap <silent> <LEADER>ch
                 \ :set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <Leader>cs
+	autocmd FileType matlab noremap <silent> <LEADER>cs
                 \ :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
     " clean documentation after func snip (remove lines with unused arguments)
-    autocmd FileType matlab nnoremap <Leader>dc
-                \ :g/% arg :/norm dap <cr>
-                \ :g/optional_/d <cr> :%s/arg, //g <cr>G
+    autocmd FileType matlab nnoremap <LEADER>dc
+                \ :g/% arg :/norm dap <CR>
+                \ :g/optional_/d <CR> :%s/arg, //g <CR>G
 
     " add any optional variables to the help docs LEAVE THE SPACE AT THE $!! 
-    autocmd FileType matlab nnoremap <Leader>dh 
-                \/set default values for optional variables<cr>j0wy}zR
-                \/'\\n'],<cr>pms
-                \v}k$:norm f=d$<cr>
+    autocmd FileType matlab nnoremap <LEADER>dh 
+                \/set default values for optional variables<CR>j0wy}zR
+                \/'\\n'],<CR>pms
+                \v}k$:norm f=d$<CR>
                 \}yy'sPjwv}k$
-                \:norm ^i['\n<cr>
-                \'sv}k$: norm $i'],...<cr>
+                \:norm ^i['\n<CR>
+                \'sv}k$: norm $i'],...<CR>
                 \'skdd=}}2ddG
     "}}}-----------------------------------------------------------------------
 augroup END
@@ -691,17 +691,17 @@ augroup markdown "{{{
     autocmd!
     autocmd FileType markdown setlocal spell
     " inside headed title:
-    autocmd FileType markdown onoremap iht :<c-u>execute "normal!
-                \ ?^#\\+ \\w\\+.*$\rwvg_"<cr>
+    autocmd FileType markdown onoremap iht :<C-u>execute "normal!
+                \ ?^#\\+ \\w\\+.*$\rwvg_"<CR>
     " around headed title:
-    autocmd FileType markdown onoremap aht :<c-u>execute "normal!
-                \ ?^#\\+ \\w\\+.*$\rvg_"<cr>
+    autocmd FileType markdown onoremap aht :<C-u>execute "normal!
+                \ ?^#\\+ \\w\\+.*$\rvg_"<CR>
     " inside headed body:
-    autocmd FileType markdown onoremap ihb :<c-u>execute "normal!
-                \ ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<cr>
+    autocmd FileType markdown onoremap ihb :<C-u>execute "normal!
+                \ ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<CR>
     " around headed body:
-    autocmd FileType markdown onoremap ahb :<c-u>execute "normal!
-                \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<cr>
+    autocmd FileType markdown onoremap ahb :<C-u>execute "normal!
+                \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
 augroup END
 "}}}
 augroup tex "{{{
@@ -714,7 +714,7 @@ augroup tex "{{{
     " gq until a line beginning with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
-    " nnoremap <Leader>g :^ms/\\k$me`sgq`en:noh
+    " nnoremap <LEADER>g :^ms/\\k$me`sgq`en:noh
 "}}}
 augroup tmux "{{{
     autocmd!
