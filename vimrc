@@ -405,14 +405,6 @@ function! YankAround(char)
     :call DeleteAround(a:char)
     execute "normal! u"
 endfunction
-
-nnoremap <LEADER>di :call DeleteInside('')<left><left>
-nnoremap <LEADER>ci :call ChangeInside('')<left><left>
-nnoremap <LEADER>yi :call YankInside('')<left><left>
-nnoremap <LEADER>da :call DeleteAround('')<left><left>
-nnoremap <LEADER>ca :call ChangeAround('')<left><left>
-nnoremap <LEADER>ya :call YankAround('')<left><left>
-
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -502,6 +494,14 @@ augroup general
     nnoremap <C-d> :call SmoothScroll(2,1)<CR>
     nnoremap <C-b> :call SmoothScroll(1,2)<CR>
     nnoremap <C-f> :call SmoothScroll(2,2)<CR>
+
+    " delete between any two characters
+    nnoremap <LEADER>di :call DeleteInside('')<left><left>
+    nnoremap <LEADER>ci :call ChangeInside('')<left><left>
+    nnoremap <LEADER>yi :call YankInside('')<left><left>
+    nnoremap <LEADER>da :call DeleteAround('')<left><left>
+    nnoremap <LEADER>ca :call ChangeAround('')<left><left>
+    nnoremap <LEADER>ya :call YankAround('')<left><left>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
