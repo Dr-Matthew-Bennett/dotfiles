@@ -35,35 +35,34 @@ Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins that do more exotic things
-Plugin 'Matt-A-Bennett/vim-indent-object'
-Plugin 'SirVer/ultisnips'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
+Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'SirVer/ultisnips'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'vim-scripts/indentpython.vim'
+Plugin 'vim-scripts/MatlabFilesEdition'
+Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
-" lots more text objects! looks very good and well made
 " Plugin 'dense-analysis/ale'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'vim-scripts/Tabmerge'
-Plugin 'wellle/targets.vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'tommcdo/vim-lion'
-" Plugin 'tpope/vim-eunuch'
 " Plugin 'tommcdo/vim-exchange'
+" Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
+
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
 " The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
@@ -265,6 +264,7 @@ endfunction
 command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
 "{{{- make a 4-way split and resize the windows how I like --------------------
+" THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
 function! WorkSplit()
     let l:currentWindow=winnr()
     execute "normal! :vsplit\<CR> :buffer 2\<CR>"
@@ -379,9 +379,10 @@ endfunction
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
 "{{{- functions to 'delete', 'change', 'yank' between any two characters ------
+" YOU'RE NEVER GOING TO USE THESE...
 function! DeleteInside(char)
-    execute "normal! F".a:char
-    execute "normal! ldt".a:char
+    execute "normal! T".a:char
+    execute "normal! dt".a:char
 endfunction
 function! DeleteAround(char)
     execute "normal! F".a:char
@@ -496,6 +497,7 @@ augroup general
     nnoremap <C-f> :call SmoothScroll(2,2)<CR>
 
     " delete between any two characters
+    " YOU'RE NEVER GOING TO USE THESE...
     nnoremap <LEADER>di :call DeleteInside('')<left><left>
     nnoremap <LEADER>ci :call ChangeInside('')<left><left>
     nnoremap <LEADER>yi :call YankInside('')<left><left>
@@ -521,10 +523,10 @@ augroup general
     nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
 
     " Mappings for warnings from Worp/Ale in the style of unimpaired-next
-    nmap <silent> [W <Plug>(ale_first)
-    nmap <silent> [w <Plug>(ale_previous)
-    nmap <silent> ]w <Plug>(ale_next)
-    nmap <silent> ]W <Plug>(ale_last)
+    "nmap <silent> [W <Plug>(ale_first)
+    "nmap <silent> [w <Plug>(ale_previous)
+    "nmap <silent> ]w <Plug>(ale_next)
+    "nmap <silent> ]W <Plug>(ale_last)
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
@@ -542,6 +544,7 @@ augroup general
 
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
+    " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
     nnoremap <silent><LEADER>4 :call WorkSplit()<CR>
 
     " resize windows (and make it repeatable with dot command)
@@ -726,6 +729,8 @@ augroup tex "{{{
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
     " nnoremap <LEADER>g :^ms/\\k$me`sgq`en:noh
+    " a year later, I think maybe this?
+    " nnoremap <LEADER>g :^ms/\\<CR>$me`sgq`en:noh
 "}}}
 augroup tmux "{{{
     autocmd!
