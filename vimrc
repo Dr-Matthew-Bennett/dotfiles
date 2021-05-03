@@ -68,11 +68,13 @@ Plugin 'ycm-core/YouCompleteMe'
 " The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
 " Plugin 'glacambre/firenvim'
 "}}}
-"{{{ - call vundle and override things -----------------------------------------
+"{{{ - call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
+" use % sign to jump between if, else, end
+runtime macros/matchit.vim
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
