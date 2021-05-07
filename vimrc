@@ -62,6 +62,7 @@ Plugin 'ycm-core/YouCompleteMe'
 " Plugin 'tommcdo/vim-exchange'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
+" Plugin 'wellle/tmux-complete.vim'
 
 " This one only works for NeoVim... but it allows to have neo(vim) run in the
 " areas of a browser where you'd enter text (so maybe sending an email etc.)
@@ -427,7 +428,6 @@ set splitright " where new vim pane splits are positioned
 set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
-set scrolloff=8 " show 8 lines between cursor and top/bottom of page
 set cc=80 "show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
