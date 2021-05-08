@@ -122,10 +122,6 @@ export EDITOR=$VISUAL
 # how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal)
 stty -ixon
 
-# Apparently a bad idea to do this: https://blog.sanctum.geek.nz/term-strings/
-# TERM=xterm-256color  	# I need this to happen before tmux launches 
-			            # - it allows the cursor to reflect vi(m) mode
-
 # set capslock to escape key  
 setxkbmap -option ‘caps:ctrl_modifier’
 setxkbmap -option ctrl:nocaps
