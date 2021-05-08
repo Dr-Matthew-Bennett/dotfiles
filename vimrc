@@ -630,6 +630,11 @@ augroup vim "{{{
     autocmd FileType vim setlocal foldlevelstart=0
 augroup END
 "}}}
+augroup vim help "{{{
+    autocmd!
+    autocmd FileType help setlocal number
+    autocmd FileType help setlocal relativenumber
+"}}}
 augroup python "{{{
     autocmd!
     set completeopt-=preview "don't have preview window on python autocomplete
