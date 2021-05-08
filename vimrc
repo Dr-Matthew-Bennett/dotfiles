@@ -289,7 +289,7 @@ function SmoothScroll(scroll_direction, n_scroll)
     let counter=1
     while counter<&scroll*n_scroll
         let counter+=1
-        sleep 8m " ms per line
+        sleep 7m " ms per line
         redraw
         exec "normal " . scrollaction
     endwhile
@@ -433,7 +433,7 @@ set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
 set wildmenu " list completion options when typing in command line mode
-set wildmode=list:full
+set wildmode=list,full
 " set wildmode=longest,list " behave like bash autocomplete rather than zsh
 set wildignorecase " ignore case when completing file names
 set expandtab " expand tabs into spaces
@@ -733,6 +733,7 @@ augroup tex "{{{
     " nnoremap <LEADER>g :^ms/\\k$me`sgq`en:noh
     " a year later, I think maybe this?
     " nnoremap <LEADER>g :^ms/\\<CR>$me`sgq`en:noh
+augroup END
 "}}}
 augroup tmux "{{{
     autocmd!
@@ -740,6 +741,7 @@ augroup tmux "{{{
     " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
     autocmd FileType tmux setlocal foldlevelstart=0
+augroup END
 "}}}
 augroup tidy_code_matlab_and_python "{{{
     autocmd!
