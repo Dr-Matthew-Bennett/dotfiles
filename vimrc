@@ -1,7 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" status line to show how many more jumps I have ahead of me
-
 " For targets.vim not to go crazy anytime I source my vimrc
 
 " automatic folding for markdown sections
