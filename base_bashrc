@@ -10,20 +10,15 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
+# history settings
 # See bash(1) for more options
+# don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
-# Also, some commands I do often but never go back through my history to
-# repeat. Also I use a function called f all the time but the history isn't
-# diagnostic of what I was doing). 
-HISTIGNORE="cd:cl:clc:ls:l:..:...:....:sob:f *"
-
+HISTIGNORE="cd:cl:clc:ls:l:..:...:....:sob"
+HISTSIZE=50000 # big history
+HISTFILESIZE=50000 # big history
 # append to the history file, don't overwrite it
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
