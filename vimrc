@@ -1,5 +1,7 @@
 "{{{- wish list ---------------------------------------------------------------
 
+" status line to show how many more jumps I have ahead of me
+
 " For targets.vim not to go crazy anytime I source my vimrc
 
 " automatic folding for markdown sections
@@ -410,6 +412,12 @@ function! YankAround(char)
     execute "normal! u"
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- calulate remaining jumps ------------------------------------------------
+function! RemainingJumps()
+  let [l:jumplist, l:pos] = getjumplist()
+  return max([0, len(l:jumplist) - l:pos - 1])
+endfunction
+"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -468,14 +476,19 @@ set statusline=%<%f\
 set statusline+=%{FugitiveStatusline()}
 " is this file: help? modified? read only?
 set statusline+=%h%m%r%=
-" line / column number
-set statusline+=%-14.(%l,%c%V%)
+" add remaining number of jumps
+set statusline+=%{'jumps:\ '.RemainingJumps()}
+" space (there must be a proper way to do this)
+set statusline+=\ \ \ \ \ 
 " last search term
 set statusline+=\/%{@/}\/
 " space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
+" line / column number
+set statusline+=%-14.(%l,%c%V%)
 " percent through the file (or top/bottom)
 set statusline+=%P
+
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
