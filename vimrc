@@ -381,7 +381,7 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
-"{{{- functions to 'delete', 'change', 'yank' between any two characters ------
+"{{{- 'delete', 'change', 'yank' between any two characters -------------------
 " YOU'RE NEVER GOING TO USE THESE...
 function! DeleteInside(char)
     execute "normal! T".a:char
@@ -403,11 +403,11 @@ endfunction
 
 function! YankInside(char)
     :call DeleteInside(a:char)
-    execute "normal! u"
+    normal! u
 endfunction
 function! YankAround(char)
     :call DeleteAround(a:char)
-    execute "normal! u"
+    normal! u
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- calulate remaining jumps ------------------------------------------------
