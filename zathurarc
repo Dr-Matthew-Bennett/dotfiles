@@ -24,3 +24,8 @@ set statusbar-bg "#2b2a27"
 
 # It seems I need this to be able to toggle to light mode (with ctrl-r)
 set recolor-keephue "true"
+
+# add some more vim like scrolling
+map <C-e> scroll down
+map <C-y> scroll up
+
