@@ -453,7 +453,8 @@ set incsearch " show matches for patterns while they are being typed
 set hlsearch | noh " highlight matches for searched (turn off when sourcing)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
-set nrformats= " don't interpret 007 as octal (<C-a> will make 008, not 010)
+set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
+set nrformats=unsigned " ignore any minus sign when using <C-a/x>
 set spell spelllang=en
 set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
