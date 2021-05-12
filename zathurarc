@@ -8,7 +8,7 @@ set window-height 2000
 # Appearence 
 set font "monospace 15"
 
-# zathurarc-dark (nicer)
+# zathurarc-dark
 # go to dark mode
 # set recolor "true"
 
