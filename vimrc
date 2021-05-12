@@ -474,6 +474,8 @@ set statusline=%<%f\
 set statusline+=%{FugitiveStatusline()}
 " is this file: help? modified? read only?
 set statusline+=%h%m%r%=
+" space (there must be a proper way to do this)
+set statusline+=\ \ \ \ \ 
 " add remaining number of jumps
 set statusline+=%{'jumps:\ '.RemainingJumps()}
 " space (there must be a proper way to do this)
