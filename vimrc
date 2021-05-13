@@ -2,9 +2,14 @@
 
 " For targets.vim not to go crazy anytime I source my vimrc
 
-" automatic folding for markdown sections
+" For vim-tmux-focus-events  not to throw error on switching external windows:
+" Error detected while processing function <SNR>39_do_autocmd[3]..FocusGained
+" Autocommands for "*"..function tmux_focus_events#focus_gained:
+"
+" Update: this plugin is now obsolete and no longer needed as both neovim and
+" vim (since version 8.2.2345) have native support for this functionality.
 
-" for <LEADER>\ to use :b# only when the # exists, otherwise use :bn
+" automatic folding for markdown sections
 
 "}}}---------------------------------------------------------------------------
 
@@ -45,6 +50,9 @@ Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'SirVer/ultisnips'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
+" Update: this plugin is now obsolete and no longer needed as both neovim and
+" vim (since version 8.2.2345) have native support for this functionality.
+
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/indentpython.vim'
