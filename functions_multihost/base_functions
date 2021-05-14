@@ -47,26 +47,16 @@ f() {
     # fzf, then we'll load it all back into the shell's active history
     history -w
 
-    # ADD A REPEATABLE COMMAND TO THE BASH HISTORY ############################
-    # Store the arguments in a temporary file for sanitising before being
-    # entered into bash history
-    : > /tmp/fzf_tmp
-    for file in "${arguments[@]}"; do
-        echo "$file" >> /tmp/fzf_tmp
+    # add a repeatable command to the bash history
+    # sanitise the arguments before being entered into bash history
+    for arg in "${arguments[@]}"; do
+        arguments=$(echo "$arg" | sed "s/'/''/g; s/.*/'&'/g; s/\n//g")
     done
 
-    # Put all input arguments on one line and sanitise the command by putting
-    # single quotes around each argument, also first put an extra single quote
-    # next to any pre-existing single quotes in the raw argument
-    sed -i "s/'/''/g; s/.*/'&'/g; s/\n//g" /tmp/fzf_tmp
-
-    # If the program is on the GUI list, add a '&' to the command history
+    # If the program is on the GUI list, add a '&'
     if [[ "$program" =~ ^(nautilus|zathura|evince|vlc|eog|kolourpaint)$ ]]; then
-        sed -i '${s/$/ \&/}' /tmp/fzf_tmp
+        arguments="$arguments &"
     fi
-
-    # Grab the sanitised arguments
-    arguments="$(cat /tmp/fzf_tmp)"
 
     # Add the command with the sanitised arguments to our .bash_history
     echo $program$options$arguments >> ~/.bash_history
@@ -74,35 +64,27 @@ f() {
     # Reload the ~/.bash_history into the shell's active history
     history -r
 
-    # EXECUTE THE LAST COMMAND IN ~/.bash_history #############################
+    # execute the last command in ~/.bash_history
     fc -s -1
-
-    # Clean up temporary variables
-    rm /tmp/fzf_tmp
-}
+    }
 
 # cat but just cut at edge of tmux pane
 catc () {
     width=$(tmux display-message -p '#{pane_width}')
     cat $options | cut -c -$(($width-3))
-}
+    }
 
 # wrapper for bash script (passes all arguments)
 # also displays todo list with numbers
 todo () {
     ~/todo/./todo.sh $options
     catc -n $TODO_PATH/master_todo.md
-}
-
-# to just push everything in one go
-gitup () {
-    git add -A && git commit -m $program && git push
-}
+    }
 
 # mkdir and cd into it
 mkcddir () {
 mkdir -p $program && cd $program
-}
+    }
 
 apa () {
     rename 'y/A-Z/a-z/' *.pdf
@@ -114,7 +96,7 @@ apa () {
     rename 's/\)\./)]\./g' *.pdf
     rename 's/_&//g' *.pdf
     rename 's/:/-/g' *.pdf
-}
+    }
 
 cleanname () {
     rename 'y/A-Z/a-z/' *
@@ -123,5 +105,5 @@ cleanname () {
     rename 's/,//g' *
     rename 's/\./_/g' *  
     # rename 's/_\w+$/.test/g' *
-}
+    }
 
