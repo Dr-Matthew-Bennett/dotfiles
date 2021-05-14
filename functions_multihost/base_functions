@@ -37,11 +37,6 @@ f() {
         return 1
     fi
 
-    # We want the command to show up in our bash history, so write the shell's
-    # active history to ~/.bash_history. Then we'll also add the command from
-    # fzf, then we'll load it all back into the shell's active history
-    history -w
-
     # Put all input arguments on one line and sanitise the command by putting
     # single quotes around each argument, also first put an extra single quote
     # next to any pre-existing single quotes in the raw argument, put them all
@@ -55,13 +50,16 @@ f() {
         arguments="$arguments &"
     fi
 
-    # Add the command with the sanitised arguments to our .bash_history
+    # Write the shell's active history to ~/.bash_history.
+    history -w
+
+    # Add the command with the sanitised arguments to .bash_history
     echo $program$options$arguments >> ~/.bash_history
 
     # Reload the ~/.bash_history into the shell's active history
     history -r
 
-    # execute the last command in ~/.bash_history
+    # execute the last command in history
     fc -s -1
     }
 
