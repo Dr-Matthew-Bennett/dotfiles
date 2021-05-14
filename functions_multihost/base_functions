@@ -71,19 +71,21 @@ f() {
 # cat but just cut at edge of tmux pane
 catc () {
     width=$(tmux display-message -p '#{pane_width}')
+    options="$@"
     cat $options | cut -c -$(($width-3))
     }
 
 # wrapper for bash script (passes all arguments)
 # also displays todo list with numbers
 todo () {
+    options="$@"
     ~/todo/./todo.sh $options
     catc -n $TODO_PATH/master_todo.md
     }
 
 # mkdir and cd into it
 mkcddir () {
-mkdir -p $program && cd $program
+    mkdir -p $1 && cd $1
     }
 
 apa () {
