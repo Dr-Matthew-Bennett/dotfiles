@@ -26,13 +26,8 @@ f() {
     # Remove first argument off the list
     shift
 
-    # Store option flags with separating spaces, or just set as single space
-    options="$@"
-    if [ -z "${options}" ]; then
-        options=" "
-    else
-        options=" $options "
-    fi
+    # Store any option flags with separating spaces
+    options=" $@ "
 
     # Store the arguments from fzf
     arguments=$(fzf --multi)
