@@ -29,7 +29,7 @@ alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_al
 
 # compose stack answers in a separate window, with 3 splits and vim ready to go
 alias st="tmux new-window -n 'stack'; tmux send-keys -t 'stack' 'cd ~/stack; tmux split-window -h; tmux split-window -v; vim test' Enter"
-alias kts='tmux kill-window -t stack'
+alias kst='tmux kill-window -t stack'
 
 # plot typing speed
 alias tc='python3 ~/code/python/python_flat/speed.py &'
