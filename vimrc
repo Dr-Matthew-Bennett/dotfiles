@@ -515,11 +515,11 @@ augroup general
     nnoremap gI g0i
     nnoremap gA g$i
 
-    " smoothly scroll the screen for some scrolling operations
-    nnoremap <C-u> :call SmoothScroll(1,1)<CR>
-    nnoremap <C-d> :call SmoothScroll(2,1)<CR>
-    nnoremap <C-b> :call SmoothScroll(1,2)<CR>
-    nnoremap <C-f> :call SmoothScroll(2,2)<CR>
+    " " smoothly scroll the screen for some scrolling operations
+    " nnoremap <C-u> :call SmoothScroll(1,1)<CR>
+    " nnoremap <C-d> :call SmoothScroll(2,1)<CR>
+    " nnoremap <C-b> :call SmoothScroll(1,2)<CR>
+    " nnoremap <C-f> :call SmoothScroll(2,2)<CR>
 
     " delete between any two characters
     " YOU'RE NEVER GOING TO USE THESE...
