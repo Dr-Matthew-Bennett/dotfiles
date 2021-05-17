@@ -285,25 +285,6 @@ function! WorkSplit()
     execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- smoothly scroll the screen up and down ----------------------------------
-function SmoothScroll(scroll_direction, n_scroll)
-    let n_scroll = a:n_scroll
-    if a:scroll_direction == 1
-        let scrollaction=""
-    else
-        let scrollaction=""
-    endif
-    exec "normal " . scrollaction
-    redraw
-    let counter=1
-    while counter<&scroll*n_scroll
-        let counter+=1
-        sleep 7m " ms per line
-        redraw
-        exec "normal " . scrollaction
-    endwhile
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
 function! Preserve(command)
@@ -514,12 +495,6 @@ augroup general
     " modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
-
-    " " smoothly scroll the screen for some scrolling operations
-    " nnoremap <C-u> :call SmoothScroll(1,1)<CR>
-    " nnoremap <C-d> :call SmoothScroll(2,1)<CR>
-    " nnoremap <C-b> :call SmoothScroll(1,2)<CR>
-    " nnoremap <C-f> :call SmoothScroll(2,2)<CR>
 
     " delete between any two characters
     " YOU'RE NEVER GOING TO USE THESE...
