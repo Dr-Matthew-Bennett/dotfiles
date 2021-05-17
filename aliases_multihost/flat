@@ -2,37 +2,12 @@
 
 alias sd='shutdown'
 
-alias skype='skypeforlinux &'
-
-# common places to cd, pipe the dir and subdirs (to a given depth) into fzf
-# depth 2
-cdm_arg='cd $(( ls -d  ~/music/; \
-                ls -d  ~/music/*/) \
-                | grep -v .git | fzf)'
-
-# depth 4
-cdd_arg='cd $(( ls -d  ~/downloads/; \
-                ls -d  ~/downloads/*/; \
-                ls -d  ~/downloads/*/*/; \
-                ls -d  ~/downloads/*/*/*/) \
-                | grep -v .git | fzf)'
-
-cdv_arg='cd $(( ls -d  ~/videos/; \
-                ls -d  ~/videos/*/; \
-                ls -d  ~/videos/*/*/; \
-                ls -d  ~/videos/*/*/*/) \
-                | grep -v .git | fzf)'
-
-# assign the cd aliases
-alias cdd=${cdd_arg}
-alias cdm=${cdm_arg}
-alias cdv=${cdv_arg}
-
-alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
-
 # ufc
 alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf | sort'
 alias ufcud='python3 /home/mattb/code/python/python_flat/random/ufc_database.py' 
+
+# motivation to train
+alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 
 # # display the ufc video I am watching/should watch next
 # alias ufc='path="/home/mattb/videos/ufc/"; \
@@ -51,6 +26,10 @@ alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
 # read book
 alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
 alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed_solutions/c01.pdf ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed.pdf &'
+
+# compose stack answers in a separate window, with 3 splits and vim ready to go
+alias st="tmux new-window -n 'stack'; tmux send-keys -t 'stack' 'cd ~/stack_questions; tmux split-window -h; tmux split-window -v; vim test' Enter"
+alias kts='tmux kill-window -t stack'
 
 # plot typing speed
 alias tc='python3 ~/code/python/python_flat/speed.py &'
