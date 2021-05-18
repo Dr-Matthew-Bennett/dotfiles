@@ -574,7 +574,7 @@ augroup general
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
     nnoremap <silent><expr> <LEADER>/
-                \ (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
+                \ (v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
