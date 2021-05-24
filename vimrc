@@ -401,10 +401,12 @@ function! YankAround(char)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- calulate remaining jumps ------------------------------------------------
+if v:version > 801
 function! RemainingJumps()
   let [l:jumplist, l:pos] = getjumplist()
   return max([0, len(l:jumplist) - l:pos - 1])
 endfunction
+endif
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -469,10 +471,12 @@ set statusline+=%{FugitiveStatusline()}
 set statusline+=%h%m%r%=
 " space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
+if v:version > 801
 " add remaining number of jumps
 set statusline+=%{'jumps:\ '.RemainingJumps()}
 " space (there must be a proper way to do this)
 set statusline+=\ \ \ \ \ 
+endif
 " last search term
 set statusline+=\/%{@/}\/
 " space (there must be a proper way to do this)
