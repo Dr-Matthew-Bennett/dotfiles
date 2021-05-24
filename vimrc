@@ -1,7 +1,5 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" For targets.vim not to go crazy anytime I source my vimrc
-
 " For vim-tmux-focus-events  not to throw error on switching external windows:
 " Error detected while processing function <SNR>39_do_autocmd[3]..FocusGained
 " Autocommands for "*"..function tmux_focus_events#focus_gained:
@@ -84,7 +82,9 @@ call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
 runtime! plugin/sensible.vim
 " use % sign to jump between if, else, end
-runtime macros/matchit.vim
+runtime! macros/matchit.vim
+" be able to read man pages with :Man <program name>
+runtime! ftplugin/man.vim
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -139,7 +139,7 @@ nnoremap <F5> :MundoToggle<CR>
 let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb al ll bb aa'
 
 " Controls the keys used in maps for seeking next and last text objects.
-let g:targets_nl = 'nN'
+let g:targets_nl = ['n', 'N']
 "}}}---------------------------------------------------------------------------
 "{{{- traces.vim --------------------------------------------------------------
 " fyi: there is extensive help documentation that's not on the github page
@@ -496,15 +496,6 @@ augroup general
     nnoremap gI g0i
     nnoremap gA g$i
 
-    " delete between any two characters
-    " YOU'RE NEVER GOING TO USE THESE...
-    nnoremap <LEADER>di :call DeleteInside('')<left><left>
-    nnoremap <LEADER>ci :call ChangeInside('')<left><left>
-    nnoremap <LEADER>yi :call YankInside('')<left><left>
-    nnoremap <LEADER>da :call DeleteAround('')<left><left>
-    nnoremap <LEADER>ca :call ChangeAround('')<left><left>
-    nnoremap <LEADER>ya :call YankAround('')<left><left>
-
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
     nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
@@ -516,6 +507,23 @@ augroup general
     " operator pending mode
     onoremap <silent> il :<C-u>normal! ^vg_<CR>
     onoremap <silent> al :<C-u>normal! 0v$<CR>
+
+    " inner/around file text objects (define i and a for consistency's sake)
+    " visual mode
+    xnoremap <silent> if <ESC>gg0vG
+    xnoremap <silent> af <ESC>gg0vG
+    " operator pending mode
+    onoremap <silent> if :<C-u>normal! gg0vG<CR>
+    onoremap <silent> af :<C-u>normal! gg0vG<CR>
+
+    " delete between any two characters
+    " YOU'RE NEVER GOING TO USE THESE...
+    nnoremap <LEADER>di :call DeleteInside('')<left><left>
+    nnoremap <LEADER>ci :call ChangeInside('')<left><left>
+    nnoremap <LEADER>yi :call YankInside('')<left><left>
+    nnoremap <LEADER>da :call DeleteAround('')<left><left>
+    nnoremap <LEADER>ca :call ChangeAround('')<left><left>
+    nnoremap <LEADER>ya :call YankAround('')<left><left>
 
     " paste at end of line, with an automatic space
     nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
