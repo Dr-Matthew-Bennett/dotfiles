@@ -52,6 +52,8 @@ ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
 ln -s ~/linux_config_files/tmux_dark.conf .tmux_dark.conf
+mkdir -p ~/.config/zathura/zathurarc
+ln -s ~/linux_config_files/zathurarc ~/.config/zathura/zathurarc
 mkdir -p linux_config_files/.vim/{backup,undo,swap}
 ln -s ~/linux_config_files/vimrc .vimrc
 mkdir ~/.w3m
