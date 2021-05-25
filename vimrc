@@ -1,4 +1,4 @@
-"{{{- wish list ---------------------------------------------------------------
+"{{{- wish list --------------------------------------------------------------
 
 " For vim-tmux-focus-events not to throw error on switching external windows:
 " Error detected while processing function <SNR>39_do_autocmd[3]..FocusGained
@@ -60,21 +60,15 @@ Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
-" Plugin 'dense-analysis/ale'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
-" Plugin 'scrooloose/nerdtree'
+" Plugin 'dense-analysis/ale'
 " Plugin 'tommcdo/vim-lion'
 " Plugin 'tommcdo/vim-exchange'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'wellle/tmux-complete.vim'
-
-" This one only works for NeoVim... but it allows to have neo(vim) run in the
-" areas of a browser where you'd enter text (so maybe sending an email etc.)
-" The Primeagen explains: https://www.youtube.com/watch?v=ID_kNcj9cMo
-" Plugin 'glacambre/firenvim'
 "}}}
 "{{{ - call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
@@ -91,8 +85,8 @@ runtime! ftplugin/man.vim
 "==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
 "{{{- remap leader key --------------------------------------------------------
 "make the space bar my leader key (must be before I make <LEADER> mappings)
-noremap <Space> <Nop>
-sunmap <Space>
+noremap <SPACE> <NOP>
+sunmap <SPACE>
 let mapleader=" "
 "}}}---------------------------------------------------------------------------
 "{{{- ALE ---------------------------------------------------------------------
@@ -170,8 +164,7 @@ nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
-" pane of my choice.  You can set the target manually using hitting C-c and
-" then v.
+" pane of my choice.  You can set the target manually using Ctrl-c + v.
 " ":i.j"    means the ith window, jth pane
 
 let g:slime_target = "tmux"
@@ -279,10 +272,10 @@ command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
 function! WorkSplit()
     let l:currentWindow=winnr()
-    execute "normal! :vsplit\<CR> :buffer 2\<CR>"
-    execute "normal! :split\<CR> :resize -20\<CR> :b scratch2\<CR>"
-    execute l:currentWindow . "wincmd w"
-    execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
+    silent! execute "normal! :vsplit\<CR> :buffer 2\<CR>"
+    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch2\<CR>"
+    silent! execute l:currentWindow . "wincmd w"
+    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
