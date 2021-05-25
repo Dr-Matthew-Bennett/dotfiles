@@ -1,6 +1,6 @@
 "{{{- wish list ---------------------------------------------------------------
 
-" For vim-tmux-focus-events  not to throw error on switching external windows:
+" For vim-tmux-focus-events not to throw error on switching external windows:
 " Error detected while processing function <SNR>39_do_autocmd[3]..FocusGained
 " Autocommands for "*"..function tmux_focus_events#focus_gained:
 "
