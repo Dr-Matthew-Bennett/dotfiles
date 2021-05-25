@@ -612,6 +612,9 @@ augroup general
     " copy contents of unnamed register to system highlighted clipboard
     nnoremap <silent><LEADER>Y :call Preserve("normal! Gp\"*dGu")<CR>
                 \ :echo 'copied to highlight clipboard'<CR>
+
+    " format and yank buffer in a good way for pasting into external world
+    command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
