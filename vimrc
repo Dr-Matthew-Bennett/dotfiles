@@ -613,7 +613,7 @@ augroup general
     nnoremap <silent><LEADER>Y :call Preserve("normal! Gp\"*dGu")<CR>
                 \ :echo 'copied to highlight clipboard'<CR>
 
-    " format and yank buffer in a good way for pasting into external world
+    " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
