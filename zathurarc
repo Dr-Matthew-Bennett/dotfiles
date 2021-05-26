@@ -28,6 +28,7 @@ set recolor-keephue "true"
 # add some more vim like scrolling (in both normal and fullscreen modes)
 map <C-e> scroll down
 map <C-y> scroll up
+# the next two don't seem to work...
 map fullscreen <C-e> scroll down
 map fullscreen <C-y> scroll up
 
