@@ -62,6 +62,7 @@ alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
 alias ef='vim ~/linux_config_files/functions_multihost/base_functions'
 alias ev='vim ~/linux_config_files/vimrc'
 alias et='vim ~/linux_config_files/tmux.conf'
+alias ez='vim ~/linux_config_files/zathurarc'
 
 # kill tmux
 alias kt='tmux kill-session -t main'
