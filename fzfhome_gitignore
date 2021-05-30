@@ -24,6 +24,7 @@ test/
 todo/
 videos/
 VirtualBox VMs/
+stack/
 
 # mattb-UCL
 anaconda3/
@@ -125,6 +126,8 @@ Videos/
 !test/
 !todo/
 !videos/
+!stack/
+!stack/templates/
 # dapony
 !projects/
 projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
