@@ -182,11 +182,11 @@ xmap <LEADER>s <Plug>SlimeRegionSend
 nmap <LEADER>s <Plug>SlimeMotionSend
 " Send {count} line(s)
 nmap <LEADER>ss <Plug>SlimeLineSend
-" }}}--------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
-" }}}--------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown and text from this list and they seem to work just fine.
@@ -252,6 +252,17 @@ function! ToggleW3M()
         :bwipe! /tmp/w3m_scratch
     else
         :silent! split /tmp/w3m_scratch
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- check if vim was initiated by <Esc-v> in bash and take evasive action ---
+function! CheckBashEdit()
+    " if the file matches this highly specific reg exp, comment the line
+    "(e.g. a file that looks like: /tmp/bash-fc.xxxxxx)
+    if match(@%, "\/tmp\/bash-fc\.......") != -1
+        " comment out the command
+        silent! execute ":%normal! I# "
+        write
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -483,6 +494,12 @@ set statusline+=%P
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
+
+    " if we ended up in vim by pressing <ESC-v>, put a # at the beggining of
+    " the line to prevent accidental execution (since bash will execute no
+    " matter what! Imagine rm -rf <forward slash> was there...)
+    autocmd BufReadPost * :call CheckBashEdit()
+
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
