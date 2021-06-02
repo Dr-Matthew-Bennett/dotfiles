@@ -23,7 +23,7 @@ alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 # launch utorrent server
 alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
 alias wcut='windscribe connect && utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
-alias wdut='windscribe disconnect && pkill ut'
+alias wdut='pkill ut && windscribe disconnect'
 
 # read book
 alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
