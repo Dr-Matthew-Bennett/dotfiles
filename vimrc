@@ -706,16 +706,16 @@ augroup matlab "{{{
                 \<Plug>SlimeLineSend<ESC>ddg`xu
 
     " imagesc <motion>
-	autocmd FileType matlab noremap <silent> <LEADER>ci
+    autocmd FileType matlab noremap <silent> <LEADER>ci
                 \ :set opfunc=MatlabImagesc<CR>g@
     " plot <motion>
-	autocmd FileType matlab noremap <silent> <LEADER>cp
+    autocmd FileType matlab noremap <silent> <LEADER>cp
                 \ :set opfunc=MatlabPlot<CR>g@
     " histogram <motion>
-	autocmd FileType matlab noremap <silent> <LEADER>ch
+    autocmd FileType matlab noremap <silent> <LEADER>ch
                 \ :set opfunc=MatlabHist<CR>g@
     " summary info of <motion>
-	autocmd FileType matlab noremap <silent> <LEADER>cs
+    autocmd FileType matlab noremap <silent> <LEADER>cs
                 \ :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
     "{{{ - function documentation ---------------------------------------------
