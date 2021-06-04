@@ -661,6 +661,7 @@ augroup vim help "{{{
     autocmd!
     autocmd FileType help setlocal number
     autocmd FileType help setlocal relativenumber
+    autocmd FileType help setlocal nolist " don't show leading whitespace
 "}}}
 augroup python "{{{
     autocmd!
