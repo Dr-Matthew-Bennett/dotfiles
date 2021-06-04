@@ -443,6 +443,8 @@ set tabstop=4 " a tab is the same as 4 spaces
 set softtabstop=4 " when I hit <TAB> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
+set listchars=lead:. " show leading whitespace as grey dots
+set list " show leading whitespace as grey dots
 set nojoinspaces " don't join with double spaces when line ens with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
