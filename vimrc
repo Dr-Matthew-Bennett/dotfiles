@@ -7,8 +7,6 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
-" automatic folding for markdown sections
-
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -739,6 +737,13 @@ augroup END
 augroup markdown "{{{
     autocmd!
     autocmd FileType markdown setlocal spell
+
+    " all lines under a section heading are folded
+    autocmd FileType markdown setlocal foldmethod=expr 
+    autocmd FileType markdown setlocal foldexpr=getline(v:lnum)=~'^[^#]\\\|^\\s*$'
+    autocmd FileType markdown setlocal foldlevel=0
+    autocmd FileType markdown setlocal foldlevelstart=0
+
     " inside headed title:
     autocmd FileType markdown onoremap iht :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rwvg_"<CR>
