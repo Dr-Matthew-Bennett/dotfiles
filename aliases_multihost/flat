@@ -30,7 +30,12 @@ alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
 alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed_solutions/c01.pdf ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed.pdf &'
 
 # compose stack answers in a separate window, with 3 splits and vim ready to go
-alias st="tmux new-window -n 'stack'; tmux send-keys -t 'stack' 'cd ~/stack; tmux split-window -h; tmux split-window -v; vim your_file' Enter"
+alias st="tmux new-window -n 'stack';\
+    tmux send-keys -t 'stack' 'cd ~/stack;\
+    tmux split-window -h;\
+    tmux split-window -v;\
+    vim -o your_file answers/new' Enter"
+
 alias kst='tmux kill-window -t stack'
 
 # plot typing speed
