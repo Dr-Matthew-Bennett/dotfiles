@@ -7,6 +7,8 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
+" understand what vim-indentwise and indentpython.vim and MatlabFilesEdition
+" plugins do (maybe I don't need them in my vimrc)
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -45,11 +47,9 @@ Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'SirVer/ultisnips'
-
 Plugin 'tmux-plugins/vim-tmux-focus-events'
-" Update: this plugin is now obsolete and no longer needed as both neovim and
-" vim (since version 8.2.2345) have native support for this functionality.
-
+" Update: vim-tmux-focus-events is now obsolete and no longer needed as both
+" neovim and vim (since version 8.2.2345) have native support for this
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/indentpython.vim'
