@@ -373,35 +373,6 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
-"{{{- 'delete', 'change', 'yank' between any two characters -------------------
-" YOU'RE NEVER GOING TO USE THESE...
-function! DeleteInside(char)
-    execute "normal! T".a:char
-    execute "normal! dt".a:char
-endfunction
-function! DeleteAround(char)
-    execute "normal! F".a:char
-    execute "normal! df".a:char
-endfunction
-
-function! ChangeInside(char)
-    :call DeleteInside(a:char)
-    :startinsert
-endfunction
-function! ChangeAround(char)
-    :call DeleteAround(a:char)
-    :startinsert
-endfunction
-
-function! YankInside(char)
-    :call DeleteInside(a:char)
-    normal! u
-endfunction
-function! YankAround(char)
-    :call DeleteAround(a:char)
-    normal! u
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- calulate remaining jumps ------------------------------------------------
 if v:version > 801
     function! RemainingJumps()
@@ -534,32 +505,18 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0vG<CR>
     onoremap <silent> af :<C-u>normal! gg0vG<CR>
 
-    " delete between any two characters
-    " YOU'RE NEVER GOING TO USE THESE...
-    nnoremap <LEADER>di :call DeleteInside('')<left><left>
-    nnoremap <LEADER>ci :call ChangeInside('')<left><left>
-    nnoremap <LEADER>yi :call YankInside('')<left><left>
-    nnoremap <LEADER>da :call DeleteAround('')<left><left>
-    nnoremap <LEADER>ca :call ChangeAround('')<left><left>
-    nnoremap <LEADER>ya :call YankAround('')<left><left>
-
     " paste at end of line, with an automatic space
     nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
     " paste at start of line, with an automatic space
     nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
 
-    " use [w and ]w and [W and ]W to exchange a under word/WORD with the cursor
+    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
     " the prev/next one
-    nnoremap ]w mx$ox<ESC>kJ`xdawhelpmx$daw`xh
-    nnoremap [w mx$ox<ESC>kJ`xdawbPmx$daw`xh
-    nnoremap ]W mx$ox<ESC>kJ`xdaWElpmx$daw`xh
-    nnoremap [W mx$ox<ESC>kJ`xdaWBPmx$daw`xh
+    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
+    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
+    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
+    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
 
-    " Mappings for warnings from Worp/Ale in the style of unimpaired-next
-    "nmap <silent> [W <Plug>(ale_first)
-    "nmap <silent> [w <Plug>(ale_previous)
-    "nmap <silent> ]w <Plug>(ale_next)
-    "nmap <silent> ]W <Plug>(ale_last)
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
