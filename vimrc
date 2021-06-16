@@ -548,6 +548,13 @@ augroup general
     " paste at start of line, with an automatic space
     nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
 
+    " use [w and ]w and [W and ]W to exchange a under word/WORD with the cursor
+    " the prev/next one
+    nnoremap ]w mx$ox<ESC>kJ`xdawhelpmx$daw`xh
+    nnoremap [w mx$ox<ESC>kJ`xdawbPmx$daw`xh
+    nnoremap ]W mx$ox<ESC>kJ`xdaWElpmx$daw`xh
+    nnoremap [W mx$ox<ESC>kJ`xdaWBPmx$daw`xh
+
     " Mappings for warnings from Worp/Ale in the style of unimpaired-next
     "nmap <silent> [W <Plug>(ale_first)
     "nmap <silent> [w <Plug>(ale_previous)
