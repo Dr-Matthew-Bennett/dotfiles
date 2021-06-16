@@ -441,8 +441,10 @@ set tabstop=4 " a tab is the same as 4 spaces
 set softtabstop=4 " when I hit <TAB> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
-set listchars=lead:. " show leading whitespace as grey dots
-set list " show leading whitespace as grey dots
+if v:version > 801
+    set listchars=lead:. " show leading whitespace as grey dots
+    set list " show leading whitespace as grey dots
+endif
 set nojoinspaces " don't join with double spaces when line ens with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
@@ -545,6 +547,13 @@ augroup general
     nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
     " paste at start of line, with an automatic space
     nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
+
+    " use [w and ]w and [W and ]W to exchange a under word/WORD with the cursor
+    " the prev/next one
+    nnoremap ]w mx$ox<ESC>kJ`xdawhelpmx$daw`xh
+    nnoremap [w mx$ox<ESC>kJ`xdawbPmx$daw`xh
+    nnoremap ]W mx$ox<ESC>kJ`xdaWElpmx$daw`xh
+    nnoremap [W mx$ox<ESC>kJ`xdaWBPmx$daw`xh
 
     " Mappings for warnings from Worp/Ale in the style of unimpaired-next
     "nmap <silent> [W <Plug>(ale_first)
