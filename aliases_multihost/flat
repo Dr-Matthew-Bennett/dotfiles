@@ -34,7 +34,7 @@ alias st="tmux new-window -n 'stack';\
     tmux send-keys -t 'stack' 'cd ~/stack;\
     tmux split-window -h;\
     tmux split-window -v;\
-    vim -o your_file answers/new' Enter"
+    vim -o your_file answers/new.md' Enter"
 
 alias kst='tmux kill-window -t stack'
 
