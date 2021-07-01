@@ -123,12 +123,14 @@ let mapleader=" "
 nnoremap <F5> :MundoToggle<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
+" Default
+let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb al rB Al bb aa bB Aa BB AA'
 " Only consider targets fully visible on screen:
 " let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb bb ll al aa'
 
 " Same as above, but prioritise pairs fully on line coming before the cursor
 " (ll) more than stuff fully off the line (bb and aa)
-let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb al ll bb aa'
+" let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab rr rb al ll bb aa'
 
 " Controls the keys used in maps for seeking next and last text objects.
 let g:targets_nl = ['n', 'N']
