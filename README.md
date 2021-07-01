@@ -5,6 +5,17 @@ inspired by a [blog
 post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple-hosts/)
 (see pdf in this repository).
 
+## Dependencies for my setup
+ - [fzf](https://github.com/junegunn/fzf)
+ - [fd](https://github.com/sharkdp/fd#benchmark)
+ - [ag](https://github.com/ggreer/the_silver_searcher)
+ - [bat](https://github.com/sharkdp/bat)
+ - xclip
+ - tmux
+ - zathura
+ - flake8 (pip3 install flake8)
+ - black (pip3 install black)
+
 ## To make this work
 
 1) Clone this repository into your home directory (you should then have a
@@ -17,17 +28,6 @@ git clone https://github.com/Matt-A-Bennett/linux_config_files.git
 2) Rename files in the \*\_multihost directories to match the hostnames of your
 machines. Fill in the base_bashrc, bashrc_multihost, aliases_multihost and any
 other configuration files how you like them.
-
-## Dependencies for my setup
- - [fzf](https://github.com/junegunn/fzf)
- - [fd](https://github.com/sharkdp/fd#benchmark)
- - [ag](https://github.com/ggreer/the_silver_searcher)
- - [bat](https://github.com/sharkdp/bat)
- - xclip
- - tmux
- - zathura
- - flake8 (pip3 install flake8)
- - black (pip3 install black)
 
 3) (Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
 any other configuration files that you plan to keep synched across machines
