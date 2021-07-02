@@ -42,4 +42,4 @@ alias kst='tmux kill-window -t stack'
 alias tc='python3 ~/code/python/python_flat/speed.py &'
 
 # show pressed keys onscreen for vim youtube videos
-alias vidkeydisp='screenkey/./screenkey -p fixed -g 750x100+1100+825 &'
+alias vidkeydisp='~/videos/vim/screenkey/screenkey -p fixed -g 750x100+1100+825 &'
