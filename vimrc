@@ -422,6 +422,7 @@ set nojoinspaces " don't join with double spaces when line ens with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
 set hlsearch | noh " highlight matches for searched (turn off when sourcing)
+set shortmess-=S " show the number of search results (up to 99)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
