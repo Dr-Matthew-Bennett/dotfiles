@@ -566,11 +566,14 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
-    nnoremap <silent><expr> <LEADER>/
+    nnoremap <silent><expr> <LEADER>/ 
                 \ (v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
+
+    " count the number of matched patterns
+    nnoremap <leader>n :%s///gn<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
