@@ -34,9 +34,22 @@ alias st="tmux new-window -n 'stack';\
     tmux send-keys -t 'stack' 'cd ~/stack;\
     tmux split-window -h;\
     tmux split-window -v;\
-    vim -o your_file answers/new.md' Enter"
+    vim -o your_file answers/new.md' Enter
+    "
 
 alias kst='tmux kill-window -t stack'
+
+# open r code and books
+alias r="tmux new-window -n 'r_practice';\
+    tmux send-keys -t 'r_practice' 'cd ~/test/r_stuff;\
+    tmux split-window -vb -l 5;\
+    zathura ~/documents/books/maths/statistical_rethinking_* &\
+    vim -o rethinking.R scratch1.R' Enter
+    "
+
+alias kr='pkill zathura; tmux kill-window -t r_practice'
+
+    # vim -o rethinking.R scratch1.R' Enter"
 
 # plot typing speed
 alias tc='python3 ~/code/python/python_flat/speed.py &'
