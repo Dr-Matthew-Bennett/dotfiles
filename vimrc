@@ -7,8 +7,6 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
-" understand what vim-indentwise and indentpython.vim and MatlabFilesEdition
-" plugins do (maybe I don't need them in my vimrc)
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
