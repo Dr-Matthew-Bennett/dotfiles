@@ -649,6 +649,11 @@ augroup python "{{{
     " open/close the full python docs on thing under the cursor
     nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
 
+    " common imports
+    autocmd FileType python abbrev implt import matplotlib.pyplot as plt
+    autocmd FileType python abbrev imnp import numpy as np
+    
+
 augroup END
 "}}}
 augroup matlab "{{{
