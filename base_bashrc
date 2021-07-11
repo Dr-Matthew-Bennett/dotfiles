@@ -14,7 +14,7 @@ esac
 # See bash(1) for more options
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
-HISTIGNORE="cd:cl:clc:ls:l:..:...:....:sob:ut:f [^|]*"
+HISTIGNORE="cd:c:cl:clc:ls:l:..:...:....:sob:ut:f [^|]*"
 HISTSIZE=10000 # big history
 HISTFILESIZE=10000 # big history
 # append to the history file, don't overwrite it
