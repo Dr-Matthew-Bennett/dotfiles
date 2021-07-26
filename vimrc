@@ -644,6 +644,21 @@ augroup python "{{{
     autocmd FileType python nmap <LEADER>q mxyiwO<ESC>pIprint(<ESC>A)<ESC>
                 \<Plug>SlimeLineSend<ESC>ddg`xu
 
+    " refactor visually selected lines
+    autocmd FileType python vnoremap <LEADER>r s<ESC>mx
+                \gg/\<import\><CR>:noh<CR>
+                \o<ESC>odef my_function():<ESC>
+                \p>}
+                \}ireturn None<ESC>
+                \>>
+                \o<ESC>
+                \?^\<def\>.*)?e<CR>:noh<CR>i
+
+    " insert refactored function where lines were taken from
+    autocmd FileType python nnoremap <LEADER>r ?^\<def\>.*:<CR>:noh<CR>
+                \wyt:
+                \'x]p
+
     " open/close the full python docs on thing under the cursor
     nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
 
