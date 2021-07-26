@@ -352,6 +352,40 @@ function! MatlabExecuteCode()
     silent :execute "normal! \"_dd`xu"
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- function to refactor code in python -------------------------------------
+function! RefactorPython()
+    " mark the location
+    execute "normal mx"
+    " search backwards for the word import at start of line
+    if search("^import", 'b', 'W') != 0
+        " create 2 blank lines below it
+        execute "normal 2o"
+        execute "normal k"
+    else
+        " search for the first def or class in the file
+        execute "normal gg"
+        :call search("^\\<def\\> .*:\\|\\<class\\>.*:")
+        " create 2 blank lines above it
+        execute "normal 2O"
+        execute "normal k"
+    endif
+    " if we found none of the above this will happen at the start of file
+    " define a new function
+    execute "normal Idef my_function():"
+    " drop down a line to make a mark y, then go up again
+    execute "normal jmyk"
+    " paste the refactored lines into it and indent until end (mark y)
+    execute "normal p>'y"
+    " put a dummy return statement at end (mark y)
+    execute "normal 'yIreturn None"
+    " indent the return statement
+    execute "normal >>"
+    " make a blank line below the return statement
+    execute "normal o"
+    " move input arguments, turn off search highlighting
+    execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
 function! Help_AG()
     let orig_file = expand(@%)
@@ -644,18 +678,12 @@ augroup python "{{{
     autocmd FileType python nmap <LEADER>q mxyiwO<ESC>pIprint(<ESC>A)<ESC>
                 \<Plug>SlimeLineSend<ESC>ddg`xu
 
-    " refactor visually selected lines
-    autocmd FileType python vnoremap <LEADER>r s<ESC>mx
-                \gg/\<import\><CR>:noh<CR>
-                \o<ESC>odef my_function():<ESC>
-                \p>}
-                \}ireturn None<ESC>
-                \>>
-                \o<ESC>
-                \?^\<def\>.*)?e<CR>:noh<CR>i
+    " refactor visually selected lines, first leave a blank line then call func
+    autocmd FileType python vnoremap <LEADER>r s<ESC>:call RefactorPython()<CR>
 
-    " insert refactored function where lines were taken from
-    autocmd FileType python nnoremap <LEADER>r ?^\<def\>.*:<CR>:noh<CR>
+    " insert refactored function where lines were taken from (after func above)
+    autocmd FileType python nnoremap <LEADER>r 
+                \?^\<def\>.*:<CR>:noh<CR>
                 \wyt:
                 \'x]p
 
