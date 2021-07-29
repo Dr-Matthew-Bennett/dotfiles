@@ -98,23 +98,23 @@ let mapleader=" "
 " let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
-    " search for and open file under the fzf default directory
-    nnoremap <LEADER>f :Files<CR>
-    " search through and jump to buffer
-    nnoremap <LEADER>b :Buffers<CR>
-    " search for and jump to line in any open buffer
-    nnoremap <LEADER>l :Lines<CR>
-    " insert mode line completion
-    imap ;l <Plug>(fzf-complete-line)
+" search for and open file under the fzf default directory
+nnoremap <LEADER>f :Files<CR>
+" search through and jump to buffer
+nnoremap <LEADER>b :Buffers<CR>
+" search for and jump to line in any open buffer
+nnoremap <LEADER>l :Lines<CR>
+" insert mode line completion
+imap ;l <Plug>(fzf-complete-line)
 
-    " when I search for a file, show results in a window at the bottom
-    let g:fzf_layout = { 'down': '~40%' }
+" when I search for a file, show results in a window at the bottom
+let g:fzf_layout = { 'down': '~40%' }
 
-    " Change CTRL-X to CTRL-V to open file from fzf in vertical split
-    let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-h': 'split',
-      \ 'ctrl-v': 'vsplit' }
+" Change CTRL-X to CTRL-V to open file from fzf in vertical split
+let g:fzf_action = {
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-h': 'split',
+            \ 'ctrl-v': 'vsplit' }
 "}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
@@ -360,7 +360,7 @@ function! RefactorPython()
     if search("^import", 'b', 'W') != 0
         " create 2 blank lines below it
         execute "normal 2o"
-        execute "normal k"
+        " execute "normal k"
     else
         " search for the first def or class in the file
         execute "normal gg"
@@ -684,7 +684,7 @@ augroup python "{{{
     " insert refactored function where lines were taken from (after func above)
     autocmd FileType python nnoremap <LEADER>r 
                 \?^\<def\>.*:<CR>:noh<CR>
-                \wyt:
+                \Wyt:
                 \'x]p
 
     " open/close the full python docs on thing under the cursor
