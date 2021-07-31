@@ -375,11 +375,11 @@ function! RefactorPython()
     " drop down a line to make a mark y, then go up again
     execute "normal jmyk"
     " paste the refactored lines into it and indent until end (mark y)
-    execute "normal p>'y"
+    execute "normal ]p>'y"
     " put a dummy return statement at end (mark y)
     execute "normal 'yIreturn None"
     " indent the return statement
-    execute "normal >>"
+    execute "normal <<........>>"
     " make a blank line below the return statement
     execute "normal o"
     " move input arguments, turn off search highlighting
