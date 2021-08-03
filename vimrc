@@ -534,11 +534,11 @@ augroup general
 
     " inner/around file text objects (define i and a for consistency's sake)
     " visual mode
-    xnoremap <silent> if <ESC>gg0vG
-    xnoremap <silent> af <ESC>gg0vG
+    xnoremap <silent> if <ESC>gg0VG
+    xnoremap <silent> af <ESC>gg0VG
     " operator pending mode
-    onoremap <silent> if :<C-u>normal! gg0vG<CR>
-    onoremap <silent> af :<C-u>normal! gg0vG<CR>
+    onoremap <silent> if :<C-u>normal! gg0VG<CR>
+    onoremap <silent> af :<C-u>normal! gg0VG<CR>
 
     " paste at end of line, with an automatic space
     nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
@@ -604,8 +604,13 @@ augroup general
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
+    " remove blank lines
+    nnoremap <silent><LEADER>t :g/^\s*$/d<HOME>
+    vnoremap <silent><LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
+
     " count the number of matched patterns
-    nnoremap <leader>n :%s///gn<CR>
+    nnoremap <LEADER>n :%s///gn<CR>
+
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
