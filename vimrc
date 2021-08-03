@@ -541,9 +541,11 @@ augroup general
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
 
     " paste at end of line, with an automatic space
-    nnoremap <LEADER><LEADER>p o<C-r>"<ESC>kJ
+    nnoremap >p o<C-r>"<ESC>kJ
+    nnoremap >P o<C-r>"<ESC>kJ
     " paste at start of line, with an automatic space
-    nnoremap <LEADER><LEADER>P O<C-r>"<ESC>J
+    nnoremap <P O<C-r>"<ESC>J
+    nnoremap <p O<C-r>"<ESC>J
 
     " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
     " the prev/next one
