@@ -57,6 +57,7 @@ ln -s ~/linux_config_files/zathurarc ~/.config/zathura/zathurarc
 mkdir -p linux_config_files/.vim/{backup,undo,swap}
 ln -s ~/linux_config_files/vimrc .vimrc
 mkdir ~/.w3m
+mkdir -p ~/.vim/ultisnips
 ln -s ~/linux_config_files/w3m/keymap ~/.w3m/keymap
 ln -s ~/linux_config_files/w3m/config ~/.w3m/config
 ln -s ~/linux_config_files/w3m/functions_info.txt ~/.w3m/functions_info.txt 
