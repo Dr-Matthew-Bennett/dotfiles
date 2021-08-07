@@ -79,19 +79,21 @@ xterm*|rxvt*)
     ;;
 esac
 
-# source host specific bashrc file if it exists
+# source host specific .bashrc file if it exists
 [ -f ~/linux_config_files/bashrc_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/bashrc_multihost/$HOSTNAME
-# source base bash_aliases if it exists
+
+# source base .bash_aliases if it exists
 [ -f ~/linux_config_files/aliases_multihost/base_aliases ] &&
 source ~/linux_config_files/aliases_multihost/base_aliases
-# source host specific bash_aliases if they exist
+# source host specific .bash_aliases if they exist
 [ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/aliases_multihost/$HOSTNAME
-# source base bash_functions if it exists
+
+# source base .bash_functions if it exists
 [ -f ~/linux_config_files/functions_multihost/base_functions ] &&
 source ~/linux_config_files/functions_multihost/base_functions
-# source host specific bash_functions if they exist
+# source host specific .bash_functions if they exist
 [ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/functions_multihost/$HOSTNAME
 
