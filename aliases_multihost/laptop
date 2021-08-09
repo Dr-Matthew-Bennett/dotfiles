@@ -11,6 +11,6 @@ alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 #alias vidkeydisp='screenkey/./screenkey -p fixed -g 90%x10%+5%-10%'
 
 # set night light temp (default=4000)
-alias day='redshift -PO 3500'
-alias eve='redshift -O 2500'
-alias night='redshift -O 1500'
+alias day='xrandr --output eDP-1 --brightness .7 && redshift -O 3500'
+alias eve='xrandr --output eDP-1 --brightness .6 && redshift -O 2500'
+alias night='xrandr --output eDP-1 --brightness .5 && redshift -O 1500'
