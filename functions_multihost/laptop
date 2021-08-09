@@ -1,0 +1,9 @@
+#!/bin/bash
+
+check_battery() {
+    level=$(acpi -b | awk '{print $4-0}')
+    if [ $level -lt "40" ] ;
+    then 
+        aplay /home/mattb/music/alarm.wav;
+    fi
+    }
