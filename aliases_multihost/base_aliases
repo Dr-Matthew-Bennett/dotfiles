@@ -101,9 +101,10 @@ alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(rese
 alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
-
 # open R with vi shortcuts
 alias vr='rlwrap -a R'
+
+alias zathura='zathura --mode fullscreen'
 
 # in case I start getting errors popping up in the terminal,
 # automatically open a new tmux window:
