@@ -107,7 +107,7 @@ nnoremap <LEADER>l :Lines<CR>
 " insert mode line completion
 imap ;l <Plug>(fzf-complete-line)
 
-# I want the prevew on the 'right' rather than 'up' like in the terminal
+" I want the prevew on the 'right' rather than 'up' like in the terminal
 let fzf1 = "--height 80% -m --layout=reverse --marker=o" "
 let fzf2 = "--preview 'bat {} --color=always --style=numbers --preview-window 'right'"
 let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all" 
