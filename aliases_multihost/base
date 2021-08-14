@@ -2,10 +2,10 @@
 
 # grabbed these from the .bashrc
 # enable color support of ls and also add handy aliases
- if [ -x /usr/bin/dircolors ]; then
-     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
- 	alias ls='ls --color=auto'
- fi	
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+fi
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -58,31 +58,20 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 # source .bashrc
 alias sob='source ~/.bashrc'
 # edit dot files
-alias eb='vim ~/linux_config_files/bashrc_multihost/base_bashrc'
-alias ebf='vim ~/linux_config_files/bashrc_multihost/flat'
-alias ebl='vim ~/linux_config_files/bashrc_multihost/laptop'
-alias ebo='vim ~/linux_config_files/bashrc_multihost/office'
-alias ebd='vim ~/linux_config_files/bashrc_multihost/dapony'
-
-alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
-alias eaf='vim ~/linux_config_files/aliases_multihost/flat'
-alias eal='vim ~/linux_config_files/aliases_multihost/laptop'
-alias eao='vim ~/linux_config_files/aliases_multihost/office'
-alias ead='vim ~/linux_config_files/aliases_multihost/dapony'
-
-alias ef='vim ~/linux_config_files/functions_multihost/base_functions'
-alias eff='vim ~/linux_config_files/functions_multihost/flat'
-alias efl='vim ~/linux_config_files/functions_multihost/laptop'
-alias efo='vim ~/linux_config_files/functions_multihost/office'
-alias efd='vim ~/linux_config_files/functions_multihost/dapony'
-
+alias et='vim ~/linux_config_files/tmux_multihost/tmux.conf'
 alias ev='vim ~/linux_config_files/vimrc'
-alias et='vim ~/linux_config_files/tmux.conf'
-alias etf='vim ~/linux_config_files/flat'
-alias etl='vim ~/linux_config_files/laptop'
-alias eto='vim ~/linux_config_files/office'
-alias etd='vim ~/linux_config_files/dapony'
 alias ez='vim ~/linux_config_files/zathurarc'
+
+# generate aliases to open host specific dot files
+declare -A dir_dict=([eb]=bashrc_ [ea]=aliases_ [ef]=functions_)
+declare -A file_dict=([b]=base [f]=flat [l]=laptop [o]=office [d]=dapony)
+for dir_abbrv in "${!dir_dict[@]}"
+do
+    for file_abbrv in "${!file_dict[@]}"
+    do
+        alias $dir_abbrv$file_abbrv="vim ~/linux_config_files/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
+    done
+done
 
 # kill tmux
 alias kt='tmux kill-session -t main'

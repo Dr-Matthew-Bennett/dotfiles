@@ -84,15 +84,15 @@ esac
 source ~/linux_config_files/bashrc_multihost/$HOSTNAME
 
 # source base .bash_aliases if it exists
-[ -f ~/linux_config_files/aliases_multihost/base_aliases ] &&
-source ~/linux_config_files/aliases_multihost/base_aliases
+[ -f ~/linux_config_files/aliases_multihost/base ] &&
+source ~/linux_config_files/aliases_multihost/base
 # source host specific .bash_aliases if they exist
 [ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/aliases_multihost/$HOSTNAME
 
 # source base .bash_functions if it exists
-[ -f ~/linux_config_files/functions_multihost/base_functions ] &&
-source ~/linux_config_files/functions_multihost/base_functions
+[ -f ~/linux_config_files/functions_multihost/base ] &&
+source ~/linux_config_files/functions_multihost/base
 # source host specific .bash_functions if they exist
 [ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/functions_multihost/$HOSTNAME
