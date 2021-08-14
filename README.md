@@ -47,7 +47,7 @@ that you want to keep synched across machines with symbolic links from your
 
 ```shell
 cd ~/
-ln -s ~/linux_config_files/base_bashrc .bashrc
+ln -s ~/linux_config_files//bashrc_multihost/base_bashrc .bashrc
 ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
