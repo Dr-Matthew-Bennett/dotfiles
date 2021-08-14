@@ -107,15 +107,15 @@ nnoremap <LEADER>l :Lines<CR>
 " insert mode line completion
 imap ;l <Plug>(fzf-complete-line)
 
-" I want the prevew on the 'right' rather than 'up' like in the terminal
-let fzf1 = "--height 80% -m --layout=reverse --marker=o" "
-let fzf2 = "--preview 'bat {} --color=always --style=numbers --preview-window 'right'"
-let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all" 
-let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
-:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
-
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
+
+" remove the config for preview window (I prefer vim's default behaviour)
+let fzf1 = "--height 80% -m --layout=reverse --marker=o "
+let fzf2 = ""
+let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all "
+let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
+:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
 
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
