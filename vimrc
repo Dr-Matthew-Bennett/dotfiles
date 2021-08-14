@@ -107,6 +107,13 @@ nnoremap <LEADER>l :Lines<CR>
 " insert mode line completion
 imap ;l <Plug>(fzf-complete-line)
 
+# I want the prevew on the 'right' rather than 'up' like in the terminal
+let fzf1 = "--height 80% -m --layout=reverse --marker=o" "
+let fzf2 = "--preview 'bat {} --color=always --style=numbers --preview-window 'right'"
+let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all" 
+let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
+:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
+
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
 
@@ -208,10 +215,10 @@ function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn
-        :let $BAT_THEME = ''
+        :let $BAT_THEME=''
     else
         colorscheme seoul256-light
-        :let $BAT_THEME = 'Monokai Extended Light'
+        :let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
 
