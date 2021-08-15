@@ -13,7 +13,7 @@
 # f vlc [OPTION]... (hit enter, choose files)
 
 # synch bat theme with overall dark/light theme
-bat_theme() {
+set_bat_theme() {
     if [[ $(tmux show-environment THEME) == THEME=light ]] ;
     then
         export BAT_THEME='Monokai Extended Light'
@@ -25,7 +25,7 @@ bat_theme() {
 f() {
 
     # ensure bat colours are correct
-    bat_theme
+    set_bat_theme
 
     # if no arguments passed, just lauch fzf
     if [ $# -eq 0 ]
