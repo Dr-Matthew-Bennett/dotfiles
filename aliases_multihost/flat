@@ -27,7 +27,7 @@ alias wdut='pkill utserver && windscribe disconnect; windscribe account'
 
 # read book
 alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
-alias la='zathura ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g_solutions.pdf ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g.pdf &'
+alias la=' zathura ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g_solutions.pdf ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g.pdf &'
 
 # compose stack answers in a separate window, with 3 splits and vim ready to go
 alias st="tmux new-window -n 'stack';\

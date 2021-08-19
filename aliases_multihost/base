@@ -58,7 +58,7 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 # source .bashrc
 alias sob='source ~/.bashrc'
 # edit dot files
-alias et='vim ~/linux_config_files/tmux_multihost/tmux.conf'
+alias et='vim ~/linux_config_files/tmux.conf'
 alias ev='vim ~/linux_config_files/vimrc'
 alias ez='vim ~/linux_config_files/zathurarc'
 
@@ -103,8 +103,8 @@ alias clip='xclip -selection clipboard'
 
 # set night light temp (default=4000)
 alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000'
-alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 4000'
-alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3000'
+alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3500'
+alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2500'
 
 # ssh conenctions
 # access the pony with or without X11 Forwarding
