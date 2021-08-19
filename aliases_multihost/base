@@ -103,7 +103,7 @@ alias clip='xclip -selection clipboard'
 
 # set night light temp (default=4000)
 alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000'
-alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3500'
+alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3750'
 alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2500'
 
 # ssh conenctions
