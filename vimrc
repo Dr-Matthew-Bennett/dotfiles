@@ -364,7 +364,7 @@ function! RefactorPython()
     " mark the location
     execute "normal mx"
     " search backwards for the word import at start of line
-    if search("^import", 'b', 'W') != 0
+    if search("^import \| ^from ", 'b', 'W') != 0
         " create 2 blank lines below it
         execute "normal 2o"
         " execute "normal k"
@@ -422,6 +422,12 @@ if v:version > 801
     endfunction
 endif
 "}}}---------------------------------------------------------------------------
+"{{{- put a blank line above and below current line ---------------------------
+function! Breathing_Room()
+    silent! execute "normal! O\<ESC>jo\<ESC>k"
+endfunction
+"}}}---------------------------------------------------------------------------
+
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -547,6 +553,13 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
 
+    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
+    " the prev/next one
+    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
+    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
+    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
+    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+
     " paste at end of line, with an automatic space
     nnoremap >p o<C-r>"<ESC>kJ
     nnoremap >P o<C-r>"<ESC>kJ
@@ -554,12 +567,9 @@ augroup general
     nnoremap <P O<C-r>"<ESC>J
     nnoremap <p O<C-r>"<ESC>J
 
-    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
-    " the prev/next one
-    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
-    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
-    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
-    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+    " make some space above and below a line
+    nnoremap <SPACE>[ :call Breathing_Room()<CR>
+    nnoremap <SPACE>] :call Breathing_Room()<CR>
 
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
