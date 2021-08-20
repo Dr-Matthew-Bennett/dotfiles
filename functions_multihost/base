@@ -118,6 +118,7 @@ cleanname () {
     rename "s/'//g" *
     rename 's/,//g' *
     rename 's/\./_/g' *  
+    rename 's/_pdf/.pdf/g' *  
     # rename 's/_\w+$/.test/g' *
     }
 
