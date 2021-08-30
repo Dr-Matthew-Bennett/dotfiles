@@ -7,6 +7,23 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
+" Operator for the function, surrounding parens only () pairs, and args:
+" hi[let_us((test(this, [thing], here(just([for, a, moment]), hmmm..),  {a, dict!}, also, me))/2)]
+" matrix[:,0][1]
+" test(mean(arg), other[1:10], stuff)
+
+" I think these work ('around operator') more or less
+" nnoremap dao diwmp%dT)x`px
+" nnoremap cao diwmp%dT)x`ps
+" 
+" needs thought...
+" nnoremap yao yiwmp%dT)x`px
+" function! DeleteAroundOperator()
+" nnoremap dao diwmp%dT)x`px
+" if above didn't work on the dT) part, just delete inside ()
+"   
+" endfunction
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
