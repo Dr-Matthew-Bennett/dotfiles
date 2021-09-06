@@ -84,15 +84,15 @@ esac
 source ~/linux_config_files/bashrc_multihost/$HOSTNAME
 
 # source base .bash_aliases if it exists
-[ -f ~/linux_config_files/aliases_multihost/base_aliases ] &&
-source ~/linux_config_files/aliases_multihost/base_aliases
+[ -f ~/linux_config_files/aliases_multihost/base ] &&
+source ~/linux_config_files/aliases_multihost/base
 # source host specific .bash_aliases if they exist
 [ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/aliases_multihost/$HOSTNAME
 
 # source base .bash_functions if it exists
-[ -f ~/linux_config_files/functions_multihost/base_functions ] &&
-source ~/linux_config_files/functions_multihost/base_functions
+[ -f ~/linux_config_files/functions_multihost/base ] &&
+source ~/linux_config_files/functions_multihost/base
 # source host specific .bash_functions if they exist
 [ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/functions_multihost/$HOSTNAME
@@ -150,12 +150,13 @@ export TODO_PATH='/home/mattb/documents/work_notes/.todo'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # Appearance: Don't fill the terminal with results. Have the best matches at
 # the top. Selected items have a bean marker
-fzf1='--height 40% -m --layout=reverse --marker=o'
+fzf1="--height 80% -m --layout=reverse --marker=o"
+# use bat to preview above the search results 
+fzf2="--preview 'bat {} --color=always --style=numbers' --preview-window 'up'"
 # CTRL-A to select all items found, CTRL-D to deselect all
-fzf2='--bind ctrl-a:select-all,ctrl-d:deselect-all'
+fzf3='--bind ctrl-a:select-all,ctrl-d:deselect-all'
 # scroll the preview window
-fzf3='--bind ctrl-y:preview-up,ctrl-e:preview-down'
+fzf4='--bind ctrl-y:preview-up,ctrl-e:preview-down'
 
 # enter the above into one long string
-export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3}"
-
+export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3} ${fzf4}"

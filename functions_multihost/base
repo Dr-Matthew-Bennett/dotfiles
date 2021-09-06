@@ -12,7 +12,21 @@
 # f vim [OPTION]... (hit enter, choose files)
 # f vlc [OPTION]... (hit enter, choose files)
 
+# synch bat theme with overall dark/light theme
+set_bat_theme() {
+    if [[ $(tmux show-environment THEME) == THEME=light ]] ;
+    then
+        export BAT_THEME='Monokai Extended Light'
+    else
+        export BAT_THEME=''
+    fi
+    }
+
 f() {
+
+    # ensure bat colours are correct
+    set_bat_theme
+
     # if no arguments passed, just lauch fzf
     if [ $# -eq 0 ]
     then
@@ -104,6 +118,7 @@ cleanname () {
     rename "s/'//g" *
     rename 's/,//g' *
     rename 's/\./_/g' *  
+    rename 's/_pdf/.pdf/g' *  
     # rename 's/_\w+$/.test/g' *
     }
 

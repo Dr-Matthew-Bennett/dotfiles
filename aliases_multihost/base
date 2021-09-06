@@ -2,10 +2,10 @@
 
 # grabbed these from the .bashrc
 # enable color support of ls and also add handy aliases
- if [ -x /usr/bin/dircolors ]; then
-     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
- 	alias ls='ls --color=auto'
- fi	
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+fi
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -58,12 +58,20 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 # source .bashrc
 alias sob='source ~/.bashrc'
 # edit dot files
-alias eb='vim ~/linux_config_files/base_bashrc'
-alias ea='vim ~/linux_config_files/aliases_multihost/base_aliases'
-alias ef='vim ~/linux_config_files/functions_multihost/base_functions'
-alias ev='vim ~/linux_config_files/vimrc'
 alias et='vim ~/linux_config_files/tmux.conf'
+alias ev='vim ~/linux_config_files/vimrc'
 alias ez='vim ~/linux_config_files/zathurarc'
+
+# generate aliases to open host specific dot files
+declare -A dir_dict=([eb]=bashrc_ [ea]=aliases_ [ef]=functions_)
+declare -A file_dict=([b]=base [f]=flat [l]=laptop [o]=office [d]=dapony)
+for dir_abbrv in "${!dir_dict[@]}"
+do
+    for file_abbrv in "${!file_dict[@]}"
+    do
+        alias $dir_abbrv$file_abbrv="vim ~/linux_config_files/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
+    done
+done
 
 # kill tmux
 alias kt='tmux kill-session -t main'
@@ -81,9 +89,10 @@ alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(rese
 alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
-
 # open R with vi shortcuts
 alias vr='rlwrap -a R'
+
+alias zathura='zathura --mode fullscreen'
 
 # in case I start getting errors popping up in the terminal,
 # automatically open a new tmux window:
@@ -92,10 +101,10 @@ alias chrome='google-chrome & tmux new-window'
 # access to contents of system clipboard (commands I plan on using start with this form)
 alias clip='xclip -selection clipboard'
 
-# set night light temp (default=4000)
+# set night light temp (default=4000) (<2530 causes flickering on flat monitor)
 alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000'
-alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 4000'
-alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3000'
+alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3750'
+alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2530'
 
 # ssh conenctions
 # access the pony with or without X11 Forwarding

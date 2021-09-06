@@ -9,6 +9,9 @@ alias ufcud='python3 /home/mattb/code/python/python_flat/random/ufc_database.py'
 # motivation to train
 alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 
+# play all the music
+alias mu='vlc ~/music/*/*mp3 &'
+
 # # display the ufc video I am watching/should watch next
 # alias ufc='path="/home/mattb/videos/ufc/"; \
 # 	current_vid="$(ls ${path} | grep -vi watched | grep -vi cancelled | head -n1)"; \
@@ -21,13 +24,13 @@ alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 # alias ufcr='mv ${path}${current_vid} ${path}${current_vid::-4}_Watched${current_vid: -4} && echo "next up:" && ufc'
 
 # launch utorrent server
-alias ut='utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ &'
-alias wcut='windscribe connect && utserver -settingspath /usr/local/utorrent-server-alpha-v3_3/ && windscribe account &'
+alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
+alias wcut='windscribe connect && utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 alias wdut='pkill utserver && windscribe disconnect; windscribe account'
 
 # read book
 alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
-alias linal='zathura  ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed_solutions/c01.pdf ~/documents/books/maths/strang_g_introduction_to_linear_algebra_5th_ed.pdf &'
+alias la=' zathura ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g_solutions.pdf ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g.pdf &'
 
 # compose stack answers in a separate window, with 3 splits and vim ready to go
 alias st="tmux new-window -n 'stack';\

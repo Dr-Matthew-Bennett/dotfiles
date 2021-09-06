@@ -26,8 +26,8 @@ git clone https://github.com/Matt-A-Bennett/linux_config_files.git
 ```
 
 2) Rename files in the \*\_multihost directories to match the hostnames of your
-machines. Fill in the base_bashrc, bashrc_multihost, aliases_multihost and any
-other configuration files how you like them.
+machines (leave base as is). Fill in the base and system specific
+configuration files how you like them.
 
 3) (Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
 any other configuration files that you plan to keep synched across machines
@@ -47,7 +47,7 @@ that you want to keep synched across machines with symbolic links from your
 
 ```shell
 cd ~/
-ln -s ~/linux_config_files/base_bashrc .bashrc
+ln -s ~/linux_config_files/bashrc_multihost/base .bashrc
 ln -s ~/linux_config_files/inputrc .inputrc
 ln -s ~/linux_config_files/tmux.conf .tmux.conf
 ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf

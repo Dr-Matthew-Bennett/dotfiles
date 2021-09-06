@@ -7,6 +7,23 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
+" Operator for the function, surrounding parens only () pairs, and args:
+" hi[let_us((test(this, [thing], here(just([for, a, moment]), hmmm..),  {a, dict!}, also, me))/2)]
+" matrix[:,0][1]
+" test(mean(arg), other[1:10], stuff)
+
+" I think these work ('around operator') more or less
+" nnoremap dao diwmp%dT)x`px
+" nnoremap cao diwmp%dT)x`ps
+" 
+" needs thought...
+" nnoremap yao yiwmp%dT)x`px
+" function! DeleteAroundOperator()
+" nnoremap dao diwmp%dT)x`px
+" if above didn't work on the dT) part, just delete inside ()
+"   
+" endfunction
+
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -110,6 +127,13 @@ imap ;l <Plug>(fzf-complete-line)
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
 
+" remove the config for preview window (I prefer vim's default behaviour)
+let fzf1 = "--height 80% -m --layout=reverse --marker=o "
+let fzf2 = ""
+let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all "
+let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
+:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
+
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
@@ -208,10 +232,10 @@ function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
         colorscheme zenburn
-        :let $BAT_THEME = ''
+        :let $BAT_THEME=''
     else
         colorscheme seoul256-light
-        :let $BAT_THEME = 'Monokai Extended Light'
+        :let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
 
@@ -357,7 +381,7 @@ function! RefactorPython()
     " mark the location
     execute "normal mx"
     " search backwards for the word import at start of line
-    if search("^import", 'b', 'W') != 0
+    if search("^import \| ^from ", 'b', 'W') != 0
         " create 2 blank lines below it
         execute "normal 2o"
         " execute "normal k"
@@ -415,6 +439,12 @@ if v:version > 801
     endfunction
 endif
 "}}}---------------------------------------------------------------------------
+"{{{- put a blank line above and below current line ---------------------------
+function! Breathing_Room()
+    silent! execute "normal! O\<ESC>jo\<ESC>k"
+endfunction
+"}}}---------------------------------------------------------------------------
+
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -540,6 +570,13 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
 
+    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
+    " the prev/next one
+    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
+    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
+    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
+    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+
     " paste at end of line, with an automatic space
     nnoremap >p o<C-r>"<ESC>kJ
     nnoremap >P o<C-r>"<ESC>kJ
@@ -547,12 +584,9 @@ augroup general
     nnoremap <P O<C-r>"<ESC>J
     nnoremap <p O<C-r>"<ESC>J
 
-    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
-    " the prev/next one
-    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
-    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
-    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
-    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+    " make some space above and below a line
+    nnoremap <SPACE>[ :call Breathing_Room()<CR>
+    nnoremap <SPACE>] :call Breathing_Room()<CR>
 
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
