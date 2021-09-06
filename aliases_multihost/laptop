@@ -14,3 +14,7 @@ alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 alias day='xrandr --output eDP-1 --brightness .7 && redshift -O 3500'
 alias eve='xrandr --output eDP-1 --brightness .6 && redshift -O 2500'
 alias night='xrandr --output eDP-1 --brightness .5 && redshift -O 1500'
+
+user_hint="USER: mbennett"
+pass_hint="PASS: the one I always use, cap first, 3 exclamations"
+alias uvc="echo ${user_hint} && echo ${pass_hint} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be"
