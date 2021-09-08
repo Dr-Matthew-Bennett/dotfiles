@@ -23,6 +23,23 @@ def ${1:function name}(${2:args}):
 	return
 endsnippet
 
+# function doc string
+snippet doc "write doc string"
+    """
+    $0
+
+    Inputs:
+        arg1:
+
+        arg2:
+
+    Returns:
+        out1:
+
+        out2:
+    """
+endsnippet
+
 # for loops
 snippet for "for loop" b
 for ${1:item} in ${2:iterable}:
@@ -36,7 +53,7 @@ endsnippet
 
 # list comprehension
 snippet lc "list comprehension"
-${1:out} = [${2:item} for ${3:item} in ${4:iterable}]
+${1:out} = [${2:item} for $2 in ${3:iterable}]
 endsnippet
 
 

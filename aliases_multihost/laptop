@@ -2,6 +2,10 @@
 
 alias sd='shutdown'
 
+# removed and restore fzf default options (if I want to use it in an usual directory)
+alias fzfcl="export FZF_DEFAULT_COMMAND='fdfind .'"
+alias fzf-="export FZF_DEFAULT_COMMAND='fdfind . $HOME'"
+
 alias skype='skypeforlinux &'
 
 # launch utorrent server
