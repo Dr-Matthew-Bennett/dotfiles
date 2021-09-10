@@ -137,8 +137,8 @@ let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
-            \ 'ctrl-h': 'split',
-            \ 'ctrl-v': 'vsplit' }
+            \ 'ctrl-d': 'split',
+            \ 'ctrl-l': 'vsplit' }
 "}}}---------------------------------------------------------------------------
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
@@ -588,6 +588,10 @@ augroup general
     nnoremap <SPACE>[ :call Breathing_Room()<CR>
     nnoremap <SPACE>] :call Breathing_Room()<CR>
 
+    " delete surrounding operator: op(leave untouched) -> leave untouched
+    nnoremap dso diwmo%x`ox
+
+    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
@@ -655,11 +659,11 @@ augroup general
     nnoremap <LEADER>sv :source $MYVIMRC<CR>
 
     nnoremap <LEADER>eb :vsplit
-                \ /home/mattb/linux_config_files/base_bashrc<CR>
+                \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
     nnoremap <LEADER>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base_aliases<CR>
+                \ /home/mattb/linux_config_files/aliases_multihost/base<CR>
     nnoremap <LEADER>ef :vsplit
-                \ /home/mattb/linux_config_files/functions_multihost/base_functions<CR>
+                \ /home/mattb/linux_config_files/functions_multihost/base<CR>
     nnoremap <LEADER>et :vsplit
                 \ /home/mattb/linux_config_files/tmux.conf<CR>
     "}}}-----------------------------------------------------------------------
