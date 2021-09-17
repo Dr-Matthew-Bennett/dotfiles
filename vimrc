@@ -745,8 +745,8 @@ augroup END
 augroup r "{{{
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with other users.
-    autocmd FileType R setlocal fileformat=unix
-    autocmd FileType R setlocal foldmethod=indent
+    autocmd FileType r setlocal fileformat=unix
+    autocmd FileType r setlocal foldmethod=indent
 augroup END
 "}}}
 augroup matlab "{{{
