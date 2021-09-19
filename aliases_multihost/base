@@ -108,7 +108,7 @@ alias sshpony='ssh mattb@130.104.83.192'
 alias sshponyx='ssh -X mattb@130.104.83.192'
 # access jolien's pc with or without X11 Forwarding
 alias sshjolien='ssh mattb@130.104.83.35'
-alias sshjolien='ssh -X mattb@130.104.83.35'
+alias sshjolienx='ssh -X mattb@130.104.83.35'
 # CISM mass storage
 alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
 # Glasgow
