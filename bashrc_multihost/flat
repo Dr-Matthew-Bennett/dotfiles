@@ -16,7 +16,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # disable mouse scrolling (since my wireless mouse wheel is crazy)
-wireless_mouse_id=$(xinput list | awk '/.*2\.4G.*Mouse/ {print $9}' | sed 's/id=//')
+wireless_mouse_id=$(xinput list | awk '/2\.4G.*Mouse/ {print $9}' | sed 's/id=//')
 xinput set-button-map $wireless_mouse_id 1 2 3 0 0
 
 # fzf config: debian has a different binary name
