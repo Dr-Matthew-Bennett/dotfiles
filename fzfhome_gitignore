@@ -3,6 +3,7 @@
 # flat
 anaconda3
 arch
+bash_scripts
 bean_applications
 cache
 code
@@ -11,6 +12,7 @@ documents
 downloads
 Downloads
 games
+games_like_EE
 gems
 ideas
 installed
@@ -115,6 +117,8 @@ Templates/
 Videos/
  
 # now un-ignore the ones I care about
+!bash_scripts/
+!bin/
 !code/
 !code/matlab/
 !code/matlab/matlab/
@@ -124,31 +128,29 @@ Videos/
 !code/python/python_flat/games
 !Desktop/
 !documents/
+!Documents/
 !downloads/
+!Downloads/
+!fix/
 !games_like_EE/
+!laynii/
 !linux_config_files/
 !maintenance/
 !music/
+!Music/
 !pictures/
+!Pictures/
+!projects/
+projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
+!python_scripts/
+!segmentator_env/
+!stack/
+!stack/templates/
 !test/
 !todo/
 !videos/
-!stack/
-!stack/templates/
-!website/
-# dapony
-!projects/
-projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
-!fix/
-!vim_cmds/
-# glasgow pc
-!Documents/
-!Downloads/
-!laynii/
-!Music/
-!Pictures/
-!python_scripts/
-!segmentator_env/
 !Videos/
+!vim_cmds/
+!website/
 
  
