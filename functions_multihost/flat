@@ -1,5 +1,31 @@
 #! bin/bash
 
+# function to find the total duration of a set of tracks in seconds
+tl () {
+    total=0
+    for file in "$@"; do
+        # find the duration of each track in seconds
+        duration=$(mediainfo "$file" | awk -F: '/Duration/ {print $2}' | awk '{mins += $1} {secs += $3} END {print mins*60 + secs}')
+        total=$(( $total + $duration ))
+    done
+    # convert total secs to mins and /2 to correct for the awk function finding
+    # two lines containing the duration PER FILE.
+    total=$(( ($total/60)/2 ))
+    echo "$total"
+}
+
+# function to play a set of files in vlc and shutdown the pc after it's done
+vlcsd () {
+    # get total length of tracks in mins, +1 min to ensure we don't cut off the
+    # last bit of the last track
+    total=$(tl "$@")
+    total=$(( $total +1 ))
+
+    # send the shutdown signal and start playing the tracks in order
+    shutdown "+$total"
+    vlc --no-loop --no-random --no-repeat "$@" &
+}
+
 # video editing functions
 vidspeed () {
     if [[ $# -ne 2 ]] ; then
