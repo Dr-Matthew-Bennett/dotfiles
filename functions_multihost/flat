@@ -24,7 +24,7 @@ vlcsd () {
     # write the last played track to a file so I know where to start from
     last_arg="${@: -1}"
     path_to_tracks=$(echo "${last_arg}" | sed 's_/[^/]*$__')
-    basename "${last_arg}" > "${path_to_tracks}"/.last_played_track
+    basename "${last_arg}" > "${path_to_tracks}"/last_played_track
 
     # send the shutdown signal and start playing the tracks in order
     shutdown "+$total"
