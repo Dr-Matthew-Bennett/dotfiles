@@ -1,6 +1,6 @@
 #! bin/bash
 
-# function to find the total duration of a set of tracks in seconds
+# function to find the total duration of a set of tracks in minutes
 tl () {
     total=0
     for file in "$@"; do
@@ -20,6 +20,11 @@ vlcsd () {
     # last bit of the last track
     total=$(tl "$@")
     total=$(( $total +1 ))
+
+    # write the last played track to a file so I know where to start from
+    last_arg="${@: -1}"
+    path_to_tracks=$(echo "${last_arg}" | sed 's_/[^/]*$__')
+    basename "${last_arg}" > "${path_to_tracks}"/.last_played_track
 
     # send the shutdown signal and start playing the tracks in order
     shutdown "+$total"
