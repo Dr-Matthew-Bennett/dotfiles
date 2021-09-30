@@ -7,6 +7,8 @@
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
 
+" For scratch.* files to open in small split by default
+
 " Operator for the function, surrounding parens only () pairs, and args:
 " hi[let_us((test(this, [thing], here(just([for, a, moment]), hmmm..),  {a, dict!}, also, me))/2)]
 " matrix[:,0][1]
