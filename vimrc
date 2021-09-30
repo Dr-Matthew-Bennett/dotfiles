@@ -736,8 +736,8 @@ augroup python "{{{
     nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
 
     " common imports
-    autocmd FileType python abbrev implt import matplotlib.pyplot as plt
-    autocmd FileType python abbrev imnp import numpy as np
+    autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
+    autocmd FileType python abbreviate imnp import numpy as np
     
 
 augroup END
@@ -747,6 +747,12 @@ augroup r "{{{
     " avoid conversion issues when checking into github and/or sharing with other users.
     autocmd FileType r setlocal fileformat=unix
     autocmd FileType r setlocal foldmethod=indent
+
+    " easier to type assignment
+    autocmd FileType r iabbrev <buffer> << <-
+
+    " don't consider dots part of words (i.e. keep acting like normal vim)
+    autocmd FileType r set iskeyword-=.
 augroup END
 "}}}
 augroup matlab "{{{
