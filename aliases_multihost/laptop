@@ -8,6 +8,9 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fdfind . $HOME'"
 
 alias skype='skypeforlinux &'
 
+# so I don't get confused every time I forget I don't have eog installed
+alias eog='feh'
+
 # launch utorrent server
 alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 
@@ -19,6 +22,7 @@ alias day='xrandr --output eDP-1 --brightness .7 && redshift -O 3500'
 alias eve='xrandr --output eDP-1 --brightness .6 && redshift -O 2500'
 alias night='xrandr --output eDP-1 --brightness .5 && redshift -O 1500'
 
+sudo_reminder="You may need to type the sudo password for the laptop mattb"
 user_hint="USER: mbennett"
 pass_hint="PASS: the one I always use, cap first, 3 exclamations"
-alias uvc="echo ${user_hint} && echo ${pass_hint} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be"
+alias uvc="echo ${sudo_reminder} && echo ${user_hint} && echo ${pass_hint} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be"
