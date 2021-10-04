@@ -23,7 +23,6 @@
 " if above didn't work on the dT) part, just delete inside ()
 "   
 " endfunction
-
 "}}}---------------------------------------------------------------------------
 
 "==== SETUP VUNDLE PLUGIN MANAGER =============================================
@@ -444,7 +443,6 @@ function! Breathing_Room()
     silent! execute "normal! O\<ESC>jo\<ESC>k"
 endfunction
 "}}}---------------------------------------------------------------------------
-
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -713,7 +711,7 @@ augroup vim help "{{{
 augroup python "{{{
     autocmd!
     set completeopt-=preview "don't have preview window on python autocomplete
-    " avoid conversion issues when checking into GitHub and/or sharing with other users.
+    " avoid conversion issues when checking into github and/or sharing with other users.
     autocmd FileType python setlocal fileformat=unix
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all=1
@@ -736,10 +734,23 @@ augroup python "{{{
     nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
 
     " common imports
-    autocmd FileType python abbrev implt import matplotlib.pyplot as plt
-    autocmd FileType python abbrev imnp import numpy as np
+    autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
+    autocmd FileType python abbreviate imnp import numpy as np
     
 
+augroup END
+"}}}
+augroup r "{{{
+    autocmd!
+    " avoid conversion issues when checking into github and/or sharing with other users.
+    autocmd FileType r setlocal fileformat=unix
+    autocmd FileType r setlocal foldmethod=indent
+
+    " easier to type assignment
+    autocmd FileType r iabbrev <buffer> << <-
+
+    " don't consider dots part of words (i.e. keep acting like normal vim)
+    autocmd FileType r set iskeyword-=.
 augroup END
 "}}}
 augroup matlab "{{{
