@@ -72,6 +72,7 @@ Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
+Plugin 'bronson/vim-visual-star-search'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -419,8 +420,8 @@ function! Help_AG()
     " if we opened a help doc
     if orig_file != expand(@%)
         set nomodifiable
-        " for some reason not all the tags work unless I open the real help
-        " so get whichever help was found and opened through Ag
+        " for some reason not all the tags work unless I open the 'real' help
+        " so get whichever help was found and open it through Ag
         let help_doc=expand("%:t")
         " open and close that help doc - now the tags will work
         execute "normal! :tab :help " help_doc "\<CR>:q\<CR>"
