@@ -840,6 +840,10 @@ augroup tex "{{{
     autocmd FileType tex setlocal foldlevel=0
     autocmd FileType tex setlocal foldlevelstart=0
 
+    autocmd FileType tex :let b:tex_flavor = 'pdflatex'
+    autocmd FileType tex :compiler tex
+    autocmd FileType tex nnoremap <LEADER>m :silent make % <CR>
+
     " gq until a line beginning with \
     " I figured out the macro (that's everything after the :), but I've
     " forgotten how to do the remap commands
