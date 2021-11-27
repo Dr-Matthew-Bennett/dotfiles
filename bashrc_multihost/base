@@ -145,10 +145,10 @@ export PATH="$HOME/gems/bin:$PATH"
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'
 
-# hide cursor after 2 seconds of inactivity
+# hide cursor after 2 seconds of inactivity (suppress errors)
 if command -v unclutter &> /dev/null
 then
-    unclutter -root -idle 2 &
+    unclutter -root -idle 2 &> /dev/null &
 fi
 
 ### fzf config ################################################################
