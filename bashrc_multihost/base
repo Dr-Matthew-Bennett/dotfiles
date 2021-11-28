@@ -124,6 +124,12 @@ setxkbmap -option ‘caps:ctrl_modifier’
 setxkbmap -option ctrl:nocaps
 xcape -e '#66=Escape'
 
+# hide cursor after 2 seconds of inactivity (suppress errors)
+if command -v unclutter &> /dev/null && ps aux | grep unclutter | grep -v grep &> /dev/null
+then
+    unclutter -root -idle 2 &> /dev/null &
+fi
+
 # Launch tmux
 if command -v tmux>/dev/null; then
     [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux new-session -A -s main
@@ -144,14 +150,6 @@ export PATH="$HOME/gems/bin:$PATH"
 
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'
-
-# hide cursor after 2 seconds of inactivity (suppress errors)
-if command -v unclutter &> /dev/null
-then
-    # this will run every time I open a new tmux pane... so kill the elderly
-    pkill unclutter
-    unclutter -root -idle 2 &> /dev/null &
-fi
 
 ### fzf config ################################################################
 # fzf setup
