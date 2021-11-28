@@ -148,6 +148,8 @@ export TODO_PATH='/home/mattb/documents/work_notes/.todo'
 # hide cursor after 2 seconds of inactivity (suppress errors)
 if command -v unclutter &> /dev/null
 then
+    # this will run every time I open a new tmux pane... so kill the elderly
+    pkill unclutter
     unclutter -root -idle 2 &> /dev/null &
 fi
 
