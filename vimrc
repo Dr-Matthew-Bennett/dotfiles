@@ -25,7 +25,7 @@
 " endfunction
 "}}}---------------------------------------------------------------------------
 
-"==== SETUP VUNDLE PLUGIN MANAGER =============================================
+"==== PLUGINS =================================================================
 "{{{- required ----------------------------------------------------------------
 if &compatible
     set nocompatible " don't try to be compatible with Vi
@@ -277,7 +277,7 @@ function! ToggleW3M()
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- check if vim was initiated by <Esc-v> in bash and take evasive action ---
+"{{{- if vim was initiated by <Esc-v> in bash, take evasive action ------------
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
     "(e.g. a file that looks like: /tmp/bash-fc.xxxxxx)
