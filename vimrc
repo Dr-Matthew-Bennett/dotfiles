@@ -462,7 +462,7 @@ set splitright " where new vim pane splits are positioned
 set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
-set colorcolumn=80 "show vertical bar at 80 columns
+set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
@@ -487,9 +487,9 @@ set shortmess-=S " show the number of search results (up to 99)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
-if v:version > 801
-    set nrformats=unsigned " ignore any minus sign when using <C-a/x>
-endif
+" if v:version > 801
+"     set nrformats=unsigned " ignore any minus sign when using <C-a/x>
+" endif
 set spell spelllang=en
 set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
