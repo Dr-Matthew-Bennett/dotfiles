@@ -667,7 +667,7 @@ augroup general
                 \ /home/mattb/linux_config_files/tmux.conf<CR>
 
     " force write a readonly file with root privileges 
-    cnoremap W w !sudo tee %
+    cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
