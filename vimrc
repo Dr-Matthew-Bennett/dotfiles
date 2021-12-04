@@ -400,7 +400,7 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- delete a function and its associated parentheses and arguments ----------
+"{{{- delete/yank a function, associated parentheses, and arguments -----------
 function! DeleteSurroundingFunction()
     " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
@@ -424,6 +424,16 @@ function! DeleteSurroundingFunction()
     if has('patch-8.2.0924')
         call setreg('"', regInfo)
     endif
+endfunction
+
+function! YankSurroundingFunction()
+    " store the current line
+    silent! execute 'normal! "lyy'
+    call DeleteSurroundingFunction()
+    " restore the current line to the original
+    silent! execute 'normal! dd"lP'
+    " copy the contents of the f[unction] register to the unamed register 
+    let @"=@f
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
@@ -605,6 +615,7 @@ augroup general
 
     " delete surrounding funtion (func + associated parentheses and arguments)
     nnoremap dsf :call DeleteSurroundingFunction()<CR>
+    nnoremap ysf :call YankSurroundingFunction()<CR>
     
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
