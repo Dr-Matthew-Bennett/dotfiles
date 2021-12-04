@@ -303,13 +303,17 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
-function! Preserve(command)
+function! Preserve(command, func)
     " Preparation: save last search, and cursor position.
     let _s=@/
     let l = line(".")
     let c = col(".")
     " Do the business:
-    execute a:command
+    if a:func == 1
+        execute a:command()
+    else
+        execute a:command
+    endif
     " Clean up: restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
@@ -416,10 +420,10 @@ function! DeleteSurroundingFunction()
     let close = col('.')
     " move back to opening paranthesis
     silent! execute 'normal! %'
-    " search on the same line for an opening paren before the closing paran 
+    " search on the same line for an opening paren before the closing paren 
     if search(")", '', line('.')) && col('.') < close
-        " delete everthing up to the closing paren
-        silent! execute 'normal! l"Fd`c'
+        " delete everthing up to the closing paren and remark closing paren
+        silent! execute 'normal! l"Fd`cmc'
     end
     " delete the the closing and opening parens (put the closing one into reg)
     silent! execute 'normal! `c"Fx`ox'
@@ -616,10 +620,9 @@ augroup general
     nnoremap <SPACE>[ :call Breathing_Room()<CR>
     nnoremap <SPACE>] :call Breathing_Room()<CR>
 
-    " delete surrounding funtion (func + associated parentheses and arguments)
-    nnoremap dsf :call DeleteSurroundingFunction()<CR>
-    nnoremap ysf :call YankSurroundingFunction()<CR>
-    
+    " delete/yank surrounding funtion
+    nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
+    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
@@ -638,23 +641,23 @@ augroup general
     " split vim into 4 windows, load first and second files on buffers 1 and 2.
     " make the bottom windows short and load scratch*.m
     " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
-    nnoremap <silent><LEADER>4 :call WorkSplit()<CR>
+    nnoremap <silent> <LEADER>4 :call WorkSplit()<CR>
 
     " " resize windows (and make it repeatable with dot command)
     " " widen the split
     " nmap <LEADER>H <Plug>WidenSplit
-    " nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<CR>
+    " nnoremap <silent> <Plug>WidenSplit :exe "vertical resize +5"<CR>
     "             \ :call repeat#set("\<Plug>WidenSplit")<CR>
     " " thin the split
-    " nmap <silent><LEADER>h <Plug>ThinSplit
+    " nmap <silent> <LEADER>h <Plug>ThinSplit
     " nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
     "             \ :call repeat#set("\<Plug>ThinSplit")<CR>
     " " heighten the split
-    " nmap <silent><LEADER>J <Plug>HeightenSplit
+    " nmap <silent> <LEADER>J <Plug>HeightenSplit
     " nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
     "             \ :call repeat#set("\<Plug>HeightenSplit")<CR>
     " " shorten the split
-    " nmap <silent><LEADER>j <Plug>ShortenSplit
+    " nmap <silent> <LEADER>j <Plug>ShortenSplit
     " nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
     "             \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
@@ -666,15 +669,15 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
-    nnoremap <silent><expr> <LEADER>/ 
+    nnoremap <silent> <expr> <LEADER>/ 
                 \ (v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
     " remove blank lines
-    nnoremap <silent><LEADER>t :g/^\s*$/d<HOME>
-    vnoremap <silent><LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
+    nnoremap <silent> <LEADER>t :g/^\s*$/d<HOME>
+    vnoremap <silent> <LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
@@ -704,10 +707,10 @@ augroup general
     " paste from system highlighted clipboard
     nnoremap <LEADER>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <silent><LEADER>y :call Preserve("normal! Gp\"+dGu")<CR>
+    nnoremap <silent> <LEADER>y :call Preserve("normal! Gp\"+dGu", 0)<CR>
                 \ :echo 'copied to CTRL-C clipboard'<CR>
     " copy contents of unnamed register to system highlighted clipboard
-    nnoremap <silent><LEADER>Y :call Preserve("normal! Gp\"*dGu")<CR>
+    nnoremap <silent> <LEADER>Y :call Preserve("normal! Gp\"*dGu", 0)<CR>
                 \ :echo 'copied to highlight clipboard'<CR>
 
     " format and yank buffer in a good way for pasting outside of vim
@@ -889,8 +892,8 @@ augroup END
 augroup tidy_code_matlab_and_python "{{{
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
-    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
-    autocmd BufWritePre *.m :call Preserve("normal! gg=G")
+    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
+    autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
 "}}}
 "}}}---------------------------------------------------------------------------
