@@ -6,23 +6,6 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
-
-" Operator for the function, surrounding parens only () pairs, and args:
-" hi[let_us((test(this, [thing], here(just([for, a, moment]), hmmm..),  {a, dict!}, also, me))/2)]
-" matrix[:,0][1]
-" test(mean(arg), other[1:10], stuff)
-
-" I think these work ('around operator') more or less
-" nnoremap dao diwmp%dT)x`px
-" nnoremap cao diwmp%dT)x`ps
-" 
-" needs thought...
-" nnoremap yao yiwmp%dT)x`px
-" function! DeleteAroundOperator()
-" nnoremap dao diwmp%dT)x`px
-" if above didn't work on the dT) part, just delete inside ()
-"   
-" endfunction
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS =================================================================
@@ -417,6 +400,28 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- delete a function ant its associated parentheses and arguments ----------
+function! DeleteSurroundingFunction()
+    " we'll restore the unnamed reg later so it isn't clobbered here
+    let regInfo = getreginfo('"')
+    " delete/yank function name and opening paren into the f[unction] register
+    silent! execute 'normal! "fdiw"Fyl'
+    " make sure we don't ever move sooner than where the function begins
+    let open = col('.')
+    " mark the opening paren, move to closing and also mark it
+    silent! execute 'normal! mo%mc'
+    " search back on the same line for a possible opening paren coming after
+    " the original beginning
+    if search(")", 'b', line('.')) && col('.') > open
+        " delete everthing left of the found paren up to the closing paren
+        silent! execute 'normal! l"Fd`c'
+    end
+    " delete the the closing and opening parens (put the closing one into reg)
+    silent! execute 'normal! `c"Fx`ox'
+    " restore unnamed register
+    call setreg('"', regInfo)
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
 function! Help_AG()
     let orig_file = expand(@%)
@@ -594,9 +599,8 @@ augroup general
     nnoremap <SPACE>[ :call Breathing_Room()<CR>
     nnoremap <SPACE>] :call Breathing_Room()<CR>
 
-    " delete surrounding operator: op(leave untouched) -> leave untouched
-    nnoremap dso diwmo%x`ox
-
+    " delete surrounding funtion (func + associated parentheses and arguments)
+    nnoremap dsf :call DeleteSurroundingFunction()<CR>
     
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
