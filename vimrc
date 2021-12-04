@@ -406,15 +406,18 @@ function! DeleteSurroundingFunction()
     if has('patch-8.2.0924')
         let regInfo = getreginfo('"')
     endif
-    " delete/yank function name and opening paren into the f[unction] register
-    silent! execute 'normal! "fdiw"Fyl'
-    " note where the function begins
-    let open = col('.')
-    " mark the opening and closing parentheses
-    silent! execute 'normal! mo%mc'
-    " search back on the same line for a opening paren coming after where the
-    " original function began (moves to it if found)
-    if search(")", 'b', line('.')) && col('.') > open
+    " delete function into the f[unction] register and mark opening parenthesis 
+    silent! execute 'normal! "fdiwmo'
+    " yank opening parenthesis into f register
+    silent! execute 'normal! "Fyl'
+    " mark closing parenthesis
+    silent! execute 'normal! %mc'
+    " note where the function ends
+    let close = col('.')
+    " move back to opening paranthesis
+    silent! execute 'normal! %'
+    " search on the same line for an opening paren before the closing paran 
+    if search(")", '', line('.')) && col('.') < close
         " delete everthing up to the closing paren
         silent! execute 'normal! l"Fd`c'
     end
