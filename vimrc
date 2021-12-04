@@ -408,14 +408,14 @@ function! DeleteSurroundingFunction()
     endif
     " delete/yank function name and opening paren into the f[unction] register
     silent! execute 'normal! "fdiw"Fyl'
-    " make sure we don't ever move sooner than where the function begins
+    " note where the function begins
     let open = col('.')
-    " mark the opening paren, move to closing and also mark it
+    " mark the opening and closing parentheses
     silent! execute 'normal! mo%mc'
-    " search back on the same line for a possible opening paren coming after
-    " the original beginning
+    " search back on the same line for a opening paren coming after the
+    " original function began (moves to it if found)
     if search(")", 'b', line('.')) && col('.') > open
-        " delete everthing left of the found paren up to the closing paren
+        " delete everthing up to the closing paren
         silent! execute 'normal! l"Fd`c'
     end
     " delete the the closing and opening parens (put the closing one into reg)
