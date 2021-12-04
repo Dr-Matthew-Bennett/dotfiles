@@ -402,7 +402,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- delete a function and its associated parentheses and arguments ----------
 function! DeleteSurroundingFunction()
-    " we'll restore the unnamed reg later so it isn't clobbered here
+    " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
         let regInfo = getreginfo('"')
     endif
