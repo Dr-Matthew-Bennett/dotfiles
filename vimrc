@@ -400,7 +400,7 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- delete a function ant its associated parentheses and arguments ----------
+"{{{- delete a function and its associated parentheses and arguments ----------
 function! DeleteSurroundingFunction()
     " we'll restore the unnamed reg later so it isn't clobbered here
     if has('patch-8.2.0924')
