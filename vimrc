@@ -403,7 +403,7 @@ endfunction
 "{{{- delete a function ant its associated parentheses and arguments ----------
 function! DeleteSurroundingFunction()
     " we'll restore the unnamed reg later so it isn't clobbered here
-    if has('patch-8.2-0924')
+    if has('patch-8.2.0924')
         let regInfo = getreginfo('"')
     endif
     " delete/yank function name and opening paren into the f[unction] register
@@ -421,7 +421,7 @@ function! DeleteSurroundingFunction()
     " delete the the closing and opening parens (put the closing one into reg)
     silent! execute 'normal! `c"Fx`ox'
     " restore unnamed register
-    if has('patch-8.2-0924')
+    if has('patch-8.2.0924')
         call setreg('"', regInfo)
     endif
 endfunction
