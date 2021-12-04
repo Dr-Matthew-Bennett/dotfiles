@@ -73,6 +73,7 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
+Plugin 'simeji/winresizer'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -143,6 +144,12 @@ let g:fzf_action = {
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<CR>
+"}}}---------------------------------------------------------------------------
+"{{{- winresizer --------------------------------------------------------------
+" the default is 'ctrl-e'... which is useful for scrolling down in normal mode
+let g:winresizer_start_key = '<LEADER>w'
+let g:winresizer_vert_resize=5
+let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Default
@@ -611,29 +618,29 @@ augroup general
     " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
     nnoremap <silent><LEADER>4 :call WorkSplit()<CR>
 
-    " resize windows (and make it repeatable with dot command)
-    " widen the split
-    nmap <LEADER>H <Plug>WidenSplit
-    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<CR>
-                \ :call repeat#set("\<Plug>WidenSplit")<CR>
-    " thin the split
-    nmap <silent><LEADER>h <Plug>ThinSplit
-    nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
-                \ :call repeat#set("\<Plug>ThinSplit")<CR>
-    " heighten the split
-    nmap <silent><LEADER>J <Plug>HeightenSplit
-    nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
-                \ :call repeat#set("\<Plug>HeightenSplit")<CR>
-    " shorten the split
-    nmap <silent><LEADER>j <Plug>ShortenSplit
-    nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
-                \ :call repeat#set("\<Plug>ShortenSplit")<CR>
+    " " resize windows (and make it repeatable with dot command)
+    " " widen the split
+    " nmap <LEADER>H <Plug>WidenSplit
+    " nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<CR>
+    "             \ :call repeat#set("\<Plug>WidenSplit")<CR>
+    " " thin the split
+    " nmap <silent><LEADER>h <Plug>ThinSplit
+    " nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
+    "             \ :call repeat#set("\<Plug>ThinSplit")<CR>
+    " " heighten the split
+    " nmap <silent><LEADER>J <Plug>HeightenSplit
+    " nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
+    "             \ :call repeat#set("\<Plug>HeightenSplit")<CR>
+    " " shorten the split
+    " nmap <silent><LEADER>j <Plug>ShortenSplit
+    " nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
+    "             \ :call repeat#set("\<Plug>ShortenSplit")<CR>
 
     " anytime we read in a buffer, if it came from w3m then write to scratch
     autocmd BufReadPost * :call WriteW3MToScratch()
 
     " open/close horizontal split containing w3m_scratch
-    nnoremap <LEADER>w :call ToggleW3M()<CR>
+    nnoremap <LEADER>W :call ToggleW3M()<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " toggle highlighted searches
