@@ -412,7 +412,7 @@ function! DeleteSurroundingFunction()
     let open = col('.')
     " mark the opening and closing parentheses
     silent! execute 'normal! mo%mc'
-    " search back on the same line for a opening paren coming after the
+    " search back on the same line for a opening paren coming after where the
     " original function began (moves to it if found)
     if search(")", 'b', line('.')) && col('.') > open
         " delete everthing up to the closing paren
