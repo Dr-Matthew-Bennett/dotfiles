@@ -303,18 +303,18 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
-function! Preserve(command, func)
-    " Preparation: save last search, and cursor position.
+function! Preserve(command, is_func)
+    " save last search, and cursor position.
     let _s=@/
     let l = line(".")
     let c = col(".")
     " Do the business:
-    if a:func == 1
+    if a:is_func == 1
         execute a:command()
     else
         execute a:command
     endif
-    " Clean up: restore previous search history, and cursor position
+    " restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
 endfunction
