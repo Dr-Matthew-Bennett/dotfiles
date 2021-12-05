@@ -437,7 +437,7 @@ function! YankSurroundingFunction()
     " store the current line
     silent! execute 'normal! "lyy'
     call DeleteSurroundingFunction()
-    " restore the current line to the original
+    " restore the current line to original state
     silent! execute 'normal! dd"lP'
     " copy the contents of the f[unction] register to the unamed register 
     let @"=@f
