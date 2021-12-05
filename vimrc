@@ -416,7 +416,7 @@ endfunction
 " this is a helper function
 function! MoveToStartOfFunction()
     " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'cz', line('.'))
+    call search('(\|)', 'c', line('.'))
     " if we're on the closing parenthsis, move to other side
     if getline(".")[col(".")-1] == ')'
         silent! execute 'normal! %'
@@ -489,7 +489,7 @@ function! PasteSurroundingFunction()
     " delete the whole function (including last parenthesis)
     silent! execute 'normal! d`c"_x'
     " if we're not already on a last parenthsis, move back to it
-    call search(')', 'bcz', line('.'))
+    call search(')', 'bc', line('.'))
     " move to opening surrounding paren and paste original function, then add
     " surrounding parenthesis back in
     silent! execute 'normal! %pa)'
