@@ -409,6 +409,8 @@ function! DeleteSurroundingFunction()
     " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
         let regInfo = getreginfo('"')
+    else
+        let @z=@"
     endif
     " delete function into the f[unction] register and mark opening parenthesis 
     silent! execute 'normal! "fdiwmo'
@@ -430,6 +432,8 @@ function! DeleteSurroundingFunction()
     " restore unnamed register
     if has('patch-8.2.0924')
         call setreg('"', regInfo)
+    else
+        let @"=@z
     endif
 endfunction
 
