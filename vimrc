@@ -6,6 +6,9 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
+
+" fix DeleteSurroundingFunction() for this case:
+" func1(func2(mean(data), hi))
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS =================================================================
@@ -409,7 +412,19 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- delete/yank a function, associated parentheses, and arguments -----------
+"{{{- delete/change/yank/paste function objects
+" this is a helper function
+function! MoveToStartOfFunction()
+    " move forward to one of function's parentheses (unless already on one)
+    call search('(\|)', 'cz', line('.'))
+    " if we're on the closing parenthsis, move to other side
+    if getline(".")[col(".")-1] == ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! b'
+endfunction
+
 function! DeleteSurroundingFunction()
     " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
@@ -417,14 +432,7 @@ function! DeleteSurroundingFunction()
     else
         let @z=@"
     endif
-    " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'cz', line('.'))
-    " if we're on the closing parenthsis, move to other side
-    if getline(".")[col(".")-1] == ')'
-        silent! execute 'normal! %'
-    endif
-    " move left one character, onto function name 
-    silent! execute 'normal! h'
+    call MoveToStartOfFunction()
     " delete function name into the f register and mark opening parenthesis 
     silent! execute 'normal! "fdiwmo'
     " yank opening parenthesis into f register
@@ -436,9 +444,10 @@ function! DeleteSurroundingFunction()
     " move back to opening paranthesis
     silent! execute 'normal! %'
     " search on the same line for an opening paren before the closing paren 
-    if search(")", '', line('.')) && col('.') < close
+    " if search(")", '', line('.')) && col('.') < close
+    if search("(", '', line('.')) && col('.') < close
         " delete everthing up to the closing paren and remark closing paren
-        silent! execute 'normal! l"Fd`cmc'
+        silent! execute 'normal! %l"Fd`cmc'
     end
     " delete the closing and opening parens (put the closing one into register)
     silent! execute 'normal! `c"Fx`ox'
@@ -463,6 +472,35 @@ function! YankSurroundingFunction()
     silent! execute 'normal! dd"lP'
     " copy the contents of the f[unction] register to the unamed register 
     let @"=@f
+endfunction
+
+function! PasteSurroundingFunction()
+    " we'll restore the unnamed register later so it isn't clobbered here
+    if has('patch-8.2.0924')
+        let regInfo = getreginfo('"')
+    else
+        let @z=@"
+    endif
+    call MoveToStartOfFunction()
+    " paste just behind existing function
+    silent! execute 'normal! P'
+    " mark closing parenthesis, move back onto start of function name
+    silent! execute 'normal! f(%mc%b'
+    " delete the whole function (including last parenthesis)
+    silent! execute 'normal! d`c"_x'
+    " if we're not already on a last parenthsis, move back to it
+    call search(')', 'bcz', line('.'))
+    " move to opening surrounding paren and paste original function, then add
+    " surrounding parenthesis back in
+    silent! execute 'normal! %pa)'
+    " leave the cursor on the opening parenthesis of the surrounding function
+    silent! execute 'normal! `c%'
+    " restore unnamed register
+    if has('patch-8.2.0924')
+        call setreg('"', regInfo)
+    else
+        let @"=@z
+    endif
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
@@ -646,6 +684,8 @@ augroup general
     nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
     nnoremap <silent> csf :call ChangeSurroundingFunction()<CR>
     nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
+    nnoremap <silent> gsf :call PasteSurroundingFunction()<CR>
+   
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
