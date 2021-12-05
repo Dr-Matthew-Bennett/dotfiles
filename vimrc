@@ -425,7 +425,7 @@ function! DeleteSurroundingFunction()
         " delete everthing up to the closing paren and remark closing paren
         silent! execute 'normal! l"Fd`cmc'
     end
-    " delete the the closing and opening parens (put the closing one into reg)
+    " delete the closing and opening parens (put the closing one into reg)
     silent! execute 'normal! `c"Fx`ox'
     " restore unnamed register
     if has('patch-8.2.0924')
