@@ -412,15 +412,15 @@ function! DeleteSurroundingFunction()
     else
         let @z=@"
     endif
-    " move forward to first parenthesis (unless already on one)
+    " move forward to one of function's parentheses (unless already on one)
     call search('(\|)', 'cz', line('.'))
-    " if we're on the closing parenthsis of the function, move to other side
+    " if we're on the closing parenthsis, move to other side
     if getline(".")[col(".")-1] == ')'
         silent! execute 'normal! %'
     endif
-    " move onto function name 
+    " move left one character, onto function name 
     silent! execute 'normal! h'
-    " delete function into the f[unction] register and mark opening parenthesis 
+    " delete function name into the f register and mark opening parenthesis 
     silent! execute 'normal! "fdiwmo'
     " yank opening parenthesis into f register
     silent! execute 'normal! "Fyl'
@@ -435,7 +435,7 @@ function! DeleteSurroundingFunction()
         " delete everthing up to the closing paren and remark closing paren
         silent! execute 'normal! l"Fd`cmc'
     end
-    " delete the closing and opening parens (put the closing one into reg)
+    " delete the closing and opening parens (put the closing one into register)
     silent! execute 'normal! `c"Fx`ox'
     " restore unnamed register
     if has('patch-8.2.0924')
