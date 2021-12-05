@@ -445,6 +445,11 @@ function! DeleteSurroundingFunction()
     endif
 endfunction
 
+function! ChangeSurroundingFunction()
+    call DeleteSurroundingFunction()
+    startinsert
+endfunction
+
 function! YankSurroundingFunction()
     " store the current line
     silent! execute 'normal! "lyy'
@@ -453,11 +458,6 @@ function! YankSurroundingFunction()
     silent! execute 'normal! dd"lP'
     " copy the contents of the f[unction] register to the unamed register 
     let @"=@f
-endfunction
-
-function! ChangeSurroundingFunction()
-    call DeleteSurroundingFunction()
-    startinsert
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
