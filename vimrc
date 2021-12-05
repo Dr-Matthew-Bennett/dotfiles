@@ -57,6 +57,7 @@ Plugin 'ycm-core/YouCompleteMe'
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'simeji/winresizer'
+Plugin 'junegunn/vim-peekaboo'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -173,6 +174,10 @@ let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 " make repeatable
 nnoremap <Plug>innerindent ii ii :call repeat#set("\<Plug>innerindent")<CR>
 nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
+"}}}---------------------------------------------------------------------------
+"{{{- vim-peekaboo ------------------------------------------------------------
+let g:peekaboo_window = 'vertical botright 80 new'
+let g:peekaboo_delay = 1000
 "}}}---------------------------------------------------------------------------
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
