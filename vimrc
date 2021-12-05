@@ -412,7 +412,7 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- delete/change/yank/paste function objects
+"{{{- delete/change/yank/paste custom function 'text objects'
 " this is a helper function
 function! MoveToStartOfFunction()
     " move forward to one of function's parentheses (unless already on one)
