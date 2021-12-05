@@ -412,6 +412,14 @@ function! DeleteSurroundingFunction()
     else
         let @z=@"
     endif
+    " move forward to first parenthesis (unless already on one)
+    call search('(\|)', 'cz', line('.'))
+    " if we're on the closing parenthsis of the function, move to other side
+    if getline(".")[col(".")-1] == ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! h'
     " delete function into the f[unction] register and mark opening parenthesis 
     silent! execute 'normal! "fdiwmo'
     " yank opening parenthesis into f register
