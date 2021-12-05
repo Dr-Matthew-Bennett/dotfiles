@@ -454,6 +454,11 @@ function! YankSurroundingFunction()
     " copy the contents of the f[unction] register to the unamed register 
     let @"=@f
 endfunction
+
+function! ChangeSurroundingFunction()
+    call DeleteSurroundingFunction()
+    startinsert
+endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
 function! Help_AG()
@@ -634,6 +639,7 @@ augroup general
 
     " delete/yank surrounding funtion
     nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
+    nnoremap <silent> csf :call ChangeSurroundingFunction()<CR>
     nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
