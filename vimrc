@@ -6,9 +6,8 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
-
-" fix DeleteSurroundingFunction() for this case:
-" func1(func2(mean(data), hi))
+"
+" Create a funtion like Preserve() that preserves the unnamed register
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS =================================================================
@@ -532,9 +531,46 @@ if v:version > 801
     endfunction
 endif
 "}}}---------------------------------------------------------------------------
-"{{{- put a blank line above and below current line ---------------------------
-function! Breathing_Room()
+"{{{- create/delete space around cursor/current line --------------------------
+function! CreateBlankLineAboveAndBelow()
     silent! execute "normal! O\<ESC>jo\<ESC>k"
+endfunction
+
+function! DeleteLineAbove()
+    silent! execute 'normal! k"_dd'
+endfunction
+
+function! DeleteLineBelow()
+    let c = col(".")
+    let l = line(".")
+    silent! execute 'normal! j"_dd'
+    call cursor(l, c)
+endfunction
+
+function! DeleteBlankLineAboveAndBelow()
+    call DeleteLineAbove()
+    call DeleteLineBelow()
+endfunction
+
+function! CreateSurroundingSpace()
+    silent! execute "normal! i \<ESC>la \<ESC>h"
+endfunction
+
+function! DeleteSurroundingSpace()
+    let original_line_length = strlen(getline('.'))
+    let c = col('.')
+    if getline(".")[col(".")-1] == ' '
+        silent! execute 'normal! w'
+    endif
+    if search('[^ ] ', 'be', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    if search(' ', '', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    let new_line_length= strlen(getline('.'))
+    let shrink = original_line_length - new_line_length
+    call cursor(line('.'), c-shrink+1)
 endfunction
 "}}}---------------------------------------------------------------------------
 "==============================================================================
@@ -676,9 +712,22 @@ augroup general
     nnoremap <P O<C-r>"<ESC>J
     nnoremap <p O<C-r>"<ESC>J
 
-    " make some space above and below a line
-    nnoremap <SPACE>[ :call Breathing_Room()<CR>
-    nnoremap <SPACE>] :call Breathing_Room()<CR>
+    " delete line above/below current line
+    nnoremap d[<SPACE> :call DeleteLineAbove()<CR>
+    nnoremap d]<SPACE> :call DeleteLineBelow()<CR>
+
+    " create line above and below a line
+    nnoremap <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
+    nnoremap <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+
+    " delete line above and below a line
+    nnoremap d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
+    nnoremap d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
+
+    " create some space either side of a character
+    nnoremap cs<SPACE> :call CreateSurroundingSpace()<CR>
+    " delete all space adjacent to contiguous non-whitespace under cursor
+    nnoremap ds<SPACE> :call DeleteSurroundingSpace()<CR>
 
     " delete/yank surrounding funtion
     nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
