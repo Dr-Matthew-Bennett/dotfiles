@@ -663,7 +663,7 @@ augroup general
 
     " if we ended up in vim by pressing <ESC-v>, put a # at the beggining of
     " the line to prevent accidental execution (since bash will execute no
-    " matter what! Imagine rm -rf <forward slash> was there...)
+    " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
 
     "{{{- colorscheme switches ------------------------------------------------
@@ -673,8 +673,8 @@ augroup general
     autocmd FocusGained * :call SetColorScheme()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
-    " let g modify insert/append to work on visual lines, in the same way as it
-    " modifies motions like 0 and $
+    " let g modify insert/append to work on wrapped lines, in the same way as
+    " it modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
 
@@ -716,16 +716,17 @@ augroup general
     nnoremap d[<SPACE> :call DeleteLineAbove()<CR>
     nnoremap d]<SPACE> :call DeleteLineBelow()<CR>
 
-    " create line above and below a line
-    nnoremap <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
-    nnoremap <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
-
     " delete line above and below a line
     nnoremap d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
     nnoremap d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
 
+    " create line above and below a line
+    nnoremap <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
+    nnoremap <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+
     " create some space either side of a character
     nnoremap cs<SPACE> :call CreateSurroundingSpace()<CR>
+
     " delete all space adjacent to contiguous non-whitespace under cursor
     nnoremap ds<SPACE> :call DeleteSurroundingSpace()<CR>
 
