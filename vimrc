@@ -70,7 +70,7 @@ Plugin 'junegunn/vim-peekaboo'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'wellle/tmux-complete.vim'
 "}}}
-"{{{ - call vundle and load things from runtime paths --------------------------
+"{{{ - call vundle and load things from runtime paths -------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
@@ -224,7 +224,23 @@ let g:ycm_filetype_blacklist = {
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
-"{{{- toggle between light and dark colorscheme --------------------------------
+"{{{- helper functions (for use in other functions) ---------------------------
+function! GetCharUnderCursor()
+     return getline(".")[col(".")-1]
+endfunction
+
+function! MoveToStartOfFunction()
+    " move forward to one of function's parentheses (unless already on one)
+    call search('(\|)', 'c', line('.'))
+    " if we're on the closing parenthsis, move to other side
+    if GetCharUnderCursor() == ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! b'
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
@@ -412,18 +428,6 @@ function! RefactorPython()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- delete/change/yank/paste custom function 'text objects'
-" this is a helper function
-function! MoveToStartOfFunction()
-    " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'c', line('.'))
-    " if we're on the closing parenthsis, move to other side
-    if getline(".")[col(".")-1] == ')'
-        silent! execute 'normal! %'
-    endif
-    " move onto function name 
-    silent! execute 'normal! b'
-endfunction
-
 function! DeleteSurroundingFunction()
     " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
@@ -502,6 +506,54 @@ function! PasteSurroundingFunction()
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- create/delete space around cursor/current line --------------------------
+function! CreateBlankLineAboveAndBelow()
+    call append(line('.')-1, '')
+    call append('.', '')
+endfunction
+
+function! DeleteLineAbove()
+    call deletebufline('', line('.')-1, line('.')-1)
+endfunction
+
+function! DeleteLineBelow()
+    call deletebufline('', line('.')+1, line('.')+1)
+endfunction
+
+function! DeleteBlankLineAboveAndBelow()
+    call DeleteLineAbove()
+    call DeleteLineBelow()
+endfunction
+
+function! CreateSurroundingSpace()
+    silent! execute "normal! i \<ESC>la \<ESC>h"
+endfunction
+
+function! DeleteSurroundingSpace()
+    let original_line_length = strlen(getline('.'))
+    let c = col('.')
+    if GetCharUnderCursor() == ' '
+        silent! execute 'normal! w'
+    endif
+    if search('[^ ] ', 'be', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    if search(' ', '', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    let new_line_length= strlen(getline('.'))
+    let shrink = original_line_length - new_line_length
+    call cursor(line('.'), c-shrink+1)
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- calculate remaining jumps -----------------------------------------------
+if v:version > 801
+    function! RemainingJumps()
+      let [l:jumplist, l:pos] = getjumplist()
+      return max([0, len(l:jumplist) - l:pos - 1])
+    endfunction
+endif
+"}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
 function! Help_AG()
     let orig_file = expand(@%)
@@ -522,56 +574,6 @@ endfunction
 
 " get some help
 command! H :call Help_AG()
-"}}}---------------------------------------------------------------------------
-"{{{- calulate remaining jumps ------------------------------------------------
-if v:version > 801
-    function! RemainingJumps()
-      let [l:jumplist, l:pos] = getjumplist()
-      return max([0, len(l:jumplist) - l:pos - 1])
-    endfunction
-endif
-"}}}---------------------------------------------------------------------------
-"{{{- create/delete space around cursor/current line --------------------------
-function! CreateBlankLineAboveAndBelow()
-    silent! execute "normal! O\<ESC>jo\<ESC>k"
-endfunction
-
-function! DeleteLineAbove()
-    silent! execute 'normal! k"_dd'
-endfunction
-
-function! DeleteLineBelow()
-    let c = col(".")
-    let l = line(".")
-    silent! execute 'normal! j"_dd'
-    call cursor(l, c)
-endfunction
-
-function! DeleteBlankLineAboveAndBelow()
-    call DeleteLineAbove()
-    call DeleteLineBelow()
-endfunction
-
-function! CreateSurroundingSpace()
-    silent! execute "normal! i \<ESC>la \<ESC>h"
-endfunction
-
-function! DeleteSurroundingSpace()
-    let original_line_length = strlen(getline('.'))
-    let c = col('.')
-    if getline(".")[col(".")-1] == ' '
-        silent! execute 'normal! w'
-    endif
-    if search('[^ ] ', 'be', line('.'))
-        silent! execute 'normal! dw'
-    endif
-    if search(' ', '', line('.'))
-        silent! execute 'normal! dw'
-    endif
-    let new_line_length= strlen(getline('.'))
-    let shrink = original_line_length - new_line_length
-    call cursor(line('.'), c-shrink+1)
-endfunction
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -713,22 +715,22 @@ augroup general
     nnoremap <p O<C-r>"<ESC>J
 
     " delete line above/below current line
-    nnoremap d[<SPACE> :call DeleteLineAbove()<CR>
-    nnoremap d]<SPACE> :call DeleteLineBelow()<CR>
+    nnoremap <silent> d[<SPACE> :call DeleteLineAbove()<CR>
+    nnoremap <silent> d]<SPACE> :call DeleteLineBelow()<CR>
 
     " delete line above and below a line
-    nnoremap d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
-    nnoremap d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
 
     " create line above and below a line
-    nnoremap <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
-    nnoremap <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
 
     " create some space either side of a character
-    nnoremap cs<SPACE> :call CreateSurroundingSpace()<CR>
+    nnoremap <silent> cs<SPACE> :call CreateSurroundingSpace()<CR>
 
     " delete all space adjacent to contiguous non-whitespace under cursor
-    nnoremap ds<SPACE> :call DeleteSurroundingSpace()<CR>
+    nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
 
     " delete/yank surrounding funtion
     nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
@@ -781,6 +783,10 @@ augroup general
     nnoremap <LEADER>W :call ToggleW3M()<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
+    " autocenter search results 
+    nnoremap n nzvzz
+    nnoremap N Nzvzz
+
     " toggle highlighted searches
     nnoremap <silent> <expr> <LEADER>/ 
                 \ (v:hlsearch ? ':nohls' : ':set hls')."\n"
