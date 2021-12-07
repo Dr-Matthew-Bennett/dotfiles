@@ -45,6 +45,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'simeji/winresizer'
 Plugin 'SirVer/ultisnips'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 " Update: vim-tmux-focus-events is now obsolete and no longer needed as both
@@ -58,7 +59,6 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
-Plugin 'simeji/winresizer'
 Plugin 'junegunn/vim-peekaboo'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
@@ -263,16 +263,6 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- open/close YCM doc pages ------------------------------------------------
-function! YCM_Toggle_Docs()
-    let doc_file = bufname('/tmp/*\d\+')
-    if !bufexists(doc_file)
-        YcmCompleter GetDoc
-    else
-        execute 'bwipeout ' doc_file
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
@@ -313,16 +303,6 @@ endfunction
 
 " Ag call a modified version of Ag where first arg is directory to search
 command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
-"}}}---------------------------------------------------------------------------
-"{{{- make a 4-way split and resize the windows how I like --------------------
-" THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
-function! WorkSplit()
-    let l:currentWindow=winnr()
-    silent! execute "normal! :vsplit\<CR> :buffer 2\<CR>"
-    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch2\<CR>"
-    silent! execute l:currentWindow . "wincmd w"
-    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
-endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
@@ -753,29 +733,6 @@ augroup general
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :b# \| bd #<CR>
 
-    " split vim into 4 windows, load first and second files on buffers 1 and 2.
-    " make the bottom windows short and load scratch*.m
-    " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
-    nnoremap <silent> <LEADER>4 :call WorkSplit()<CR>
-
-    " " resize windows (and make it repeatable with dot command)
-    " " widen the split
-    " nmap <LEADER>H <Plug>WidenSplit
-    " nnoremap <silent> <Plug>WidenSplit :exe "vertical resize +5"<CR>
-    "             \ :call repeat#set("\<Plug>WidenSplit")<CR>
-    " " thin the split
-    " nmap <silent> <LEADER>h <Plug>ThinSplit
-    " nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
-    "             \ :call repeat#set("\<Plug>ThinSplit")<CR>
-    " " heighten the split
-    " nmap <silent> <LEADER>J <Plug>HeightenSplit
-    " nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
-    "             \ :call repeat#set("\<Plug>HeightenSplit")<CR>
-    " " shorten the split
-    " nmap <silent> <LEADER>j <Plug>ShortenSplit
-    " nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
-    "             \ :call repeat#set("\<Plug>ShortenSplit")<CR>
-
     " anytime we read in a buffer, if it came from w3m then write to scratch
     autocmd BufReadPost * :call WriteW3MToScratch()
 
@@ -885,14 +842,9 @@ augroup python "{{{
                 \Wyt:
                 \'x]p
 
-    " open/close the full python docs on thing under the cursor
-    nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
-
     " common imports
     autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
     autocmd FileType python abbreviate imnp import numpy as np
-    
-
 augroup END
 "}}}
 augroup r "{{{
