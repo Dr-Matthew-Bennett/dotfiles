@@ -10,7 +10,8 @@
 " Create a funtion like Preserve() that preserves the unnamed register
 "}}}---------------------------------------------------------------------------
 
-"==== PLUGINS =================================================================
+"==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
+"{{{- setup vundle and load plugins -------------------------------------------
 "{{{- required ----------------------------------------------------------------
 if &compatible
     set nocompatible " don't try to be compatible with Vi
@@ -80,9 +81,7 @@ runtime! macros/matchit.vim
 " be able to read man pages with :Man <program name>
 runtime! ftplugin/man.vim
 "}}}---------------------------------------------------------------------------
-"==============================================================================
-
-"==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
+"}}}---------------------------------------------------------------------------
 "{{{- remap leader key --------------------------------------------------------
 "make the space bar my leader key (must be before I make <LEADER> mappings)
 noremap <SPACE> <NOP>
