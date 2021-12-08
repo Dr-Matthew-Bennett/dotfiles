@@ -23,7 +23,6 @@ set_bat_theme() {
     }
 
 f() {
-
     # ensure bat colours are correct
     set_bat_theme
 
