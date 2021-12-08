@@ -61,6 +61,7 @@ Plugin 'ycm-core/YouCompleteMe'
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'junegunn/vim-peekaboo'
+Plugin 'wellle/context.vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -204,6 +205,19 @@ nmap <LEADER>ss <Plug>SlimeLineSend
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
+"}}}---------------------------------------------------------------------------
+"{{{- context -----------------------------------------------------------------
+" don't run plugin by default
+let g:context_enabled = 0
+" I want results shown in a split (not a floating window)
+let g:context_presenter = 'preview'
+let g:context_border_char = '▬'
+augroup context
+    autocmd!
+    " when I close a window, also close the context window
+    autocmd BufHidden * :ContextDisableWindow
+    nnoremap <LEADER>c :ContextToggleWindow<CR>
+augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
