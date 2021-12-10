@@ -11,7 +11,7 @@
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
-"{{{- setup vundle and load plugins -------------------------------------------
+"{{{- load plugins (and setup vundle) -----------------------------------------
 "{{{- required ----------------------------------------------------------------
 if &compatible
     set nocompatible " don't try to be compatible with Vi
@@ -102,6 +102,19 @@ let mapleader=" "
 " let g:ale_sign_error = '☠ '
 " let g:ale_sign_warning = '⚠ '
 "}}}---------------------------------------------------------------------------
+"{{{- context -----------------------------------------------------------------
+" don't run plugin by default
+let g:context_enabled = 0
+" I want results shown in a split (not a floating window)
+let g:context_presenter = 'preview'
+let g:context_border_char = '▬'
+augroup context
+    autocmd!
+    " when I close a window, also close the context window
+    autocmd BufHidden * :ContextDisableWindow
+    nnoremap <LEADER>c :ContextToggleWindow<CR>
+augroup END
+"}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
 " search for and open file under the fzf default directory
 nnoremap <LEADER>f :Files<CR>
@@ -131,12 +144,6 @@ let g:fzf_action = {
 "{{{- mundo -------------------------------------------------------------------
 " to see and choose a previous state from the undo tree
 nnoremap <F5> :MundoToggle<CR>
-"}}}---------------------------------------------------------------------------
-"{{{- winresizer --------------------------------------------------------------
-" the default is 'ctrl-e'... which is useful for scrolling down in normal mode
-let g:winresizer_start_key = '<LEADER>w'
-let g:winresizer_vert_resize=5
-let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- targets.vim -------------------------------------------------------------
 " Default
@@ -207,18 +214,11 @@ nmap <LEADER>ss <Plug>SlimeLineSend
 " disable tmux navigator when zooming the vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
 "}}}---------------------------------------------------------------------------
-"{{{- context -----------------------------------------------------------------
-" don't run plugin by default
-let g:context_enabled = 0
-" I want results shown in a split (not a floating window)
-let g:context_presenter = 'preview'
-let g:context_border_char = '▬'
-augroup context
-    autocmd!
-    " when I close a window, also close the context window
-    autocmd BufHidden * :ContextDisableWindow
-    nnoremap <LEADER>c :ContextToggleWindow<CR>
-augroup END
+"{{{- winresizer --------------------------------------------------------------
+" the default is 'ctrl-e'... which is useful for scrolling down in normal mode
+let g:winresizer_start_key = '<LEADER>w'
+let g:winresizer_vert_resize=5
+let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.

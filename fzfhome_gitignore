@@ -1,38 +1,38 @@
 # start by igoring every home directory
 
 # flat
-anaconda3
-arch
-bash_scripts
-bean_applications
-cache
-code
-Desktop
-documents
-downloads
-Downloads
-games
-games_like_EE
-gems
-ideas
-installed
-linux_config_files
-maintenance
-music
-nltk_data
-pictures
-projects
-Public
-R
-snap
-stack
-Steam
-Templates
-test
-todo
-videos
-VirtualBox VMs
-website
+anaconda3/
+arch/
+bash_scripts/
+bean_applications/
+cache/
+code/
+Desktop/
+documents/
+downloads/
+Downloads/
+games/
+gems/
+ideas/
+installed/
+linux_config_files/
+maintenance/
+music/
+nltk_data/
+pictures/
+projects/
+Public/
+R/
+snap/
+stack/
+Steam/
+storage/
+Templates/
+test/
+todo/
+videos/
+VirtualBox VMs/
+website/
 
 # mattb-UCL
 anaconda3/
