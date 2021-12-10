@@ -70,6 +70,7 @@ Plugin 'wellle/context.vim'
 " Plugin 'tommcdo/vim-exchange'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
+" Plugin 'tpope/vim-vinegar'
 " Plugin 'wellle/tmux-complete.vim'
 "}}}
 "{{{ - call vundle and load things from runtime paths -------------------------
