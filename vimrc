@@ -192,8 +192,8 @@ let g:peekaboo_delay = 1000
 "}}}---------------------------------------------------------------------------
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
-" pane of my choice.  You can set the target manually using Ctrl-c + v.
-" ":i.j"    means the ith window, jth pane
+" pane of my choice. 
+" ':i.j' means the ith window, jth pane
 
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
@@ -202,6 +202,12 @@ let g:slime_default_config =
             \ {"socket_name": "default", "target_pane": "{top-left}"}
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
+
+" change slime target pane
+function SlimeOverrideConfig()
+  let b:slime_config["target_pane"] = input("target_pane:")
+endfunction
+nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 
 " from :help s
 " s is a synonym for 'cl'
@@ -280,11 +286,6 @@ function! ToggleLightDarkColorscheme()
         :silent :!tmux source-file ~/.tmux_dark.conf
     endif
     :call SetColorScheme()
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- change slime target pane ------------------------------------------------
-function SlimeOverrideConfig()
-  let b:slime_config["target_pane"] = input("target_pane:")
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
@@ -769,9 +770,6 @@ augroup general
 
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :b# \| bd #<CR>
-
-    " change slime target pane 
-    nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 
     " open/close horizontal split containing w3m_scratch
     nnoremap <LEADER>W :call ToggleW3M()<CR>
