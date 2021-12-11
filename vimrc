@@ -66,6 +66,7 @@ Plugin 'wellle/context.vim'
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'dense-analysis/ale'
+" Plugin 'machakann/vim-swap'
 " Plugin 'tommcdo/vim-lion'
 " Plugin 'tommcdo/vim-exchange'
 " Plugin 'tpope/vim-eunuch'
@@ -578,6 +579,15 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
+"{{{ - move halfway along line (ignore whitespaces) ---------------------------
+function! BetterGmNormalMode()
+    execute 'normal! ^'
+    let first_col = virtcol('.')
+    execute 'normal! g_'
+    let last_col  = virtcol('.')
+    execute 'normal! ' . (first_col + last_col) / 2 . '|'
+endfunction
+"}}} --------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -682,6 +692,10 @@ augroup general
     " it modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
+
+    " move to halfway between first and last non-whitespace characters on line
+    nnoremap <silent> gm :call BetterGmNormalMode()<CR>
+    onoremap <silent> gm :call BetterGmNormalMode()<CR>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
