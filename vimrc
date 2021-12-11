@@ -197,13 +197,13 @@ let g:peekaboo_delay = 1000
 
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
-" I want to be able to override the defaults, so load it now
+" set default target where slime will send text
 let g:slime_default_config =
             \ {"socket_name": "default", "target_pane": "{top-left}"}
-" and not to ask me about it even on the first time I use it
+" since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
 
-" change slime target pane
+" function to change slime target pane mid-session
 function SlimeOverrideConfig()
   let b:slime_config["target_pane"] = input("target_pane:")
 endfunction
@@ -212,7 +212,7 @@ nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 " from :help s
 " s is a synonym for 'cl'
 " S is a synonym for 'cc'
-" So let's map it to something really useful: 'sending' stuff to tmux pane
+" so map 's' to something useful: '[s]lime [s]end [s]tuff' to target pane
 " send {visual} text.
 xmap s <Plug>SlimeRegionSend
 " send {motion}.
