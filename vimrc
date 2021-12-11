@@ -202,13 +202,17 @@ let g:slime_default_config =
 " and not to ask me about it even on the first time I use it
 let g:slime_dont_ask_default = 1
 
-" To use vim like mappings instead of emacs keybindings use the following:
-" Send {visual} text.
-xmap <LEADER>s <Plug>SlimeRegionSend
-" Send {motion}.
-nmap <LEADER>s <Plug>SlimeMotionSend
-" Send {count} line(s)
-nmap <LEADER>ss <Plug>SlimeLineSend
+" from :help s
+" s is a synonym for 'cl'
+" S is a synonym for 'cc'
+" So let's map it to something really useful: 'sending' stuff to tmux pane
+" send {visual} text.
+xmap s <Plug>SlimeRegionSend
+" send {motion}.
+nmap s <Plug>SlimeMotionSend
+" send {count} line(s)
+nmap ss <Plug>SlimeLineSend
+nmap S <Plug>SlimeLineSend
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
@@ -774,8 +778,10 @@ augroup general
 
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
-    " edit/source common file in split window
+    " run current line as a command (useful when modifying vimrc)
+    nnoremap <silent> <LEADER>ee :execute getline(line('.'))<cr>
 
+    " edit/source common file in split window
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
     nnoremap <LEADER>sv :source $MYVIMRC<CR>
 
