@@ -212,7 +212,7 @@ nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 " from :help s
 " s is a synonym for 'cl'
 " S is a synonym for 'cc'
-" so map 's' to something useful: '[s]lime [s]end [s]tuff' to target pane
+" so map 's' to: '[s]lime [s]end to target pane'
 " send {visual} text.
 xmap s <Plug>SlimeRegionSend
 " send {motion}.
