@@ -786,12 +786,11 @@ augroup general
 
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
-    " run current line as a command (useful when modifying vimrc)
-    nnoremap <silent> <LEADER>ee :execute getline(line('.'))<cr>
-
     " edit/source common file in split window
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
     nnoremap <LEADER>sv :source $MYVIMRC<CR>
+    " run current vimrc line as a command (useful when modifying vimrc)
+    nnoremap <silent> <LEADER>sl :execute getline(line('.'))<cr>
 
     nnoremap <LEADER>eb :vsplit
                 \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
