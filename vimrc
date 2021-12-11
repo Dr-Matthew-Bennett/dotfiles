@@ -281,6 +281,11 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- change slime target pane ------------------------------------------------
+function SlimeOverrideConfig()
+  let b:slime_config["target_pane"] = input("target_pane:")
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
@@ -751,11 +756,14 @@ augroup general
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :b# \| bd #<CR>
 
-    " anytime we read in a buffer, if it came from w3m then write to scratch
-    autocmd BufReadPost * :call WriteW3MToScratch()
+    " change slime target pane 
+    nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 
     " open/close horizontal split containing w3m_scratch
     nnoremap <LEADER>W :call ToggleW3M()<CR>
+
+    " anytime we read in a buffer, if it came from w3m then write to scratch
+    autocmd BufReadPost * :call WriteW3MToScratch()
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " autocenter search results 
