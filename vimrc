@@ -452,7 +452,6 @@ function! DeleteSurroundingFunction()
     " move back to opening paranthesis
     silent! execute 'normal! %'
     " search on the same line for an opening paren before the closing paren 
-    " if search(")", '', line('.')) && col('.') < close
     if search("(", '', line('.')) && col('.') < close
         " delete everthing up to the closing paren and remark closing paren
         silent! execute 'normal! %l"Fd`cmc'
