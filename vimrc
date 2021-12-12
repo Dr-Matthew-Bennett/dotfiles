@@ -209,12 +209,16 @@ let g:slime_default_config =
 " since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
 
-" function to change slime target pane on the fly
+" function to change slime target pane mid-session
 function SlimeOverrideConfig()
-    " briefly (350ms) bring up the pane numbers as a background job
+    " bring up the pane numbers as a background job
     call job_start(["tmux","display-pane", "-d", "350"])
-    " set the new pane target
-    let g:slime_default_config["target_pane"] = input("target_pane:")
+    " get the input from user
+    let input = input("target_pane:")
+    " set the new pane target (if any was given)
+    if input
+        let g:slime_default_config["target_pane"] = input
+    endif
 endfunction
 nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
 
