@@ -210,7 +210,7 @@ let g:slime_dont_ask_default = 1
 " function to change slime target pane mid-session
 function SlimeOverrideConfig()
     " bring up the pane numbers as a background job
-    call job_start(["tmux","display-pane", "-d", "350"])
+    call job_start(["tmux", "display-pane", "-d", "350"])
     " get the input from user
     let input = input("target_pane:")
     " set the new pane target (if any was given)
