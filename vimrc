@@ -8,6 +8,12 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 "
 " Create a funtion like Preserve() that preserves the unnamed register
+"
+" Make PasteSurroundingFunction() work on 'var()' and 'var' (currently only
+" works for the former
+"
+" Make all ***SurroundingFunction() deal with the word/WORD distinction - like
+" 'dsf' and 'dsF' for np.mean() etc. 
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
@@ -453,7 +459,8 @@ function! DeleteSurroundingFunction()
     silent! execute 'normal! %'
     " search on the same line for an opening paren before the closing paren 
     if search("(", '', line('.')) && col('.') < close
-        " delete everthing up to the closing paren and remark closing paren
+        " move to matching paren and delete everthing up to the closing paren
+        " of the original function (remark closing paren)
         silent! execute 'normal! %l"Fd`cmc'
     end
     " delete the closing and opening parens (put the closing one into register)
