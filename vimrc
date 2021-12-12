@@ -199,8 +199,6 @@ let g:peekaboo_delay = 1000
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
 " pane of my choice. 
-" ':i.j' means the ith window, jth pane
-
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " set default target where slime will send text
