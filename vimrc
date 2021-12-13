@@ -6,14 +6,8 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
-"
+
 " Create a funtion like Preserve() that preserves the unnamed register
-"
-" Make PasteSurroundingFunction() work on 'var()' and 'var' (currently only
-" works for the former
-"
-" Make all ***SurroundingFunction() deal with the word/WORD distinction - like
-" 'dsf' and 'dsF' for np.mean() etc. 
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
@@ -265,7 +259,7 @@ function! GetCharUnderCursor()
      return getline(".")[col(".")-1]
 endfunction
 
-function! MoveToStartOfFunction()
+function! MoveToStartOfFunction(word_size, pasting)
     " move forward to one of function's parentheses (unless already on one)
     call search('(\|)', 'c', line('.'))
     " if we're on the closing parenthsis, move to other side
@@ -274,6 +268,20 @@ function! MoveToStartOfFunction()
     endif
     " move onto function name 
     silent! execute 'normal! b'
+    if a:word_size == 'big'
+        " if we've pasted in a function, then there will be a ')' right before
+        " the one we need to move inside - so we can go to the start easily
+        if a:pasting
+            silent! execute 'normal! F)l'
+        else
+            " Find first boundary before function that we don't want to cross
+            call search(' \|,\|;\|(\|^', 'b', line('.'))
+            " If we're not at the start of the line, or if we're on whitespace
+            if col('.') > 1 || GetCharUnderCursor() == ' '
+                silent! execute 'normal! l'
+            endif
+        endif
+    endif
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
@@ -444,16 +452,10 @@ function! RefactorPython()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- delete/change/yank/paste custom function 'text objects'
-function! DeleteSurroundingFunction()
-    " we'll restore the unnamed register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('"')
-    else
-        let @z=@"
-    endif
-    call MoveToStartOfFunction()
+function! DeleteSurroundingFunction(word_size)
+    call MoveToStartOfFunction(a:word_size, 0)
     " delete function name into the f register and mark opening parenthesis 
-    silent! execute 'normal! "fdiwmo'
+    silent! execute 'normal! "fdt(mo'
     " yank opening parenthesis into f register
     silent! execute 'normal! "Fyl'
     " mark closing parenthesis
@@ -470,6 +472,48 @@ function! DeleteSurroundingFunction()
     end
     " delete the closing and opening parens (put the closing one into register)
     silent! execute 'normal! `c"Fx`ox'
+    " paste the function into unamed register
+    let @"=@f
+endfunction
+
+function! ChangeSurroundingFunction(word_size)
+    call DeleteSurroundingFunction(a:word_size)
+    startinsert
+endfunction
+
+function! YankSurroundingFunction(word_size)
+    " store the current line
+    silent! execute 'normal! "lyy'
+    call DeleteSurroundingFunction(a:word_size)
+    " restore the current line to original state
+    silent! execute 'normal! dd"lP'
+    " copy the contents of the f[unction] register to the unamed register 
+    let @"=@f
+endfunction
+
+function! PasteFunctionAroundFunction(word_size)
+    " we'll restore the unnamed register later so it isn't clobbered here
+    if has('patch-8.2.0924')
+        let regInfo = getreginfo('"')
+    else
+        let @z=@"
+    endif
+    call MoveToStartOfFunction(a:word_size, 0)
+    " paste just behind existing function
+    silent! execute 'normal! P'
+    " mark closing parenthesis
+    silent! execute 'normal! f(%mc'
+    " move back onto start of function name
+    call MoveToStartOfFunction(a:word_size, 1)
+    " delete the whole function (including last parenthesis)
+    silent! execute 'normal! d`c"_x'
+    " if we're not already on a last parenthesis, move back to it
+    call search(')', 'bc', line('.'))
+    " move to opening surrounding paren and paste original function, then add
+    " surrounding parenthesis back in
+    silent! execute 'normal! %pa)'
+    " leave the cursor on the opening parenthesis of the surrounding function
+    silent! execute 'normal! `c%'
     " restore unnamed register
     if has('patch-8.2.0924')
         call setreg('"', regInfo)
@@ -478,42 +522,24 @@ function! DeleteSurroundingFunction()
     endif
 endfunction
 
-function! ChangeSurroundingFunction()
-    call DeleteSurroundingFunction()
-    startinsert
-endfunction
-
-function! YankSurroundingFunction()
-    " store the current line
-    silent! execute 'normal! "lyy'
-    call DeleteSurroundingFunction()
-    " restore the current line to original state
-    silent! execute 'normal! dd"lP'
-    " copy the contents of the f[unction] register to the unamed register 
-    let @"=@f
-endfunction
-
-function! PasteSurroundingFunction()
+function! PasteFunctionAroundWord(word_size)
     " we'll restore the unnamed register later so it isn't clobbered here
     if has('patch-8.2.0924')
         let regInfo = getreginfo('"')
     else
         let @z=@"
     endif
-    call MoveToStartOfFunction()
-    " paste just behind existing function
-    silent! execute 'normal! P'
-    " mark closing parenthesis, move back onto start of function name
-    silent! execute 'normal! f(%mc%b'
-    " delete the whole function (including last parenthesis)
-    silent! execute 'normal! d`c"_x'
-    " if we're not already on a last parenthsis, move back to it
+    if a:word_size == 'small'
+        silent! execute 'normal! lbPldiw'
+    elseif a:word_size == 'big'
+        call search(' \|,\|;\|(\|^', 'b', line('.'))
+        if col('.') > 1 || GetCharUnderCursor() == ' '
+            silent! execute 'normal! l'
+        endif
+        silent! execute 'normal! PldW'
+    endif
     call search(')', 'bc', line('.'))
-    " move to opening surrounding paren and paste original function, then add
-    " surrounding parenthesis back in
-    silent! execute 'normal! %pa)'
-    " leave the cursor on the opening parenthesis of the surrounding function
-    silent! execute 'normal! `c%'
+    silent! execute 'normal! Pl%'
     " restore unnamed register
     if has('patch-8.2.0924')
         call setreg('"', regInfo)
@@ -762,10 +788,16 @@ augroup general
     nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
 
     " delete/yank surrounding funtion
-    nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
-    nnoremap <silent> csf :call ChangeSurroundingFunction()<CR>
-    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
-    nnoremap <silent> gsf :call PasteSurroundingFunction()<CR>
+    nnoremap <silent> dsf :call DeleteSurroundingFunction('small')<CR>
+    nnoremap <silent> dsF :call DeleteSurroundingFunction('big')<CR>
+    nnoremap <silent> csf :call ChangeSurroundingFunction('small')<CR>
+    nnoremap <silent> csF :call ChangeSurroundingFunction('big')<CR>
+    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction', ['small']), 1)<CR>
+    nnoremap <silent> ysF :call Preserve(function('YankSurroundingFunction', ['big']), 1)<CR>
+    nnoremap <silent> gsf :call PasteFunctionAroundFunction('small')<CR>
+    nnoremap <silent> gsF :call PasteFunctionAroundFunction('big')<CR>
+    nnoremap <silent> gsw :call PasteFunctionAroundWord('small')<CR>
+    nnoremap <silent> gsW :call PasteFunctionAroundWord('big')<CR>
    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
