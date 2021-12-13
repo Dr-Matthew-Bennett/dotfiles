@@ -274,7 +274,7 @@ function! MoveToStartOfFunction(word_size, pasting)
         if a:pasting
             silent! execute 'normal! F)l'
         else
-            " Find first boundary before function that we don't want to cross
+            " find first boundary before function that we don't want to cross
             call search(' \|,\|;\|(\|^', 'b', line('.'))
             " If we're not at the start of the line, or if we're on whitespace
             if col('.') > 1 || GetCharUnderCursor() == ' '
@@ -453,6 +453,10 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- delete/change/yank/paste custom function 'text objects'
 function! DeleteSurroundingFunction(word_size)
+    " we'll restore the f register later so it isn't clobbered here
+    if has('patch-8.2.0924')
+        let regInfo = getreginfo('f')
+    endif
     call MoveToStartOfFunction(a:word_size, 0)
     " delete function name into the f register and mark opening parenthesis 
     silent! execute 'normal! "fdt(mo'
@@ -474,6 +478,10 @@ function! DeleteSurroundingFunction(word_size)
     silent! execute 'normal! `c"Fx`ox'
     " paste the function into unamed register
     let @"=@f
+    " restore the f register
+    if has('patch-8.2.0924')
+        call setreg('f', regInfo)
+    endif
 endfunction
 
 function! ChangeSurroundingFunction(word_size)
@@ -486,9 +494,7 @@ function! YankSurroundingFunction(word_size)
     silent! execute 'normal! "lyy'
     call DeleteSurroundingFunction(a:word_size)
     " restore the current line to original state
-    silent! execute 'normal! dd"lP'
-    " copy the contents of the f[unction] register to the unamed register 
-    let @"=@f
+    silent! execute 'normal! "_dd"lP'
 endfunction
 
 function! PasteFunctionAroundFunction(word_size)
@@ -530,16 +536,28 @@ function! PasteFunctionAroundWord(word_size)
         let @z=@"
     endif
     if a:word_size == 'small'
-        silent! execute 'normal! lbPldiw'
+        " get onto start of the word
+        silent! execute 'normal! lb'
+        " paste the function behind and move back to the word
+        silent! execute 'normal! Pl'
+        " delete the word
+        silent! execute 'normal! diw'
     elseif a:word_size == 'big'
+        " find first boundary before function that we don't want to cross
         call search(' \|,\|;\|(\|^', 'b', line('.'))
+        " If we're not at the start of the line, or if we're on whitespace
         if col('.') > 1 || GetCharUnderCursor() == ' '
             silent! execute 'normal! l'
         endif
-        silent! execute 'normal! PldW'
+        " paste the function behind and move back to the word
+        silent! execute 'normal! Pl'
+        " delete WORD
+        silent! execute 'normal! dW'
     endif
+    " if we're not already on a last parenthesis, move back to it
     call search(')', 'bc', line('.'))
-    silent! execute 'normal! Pl%'
+    " move to start of funtion and mark it, paste the word, move back to start
+    silent! execute 'normal! %mop`o'
     " restore unnamed register
     if has('patch-8.2.0924')
         call setreg('"', regInfo)
