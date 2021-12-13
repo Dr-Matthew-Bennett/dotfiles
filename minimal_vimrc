@@ -28,6 +28,8 @@ runtime! plugin/sensible.vim
 "==== CUSTOM CONFIGURATIONS ===================================================
 "- general settings -----------------------------------------------------------
 set encoding=utf-8
+set number " put line number where the cursor is
+set hidden " when switching buffers, don't complain about unsaved changes
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
 set expandtab " expand tabs into spaces

@@ -23,7 +23,6 @@ set_bat_theme() {
     }
 
 f() {
-
     # ensure bat colours are correct
     set_bat_theme
 
@@ -34,49 +33,53 @@ f() {
         return 0
     fi
 
-    # Store the program
+    # store the program
     program="$1"
 
-    # Remove first argument off the list
+    # remove first argument off the list
     shift
 
-    # Store any option flags
+    # store any option flags
     options="$@"
 
-    # Store the arguments from fzf
+    # store the arguments from fzf
     arguments=$(fzf --multi)
 
-    # If no arguments passed (e.g. if Esc pressed), return to terminal
+    # if no arguments passed (e.g. if Esc pressed), return to terminal
     if [ -z "${arguments}" ]; then
         return 1
     fi
 
-    # Sanitise the command by putting single quotes around each argument, also
-    # first put an extra single quote next to any pre-existing single quotes in
-    # the raw argument. Put them all on one line.
+    # sanitise the command:
+    # put an extra single quote next to any pre-existing single quotes
+    # put single quotes around each argument
+    # put them all on one line.
     for arg in "${arguments[@]}"; do
-        arguments=$(echo "$arg" | sed "s/'/''/g; s/.*/'&'/g; s/\n//g")
+        arguments=$(echo "$arg" | sed "s/'/''/g;
+                                       s/.*/'&'/g;
+                                       s/\n//g"
+                   )
     done
 
-    # If the program is on the GUI list, add a '&'
+    # if the program is on the GUI list, add a '&'
     if [[ "$program" =~ ^(nautilus|zathura|evince|vlc|eog|kolourpaint)$ ]]; then
         arguments="$arguments &"
     fi
 
-    # Write the shell's active history to ~/.bash_history.
+    # write the shell's active history to ~/.bash_history.
     history -w
 
-    # Add the command with the sanitised arguments to .bash_history
+    # add the command with the sanitised arguments to .bash_history
     echo $program $options $arguments >> ~/.bash_history
 
-    # Reload the ~/.bash_history into the shell's active history
+    # reload the ~/.bash_history into the shell's active history
     history -r
 
     # execute the last command in history
     fc -s -1
     }
 
-# cat but just cut at edge of tmux pane
+# cat but just cut at edge of tmux pane instead of wrapping lines
 catc () {
     width=$(tmux display-message -p '#{pane_width}')
     options="$@"

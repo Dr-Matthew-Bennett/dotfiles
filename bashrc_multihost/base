@@ -124,6 +124,12 @@ setxkbmap -option ‘caps:ctrl_modifier’
 setxkbmap -option ctrl:nocaps
 xcape -e '#66=Escape'
 
+# hide cursor after 2 seconds of inactivity (suppress errors)
+if command -v unclutter &> /dev/null && ps aux | grep unclutter | grep -v grep &> /dev/null
+then
+    unclutter -root -idle 2 &> /dev/null &
+fi
+
 # Launch tmux
 if command -v tmux>/dev/null; then
     [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux new-session -A -s main

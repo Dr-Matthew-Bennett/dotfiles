@@ -1,4 +1,4 @@
-"{{{- wish list --------------------------------------------------------------
+"{{{- wish list ---------------------------------------------------------------
 
 " For vim-tmux-focus-events not to throw error on switching external windows:
 " Error detected while processing function <SNR>39_do_autocmd[3]..FocusGained
@@ -6,26 +6,18 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
-
-" Operator for the function, surrounding parens only () pairs, and args:
-" hi[let_us((test(this, [thing], here(just([for, a, moment]), hmmm..),  {a, dict!}, also, me))/2)]
-" matrix[:,0][1]
-" test(mean(arg), other[1:10], stuff)
-
-" I think these work ('around operator') more or less
-" nnoremap dao diwmp%dT)x`px
-" nnoremap cao diwmp%dT)x`ps
-" 
-" needs thought...
-" nnoremap yao yiwmp%dT)x`px
-" function! DeleteAroundOperator()
-" nnoremap dao diwmp%dT)x`px
-" if above didn't work on the dT) part, just delete inside ()
-"   
-" endfunction
+"
+" Create a funtion like Preserve() that preserves the unnamed register
+"
+" Make PasteSurroundingFunction() work on 'var()' and 'var' (currently only
+" works for the former
+"
+" Make all ***SurroundingFunction() deal with the word/WORD distinction - like
+" 'dsf' and 'dsF' for np.mean() etc. 
 "}}}---------------------------------------------------------------------------
 
-"==== SETUP VUNDLE PLUGIN MANAGER =============================================
+"==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
+"{{{- load plugins (and setup vundle) -----------------------------------------
 "{{{- required ----------------------------------------------------------------
 if &compatible
     set nocompatible " don't try to be compatible with Vi
@@ -60,6 +52,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'simeji/winresizer'
 Plugin 'SirVer/ultisnips'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 " Update: vim-tmux-focus-events is now obsolete and no longer needed as both
@@ -72,17 +65,22 @@ Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
+Plugin 'bronson/vim-visual-star-search'
+Plugin 'junegunn/vim-peekaboo'
+Plugin 'wellle/context.vim'
 "}}}
 "{{{ - plugins I may want to try one day --------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'dense-analysis/ale'
+" Plugin 'machakann/vim-swap'
 " Plugin 'tommcdo/vim-lion'
 " Plugin 'tommcdo/vim-exchange'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
+" Plugin 'tpope/vim-vinegar'
 " Plugin 'wellle/tmux-complete.vim'
 "}}}
-"{{{ - call vundle and load things from runtime paths --------------------------
+"{{{ - call vundle and load things from runtime paths -------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
@@ -92,9 +90,7 @@ runtime! macros/matchit.vim
 " be able to read man pages with :Man <program name>
 runtime! ftplugin/man.vim
 "}}}---------------------------------------------------------------------------
-"==============================================================================
-
-"==== PLUGIN CONFIGURATIONS AND REMAPS ========================================
+"}}}---------------------------------------------------------------------------
 "{{{- remap leader key --------------------------------------------------------
 "make the space bar my leader key (must be before I make <LEADER> mappings)
 noremap <SPACE> <NOP>
@@ -112,6 +108,19 @@ let mapleader=" "
 " " other symbols: https://coolsymbol.com/
 " let g:ale_sign_error = '☠ '
 " let g:ale_sign_warning = '⚠ '
+"}}}---------------------------------------------------------------------------
+"{{{- context -----------------------------------------------------------------
+" don't run plugin by default
+let g:context_enabled = 0
+" I want results shown in a split (not a floating window)
+let g:context_presenter = 'preview'
+let g:context_border_char = '▬'
+augroup context
+    autocmd!
+    " when I close a window, also close the context window
+    autocmd BufHidden * :ContextDisableWindow
+    nnoremap <LEADER>c :ContextToggleWindow<CR>
+augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
 " search for and open file under the fzf default directory
@@ -183,30 +192,55 @@ let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 nnoremap <Plug>innerindent ii ii :call repeat#set("\<Plug>innerindent")<CR>
 nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
 "}}}---------------------------------------------------------------------------
+"{{{- vim-peekaboo ------------------------------------------------------------
+let g:peekaboo_window = 'vertical botright 80 new'
+let g:peekaboo_delay = 1000
+"}}}---------------------------------------------------------------------------
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
-" pane of my choice.  You can set the target manually using Ctrl-c + v.
-" ":i.j"    means the ith window, jth pane
-
+" pane of my choice. 
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
-" I want to be able to override the defaults, so load it now
+" set default target where slime will send text
 let g:slime_default_config =
             \ {"socket_name": "default", "target_pane": "{top-left}"}
-" and not to ask me about it even on the first time I use it
+" since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
 
-" To use vim like mappings instead of emacs keybindings use the following:
-" Send {visual} text.
-xmap <LEADER>s <Plug>SlimeRegionSend
-" Send {motion}.
-nmap <LEADER>s <Plug>SlimeMotionSend
-" Send {count} line(s)
-nmap <LEADER>ss <Plug>SlimeLineSend
+" function to change slime target pane mid-session
+function SlimeOverrideConfig()
+    " bring up the pane numbers as a background job
+    call job_start(["tmux", "display-pane", "-d", "350"])
+    " get the input from user
+    let input = input("target_pane:")
+    " set the new pane target (if any was given)
+    if input
+        let g:slime_default_config["target_pane"] = input
+    endif
+endfunction
+nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
+
+" from :help s
+" s is a synonym for 'cl'
+" S is a synonym for 'cc'
+" so map 's' to: '[s]lime [s]end to target pane'
+" send {visual} text.
+xmap s <Plug>SlimeRegionSend
+" send {motion}.
+nmap s <Plug>SlimeMotionSend
+" send {count} line(s)
+nmap ss <Plug>SlimeLineSend
+nmap S <Plug>SlimeLineSend
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
+"}}}---------------------------------------------------------------------------
+"{{{- winresizer --------------------------------------------------------------
+" the default is 'ctrl-e'... which is useful for scrolling down in normal mode
+let g:winresizer_start_key = '<LEADER>w'
+let g:winresizer_vert_resize=5
+let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
@@ -226,7 +260,23 @@ let g:ycm_filetype_blacklist = {
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
-"{{{- toggle between light and dark colorscheme --------------------------------
+"{{{- helper functions (for use in other functions) ---------------------------
+function! GetCharUnderCursor()
+     return getline(".")[col(".")-1]
+endfunction
+
+function! MoveToStartOfFunction()
+    " move forward to one of function's parentheses (unless already on one)
+    call search('(\|)', 'c', line('.'))
+    " if we're on the closing parenthsis, move to other side
+    if GetCharUnderCursor() == ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! b'
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
@@ -249,16 +299,6 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- open/close YCM doc pages ------------------------------------------------
-function! YCM_Toggle_Docs()
-    let doc_file = bufname('/tmp/*\d\+')
-    if !bufexists(doc_file)
-        YcmCompleter GetDoc
-    else
-        execute 'bwipeout ' doc_file
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
@@ -276,7 +316,7 @@ function! ToggleW3M()
     endif
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- check if vim was initiated by <Esc-v> in bash and take evasive action ---
+"{{{- if vim was initiated by <Esc-v> in bash, take evasive action ------------
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
     "(e.g. a file that looks like: /tmp/bash-fc.xxxxxx)
@@ -300,26 +340,20 @@ endfunction
 " Ag call a modified version of Ag where first arg is directory to search
 command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
 "}}}---------------------------------------------------------------------------
-"{{{- make a 4-way split and resize the windows how I like --------------------
-" THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
-function! WorkSplit()
-    let l:currentWindow=winnr()
-    silent! execute "normal! :vsplit\<CR> :buffer 2\<CR>"
-    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch2\<CR>"
-    silent! execute l:currentWindow . "wincmd w"
-    silent! execute "normal! :split\<CR> :resize -20\<CR> :b scratch1\<CR>"
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- restore cursor position -------------------------------------------------
 " run a command, but put the cursor back when it's done
-function! Preserve(command)
-    " Preparation: save last search, and cursor position.
+function! Preserve(command, is_func)
+    " save last search, and cursor position.
     let _s=@/
     let l = line(".")
     let c = col(".")
     " Do the business:
-    execute a:command
-    " Clean up: restore previous search history, and cursor position
+    if a:is_func == 1
+        execute a:command()
+    else
+        execute a:command
+    endif
+    " restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
 endfunction
@@ -409,6 +443,133 @@ function! RefactorPython()
     execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- delete/change/yank/paste custom function 'text objects'
+function! DeleteSurroundingFunction()
+    " we'll restore the unnamed register later so it isn't clobbered here
+    if has('patch-8.2.0924')
+        let regInfo = getreginfo('"')
+    else
+        let @z=@"
+    endif
+    call MoveToStartOfFunction()
+    " delete function name into the f register and mark opening parenthesis 
+    silent! execute 'normal! "fdiwmo'
+    " yank opening parenthesis into f register
+    silent! execute 'normal! "Fyl'
+    " mark closing parenthesis
+    silent! execute 'normal! %mc'
+    " note where the function ends
+    let close = col('.')
+    " move back to opening paranthesis
+    silent! execute 'normal! %'
+    " search on the same line for an opening paren before the closing paren 
+    if search("(", '', line('.')) && col('.') < close
+        " move to matching paren and delete everthing up to the closing paren
+        " of the original function (remark closing paren)
+        silent! execute 'normal! %l"Fd`cmc'
+    end
+    " delete the closing and opening parens (put the closing one into register)
+    silent! execute 'normal! `c"Fx`ox'
+    " restore unnamed register
+    if has('patch-8.2.0924')
+        call setreg('"', regInfo)
+    else
+        let @"=@z
+    endif
+endfunction
+
+function! ChangeSurroundingFunction()
+    call DeleteSurroundingFunction()
+    startinsert
+endfunction
+
+function! YankSurroundingFunction()
+    " store the current line
+    silent! execute 'normal! "lyy'
+    call DeleteSurroundingFunction()
+    " restore the current line to original state
+    silent! execute 'normal! dd"lP'
+    " copy the contents of the f[unction] register to the unamed register 
+    let @"=@f
+endfunction
+
+function! PasteSurroundingFunction()
+    " we'll restore the unnamed register later so it isn't clobbered here
+    if has('patch-8.2.0924')
+        let regInfo = getreginfo('"')
+    else
+        let @z=@"
+    endif
+    call MoveToStartOfFunction()
+    " paste just behind existing function
+    silent! execute 'normal! P'
+    " mark closing parenthesis, move back onto start of function name
+    silent! execute 'normal! f(%mc%b'
+    " delete the whole function (including last parenthesis)
+    silent! execute 'normal! d`c"_x'
+    " if we're not already on a last parenthsis, move back to it
+    call search(')', 'bc', line('.'))
+    " move to opening surrounding paren and paste original function, then add
+    " surrounding parenthesis back in
+    silent! execute 'normal! %pa)'
+    " leave the cursor on the opening parenthesis of the surrounding function
+    silent! execute 'normal! `c%'
+    " restore unnamed register
+    if has('patch-8.2.0924')
+        call setreg('"', regInfo)
+    else
+        let @"=@z
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- create/delete space around cursor/current line --------------------------
+function! CreateBlankLineAboveAndBelow()
+    call append(line('.')-1, '')
+    call append('.', '')
+endfunction
+
+function! DeleteLineAbove()
+    call deletebufline('', line('.')-1, line('.')-1)
+endfunction
+
+function! DeleteLineBelow()
+    call deletebufline('', line('.')+1, line('.')+1)
+endfunction
+
+function! DeleteBlankLineAboveAndBelow()
+    call DeleteLineAbove()
+    call DeleteLineBelow()
+endfunction
+
+function! CreateSurroundingSpace()
+    silent! execute "normal! i \<ESC>la \<ESC>h"
+endfunction
+
+function! DeleteSurroundingSpace()
+    let original_line_length = strlen(getline('.'))
+    let c = col('.')
+    if GetCharUnderCursor() == ' '
+        silent! execute 'normal! w'
+    endif
+    if search('[^ ] ', 'be', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    if search(' ', '', line('.'))
+        silent! execute 'normal! dw'
+    endif
+    let new_line_length= strlen(getline('.'))
+    let shrink = original_line_length - new_line_length
+    call cursor(line('.'), c-shrink+1)
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- calculate remaining jumps -----------------------------------------------
+if v:version > 801
+    function! RemainingJumps()
+      let [l:jumplist, l:pos] = getjumplist()
+      return max([0, len(l:jumplist) - l:pos - 1])
+    endfunction
+endif
+"}}}---------------------------------------------------------------------------
 "{{{- search the help docs with ag and fzf ------------------------------------
 function! Help_AG()
     let orig_file = expand(@%)
@@ -419,8 +580,8 @@ function! Help_AG()
     " if we opened a help doc
     if orig_file != expand(@%)
         set nomodifiable
-        " for some reason not all the tags work unless I open the real help
-        " so get whichever help was found and opened through Ag
+        " for some reason not all the tags work unless I open the 'real' help
+        " so get whichever help was found and open it through Ag
         let help_doc=expand("%:t")
         " open and close that help doc - now the tags will work
         execute "normal! :tab :help " help_doc "\<CR>:q\<CR>"
@@ -430,19 +591,15 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
-"{{{- calulate remaining jumps ------------------------------------------------
-if v:version > 801
-    function! RemainingJumps()
-      let [l:jumplist, l:pos] = getjumplist()
-      return max([0, len(l:jumplist) - l:pos - 1])
-    endfunction
-endif
-"}}}---------------------------------------------------------------------------
-"{{{- put a blank line above and below current line ---------------------------
-function! Breathing_Room()
-    silent! execute "normal! O\<ESC>jo\<ESC>k"
+"{{{ - move halfway along line (ignore whitespaces) ---------------------------
+function! BetterGmNormalMode()
+    execute 'normal! ^'
+    let first_col = virtcol('.')
+    execute 'normal! g_'
+    let last_col  = virtcol('.')
+    execute 'normal! ' . (first_col + last_col) / 2 . '|'
 endfunction
-"}}}---------------------------------------------------------------------------
+"}}} --------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -461,7 +618,7 @@ set splitright " where new vim pane splits are positioned
 set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
 set nostartofline " keep cursor on the same column even when no chars are there
-set cc=80 "show vertical bar at 80 columns
+set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
@@ -486,9 +643,9 @@ set shortmess-=S " show the number of search results (up to 99)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
-if v:version > 801
-    set nrformats=unsigned " ignore any minus sign when using <C-a/x>
-endif
+" if v:version > 801
+"     set nrformats=unsigned " ignore any minus sign when using <C-a/x>
+" endif
 set spell spelllang=en
 set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
@@ -533,7 +690,7 @@ augroup general
 
     " if we ended up in vim by pressing <ESC-v>, put a # at the beggining of
     " the line to prevent accidental execution (since bash will execute no
-    " matter what! Imagine rm -rf <forward slash> was there...)
+    " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
 
     "{{{- colorscheme switches ------------------------------------------------
@@ -543,10 +700,14 @@ augroup general
     autocmd FocusGained * :call SetColorScheme()
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
-    " let g modify insert/append to work on visual lines, in the same way as it
-    " modifies motions like 0 and $
+    " let g modify insert/append to work on wrapped lines, in the same way as
+    " it modifies motions like 0 and $
     nnoremap gI g0i
     nnoremap gA g$i
+
+    " move to halfway between first and last non-whitespace characters on line
+    nnoremap <silent> gm :call BetterGmNormalMode()<CR>
+    onoremap <silent> gm :call BetterGmNormalMode()<CR>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -582,14 +743,30 @@ augroup general
     nnoremap <P O<C-r>"<ESC>J
     nnoremap <p O<C-r>"<ESC>J
 
-    " make some space above and below a line
-    nnoremap <SPACE>[ :call Breathing_Room()<CR>
-    nnoremap <SPACE>] :call Breathing_Room()<CR>
+    " delete line above/below current line
+    nnoremap <silent> d[<SPACE> :call DeleteLineAbove()<CR>
+    nnoremap <silent> d]<SPACE> :call DeleteLineBelow()<CR>
 
-    " delete surrounding operator: op(leave untouched) -> leave untouched
-    nnoremap dso diwmo%x`ox
+    " delete line above and below a line
+    nnoremap <silent> d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
 
-    
+    " create line above and below a line
+    nnoremap <silent> <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
+    nnoremap <silent> <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+
+    " create some space either side of a character
+    nnoremap <silent> cs<SPACE> :call CreateSurroundingSpace()<CR>
+
+    " delete all space adjacent to contiguous non-whitespace under cursor
+    nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
+
+    " delete/yank surrounding funtion
+    nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
+    nnoremap <silent> csf :call ChangeSurroundingFunction()<CR>
+    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
+    nnoremap <silent> gsf :call PasteSurroundingFunction()<CR>
+   
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
     " generate new vertical split with \ (which has | on it)
@@ -605,46 +782,27 @@ augroup general
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :b# \| bd #<CR>
 
-    " split vim into 4 windows, load first and second files on buffers 1 and 2.
-    " make the bottom windows short and load scratch*.m
-    " THIS CAN BE REMOVED ONCE I MASTER THE :MKSESSION TYPE COMMANDS
-    nnoremap <silent><LEADER>4 :call WorkSplit()<CR>
-
-    " resize windows (and make it repeatable with dot command)
-    " widen the split
-    nmap <LEADER>H <Plug>WidenSplit
-    nnoremap <silent><Plug>WidenSplit :exe "vertical resize +5"<CR>
-                \ :call repeat#set("\<Plug>WidenSplit")<CR>
-    " thin the split
-    nmap <silent><LEADER>h <Plug>ThinSplit
-    nnoremap <Plug>ThinSplit :exe "vertical resize -5"<CR>
-                \ :call repeat#set("\<Plug>ThinSplit")<CR>
-    " heighten the split
-    nmap <silent><LEADER>J <Plug>HeightenSplit
-    nnoremap <Plug>HeightenSplit :exe "resize +3"<CR>
-                \ :call repeat#set("\<Plug>HeightenSplit")<CR>
-    " shorten the split
-    nmap <silent><LEADER>j <Plug>ShortenSplit
-    nnoremap <Plug>ShortenSplit :exe "resize -3"<CR>
-                \ :call repeat#set("\<Plug>ShortenSplit")<CR>
+    " open/close horizontal split containing w3m_scratch
+    nnoremap <LEADER>W :call ToggleW3M()<CR>
 
     " anytime we read in a buffer, if it came from w3m then write to scratch
     autocmd BufReadPost * :call WriteW3MToScratch()
-
-    " open/close horizontal split containing w3m_scratch
-    nnoremap <LEADER>w :call ToggleW3M()<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
+    " autocenter search results 
+    nnoremap n nzvzz
+    nnoremap N Nzvzz
+
     " toggle highlighted searches
-    nnoremap <silent><expr> <LEADER>/ 
+    nnoremap <silent> <expr> <LEADER>/ 
                 \ (v:hlsearch ? ':nohls' : ':set hls')."\n"
 
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
     " remove blank lines
-    nnoremap <silent><LEADER>t :g/^\s*$/d<HOME>
-    vnoremap <silent><LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
+    nnoremap <silent> <LEADER>t :g/^\s*$/d<HOME>
+    vnoremap <silent> <LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
@@ -652,9 +810,10 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
-
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
     nnoremap <LEADER>sv :source $MYVIMRC<CR>
+    " run current vimrc line as a command (useful when modifying vimrc)
+    nnoremap <silent> <LEADER>sl :execute getline(line('.'))<cr>
 
     nnoremap <LEADER>eb :vsplit
                 \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
@@ -664,6 +823,9 @@ augroup general
                 \ /home/mattb/linux_config_files/functions_multihost/base<CR>
     nnoremap <LEADER>et :vsplit
                 \ /home/mattb/linux_config_files/tmux.conf<CR>
+
+    " force write a readonly file with root privileges 
+    cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
     " paste from system CTRL-C clipboard
@@ -671,10 +833,10 @@ augroup general
     " paste from system highlighted clipboard
     nnoremap <LEADER>P "*p
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <silent><LEADER>y :call Preserve("normal! Gp\"+dGu")<CR>
+    nnoremap <silent> <LEADER>y :call Preserve("normal! Gp\"+dGu", 0)<CR>
                 \ :echo 'copied to CTRL-C clipboard'<CR>
     " copy contents of unnamed register to system highlighted clipboard
-    nnoremap <silent><LEADER>Y :call Preserve("normal! Gp\"*dGu")<CR>
+    nnoremap <silent> <LEADER>Y :call Preserve("normal! Gp\"*dGu", 0)<CR>
                 \ :echo 'copied to highlight clipboard'<CR>
 
     " format and yank buffer in a good way for pasting outside of vim
@@ -730,27 +892,22 @@ augroup python "{{{
                 \Wyt:
                 \'x]p
 
-    " open/close the full python docs on thing under the cursor
-    nnoremap <LEADER>cd :call YCM_Toggle_Docs()<CR>
-
     " common imports
     autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
     autocmd FileType python abbreviate imnp import numpy as np
-    
-
 augroup END
 "}}}
 augroup r "{{{
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with other users.
-    autocmd FileType r setlocal fileformat=unix
-    autocmd FileType r setlocal foldmethod=indent
+    autocmd FileType r,rmd setlocal fileformat=unix
+    autocmd FileType r,rmd setlocal foldmethod=indent
 
     " easier to type assignment
-    autocmd FileType r iabbrev <buffer> << <-
+    autocmd FileType r,rmd iabbrev <buffer> << <-
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
-    autocmd FileType r set iskeyword-=.
+    autocmd FileType r,rmd set iskeyword-=.
 augroup END
 "}}}
 augroup matlab "{{{
@@ -839,12 +996,10 @@ augroup tex "{{{
     autocmd FileType tex setlocal foldlevel=0
     autocmd FileType tex setlocal foldlevelstart=0
 
-    " gq until a line beginning with \
-    " I figured out the macro (that's everything after the :), but I've
-    " forgotten how to do the remap commands
-    " nnoremap <LEADER>g :^ms/\\k$me`sgq`en:noh
-    " a year later, I think maybe this?
-    " nnoremap <LEADER>g :^ms/\\<CR>$me`sgq`en:noh
+    " <LEADER>m to compile the doc - errors go to quickfix list
+    autocmd FileType tex :let b:tex_flavor = 'pdflatex'
+    autocmd FileType tex :compiler tex
+    autocmd FileType tex nnoremap <LEADER>m :silent make % <CR>
 augroup END
 "}}}
 augroup tmux "{{{
@@ -858,8 +1013,8 @@ augroup END
 augroup tidy_code_matlab_and_python "{{{
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
-    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e")
-    autocmd BufWritePre *.m :call Preserve("normal! gg=G")
+    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
+    autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
 "}}}
 "}}}---------------------------------------------------------------------------
