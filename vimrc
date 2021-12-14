@@ -805,6 +805,9 @@ augroup general
     " delete all space adjacent to contiguous non-whitespace under cursor
     nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
 
+    " delete line, but leave it blank
+    nnoremap <LEADER>dd cc<Esc>
+
     " delete/yank surrounding funtion
     nnoremap <silent> dsf :call DeleteSurroundingFunction('small')<CR>
     nnoremap <silent> dsF :call DeleteSurroundingFunction('big')<CR>
