@@ -787,6 +787,9 @@ augroup general
     nnoremap <P O<C-r>"<ESC>J
     nnoremap <p O<C-r>"<ESC>J
 
+    " delete line, but leave it blank
+    nnoremap <LEADER>dd cc<Esc>
+
     " delete line above/below current line
     nnoremap <silent> d[<SPACE> :call DeleteLineAbove()<CR>
     nnoremap <silent> d]<SPACE> :call DeleteLineBelow()<CR>
@@ -804,9 +807,6 @@ augroup general
 
     " delete all space adjacent to contiguous non-whitespace under cursor
     nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
-
-    " delete line, but leave it blank
-    nnoremap <LEADER>dd cc<Esc>
 
     " delete/yank surrounding funtion
     nnoremap <silent> dsf :call DeleteSurroundingFunction('small')<CR>
