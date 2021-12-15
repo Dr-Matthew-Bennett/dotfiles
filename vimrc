@@ -661,6 +661,7 @@ set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
 set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
+set virtualedit=all " allow cursor to be positioned where there are no chars
 set nostartofline " keep cursor on the same column even when no chars are there
 set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
