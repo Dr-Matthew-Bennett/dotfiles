@@ -268,7 +268,7 @@ function! MoveToStartOfFunction(word_size, pasting)
     endif
     " move onto function name 
     silent! execute 'normal! b'
-    if a:word_size == 'big'
+    if a:word_size ==? 'big'
         " if we've pasted in a function, then there will be a ')' right before
         " the one we need to move inside - so we can go to the start easily
         if a:pasting
@@ -287,7 +287,7 @@ endfunction
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
-    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         colorscheme zenburn
         :let $BAT_THEME=''
     else
@@ -297,7 +297,7 @@ function! SetColorScheme()
 endfunction
 
 function! ToggleLightDarkColorscheme()
-    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         :silent :!tmux set-environment THEME 'light'
         :silent :!tmux source-file ~/.tmux_light.conf
     else
@@ -535,14 +535,14 @@ function! PasteFunctionAroundWord(word_size)
     else
         let @z=@"
     endif
-    if a:word_size == 'small'
+    if a:word_size ==? 'small'
         " get onto start of the word
         silent! execute 'normal! lb'
         " paste the function behind and move back to the word
         silent! execute 'normal! Pl'
         " delete the word
         silent! execute 'normal! diw'
-    elseif a:word_size == 'big'
+    elseif a:word_size ==? 'big'
         " find first boundary before function that we don't want to cross
         call search(' \|,\|;\|(\|^', 'b', line('.'))
         " If we're not at the start of the line, or if we're on whitespace
