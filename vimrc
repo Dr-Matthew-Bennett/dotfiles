@@ -311,7 +311,7 @@ endfunction
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
     "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
-    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") != -1
+    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") !=# -1
         :silent! wq! /tmp/w3m_scratch
     endif
 endfunction
@@ -328,7 +328,7 @@ endfunction
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
     "(e.g. a file that looks like: /tmp/bash-fc.xxxxxx)
-    if match(@%, "\/tmp\/bash-fc\.......") != -1
+    if match(@%, "\/tmp\/bash-fc\.......") !=# -1
         " comment out the command
         silent! execute ":%normal! I# "
         write
@@ -422,7 +422,7 @@ function! RefactorPython()
     " mark the location
     execute "normal mx"
     " search backwards for the word import at start of line
-    if search("^import \| ^from ", 'b', 'W') != 0
+    if search("^import \| ^from ", 'b', 'W') !=# 0
         " create 2 blank lines below it
         execute "normal 2o"
         " execute "normal k"
@@ -622,7 +622,7 @@ function! Help_AG()
     " search in the help docs with ag-silver-search and fzf and open file
     execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<CR>"
     " if we opened a help doc
-    if orig_file != expand(@%)
+    if orig_file !=# expand(@%)
         set nomodifiable
         " for some reason not all the tags work unless I open the 'real' help
         " so get whichever help was found and open it through Ag
