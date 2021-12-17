@@ -263,12 +263,12 @@ function! MoveToStartOfFunction(word_size, pasting)
     " move forward to one of function's parentheses (unless already on one)
     call search('(\|)', 'c', line('.'))
     " if we're on the closing parenthsis, move to other side
-    if GetCharUnderCursor() == ')'
+    if GetCharUnderCursor() ==# ')'
         silent! execute 'normal! %'
     endif
     " move onto function name 
     silent! execute 'normal! b'
-    if a:word_size ==? 'big'
+    if a:word_size ==# 'big'
         " if we've pasted in a function, then there will be a ')' right before
         " the one we need to move inside - so we can go to the start easily
         if a:pasting
@@ -277,7 +277,7 @@ function! MoveToStartOfFunction(word_size, pasting)
             " find first boundary before function that we don't want to cross
             call search(' \|,\|;\|(\|^', 'b', line('.'))
             " If we're not at the start of the line, or if we're on whitespace
-            if col('.') > 1 || GetCharUnderCursor() == ' '
+            if col('.') > 1 || GetCharUnderCursor() ==# ' '
                 silent! execute 'normal! l'
             endif
         endif
@@ -356,7 +356,7 @@ function! Preserve(command, is_func)
     let l = line(".")
     let c = col(".")
     " Do the business:
-    if a:is_func == 1
+    if a:is_func ==# 1
         execute a:command()
     else
         execute a:command
@@ -535,18 +535,18 @@ function! PasteFunctionAroundWord(word_size)
     else
         let @z=@"
     endif
-    if a:word_size ==? 'small'
+    if a:word_size ==# 'small'
         " get onto start of the word
         silent! execute 'normal! lb'
         " paste the function behind and move back to the word
         silent! execute 'normal! Pl'
         " delete the word
         silent! execute 'normal! diw'
-    elseif a:word_size ==? 'big'
+    elseif a:word_size ==# 'big'
         " find first boundary before function that we don't want to cross
         call search(' \|,\|;\|(\|^', 'b', line('.'))
         " If we're not at the start of the line, or if we're on whitespace
-        if col('.') > 1 || GetCharUnderCursor() == ' '
+        if col('.') > 1 || GetCharUnderCursor() ==# ' '
             silent! execute 'normal! l'
         endif
         " paste the function behind and move back to the word
@@ -592,7 +592,7 @@ endfunction
 function! DeleteSurroundingSpace()
     let original_line_length = strlen(getline('.'))
     let c = col('.')
-    if GetCharUnderCursor() == ' '
+    if GetCharUnderCursor() ==# ' '
         silent! execute 'normal! w'
     endif
     if search('[^ ] ', 'be', line('.'))
