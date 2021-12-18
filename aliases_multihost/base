@@ -43,16 +43,13 @@ alias lt="(tput rmam; ls -1 -hF; tput smam)"
 
 alias untar='tar zxvf'
 
-# common places to cd, pipe the dir and subdirs (to a given depth) into fzf
-cdu_arg='cd $(( ls -d  /media/mattb/usb/; \
-                ls -d  /media/mattb/usb/*/; \
-                ls -d  /media/mattb/usb/*/*/) \
-                | grep -v .git | fzf)'
-
-alias cdu=${cdu_arg}
+# use a single instance of vim and give it a name so I can use --remote-silent
+# to automatically open new files in this instance
+alias vim='vim --servername justonevim --remote-silent'
 
 # source .bashrc
 alias sob='source ~/.bashrc'
+
 # edit dot files
 alias et='vim ~/linux_config_files/tmux.conf'
 alias ev='vim ~/linux_config_files/vimrc'
