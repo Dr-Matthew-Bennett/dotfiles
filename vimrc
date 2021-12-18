@@ -318,7 +318,7 @@ endfunction
 
 function! ToggleW3M()
     if bufexists("/tmp/w3m_scratch")
-        :bwipe! /tmp/w3m_scratch
+        :bwipeout! /tmp/w3m_scratch
     else
         :silent! split /tmp/w3m_scratch
     endif
@@ -454,9 +454,7 @@ endfunction
 "{{{- delete/change/yank/paste custom function 'text objects'
 function! DeleteSurroundingFunction(word_size)
     " we'll restore the f register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('f')
-    endif
+    let l:freg = @f
     call MoveToStartOfFunction(a:word_size, 0)
     " delete function name into the f register and mark opening parenthesis 
     silent! execute 'normal! "fdt(mo'
@@ -479,9 +477,7 @@ function! DeleteSurroundingFunction(word_size)
     " paste the function into unamed register
     let @"=@f
     " restore the f register
-    if has('patch-8.2.0924')
-        call setreg('f', regInfo)
-    endif
+    let @f = l:freg
 endfunction
 
 function! ChangeSurroundingFunction(word_size)
@@ -499,11 +495,7 @@ endfunction
 
 function! PasteFunctionAroundFunction(word_size)
     " we'll restore the unnamed register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('"')
-    else
-        let @z=@"
-    endif
+    let l:unnamed_reg = @"
     call MoveToStartOfFunction(a:word_size, 0)
     " paste just behind existing function
     silent! execute 'normal! P'
@@ -521,20 +513,12 @@ function! PasteFunctionAroundFunction(word_size)
     " leave the cursor on the opening parenthesis of the surrounding function
     silent! execute 'normal! `c%'
     " restore unnamed register
-    if has('patch-8.2.0924')
-        call setreg('"', regInfo)
-    else
-        let @"=@z
-    endif
+    let @" = l:unnamed_reg
 endfunction
 
 function! PasteFunctionAroundWord(word_size)
     " we'll restore the unnamed register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('"')
-    else
-        let @z=@"
-    endif
+    let l:unnamed_reg = @"
     if a:word_size ==# 'small'
         " get onto start of the word
         silent! execute 'normal! lb'
@@ -559,11 +543,7 @@ function! PasteFunctionAroundWord(word_size)
     " move to start of funtion and mark it, paste the word, move back to start
     silent! execute 'normal! %mop`o'
     " restore unnamed register
-    if has('patch-8.2.0924')
-        call setreg('"', regInfo)
-    else
-        let @"=@z
-    endif
+    let @" = l:unnamed_reg
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- create/delete space around cursor/current line --------------------------
@@ -834,7 +814,7 @@ augroup general
     nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
     " close current buffer, keep window and switch to last used buffer
-    nnoremap <LEADER>x :b# \| bd #<CR>
+    nnoremap <LEADER>x :buffer# \| bdelete #<CR>
 
     " open/close horizontal split containing w3m_scratch
     nnoremap <LEADER>W :call ToggleW3M()<CR>
