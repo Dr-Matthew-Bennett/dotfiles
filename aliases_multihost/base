@@ -43,9 +43,9 @@ alias lt="(tput rmam; ls -1 -hF; tput smam)"
 
 alias untar='tar zxvf'
 
-# use a single instance of vim and give it a name so I can use --remote-silent
-# to automatically open new files in this instance
-alias vim='vim --servername justonevim --remote-silent'
+# use a single instance of vim per tmux window, give it a name so I can target
+# it, automatically opening new files in this instance
+alias vim='vim --servername vim_in_tmux_window_$(tmux display-message -p "#I") --remote-silent'
 
 # source .bashrc
 alias sob='source ~/.bashrc'
