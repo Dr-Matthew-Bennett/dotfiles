@@ -60,6 +60,8 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
+" I had to tweak a line in the 'vim-visual-star-search' plugin to stop :g/^ and
+" :v/^ from hanging... I should probably raise an issue on the repo
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
 "}}}
