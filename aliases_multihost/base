@@ -46,12 +46,12 @@ alias untar='tar zxvf'
 # source .bashrc
 alias sob='source ~/.bashrc'
 
-# edit dot files
+# edit dot files (using my v for vim function)
 alias et='v ~/linux_config_files/tmux.conf'
 alias ev='v ~/linux_config_files/vimrc'
 alias ez='v ~/linux_config_files/zathurarc'
 
-# generate aliases to open host specific dot files
+# generate aliases to open host specific dot files (using v function)
 declare -A dir_dict=([eb]=bashrc_ [ea]=aliases_ [ef]=functions_)
 declare -A file_dict=([b]=base [f]=flat [l]=laptop [o]=office [d]=dapony)
 for dir_abbrv in "${!dir_dict[@]}"
