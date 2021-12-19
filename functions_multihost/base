@@ -79,6 +79,21 @@ f() {
     fc -s -1
     }
 
+# use a single instance of vim per tmux window, give it a name so I can target
+# it, and automatically opening new files in this instance
+v () {
+    # if no arguments passed, just lauch vim
+    if [ $# -eq 0 ]
+    then
+        vim
+    else
+        arguments="$@"
+        tmux_window_number="$(tmux display-message -p '#I')"
+        vim --servername "vim_in_tmux_window_$tmux_window_number" --remote-silent $arguments
+    fi
+    }
+
+# wrapper for bash script (passes all arguments)
 # cat but just cut at edge of tmux pane instead of wrapping lines
 catc () {
     width=$(tmux display-message -p '#{pane_width}')
@@ -90,7 +105,6 @@ temp () {
     gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature $1
     }
 
-# wrapper for bash script (passes all arguments)
 # also displays todo list with numbers
 todo () {
     options="$@"

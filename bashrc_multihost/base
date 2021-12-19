@@ -83,19 +83,19 @@ esac
 [ -f ~/linux_config_files/bashrc_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/bashrc_multihost/$HOSTNAME
 
-# source base .bash_aliases if it exists
-[ -f ~/linux_config_files/aliases_multihost/base ] &&
-source ~/linux_config_files/aliases_multihost/base
-# source host specific .bash_aliases if they exist
-[ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
-source ~/linux_config_files/aliases_multihost/$HOSTNAME
-
 # source base .bash_functions if it exists
 [ -f ~/linux_config_files/functions_multihost/base ] &&
 source ~/linux_config_files/functions_multihost/base
 # source host specific .bash_functions if they exist
 [ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
 source ~/linux_config_files/functions_multihost/$HOSTNAME
+
+# source base .bash_aliases if it exists
+[ -f ~/linux_config_files/aliases_multihost/base ] &&
+source ~/linux_config_files/aliases_multihost/base
+# source host specific .bash_aliases if they exist
+[ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
+source ~/linux_config_files/aliases_multihost/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

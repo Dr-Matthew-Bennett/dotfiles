@@ -43,17 +43,13 @@ alias lt="(tput rmam; ls -1 -hF; tput smam)"
 
 alias untar='tar zxvf'
 
-# use a single instance of vim per tmux window, give it a name so I can target
-# it, automatically opening new files in this instance
-alias vim='vim --servername vim_in_tmux_window_$(tmux display-message -p "#I") --remote-silent'
-
 # source .bashrc
 alias sob='source ~/.bashrc'
 
 # edit dot files
-alias et='vim ~/linux_config_files/tmux.conf'
-alias ev='vim ~/linux_config_files/vimrc'
-alias ez='vim ~/linux_config_files/zathurarc'
+alias et='v ~/linux_config_files/tmux.conf'
+alias ev='v ~/linux_config_files/vimrc'
+alias ez='v ~/linux_config_files/zathurarc'
 
 # generate aliases to open host specific dot files
 declare -A dir_dict=([eb]=bashrc_ [ea]=aliases_ [ef]=functions_)
@@ -62,7 +58,7 @@ for dir_abbrv in "${!dir_dict[@]}"
 do
     for file_abbrv in "${!file_dict[@]}"
     do
-        alias $dir_abbrv$file_abbrv="vim ~/linux_config_files/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
+        alias $dir_abbrv$file_abbrv="v ~/linux_config_files/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
     done
 done
 
