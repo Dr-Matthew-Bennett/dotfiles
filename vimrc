@@ -285,6 +285,17 @@ function! MoveToStartOfFunction(word_size, pasting)
         endif
     endif
 endfunction
+
+" apply the repeat plugin to any named mapping
+function! Repeat(name, map, command)
+    " name is the name I'm giving to the mapping
+    " map is the actual key combination I want to use for it
+    " command is the sequence of keystrokes to execute when the map is used
+    execute 'nnoremap <silent> <Plug>' . a:name . ' ' . a:command . 
+                \' :call repeat#set("\<Plug>' . a:name . '")<CR>'
+    execute 'nmap ' . a:map . ' <Plug>' . a:name
+endfunction
+
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
@@ -568,7 +579,7 @@ function! DeleteBlankLineAboveAndBelow()
 endfunction
 
 function! CreateSurroundingSpace()
-    silent! execute "normal! i \<ESC>la \<ESC>h"
+    silent! execute "normal! i \<ESC>la \<ESC>hh"
 endfunction
 
 function! DeleteSurroundingSpace()
@@ -755,53 +766,53 @@ augroup general
     " operator pending mode
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
-
-    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
+    
+    " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
-    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
-    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
-    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
-    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+    call Repeat('ExchangeWordNext',     ']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
+    call Repeat('ExchangeWORDNext',     ']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
+    call Repeat('ExchangeWordPrevious', '[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
+    call Repeat('ExchangeWordPrevious', '[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
-    " paste at end of line, with an automatic space
-    nnoremap >p o<C-r>"<ESC>kJ
-    nnoremap >P o<C-r>"<ESC>kJ
+    " at end paste of line, with an automatic space
+    call Repeat('PasteAtEndOfLine', '>p', 'o<C-r>"<ESC>kJ')
+    call Repeat('PasteAtEndOfLine', '>P', 'o<C-r>"<ESC>kJ')
     " paste at start of line, with an automatic space
-    nnoremap <P O<C-r>"<ESC>J
-    nnoremap <p O<C-r>"<ESC>J
+    call Repeat('PasteAtStartOfLine', '<p', 'O<C-r>"<ESC>J')
+    call Repeat('PasteAtStartOfLine', '<P', 'O<C-r>"<ESC>J')
 
     " delete line, but leave it blank
-    nnoremap <LEADER>dd cc<Esc>
+    call Repeat('MakeLineBlank', '<LEADER>dd', 'cc<Esc>')
 
     " delete line above/below current line
-    nnoremap <silent> d[<SPACE> :call DeleteLineAbove()<CR>
-    nnoremap <silent> d]<SPACE> :call DeleteLineBelow()<CR>
+    call Repeat('DeleteLineAbove', 'd[<SPACE>', ':call DeleteLineAbove()<CR>')
+    call Repeat('DeleteLineBelow', 'd]<SPACE>', ':call DeleteLineBelow()<CR>')
 
     " delete line above and below a line
-    nnoremap <silent> d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
-    nnoremap <silent> d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
+    call Repeat('DeleteBlankLineAboveAndBelow', 'd<SPACE>[', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('DeleteBlankLineAboveAndBelow', 'd<SPACE>]', ':call DeleteBlankLineAboveAndBelow()<CR>')
 
     " create line above and below a line
-    nnoremap <silent> <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
-    nnoremap <silent> <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+    call Repeat('CreateBlankLineAboveAndBelow', '<SPACE>[', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('CreateBlankLineAboveAndBelow', '<SPACE>]', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " create some space either side of a character
-    nnoremap <silent> cs<SPACE> :call CreateSurroundingSpace()<CR>
+    call Repeat('CreateSurroundingSpace', 'cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
 
     " delete all space adjacent to contiguous non-whitespace under cursor
-    nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
+    call Repeat('DeleteSurroundingSpace', 'ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
 
     " delete/yank surrounding funtion
-    nnoremap <silent> dsf :call DeleteSurroundingFunction('small')<CR>
-    nnoremap <silent> dsF :call DeleteSurroundingFunction('big')<CR>
-    nnoremap <silent> csf :call ChangeSurroundingFunction('small')<CR>
-    nnoremap <silent> csF :call ChangeSurroundingFunction('big')<CR>
-    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction', ['small']), 1)<CR>
-    nnoremap <silent> ysF :call Preserve(function('YankSurroundingFunction', ['big']), 1)<CR>
-    nnoremap <silent> gsf :call PasteFunctionAroundFunction('small')<CR>
-    nnoremap <silent> gsF :call PasteFunctionAroundFunction('big')<CR>
-    nnoremap <silent> gsw :call PasteFunctionAroundWord('small')<CR>
-    nnoremap <silent> gsW :call PasteFunctionAroundWord('big')<CR>
+    call Repeat('DeleteSurroundingSmallFunction',   'dsf', ':call DeleteSurroundingFunction("small")<CR>')
+    call Repeat('DeleteSurroundingBigFunction',     'dsF', ':call DeleteSurroundingFunction("big")<CR>')
+    call Repeat('ChangeSurroundingSmallFunction',   'csf', ':call ChangeSurroundingFunction("small")<CR>')
+    call Repeat('ChangeSurroundingBigFunction',     'csF', ':call ChangeSurroundingFunction("big")<CR>')
+    call Repeat('YankSurroundingSmallFunction',     'ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
+    call Repeat('YankSurroundingBigFunction',       'ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
+    call Repeat('PasteSmallFunctionAroundFunction', 'gsf', ':call PasteFunctionAroundFunction("small")<CR>')
+    call Repeat('PasteBigFunctionAroundFunction',   'gsF', ':call PasteFunctionAroundFunction("big")<CR>')
+    call Repeat('PasteSmallFunctionAroundWord',     'gsw', ':call PasteFunctionAroundWord("small")<CR>')
+    call Repeat('PasteBigFunctionAroundWord',       'gsW', ':call PasteFunctionAroundWord("big")<CR>')
    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
