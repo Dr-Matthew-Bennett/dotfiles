@@ -286,17 +286,16 @@ function! MoveToStartOfFunction(word_size, pasting)
     endif
 endfunction
 
-" apply the repeat plugin to any named mapping
-let g:repeat_count = 0
+" apply the repeat plugin to any mapping
+" (commands with a single quote will likely cause problems...)
+let g:map_name_count = 0
 function! Repeat(map, command)
-    " name is the name I'm giving to the mapping
-    " map is the actual key combination I want to use for it
-    " command is the sequence of keystrokes to execute when the map is used
-    let g:repeat_count += 1
-    let tempname = string(g:repeat_count)
-    execute 'nnoremap <silent> <Plug>'.tempname.' '.a:command.
-                \' :call repeat#set("\<Plug>'.tempname.'")<CR>'
-    execute 'nmap '.a:map.' <Plug>'.tempname
+    " we need to use a unique string as a map name each time function is called
+    let g:map_name_count += 1
+    let mapname = string(g:map_name_count)
+    execute 'nnoremap <silent> <Plug>'.mapname.' '.a:command.
+                \' :call repeat#set("\<Plug>'.mapname.'")<CR>'
+    execute 'nmap '.a:map.' <Plug>'.mapname
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
@@ -771,13 +770,12 @@ augroup general
     
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
-
     call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
     call Repeat(']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
     call Repeat('[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
     call Repeat('[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
-    " at end paste of line, with an automatic space
+    " paste at end of line, with an automatic space
     call Repeat('>p', 'o<C-r>"<ESC>kJ')
     call Repeat('>P', 'o<C-r>"<ESC>kJ')
     " paste at start of line, with an automatic space
