@@ -136,7 +136,7 @@ let fzf1 = "--height 80% -m --layout=reverse --marker=o"
 let fzf2 = ""
 let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all"
 let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
-let $FZF_DEFAULT_OPTS = fzf1 . ' ' . fzf2 . ' ' . fzf3 . ' ' . fzf4
+let $FZF_DEFAULT_OPTS = fzf1.' '.fzf2.' '.fzf3.' '.fzf4
 
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
@@ -287,15 +287,17 @@ function! MoveToStartOfFunction(word_size, pasting)
 endfunction
 
 " apply the repeat plugin to any named mapping
-function! Repeat(name, map, command)
+let g:repeat_count = 0
+function! Repeat(map, command)
     " name is the name I'm giving to the mapping
     " map is the actual key combination I want to use for it
     " command is the sequence of keystrokes to execute when the map is used
-    execute 'nnoremap <silent> <Plug>' . a:name . ' ' . a:command . 
-                \' :call repeat#set("\<Plug>' . a:name . '")<CR>'
-    execute 'nmap ' . a:map . ' <Plug>' . a:name
+    let g:repeat_count += 1
+    let tempname = string(g:repeat_count)
+    execute 'nnoremap <silent> <Plug>'.tempname.' '.a:command.
+                \' :call repeat#set("\<Plug>'.tempname.'")<CR>'
+    execute 'nmap '.a:map.' <Plug>'.tempname
 endfunction
-
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
@@ -769,50 +771,51 @@ augroup general
     
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
-    call Repeat('ExchangeWordNext',     ']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
-    call Repeat('ExchangeWORDNext',     ']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
-    call Repeat('ExchangeWordPrevious', '[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
-    call Repeat('ExchangeWordPrevious', '[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
+
+    call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
+    call Repeat(']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
+    call Repeat('[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
+    call Repeat('[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
     " at end paste of line, with an automatic space
-    call Repeat('PasteAtEndOfLine', '>p', 'o<C-r>"<ESC>kJ')
-    call Repeat('PasteAtEndOfLine', '>P', 'o<C-r>"<ESC>kJ')
+    call Repeat('>p', 'o<C-r>"<ESC>kJ')
+    call Repeat('>P', 'o<C-r>"<ESC>kJ')
     " paste at start of line, with an automatic space
-    call Repeat('PasteAtStartOfLine', '<p', 'O<C-r>"<ESC>J')
-    call Repeat('PasteAtStartOfLine', '<P', 'O<C-r>"<ESC>J')
+    call Repeat('<p', 'O<C-r>"<ESC>J')
+    call Repeat('<P', 'O<C-r>"<ESC>J')
 
     " delete line, but leave it blank
-    call Repeat('MakeLineBlank', '<LEADER>dd', 'cc<Esc>')
+    call Repeat('<LEADER>dd', 'cc<Esc>')
 
     " delete line above/below current line
-    call Repeat('DeleteLineAbove', 'd[<SPACE>', ':call DeleteLineAbove()<CR>')
-    call Repeat('DeleteLineBelow', 'd]<SPACE>', ':call DeleteLineBelow()<CR>')
+    call Repeat('d[<SPACE>', ':call DeleteLineAbove()<CR>')
+    call Repeat('d]<SPACE>', ':call DeleteLineBelow()<CR>')
 
     " delete line above and below a line
-    call Repeat('DeleteBlankLineAboveAndBelow', 'd<SPACE>[', ':call DeleteBlankLineAboveAndBelow()<CR>')
-    call Repeat('DeleteBlankLineAboveAndBelow', 'd<SPACE>]', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('d<SPACE>[', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('d<SPACE>]', ':call DeleteBlankLineAboveAndBelow()<CR>')
 
     " create line above and below a line
-    call Repeat('CreateBlankLineAboveAndBelow', '<SPACE>[', ':call CreateBlankLineAboveAndBelow()<CR>')
-    call Repeat('CreateBlankLineAboveAndBelow', '<SPACE>]', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('<SPACE>[', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('<SPACE>]', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " create some space either side of a character
-    call Repeat('CreateSurroundingSpace', 'cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
+    call Repeat('cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
 
     " delete all space adjacent to contiguous non-whitespace under cursor
-    call Repeat('DeleteSurroundingSpace', 'ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
+    call Repeat('ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
 
     " delete/yank surrounding funtion
-    call Repeat('DeleteSurroundingSmallFunction',   'dsf', ':call DeleteSurroundingFunction("small")<CR>')
-    call Repeat('DeleteSurroundingBigFunction',     'dsF', ':call DeleteSurroundingFunction("big")<CR>')
-    call Repeat('ChangeSurroundingSmallFunction',   'csf', ':call ChangeSurroundingFunction("small")<CR>')
-    call Repeat('ChangeSurroundingBigFunction',     'csF', ':call ChangeSurroundingFunction("big")<CR>')
-    call Repeat('YankSurroundingSmallFunction',     'ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
-    call Repeat('YankSurroundingBigFunction',       'ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
-    call Repeat('PasteSmallFunctionAroundFunction', 'gsf', ':call PasteFunctionAroundFunction("small")<CR>')
-    call Repeat('PasteBigFunctionAroundFunction',   'gsF', ':call PasteFunctionAroundFunction("big")<CR>')
-    call Repeat('PasteSmallFunctionAroundWord',     'gsw', ':call PasteFunctionAroundWord("small")<CR>')
-    call Repeat('PasteBigFunctionAroundWord',       'gsW', ':call PasteFunctionAroundWord("big")<CR>')
+    call Repeat('dsf', ':call DeleteSurroundingFunction("small")<CR>')
+    call Repeat('dsF', ':call DeleteSurroundingFunction("big")<CR>')
+    call Repeat('csf', ':call ChangeSurroundingFunction("small")<CR>')
+    call Repeat('csF', ':call ChangeSurroundingFunction("big")<CR>')
+    call Repeat('ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
+    call Repeat('ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
+    call Repeat('gsf', ':call PasteFunctionAroundFunction("small")<CR>')
+    call Repeat('gsF', ':call PasteFunctionAroundFunction("big")<CR>')
+    call Repeat('gsw', ':call PasteFunctionAroundWord("small")<CR>')
+    call Repeat('gsW', ':call PasteFunctionAroundWord("big")<CR>')
    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
