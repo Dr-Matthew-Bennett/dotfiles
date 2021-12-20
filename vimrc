@@ -132,11 +132,11 @@ imap ;l <Plug>(fzf-complete-line)
 let g:fzf_layout = { 'down': '~40%' }
 
 " remove the config for preview window (I prefer vim's default behaviour)
-let fzf1 = "--height 80% -m --layout=reverse --marker=o "
+let fzf1 = "--height 80% -m --layout=reverse --marker=o"
 let fzf2 = ""
-let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all "
+let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all"
 let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
-:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
+let $FZF_DEFAULT_OPTS = fzf1 . ' ' . fzf2 . ' ' . fzf3 . ' ' . fzf4
 
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
@@ -302,10 +302,10 @@ function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         colorscheme zenburn
-        :let $BAT_THEME=''
+        let $BAT_THEME=''
     else
         colorscheme seoul256-light
-        :let $BAT_THEME='Monokai Extended Light'
+        let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
 
