@@ -6,14 +6,8 @@
 "
 " Update: this plugin is now obsolete and no longer needed as both neovim and
 " vim (since version 8.2.2345) have native support for this functionality.
-"
+
 " Create a funtion like Preserve() that preserves the unnamed register
-"
-" Make PasteSurroundingFunction() work on 'var()' and 'var' (currently only
-" works for the former
-"
-" Make all ***SurroundingFunction() deal with the word/WORD distinction - like
-" 'dsf' and 'dsF' for np.mean() etc. 
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
@@ -66,6 +60,8 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
+" I had to tweak a line in the 'vim-visual-star-search' plugin to stop :g/^ and
+" :v/^ from hanging... I should probably raise an issue on the repo
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
 "}}}
@@ -136,11 +132,11 @@ imap ;l <Plug>(fzf-complete-line)
 let g:fzf_layout = { 'down': '~40%' }
 
 " remove the config for preview window (I prefer vim's default behaviour)
-let fzf1 = "--height 80% -m --layout=reverse --marker=o "
+let fzf1 = "--height 80% -m --layout=reverse --marker=o"
 let fzf2 = ""
-let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all "
+let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all"
 let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
-:let $FZF_DEFAULT_OPTS = fzf1 .. fzf2 .. fzf3 .. fzf4
+let $FZF_DEFAULT_OPTS = fzf1.' '.fzf2.' '.fzf3.' '.fzf4
 
 " Change CTRL-X to CTRL-V to open file from fzf in vertical split
 let g:fzf_action = {
@@ -265,31 +261,57 @@ function! GetCharUnderCursor()
      return getline(".")[col(".")-1]
 endfunction
 
-function! MoveToStartOfFunction()
+function! MoveToStartOfFunction(word_size, pasting)
     " move forward to one of function's parentheses (unless already on one)
     call search('(\|)', 'c', line('.'))
     " if we're on the closing parenthsis, move to other side
-    if GetCharUnderCursor() == ')'
+    if GetCharUnderCursor() ==# ')'
         silent! execute 'normal! %'
     endif
     " move onto function name 
     silent! execute 'normal! b'
+    if a:word_size ==# 'big'
+        " if we've pasted in a function, then there will be a ')' right before
+        " the one we need to move inside - so we can go to the start easily
+        if a:pasting
+            silent! execute 'normal! F)l'
+        else
+            " find first boundary before function that we don't want to cross
+            call search(' \|,\|;\|(\|^', 'b', line('.'))
+            " If we're not at the start of the line, or if we're on whitespace
+            if col('.') > 1 || GetCharUnderCursor() ==# ' '
+                silent! execute 'normal! l'
+            endif
+        endif
+    endif
+endfunction
+
+" apply the repeat plugin to any mapping
+" (commands with a single quote will likely cause problems...)
+let g:map_name_count = 0
+function! Repeat(map, command)
+    " we need to use a unique string as a map name each time function is called
+    let g:map_name_count += 1
+    let mapname = string(g:map_name_count)
+    execute 'nnoremap <silent> <Plug>'.mapname.' '.a:command.
+                \' :call repeat#set("\<Plug>'.mapname.'")<CR>'
+    execute 'nmap '.a:map.' <Plug>'.mapname
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
     " check if tmux colorsheme is light or dark, and pick for vim accordingly
-    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         colorscheme zenburn
-        :let $BAT_THEME=''
+        let $BAT_THEME=''
     else
         colorscheme seoul256-light
-        :let $BAT_THEME='Monokai Extended Light'
+        let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
 
 function! ToggleLightDarkColorscheme()
-    if system('tmux show-environment THEME')[0:9] == 'THEME=dark'
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         :silent :!tmux set-environment THEME 'light'
         :silent :!tmux source-file ~/.tmux_light.conf
     else
@@ -303,14 +325,14 @@ endfunction
 function! WriteW3MToScratch()
     " only if the file matches this highly specific reg exp will we do anything
     "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
-    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") != -1
+    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") !=# -1
         :silent! wq! /tmp/w3m_scratch
     endif
 endfunction
 
 function! ToggleW3M()
     if bufexists("/tmp/w3m_scratch")
-        :bwipe! /tmp/w3m_scratch
+        :bwipeout! /tmp/w3m_scratch
     else
         :silent! split /tmp/w3m_scratch
     endif
@@ -320,7 +342,7 @@ endfunction
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
     "(e.g. a file that looks like: /tmp/bash-fc.xxxxxx)
-    if match(@%, "\/tmp\/bash-fc\.......") != -1
+    if match(@%, "\/tmp\/bash-fc\.......") !=# -1
         " comment out the command
         silent! execute ":%normal! I# "
         write
@@ -348,7 +370,7 @@ function! Preserve(command, is_func)
     let l = line(".")
     let c = col(".")
     " Do the business:
-    if a:is_func == 1
+    if a:is_func ==# 1
         execute a:command()
     else
         execute a:command
@@ -414,7 +436,7 @@ function! RefactorPython()
     " mark the location
     execute "normal mx"
     " search backwards for the word import at start of line
-    if search("^import \| ^from ", 'b', 'W') != 0
+    if search("^import \| ^from ", 'b', 'W') !=# 0
         " create 2 blank lines below it
         execute "normal 2o"
         " execute "normal k"
@@ -444,16 +466,12 @@ function! RefactorPython()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- delete/change/yank/paste custom function 'text objects'
-function! DeleteSurroundingFunction()
-    " we'll restore the unnamed register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('"')
-    else
-        let @z=@"
-    endif
-    call MoveToStartOfFunction()
+function! DeleteSurroundingFunction(word_size)
+    " we'll restore the f register later so it isn't clobbered here
+    let l:freg = @f
+    call MoveToStartOfFunction(a:word_size, 0)
     " delete function name into the f register and mark opening parenthesis 
-    silent! execute 'normal! "fdiwmo'
+    silent! execute 'normal! "fdt(mo'
     " yank opening parenthesis into f register
     silent! execute 'normal! "Fyl'
     " mark closing parenthesis
@@ -470,44 +488,38 @@ function! DeleteSurroundingFunction()
     end
     " delete the closing and opening parens (put the closing one into register)
     silent! execute 'normal! `c"Fx`ox'
-    " restore unnamed register
-    if has('patch-8.2.0924')
-        call setreg('"', regInfo)
-    else
-        let @"=@z
-    endif
+    " paste the function into unamed register
+    let @"=@f
+    " restore the f register
+    let @f = l:freg
 endfunction
 
-function! ChangeSurroundingFunction()
-    call DeleteSurroundingFunction()
+function! ChangeSurroundingFunction(word_size)
+    call DeleteSurroundingFunction(a:word_size)
     startinsert
 endfunction
 
-function! YankSurroundingFunction()
+function! YankSurroundingFunction(word_size)
     " store the current line
     silent! execute 'normal! "lyy'
-    call DeleteSurroundingFunction()
+    call DeleteSurroundingFunction(a:word_size)
     " restore the current line to original state
-    silent! execute 'normal! dd"lP'
-    " copy the contents of the f[unction] register to the unamed register 
-    let @"=@f
+    silent! execute 'normal! "_dd"lP'
 endfunction
 
-function! PasteSurroundingFunction()
+function! PasteFunctionAroundFunction(word_size)
     " we'll restore the unnamed register later so it isn't clobbered here
-    if has('patch-8.2.0924')
-        let regInfo = getreginfo('"')
-    else
-        let @z=@"
-    endif
-    call MoveToStartOfFunction()
+    let l:unnamed_reg = @"
+    call MoveToStartOfFunction(a:word_size, 0)
     " paste just behind existing function
     silent! execute 'normal! P'
-    " mark closing parenthesis, move back onto start of function name
-    silent! execute 'normal! f(%mc%b'
+    " mark closing parenthesis
+    silent! execute 'normal! f(%mc'
+    " move back onto start of function name
+    call MoveToStartOfFunction(a:word_size, 1)
     " delete the whole function (including last parenthesis)
     silent! execute 'normal! d`c"_x'
-    " if we're not already on a last parenthsis, move back to it
+    " if we're not already on a last parenthesis, move back to it
     call search(')', 'bc', line('.'))
     " move to opening surrounding paren and paste original function, then add
     " surrounding parenthesis back in
@@ -515,11 +527,37 @@ function! PasteSurroundingFunction()
     " leave the cursor on the opening parenthesis of the surrounding function
     silent! execute 'normal! `c%'
     " restore unnamed register
-    if has('patch-8.2.0924')
-        call setreg('"', regInfo)
-    else
-        let @"=@z
+    let @" = l:unnamed_reg
+endfunction
+
+function! PasteFunctionAroundWord(word_size)
+    " we'll restore the unnamed register later so it isn't clobbered here
+    let l:unnamed_reg = @"
+    if a:word_size ==# 'small'
+        " get onto start of the word
+        silent! execute 'normal! lb'
+        " paste the function behind and move back to the word
+        silent! execute 'normal! Pl'
+        " delete the word
+        silent! execute 'normal! diw'
+    elseif a:word_size ==# 'big'
+        " find first boundary before function that we don't want to cross
+        call search(' \|,\|;\|(\|^', 'b', line('.'))
+        " If we're not at the start of the line, or if we're on whitespace
+        if col('.') > 1 || GetCharUnderCursor() ==# ' '
+            silent! execute 'normal! l'
+        endif
+        " paste the function behind and move back to the word
+        silent! execute 'normal! Pl'
+        " delete WORD
+        silent! execute 'normal! dW'
     endif
+    " if we're not already on a last parenthesis, move back to it
+    call search(')', 'bc', line('.'))
+    " move to start of funtion and mark it, paste the word, move back to start
+    silent! execute 'normal! %mop`o'
+    " restore unnamed register
+    let @" = l:unnamed_reg
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- create/delete space around cursor/current line --------------------------
@@ -542,13 +580,13 @@ function! DeleteBlankLineAboveAndBelow()
 endfunction
 
 function! CreateSurroundingSpace()
-    silent! execute "normal! i \<ESC>la \<ESC>h"
+    silent! execute "normal! i \<ESC>la \<ESC>hh"
 endfunction
 
 function! DeleteSurroundingSpace()
     let original_line_length = strlen(getline('.'))
     let c = col('.')
-    if GetCharUnderCursor() == ' '
+    if GetCharUnderCursor() ==# ' '
         silent! execute 'normal! w'
     endif
     if search('[^ ] ', 'be', line('.'))
@@ -578,7 +616,7 @@ function! Help_AG()
     " search in the help docs with ag-silver-search and fzf and open file
     execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<CR>"
     " if we opened a help doc
-    if orig_file != expand(@%)
+    if orig_file !=# expand(@%)
         set nomodifiable
         " for some reason not all the tags work unless I open the 'real' help
         " so get whichever help was found and open it through Ag
@@ -617,6 +655,7 @@ set splitbelow " where new vim pane splits are positioned
 set splitright " where new vim pane splits are positioned
 set noequalalways " don't resize windows when I close a split
 set diffopt+=vertical " when using diff mode (fugitive) have a vertical split
+set virtualedit=all " allow cursor to be positioned where there are no chars
 set nostartofline " keep cursor on the same column even when no chars are there
 set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
@@ -728,44 +767,53 @@ augroup general
     " operator pending mode
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
-
-    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
+    
+    " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
-    nnoremap ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`x
-    nnoremap [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`x
-    nnoremap ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`x
-    nnoremap [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`x
+    call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
+    call Repeat(']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
+    call Repeat('[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
+    call Repeat('[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
     " paste at end of line, with an automatic space
-    nnoremap >p o<C-r>"<ESC>kJ
-    nnoremap >P o<C-r>"<ESC>kJ
+    call Repeat('>p', 'o<C-r>"<ESC>kJ')
+    call Repeat('>P', 'o<C-r>"<ESC>kJ')
     " paste at start of line, with an automatic space
-    nnoremap <P O<C-r>"<ESC>J
-    nnoremap <p O<C-r>"<ESC>J
+    call Repeat('<p', 'O<C-r>"<ESC>J')
+    call Repeat('<P', 'O<C-r>"<ESC>J')
+
+    " delete line, but leave it blank
+    call Repeat('<LEADER>dd', 'cc<Esc>')
 
     " delete line above/below current line
-    nnoremap <silent> d[<SPACE> :call DeleteLineAbove()<CR>
-    nnoremap <silent> d]<SPACE> :call DeleteLineBelow()<CR>
+    call Repeat('d[<SPACE>', ':call DeleteLineAbove()<CR>')
+    call Repeat('d]<SPACE>', ':call DeleteLineBelow()<CR>')
 
     " delete line above and below a line
-    nnoremap <silent> d<SPACE>[ :call DeleteBlankLineAboveAndBelow()<CR>
-    nnoremap <silent> d<SPACE>] :call DeleteBlankLineAboveAndBelow()<CR>
+    call Repeat('d<SPACE>[', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('d<SPACE>]', ':call DeleteBlankLineAboveAndBelow()<CR>')
 
     " create line above and below a line
-    nnoremap <silent> <SPACE>[ :call CreateBlankLineAboveAndBelow()<CR>
-    nnoremap <silent> <SPACE>] :call CreateBlankLineAboveAndBelow()<CR>
+    call Repeat('<SPACE>[', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('<SPACE>]', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " create some space either side of a character
-    nnoremap <silent> cs<SPACE> :call CreateSurroundingSpace()<CR>
+    call Repeat('cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
 
     " delete all space adjacent to contiguous non-whitespace under cursor
-    nnoremap <silent> ds<SPACE> :call DeleteSurroundingSpace()<CR>
+    call Repeat('ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
 
     " delete/yank surrounding funtion
-    nnoremap <silent> dsf :call DeleteSurroundingFunction()<CR>
-    nnoremap <silent> csf :call ChangeSurroundingFunction()<CR>
-    nnoremap <silent> ysf :call Preserve(function('YankSurroundingFunction'), 1)<CR>
-    nnoremap <silent> gsf :call PasteSurroundingFunction()<CR>
+    call Repeat('dsf', ':call DeleteSurroundingFunction("small")<CR>')
+    call Repeat('dsF', ':call DeleteSurroundingFunction("big")<CR>')
+    call Repeat('csf', ':call ChangeSurroundingFunction("small")<CR>')
+    call Repeat('csF', ':call ChangeSurroundingFunction("big")<CR>')
+    call Repeat('ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
+    call Repeat('ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
+    call Repeat('gsf', ':call PasteFunctionAroundFunction("small")<CR>')
+    call Repeat('gsF', ':call PasteFunctionAroundFunction("big")<CR>')
+    call Repeat('gsw', ':call PasteFunctionAroundWord("small")<CR>')
+    call Repeat('gsW', ':call PasteFunctionAroundWord("big")<CR>')
    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
@@ -780,7 +828,7 @@ augroup general
     nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
     " close current buffer, keep window and switch to last used buffer
-    nnoremap <LEADER>x :b# \| bd #<CR>
+    nnoremap <LEADER>x :buffer# \| bdelete #<CR>
 
     " open/close horizontal split containing w3m_scratch
     nnoremap <LEADER>W :call ToggleW3M()<CR>
