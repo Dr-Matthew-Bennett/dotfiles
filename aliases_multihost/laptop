@@ -22,7 +22,21 @@ alias day='xrandr --output eDP-1 --brightness .7 && redshift -O 3500'
 alias eve='xrandr --output eDP-1 --brightness .6 && redshift -O 2500'
 alias night='xrandr --output eDP-1 --brightness .5 && redshift -O 1500'
 
-sudo_reminder="You may need to type the sudo password for the laptop mattb"
+instructions='INSTRUCTIONS:'
+sudo_reminder='You may need to type the sudo password for the laptop mattb'
 user_hint="USER: mbennett"
-pass_hint="PASS: the one I always use, cap first, 3 exclamations"
-alias uvc="echo ${sudo_reminder} && echo ${user_hint} && echo ${pass_hint} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be"
+pass_hint='VPN PASS: the one I always use, cap first, 3 exclamations'
+full_instructions="${instructions}\n${sudo_reminder}\n${user_hint}\n${pass_hint}\n"
+alias uvc='echo -e ${full_instructions} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be'
+
+instructions='INSTRUCTIONS:'
+sudo_reminder='You may need to type the sudo password for the laptop mattb'
+group_choice_hint='You have to type Off_Campus_Use'
+user_hint='USER: mbb18b'
+first_pass_hint='VPN PASS: the one I always use, cap first, 3 exclamations'
+second_pass_hint='MACHINE PASS: d*2*ef1*'
+tmux_hint='tmux is messed up... type reset and hit enter \(you will not see any typing\)'
+full_instructions="${instructions}\n${sudo_reminder}\n${group_choice_hint}\n${user_hint}\n${first_pass_hint}\n${second_pass_hint}\n${tmux_hint}\n"
+alias ugc='echo -e ${full_instructions} && sudo /sbin/modprobe tun && sudo openconnect gucsasa1.cent.gla.ac.uk'
+
+
