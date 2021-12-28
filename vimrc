@@ -670,7 +670,6 @@ set tabstop=4 " a tab is the same as 4 spaces
 set softtabstop=4 " when I hit <TAB> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
-set paste " avoid unexpected indents when pasting from outside terminal
 if v:version > 801
     set listchars=lead:. " show leading whitespace as grey dots
     set list " show leading whitespace as grey dots
