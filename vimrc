@@ -638,6 +638,30 @@ function! BetterGmNormalMode()
     execute 'normal! ' . (first_col + last_col) / 2 . '|'
 endfunction
 "}}} --------------------------------------------------------------------------
+"{{{ - visual text object for number ------------------------------------------
+function! VisualNumber()
+ 	call search('\d\([^0-9\.]\|$\)', 'cW')
+	normal v
+	call search('\(^\|[^0-9\.]\d\)', 'becW')
+endfunction
+"}}} --------------------------------------------------------------------------
+"{{{ -paste from system clipboard ---------------------------------------------
+function! PasteFromRegister(reg, up_or_down, autoindent)
+    set paste
+    if a:up_or_down ==# 'up'
+        call append(line('.')-1, '')
+        execute "normal! k"
+    elseif a:up_or_down ==# 'down'
+        call append('.', '')
+        execute "normal! j"
+    endif
+    execute 'normal! "'.a:reg.'p'
+    if a:autoindent ==# 'autoindent'
+        execute 'normal! =='
+    endif
+    set nopaste
+endfunction
+"}}} --------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -768,6 +792,10 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
     
+    " nummber text object
+    xnoremap in :<C-u>call VisualNumber()<CR>
+    onoremap in :<C-u>normal vin<CR>
+
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
     call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
@@ -876,10 +904,16 @@ augroup general
     cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
+
     " paste from system CTRL-C clipboard
-    nnoremap <LEADER>p "+p
+    nnoremap <LEADER>p :call PasteFromRegister('+', 'same', 'noautoindent')<CR>
+    nnoremap <LEADER>]p :call PasteFromRegister('+', 'down', 'autoindent')<CR>
+    nnoremap <LEADER>[p :call PasteFromRegister('+', 'up', 'autoindent')<CR>
     " paste from system highlighted clipboard
-    nnoremap <LEADER>P "*p
+    nnoremap <LEADER>P :call PasteFromRegister('*', 'same', 'noautoindent')<CR>
+    nnoremap <LEADER>]P :call PasteFromRegister('*', 'down', 'autoindent')<CR>
+    nnoremap <LEADER>[P :call PasteFromRegister('*', 'up', 'autoindent')<CR>
+
     " copy contents of unnamed register to system CTRL-C clipboard
     nnoremap <silent> <LEADER>y :call Preserve("normal! Gp\"+dGu", 0)<CR>
                 \ :echo 'copied to CTRL-C clipboard'<CR>
