@@ -24,7 +24,7 @@ set runtimepath+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
-"}}}
+"}}}---------------------------------------------------------------------------
 "{{{- plugins I use -----------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -57,14 +57,14 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
-"}}}
+"}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
 " I had to tweak a line in the 'vim-visual-star-search' plugin to stop :g/^ and
 " :v/^ from hanging... I should probably raise an issue on the repo
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
-"}}}
+"}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'dense-analysis/ale'
@@ -75,7 +75,7 @@ Plugin 'wellle/context.vim'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'tpope/vim-vinegar'
 " Plugin 'wellle/tmux-complete.vim'
-"}}}
+"}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
@@ -938,21 +938,21 @@ augroup general
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
-augroup vim "{{{
+augroup vim "{{{---------------------------------------------------------------
     autocmd!
     " start out with everything folded away
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
     autocmd FileType vim setlocal foldlevelstart=0
 augroup END
-"}}}
-augroup vim help "{{{
+"}}}---------------------------------------------------------------------------
+augroup vim help "{{{----------------------------------------------------------
     autocmd!
     autocmd FileType help setlocal number
     autocmd FileType help setlocal relativenumber
     autocmd FileType help setlocal nolist " don't show leading whitespace
-"}}}
-augroup python "{{{
+"}}}---------------------------------------------------------------------------
+augroup python "{{{------------------------------------------------------------
     autocmd!
     set completeopt-=preview "don't have preview window on python autocomplete
     " avoid conversion issues when checking into github and/or sharing with other users.
@@ -978,8 +978,8 @@ augroup python "{{{
     autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
     autocmd FileType python abbreviate imnp import numpy as np
 augroup END
-"}}}
-augroup r "{{{
+"}}}---------------------------------------------------------------------------
+augroup r "{{{-----------------------------------------------------------------
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with other users.
     autocmd FileType r,rmd setlocal fileformat=unix
@@ -991,8 +991,8 @@ augroup r "{{{
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType r,rmd set iskeyword-=.
 augroup END
-"}}}
-augroup matlab "{{{
+"}}}---------------------------------------------------------------------------
+augroup matlab "{{{------------------------------------------------------------
     autocmd!
     " make gcc comment matlab correctly
     autocmd FileType matlab setlocal commentstring=%\ %s
@@ -1046,8 +1046,8 @@ augroup matlab "{{{
                 \'skdd=}}2ddG
     "}}}-----------------------------------------------------------------------
 augroup END
-"}}}
-augroup markdown "{{{
+"}}}---------------------------------------------------------------------------
+augroup markdown "{{{----------------------------------------------------------
     autocmd!
     autocmd FileType markdown setlocal spell
 
@@ -1070,8 +1070,8 @@ augroup markdown "{{{
     autocmd FileType markdown onoremap ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
 augroup END
-"}}}
-augroup tex "{{{
+"}}}---------------------------------------------------------------------------
+augroup tex "{{{---------------------------------------------------------------
     autocmd!
     autocmd FileType tex setlocal foldmethod=marker
     " start out with everything folded away
@@ -1083,22 +1083,21 @@ augroup tex "{{{
     autocmd FileType tex :compiler tex
     autocmd FileType tex nnoremap <LEADER>m :silent make % <CR>
 augroup END
-"}}}
-augroup tmux "{{{
+"}}}---------------------------------------------------------------------------
+augroup tmux "{{{--------------------------------------------------------------
     autocmd!
     autocmd FileType tmux setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
     autocmd FileType tmux setlocal foldlevelstart=0
 augroup END
-"}}}
-augroup tidy_code_matlab_and_python "{{{
+"}}}---------------------------------------------------------------------------
+augroup tidy_code_matlab_and_python "{{{---------------------------------------
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
     autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
     autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
-"}}}
 "}}}---------------------------------------------------------------------------
 "{{{- cursor behaviour --------------------------------------------------------
 augroup cursor_behaviour
