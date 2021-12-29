@@ -25,7 +25,7 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
 "}}}
-"{{{ - plugins I use ----------------------------------------------------------
+"{{{- plugins I use -----------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -65,7 +65,7 @@ Plugin 'bronson/vim-visual-star-search'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
 "}}}
-"{{{ - plugins I may want to try one day --------------------------------------
+"{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'dense-analysis/ale'
 " Plugin 'machakann/vim-swap'
@@ -76,7 +76,7 @@ Plugin 'wellle/context.vim'
 " Plugin 'tpope/vim-vinegar'
 " Plugin 'wellle/tmux-complete.vim'
 "}}}
-"{{{ - call vundle and load things from runtime paths -------------------------
+"{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
@@ -629,7 +629,7 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
-"{{{ - move halfway along line (ignore whitespaces) ---------------------------
+"{{{- move halfway along line (ignore whitespaces) ----------------------------
 function! BetterGmNormalMode()
     execute 'normal! ^'
     let first_col = virtcol('.')
@@ -637,15 +637,15 @@ function! BetterGmNormalMode()
     let last_col  = virtcol('.')
     execute 'normal! ' . (first_col + last_col) / 2 . '|'
 endfunction
-"}}} --------------------------------------------------------------------------
-"{{{ - visual text object for number ------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- visual text object for number -------------------------------------------
 function! VisualNumber()
  	call search('\d\([^0-9\.]\|$\)', 'cW')
 	normal v
 	call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
-"}}} --------------------------------------------------------------------------
-"{{{ -paste from system clipboard ---------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
     set paste
     if a:up_or_down ==# 'up'
@@ -661,7 +661,7 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
     endif
     set nopaste
 endfunction
-"}}} --------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -722,7 +722,7 @@ highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 call SetColorScheme()
 
 "}}}---------------------------------------------------------------------------
-"{{{ - status line ------------------------------------------------------------
+"{{{- status line -------------------------------------------------------------
 " path/file LEAVE THE TRAILING SPACES AT THE $!! 
 set statusline=%<%f\ 
 " current git branch
@@ -1004,7 +1004,7 @@ augroup matlab "{{{
     autocmd FileType matlab iabbrev <buffer> dbq dbquit
     autocmd FileType matlab iabbrev <buffer> dbc dbcont
 
-    "{{{ - variables/functions under the cursor -------------------------------
+    "{{{- variables/functions under the cursor --------------------------------
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <LEADER>cq viw<Plug>SlimeRegionSend
 
@@ -1029,7 +1029,7 @@ augroup matlab "{{{
     autocmd FileType matlab noremap <silent> <LEADER>cs
                 \ :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
-    "{{{ - function documentation ---------------------------------------------
+    "{{{- function documentation ----------------------------------------------
     " clean documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <LEADER>dc
                 \ :g/% arg :/norm dap <CR>
