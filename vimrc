@@ -796,7 +796,7 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
     
-    " nummber text object n for forwards, N for backwards
+    " nummber text object (n=forwards, N=backwards)
     xnoremap in :<C-u>call VisualNumber('c')<CR>
     onoremap in :<C-u>normal vin<CR>
     xnoremap iN :<C-u>call VisualNumber('b')<CR>
