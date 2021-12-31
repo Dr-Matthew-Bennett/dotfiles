@@ -35,8 +35,7 @@ group_choice_hint2='You have to type Off_Campus_Use'
 user_hint2='USER: mbb18b'
 first_pass_hint2='VPN PASS: the one I always use, cap first, 3 exclamations'
 second_pass_hint2='MACHINE PASS: d*2*ef1*'
-tmux_hint2='tmux is messed up... type reset and hit enter \(you will not see any typing\)'
-full_instructions="${instructions2}\n${sudo_reminder2}\n${group_choice_hint2}\n${user_hint2}\n${first_pass_hint2}\n${second_pass_hint2}\n${tmux_hint2}\n"
+full_instructions2="${instructions2}\n${sudo_reminder2}\n${group_choice_hint2}\n${user_hint2}\n${first_pass_hint2}\n${second_pass_hint2}\n"
 alias ugc='echo -e ${full_instructions2} && sudo /sbin/modprobe tun && sudo openconnect gucsasa1.cent.gla.ac.uk'
 
 
