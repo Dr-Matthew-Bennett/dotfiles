@@ -43,7 +43,10 @@ Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
+
 Plugin 'markonm/traces.vim'
+" g/^ and :v/^ hangs... I should probably raise an issue on the repo
+
 Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
@@ -60,8 +63,6 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
-" I had to tweak a line in the 'vim-visual-star-search' plugin to stop :g/^ and
-" :v/^ from hanging... I should probably raise an issue on the repo
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
 "}}}---------------------------------------------------------------------------
@@ -639,11 +640,14 @@ function! BetterGmNormalMode()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- visual text object for number -------------------------------------------
-function! VisualNumber()
- 	call search('\d\([^0-9\.]\|$\)', 'cW')
+function! VisualNumber(direction)
+    " find the end of a number (we assume a decimal means it's not the end)
+ 	call search('\d\([^0-9\.]\|$\)', a:direction.'W')
 	normal v
+    " find the beggininng of that number (again, we don't stop for a decimal)
 	call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
+" hello 0 33 2 a word 30.3 yaya
 "}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
@@ -792,9 +796,11 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
     
-    " nummber text object
-    xnoremap in :<C-u>call VisualNumber()<CR>
+    " nummber text object n for forwards, N for backwards
+    xnoremap in :<C-u>call VisualNumber('c')<CR>
     onoremap in :<C-u>normal vin<CR>
+    xnoremap iN :<C-u>call VisualNumber('b')<CR>
+    onoremap iN :<C-u>normal viN<CR>
 
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
@@ -923,6 +929,7 @@ augroup general
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
+ 
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
