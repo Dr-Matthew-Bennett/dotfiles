@@ -643,11 +643,10 @@ endfunction
 function! VisualNumber(direction)
     " find the end of a number (we assume a decimal means it's not the end)
  	call search('\d\([^0-9\.]\|$\)', a:direction.'W')
-	normal v
+	normal! v
     " find the beggininng of that number (again, we don't stop for a decimal)
 	call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
-" hello 0 33 2 a word 30.3 yaya
 "}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
