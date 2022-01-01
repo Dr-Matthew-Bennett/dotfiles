@@ -43,10 +43,7 @@ Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
-
 Plugin 'markonm/traces.vim'
-" g/^ and :v/^ hangs... I should probably raise an issue on the repo
-
 Plugin 'Matt-A-Bennett/vim-indent-object'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
