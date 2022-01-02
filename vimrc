@@ -685,7 +685,7 @@ function! PopulateTmuxBuffer()
     setlocal buftype=nofile
     setlocal bufhidden=hide
     setlocal noswapfile
-    buffer#
+    buffer #
 endfunction                             
 "}}}---------------------------------------------------------------------------
 "==============================================================================
