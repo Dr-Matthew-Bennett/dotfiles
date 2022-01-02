@@ -62,6 +62,7 @@ Plugin 'ycm-core/YouCompleteMe'
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
+Plugin 'wellle/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -72,7 +73,6 @@ Plugin 'wellle/context.vim'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'tpope/vim-vinegar'
-" Plugin 'wellle/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
@@ -124,7 +124,7 @@ nnoremap <LEADER>b :Buffers<CR>
 " search for and jump to line in any open buffer
 nnoremap <LEADER>l :Lines<CR>
 " insert mode line completion
-imap ;l <Plug>(fzf-complete-line)
+imap ;l <Esc>:call PopulateTmuxFile()<CR>a<Plug>(fzf-complete-line)
 
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
@@ -237,6 +237,8 @@ let g:winresizer_vert_resize=5
 let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
+let g:ycm_complete_in_comments = 1
+
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown and text from this list and they seem to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -661,6 +663,15 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
     endif
     set nopaste
 endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- copy all visible tmux lines to buffer to allow fzf to see them ----------
+function! PopulateTmuxFile()
+    edit .tmux | %!sh ~/.vim/bundle/tmux-complete.vim/sh/tmuxcomplete -s lines -e
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    buffer#
+endfunction                             
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
