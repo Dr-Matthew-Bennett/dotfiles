@@ -123,8 +123,13 @@ nnoremap <LEADER>f :Files<CR>
 nnoremap <LEADER>b :Buffers<CR>
 " search for and jump to line in any open buffer
 nnoremap <LEADER>l :Lines<CR>
-" insert mode line completion
-imap ;l <Esc>:call PopulateTmuxFile()<CR>a<Plug>(fzf-complete-line)
+" insert mode line completion (include all text in other tmux panes)
+imap ;l <Esc>:call PopulateTmuxBuffer()<CR>a<Plug>(fzf-complete-line)
+
+augroup fzf
+    " once fzf window is poplulated, remove the buffer holding the tmux stuff
+    autocmd FileType fzf :call WipeBufferIfExists('.tmux')
+augroup END
 
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
@@ -254,39 +259,22 @@ let g:ycm_filetype_blacklist = {
             \}
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-
+  
 "==== FUNCTIONS ===============================================================
 "{{{- helper functions (for use in other functions) ---------------------------
+"{{{- get character under the cursor ------------------------------------------
 function! GetCharUnderCursor()
      return getline(".")[col(".")-1]
 endfunction
-
-function! MoveToStartOfFunction(word_size, pasting)
-    " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'c', line('.'))
-    " if we're on the closing parenthsis, move to other side
-    if GetCharUnderCursor() ==# ')'
-        silent! execute 'normal! %'
+"}}}---------------------------------------------------------------------------
+"{{{- wipe buffer if exists ---------------------------------------------------
+function! WipeBufferIfExists(buffer)
+    if bufexists(a:buffer)
+        execute ':bwipeout 'a:buffer
     endif
-    " move onto function name 
-    silent! execute 'normal! b'
-    if a:word_size ==# 'big'
-        " if we've pasted in a function, then there will be a ')' right before
-        " the one we need to move inside - so we can go to the start easily
-        if a:pasting
-            silent! execute 'normal! F)l'
-        else
-            " find first boundary before function that we don't want to cross
-            call search(' \|,\|;\|(\|^', 'b', line('.'))
-            " If we're not at the start of the line, or if we're on whitespace
-            if col('.') > 1 || GetCharUnderCursor() ==# ' '
-                silent! execute 'normal! l'
-            endif
-        endif
-    endif
-endfunction
-
-" apply the repeat plugin to any mapping
+endfunction                             
+"}}}---------------------------------------------------------------------------
+"{{{- apply the repeat plugin to any mapping ----------------------------------
 " (commands with a single quote will likely cause problems...)
 let g:map_name_count = 0
 function! Repeat(map, command)
@@ -320,6 +308,33 @@ function! ToggleLightDarkColorscheme()
     endif
     :call SetColorScheme()
 endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- move to start of function ---------------------------------------------------------------
+function! MoveToStartOfFunction(word_size, pasting)
+    " move forward to one of function's parentheses (unless already on one)
+    call search('(\|)', 'c', line('.'))
+    " if we're on the closing parenthsis, move to other side
+    if GetCharUnderCursor() ==# ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! b'
+    if a:word_size ==# 'big'
+        " if we've pasted in a function, then there will be a ')' right before
+        " the one we need to move inside - so we can go to the start easily
+        if a:pasting
+            silent! execute 'normal! F)l'
+        else
+            " find first boundary before function that we don't want to cross
+            call search(' \|,\|;\|(\|^', 'b', line('.'))
+            " If we're not at the start of the line, or if we're on whitespace
+            if col('.') > 1 || GetCharUnderCursor() ==# ' '
+                silent! execute 'normal! l'
+            endif
+        endif
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
@@ -664,8 +679,8 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
     set nopaste
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- copy all visible tmux lines to buffer to allow fzf to see them ----------
-function! PopulateTmuxFile()
+"{{{- copy all visible tmux lines to buffer -----------------------------------
+function! PopulateTmuxBuffer()
     edit .tmux | %!sh ~/.vim/bundle/tmux-complete.vim/sh/tmuxcomplete -s lines -e
     setlocal buftype=nofile
     setlocal bufhidden=hide
@@ -766,7 +781,7 @@ augroup general
     " the line to prevent accidental execution (since bash will execute no
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
-
+    
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
@@ -895,7 +910,6 @@ augroup general
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
-
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
