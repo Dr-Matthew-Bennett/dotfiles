@@ -8,6 +8,9 @@ alias fzf-="export FZF_DEFAULT_COMMAND='fdfind . $HOME'"
 
 alias skype='skypeforlinux &'
 
+# so I don't get confused every time I forget I don't have eog installed
+alias eog='feh'
+
 # launch utorrent server
 alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 
@@ -18,3 +21,21 @@ alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 alias day='xrandr --output eDP-1 --brightness .7 && redshift -O 3500'
 alias eve='xrandr --output eDP-1 --brightness .6 && redshift -O 2500'
 alias night='xrandr --output eDP-1 --brightness .5 && redshift -O 1500'
+
+instructions1='INSTRUCTIONS:'
+sudo_reminder1='You may need to type the sudo password for the laptop mattb'
+user_hint1="USER: mbennett"
+pass_hint1='VPN PASS: the one I always use, cap first, 3 exclamations'
+full_instructions1="${instructions1}\n${sudo_reminder1}\n${user_hint1}\n${pass_hint1}\n"
+alias uvc='echo -e ${full_instructions1} && sudo /sbin/modprobe tun && sudo openconnect vpn.sipr.ucl.ac.be'
+
+instructions2='INSTRUCTIONS:'
+sudo_reminder2='You may need to type the sudo password for the laptop mattb'
+group_choice_hint2='You have to type Off_Campus_Use'
+user_hint2='USER: mbb18b'
+first_pass_hint2='VPN PASS: the one I always use, cap first, 3 exclamations'
+second_pass_hint2='MACHINE PASS: d*2*ef1*'
+full_instructions2="${instructions2}\n${sudo_reminder2}\n${group_choice_hint2}\n${user_hint2}\n${first_pass_hint2}\n${second_pass_hint2}\n"
+alias ugc='echo -e ${full_instructions2} && sudo /sbin/modprobe tun && sudo openconnect gucsasa1.cent.gla.ac.uk'
+
+

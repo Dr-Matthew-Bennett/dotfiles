@@ -24,8 +24,8 @@ set runtimepath+=~/.fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 " call vundle#begin('~/some/path/here')
-"}}}
-"{{{ - plugins I use ----------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- plugins I use -----------------------------------------------------------
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -57,15 +57,14 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
-"}}}
+"}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
-" I had to tweak a line in the 'vim-visual-star-search' plugin to stop :g/^ and
-" :v/^ from hanging... I should probably raise an issue on the repo
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
-"}}}
-"{{{ - plugins I may want to try one day --------------------------------------
+Plugin 'wellle/tmux-complete.vim'
+"}}}---------------------------------------------------------------------------
+"{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'dense-analysis/ale'
 " Plugin 'machakann/vim-swap'
@@ -74,9 +73,8 @@ Plugin 'wellle/context.vim'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'tpope/vim-vinegar'
-" Plugin 'wellle/tmux-complete.vim'
-"}}}
-"{{{ - call vundle and load things from runtime paths -------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
 call vundle#end() " required
 " I want to override one of the defaults here, so load it now then overwrite
@@ -125,8 +123,13 @@ nnoremap <LEADER>f :Files<CR>
 nnoremap <LEADER>b :Buffers<CR>
 " search for and jump to line in any open buffer
 nnoremap <LEADER>l :Lines<CR>
-" insert mode line completion
-imap ;l <Plug>(fzf-complete-line)
+" insert mode line completion (include all text in other tmux panes)
+imap ;l <Esc>:call PopulateTmuxBuffer()<CR>a<Plug>(fzf-complete-line)
+
+augroup fzf
+    " once fzf window is poplulated, remove the buffer holding the tmux stuff
+    autocmd FileType fzf :call WipeBufferIfExists('.tmux')
+augroup END
 
 " when I search for a file, show results in a window at the bottom
 let g:fzf_layout = { 'down': '~40%' }
@@ -235,6 +238,8 @@ let g:winresizer_vert_resize=5
 let g:winresizer_horiz_resize=3
 "}}}---------------------------------------------------------------------------
 "{{{- YouCompleteMe -----------------------------------------------------------
+let g:ycm_complete_in_comments = 1
+
 " YouCompleteMe has a few filetypes that it doesn't work on by default.
 " I removed markdown and text from this list and they seem to work just fine.
 let g:ycm_filetype_blacklist = {
@@ -250,39 +255,22 @@ let g:ycm_filetype_blacklist = {
             \}
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-
+  
 "==== FUNCTIONS ===============================================================
 "{{{- helper functions (for use in other functions) ---------------------------
+"{{{- get character under the cursor ------------------------------------------
 function! GetCharUnderCursor()
      return getline(".")[col(".")-1]
 endfunction
-
-function! MoveToStartOfFunction(word_size, pasting)
-    " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'c', line('.'))
-    " if we're on the closing parenthsis, move to other side
-    if GetCharUnderCursor() ==# ')'
-        silent! execute 'normal! %'
+"}}}---------------------------------------------------------------------------
+"{{{- wipe buffer if exists ---------------------------------------------------
+function! WipeBufferIfExists(buffer)
+    if bufexists(a:buffer)
+        execute ':bwipeout 'a:buffer
     endif
-    " move onto function name 
-    silent! execute 'normal! b'
-    if a:word_size ==# 'big'
-        " if we've pasted in a function, then there will be a ')' right before
-        " the one we need to move inside - so we can go to the start easily
-        if a:pasting
-            silent! execute 'normal! F)l'
-        else
-            " find first boundary before function that we don't want to cross
-            call search(' \|,\|;\|(\|^', 'b', line('.'))
-            " If we're not at the start of the line, or if we're on whitespace
-            if col('.') > 1 || GetCharUnderCursor() ==# ' '
-                silent! execute 'normal! l'
-            endif
-        endif
-    endif
-endfunction
-
-" apply the repeat plugin to any mapping
+endfunction                             
+"}}}---------------------------------------------------------------------------
+"{{{- apply the repeat plugin to any mapping ----------------------------------
 " (commands with a single quote will likely cause problems...)
 let g:map_name_count = 0
 function! Repeat(map, command)
@@ -316,6 +304,33 @@ function! ToggleLightDarkColorscheme()
     endif
     :call SetColorScheme()
 endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- move to start of function ---------------------------------------------------------------
+function! MoveToStartOfFunction(word_size, pasting)
+    " move forward to one of function's parentheses (unless already on one)
+    call search('(\|)', 'c', line('.'))
+    " if we're on the closing parenthsis, move to other side
+    if GetCharUnderCursor() ==# ')'
+        silent! execute 'normal! %'
+    endif
+    " move onto function name 
+    silent! execute 'normal! b'
+    if a:word_size ==# 'big'
+        " if we've pasted in a function, then there will be a ')' right before
+        " the one we need to move inside - so we can go to the start easily
+        if a:pasting
+            silent! execute 'normal! F)l'
+        else
+            " find first boundary before function that we don't want to cross
+            call search(' \|,\|;\|(\|^', 'b', line('.'))
+            " If we're not at the start of the line, or if we're on whitespace
+            if col('.') > 1 || GetCharUnderCursor() ==# ' '
+                silent! execute 'normal! l'
+            endif
+        endif
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
@@ -625,7 +640,7 @@ endfunction
 " get some help
 command! H :call Help_AG()
 "}}}---------------------------------------------------------------------------
-"{{{ - move halfway along line (ignore whitespaces) ---------------------------
+"{{{- move halfway along line (ignore whitespaces) ----------------------------
 function! BetterGmNormalMode()
     execute 'normal! ^'
     let first_col = virtcol('.')
@@ -633,7 +648,42 @@ function! BetterGmNormalMode()
     let last_col  = virtcol('.')
     execute 'normal! ' . (first_col + last_col) / 2 . '|'
 endfunction
-"}}} --------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- visual text object for number -------------------------------------------
+function! VisualNumber(direction)
+    " find the end of a number (we assume a decimal means it's not the end)
+ 	call search('\d\([^0-9\.]\|$\)', a:direction.'W')
+	normal! v
+    " find the beggininng of that number (again, we don't stop for a decimal)
+	call search('\(^\|[^0-9\.]\d\)', 'becW')
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- paste from system clipboard ---------------------------------------------
+function! PasteFromRegister(reg, up_or_down, autoindent)
+    set paste
+    if a:up_or_down ==# 'up'
+        call append(line('.')-1, '')
+        execute "normal! k"
+    elseif a:up_or_down ==# 'down'
+        call append('.', '')
+        execute "normal! j"
+    endif
+    execute 'normal! "'.a:reg.'p'
+    if a:autoindent ==# 'autoindent'
+        execute 'normal! =='
+    endif
+    set nopaste
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- copy all visible tmux lines to buffer -----------------------------------
+function! PopulateTmuxBuffer()
+    edit .tmux | %!sh ~/.vim/bundle/tmux-complete.vim/sh/tmuxcomplete -s lines -e
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    buffer #
+endfunction                             
+"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -694,7 +744,7 @@ highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 call SetColorScheme()
 
 "}}}---------------------------------------------------------------------------
-"{{{ - status line ------------------------------------------------------------
+"{{{- status line -------------------------------------------------------------
 " path/file LEAVE THE TRAILING SPACES AT THE $!! 
 set statusline=%<%f\ 
 " current git branch
@@ -727,7 +777,7 @@ augroup general
     " the line to prevent accidental execution (since bash will execute no
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
-
+    
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
@@ -764,6 +814,12 @@ augroup general
     onoremap <silent> if :<C-u>normal! gg0VG<CR>
     onoremap <silent> af :<C-u>normal! gg0VG<CR>
     
+    " nummber text object (n=forwards, N=backwards)
+    xnoremap in :<C-u>call VisualNumber('c')<CR>
+    onoremap in :<C-u>normal vin<CR>
+    xnoremap iN :<C-u>call VisualNumber('b')<CR>
+    onoremap iN :<C-u>normal viN<CR>
+
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
     call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
@@ -850,7 +906,6 @@ augroup general
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
-
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit/source common file in split window
@@ -872,10 +927,16 @@ augroup general
     cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
+
     " paste from system CTRL-C clipboard
-    nnoremap <LEADER>p "+p
+    nnoremap <LEADER>p :call PasteFromRegister('+', 'same', 'noautoindent')<CR>
+    nnoremap <LEADER>]p :call PasteFromRegister('+', 'down', 'autoindent')<CR>
+    nnoremap <LEADER>[p :call PasteFromRegister('+', 'up', 'autoindent')<CR>
     " paste from system highlighted clipboard
-    nnoremap <LEADER>P "*p
+    nnoremap <LEADER>P :call PasteFromRegister('*', 'same', 'noautoindent')<CR>
+    nnoremap <LEADER>]P :call PasteFromRegister('*', 'down', 'autoindent')<CR>
+    nnoremap <LEADER>[P :call PasteFromRegister('*', 'up', 'autoindent')<CR>
+
     " copy contents of unnamed register to system CTRL-C clipboard
     nnoremap <silent> <LEADER>y :call Preserve("normal! Gp\"+dGu", 0)<CR>
                 \ :echo 'copied to CTRL-C clipboard'<CR>
@@ -885,6 +946,7 @@ augroup general
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
+ 
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
@@ -900,21 +962,21 @@ augroup general
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
-augroup vim "{{{
+augroup vim "{{{---------------------------------------------------------------
     autocmd!
     " start out with everything folded away
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
     autocmd FileType vim setlocal foldlevelstart=0
 augroup END
-"}}}
-augroup vim help "{{{
+"}}}---------------------------------------------------------------------------
+augroup vim help "{{{----------------------------------------------------------
     autocmd!
     autocmd FileType help setlocal number
     autocmd FileType help setlocal relativenumber
     autocmd FileType help setlocal nolist " don't show leading whitespace
-"}}}
-augroup python "{{{
+"}}}---------------------------------------------------------------------------
+augroup python "{{{------------------------------------------------------------
     autocmd!
     set completeopt-=preview "don't have preview window on python autocomplete
     " avoid conversion issues when checking into github and/or sharing with other users.
@@ -940,8 +1002,8 @@ augroup python "{{{
     autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
     autocmd FileType python abbreviate imnp import numpy as np
 augroup END
-"}}}
-augroup r "{{{
+"}}}---------------------------------------------------------------------------
+augroup r "{{{-----------------------------------------------------------------
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with other users.
     autocmd FileType r,rmd setlocal fileformat=unix
@@ -953,8 +1015,8 @@ augroup r "{{{
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType r,rmd set iskeyword-=.
 augroup END
-"}}}
-augroup matlab "{{{
+"}}}---------------------------------------------------------------------------
+augroup matlab "{{{------------------------------------------------------------
     autocmd!
     " make gcc comment matlab correctly
     autocmd FileType matlab setlocal commentstring=%\ %s
@@ -966,7 +1028,7 @@ augroup matlab "{{{
     autocmd FileType matlab iabbrev <buffer> dbq dbquit
     autocmd FileType matlab iabbrev <buffer> dbc dbcont
 
-    "{{{ - variables/functions under the cursor -------------------------------
+    "{{{- variables/functions under the cursor --------------------------------
     " send the variable under the cursor to matlab
     autocmd FileType matlab nmap <LEADER>cq viw<Plug>SlimeRegionSend
 
@@ -991,7 +1053,7 @@ augroup matlab "{{{
     autocmd FileType matlab noremap <silent> <LEADER>cs
                 \ :set opfunc=MatlabSummarise<CR>g@
     "}}}-----------------------------------------------------------------------
-    "{{{ - function documentation ---------------------------------------------
+    "{{{- function documentation ----------------------------------------------
     " clean documentation after func snip (remove lines with unused arguments)
     autocmd FileType matlab nnoremap <LEADER>dc
                 \ :g/% arg :/norm dap <CR>
@@ -1008,8 +1070,8 @@ augroup matlab "{{{
                 \'skdd=}}2ddG
     "}}}-----------------------------------------------------------------------
 augroup END
-"}}}
-augroup markdown "{{{
+"}}}---------------------------------------------------------------------------
+augroup markdown "{{{----------------------------------------------------------
     autocmd!
     autocmd FileType markdown setlocal spell
 
@@ -1032,8 +1094,8 @@ augroup markdown "{{{
     autocmd FileType markdown onoremap ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
 augroup END
-"}}}
-augroup tex "{{{
+"}}}---------------------------------------------------------------------------
+augroup tex "{{{---------------------------------------------------------------
     autocmd!
     autocmd FileType tex setlocal foldmethod=marker
     " start out with everything folded away
@@ -1045,22 +1107,21 @@ augroup tex "{{{
     autocmd FileType tex :compiler tex
     autocmd FileType tex nnoremap <LEADER>m :silent make % <CR>
 augroup END
-"}}}
-augroup tmux "{{{
+"}}}---------------------------------------------------------------------------
+augroup tmux "{{{--------------------------------------------------------------
     autocmd!
     autocmd FileType tmux setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
     autocmd FileType tmux setlocal foldlevelstart=0
 augroup END
-"}}}
-augroup tidy_code_matlab_and_python "{{{
+"}}}---------------------------------------------------------------------------
+augroup tidy_code_matlab_and_python "{{{---------------------------------------
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
     autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
     autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
-"}}}
 "}}}---------------------------------------------------------------------------
 "{{{- cursor behaviour --------------------------------------------------------
 augroup cursor_behaviour
@@ -1076,6 +1137,7 @@ augroup cursor_behaviour
     " turn off current line highlighting when leaving insert mode
     autocmd InsertLeave * set nocursorline
 augroup END
+"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 "
