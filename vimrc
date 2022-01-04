@@ -277,29 +277,6 @@ function! DisplayTmuxPaneIndices(duration)
     call job_start(["tmux", "display-pane", "-d", a:duration])
 endfunction                             
 "}}}---------------------------------------------------------------------------
-"{{{- toggle between light and dark colorscheme -------------------------------
-function! SetColorScheme()
-    " check if tmux colorsheme is light or dark, and pick for vim accordingly
-    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
-        colorscheme zenburn
-        let $BAT_THEME=''
-    else
-        colorscheme seoul256-light
-        let $BAT_THEME='Monokai Extended Light'
-    endif
-endfunction
-
-function! ToggleLightDarkColorscheme()
-    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
-        :silent :!tmux set-environment THEME 'light'
-        :silent :!tmux source-file ~/.tmux_light.conf
-    else
-        :silent :!tmux set-environment THEME 'dark'
-        :silent :!tmux source-file ~/.tmux_dark.conf
-    endif
-    :call SetColorScheme()
-endfunction
-"}}}---------------------------------------------------------------------------
 "{{{- move to start of function -----------------------------------------------
 function! MoveToStartOfFunction(word_size, pasting)
     " move forward to one of function's parentheses (unless already on one)
@@ -324,6 +301,30 @@ function! MoveToStartOfFunction(word_size, pasting)
             endif
         endif
     endif
+endfunction
+"}}}---------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- toggle between light and dark colorscheme -------------------------------
+function! SetColorScheme()
+    " check if tmux colorsheme is light or dark, and pick for vim accordingly
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
+        colorscheme zenburn
+        let $BAT_THEME=''
+    else
+        colorscheme seoul256-light
+        let $BAT_THEME='Monokai Extended Light'
+    endif
+endfunction
+
+function! ToggleLightDarkColorscheme()
+    if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
+        :silent :!tmux set-environment THEME 'light'
+        :silent :!tmux source-file ~/.tmux_light.conf
+    else
+        :silent :!tmux set-environment THEME 'dark'
+        :silent :!tmux source-file ~/.tmux_dark.conf
+    endif
+    :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
@@ -435,7 +436,6 @@ function! MatlabExecuteCode()
     " move cursor back to original position
     silent :execute "normal! \"_dd`xu"
 endfunction
-"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- function to refactor code in python -------------------------------------
 function! RefactorPython()
@@ -606,26 +606,6 @@ function! DeleteSurroundingSpace()
     call cursor(line('.'), c-shrink+1)
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{---------------------------------------------------------------------------
-
-" ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh
-" ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh
-" [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh
-" [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh
-" test this-here and also the-thing there-and-me too! . 
-function! ExchangeWord(direction, size)
-    let l = line(".")
-    let c = col(".")
-    " test this-here and also the-thing there-and-me too! . 
-    silent :execute "normal! daw"
-    if a:size ==# 'w'
-        silent :execute "normal! w"
-    endif
-    silent :execute "normal! P"
-endfunction
-" call Repeat('WordForward', ']w', ':call ExchangeWord("forward","w")<CR>')
-
-"}}}---------------------------------------------------------------------------
 "{{{- calculate remaining jumps -----------------------------------------------
 if v:version > 801
     function! RemainingJumps()
@@ -695,7 +675,7 @@ function! ChangeBufferSlimeConfig()
     call DisplayTmuxPaneIndices("350")
     let b:slime_config = 
             \ {"socket_name": "default"}
-    let b:slime_config["target_pane"] = input("target_pane: ")
+    let b:slime_config["target_pane"] = input("target_pane:")
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
@@ -858,7 +838,7 @@ augroup general
     xnoremap iN :<C-u>call VisualNumber('b')<CR>
     onoremap iN :<C-u>normal viN<CR>
 
-    " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
+    " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
     " the prev/next one
     call Repeat('WordForward', ']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
     call Repeat('WORDForward', ']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
@@ -991,6 +971,7 @@ augroup general
     iabbrev keybaord keyboard
     iabbrev laod load
     iabbrev hte the
+    iabbrev teh the
     " emails
     iabbrev @g bennettmatt4@gmail.com
     iabbrev @u matthew.bennett@uclouvain.be
