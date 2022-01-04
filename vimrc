@@ -264,15 +264,11 @@ function! WipeBufferIfExists(buffer)
 endfunction                             
 "}}}---------------------------------------------------------------------------
 "{{{- apply the repeat plugin to any mapping ----------------------------------
-" (commands with a single quote will likely cause problems...)
-let g:map_name_count = 0
-function! Repeat(map, command)
-    " we need to use a unique string as a map name each time function is called
-    let g:map_name_count += 1
-    let mapname = string(g:map_name_count)
-    execute 'nnoremap <silent> <Plug>'.mapname.' '.a:command.
-                \' :call repeat#set("\<Plug>'.mapname.'")<CR>'
-    execute 'nmap '.a:map.' <Plug>'.mapname
+" (commands with a quote single will likely cause problems...)
+function! Repeat(mapname, map, command)
+    execute 'nnoremap <silent> <Plug>'.a:mapname.' '.a:command.
+                \' :call repeat#set("\<Plug>'.a:mapname.'")<CR>'
+    execute 'nmap '.a:map.' <Plug>'.a:mapname
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- display tmux pane indices for N milliseconds-----------------------------
@@ -304,7 +300,7 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme()
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- move to start of function ---------------------------------------------------------------
+"{{{- move to start of function -----------------------------------------------
 function! MoveToStartOfFunction(word_size, pasting)
     " move forward to one of function's parentheses (unless already on one)
     call search('(\|)', 'c', line('.'))
@@ -329,7 +325,6 @@ function! MoveToStartOfFunction(word_size, pasting)
         endif
     endif
 endfunction
-"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
 function! WriteW3MToScratch()
@@ -440,6 +435,7 @@ function! MatlabExecuteCode()
     " move cursor back to original position
     silent :execute "normal! \"_dd`xu"
 endfunction
+"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- function to refactor code in python -------------------------------------
 function! RefactorPython()
@@ -610,6 +606,26 @@ function! DeleteSurroundingSpace()
     call cursor(line('.'), c-shrink+1)
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{---------------------------------------------------------------------------
+
+" ]w mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh
+" ]W mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh
+" [w mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh
+" [W mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh
+" test this-here and also the-thing there-and-me too! . 
+function! ExchangeWord(direction, size)
+    let l = line(".")
+    let c = col(".")
+    " test this-here and also the-thing there-and-me too! . 
+    silent :execute "normal! daw"
+    if a:size ==# 'w'
+        silent :execute "normal! w"
+    endif
+    silent :execute "normal! P"
+endfunction
+" call Repeat('WordForward', ']w', ':call ExchangeWord("forward","w")<CR>')
+
+"}}}---------------------------------------------------------------------------
 "{{{- calculate remaining jumps -----------------------------------------------
 if v:version > 801
     function! RemainingJumps()
@@ -675,7 +691,7 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- change slime target pane mid-session ------------------------------------
-function ChangeBufferSlimeConfig()
+function! ChangeBufferSlimeConfig()
     call DisplayTmuxPaneIndices("350")
     let b:slime_config = 
             \ {"socket_name": "default"}
@@ -844,50 +860,50 @@ augroup general
 
     " use [w and ]w and [W and ]W to exchange a word/WORD the under cursor with
     " the prev/next one
-    call Repeat(']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
-    call Repeat(']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
-    call Repeat('[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
-    call Repeat('[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
+    call Repeat('WordForward', ']w', 'mx$ox<ESC>kJ`xdawhelphmx$"_daw`xh')
+    call Repeat('WORDForward', ']W', 'mx$ox<ESC>kJ`xdaWElphmx$"_daw`xh')
+    call Repeat('WordBackward', '[w', 'mx$ox<ESC>kJ`xdawbPhmx$"_daw`xh')
+    call Repeat('WORDBackward', '[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
     " paste at end of line, with an automatic space
-    call Repeat('>p', 'o<C-r>"<ESC>kJ')
-    call Repeat('>P', 'o<C-r>"<ESC>kJ')
+    call Repeat('PasteToRightOfLine1', '>p', 'o<C-r>"<ESC>kJ') 
+    call Repeat('PasteToRightOfLine2', '>P', 'o<C-r>"<ESC>kJ') 
     " paste at start of line, with an automatic space
-    call Repeat('<p', 'O<C-r>"<ESC>J')
-    call Repeat('<P', 'O<C-r>"<ESC>J')
+    call Repeat('PasteToLeftOfLine1', '<p', 'O<C-r>"<ESC>J')
+    call Repeat('PasteToLeftOfLine2', '<P', 'O<C-r>"<ESC>J')
 
     " delete line, but leave it blank
-    call Repeat('<LEADER>dd', 'cc<Esc>')
+    call Repeat('EmptyLine', '<LEADER>dd', 'cc<Esc>')
 
     " delete line above/below current line
-    call Repeat('d[<SPACE>', ':call DeleteLineAbove()<CR>')
-    call Repeat('d]<SPACE>', ':call DeleteLineBelow()<CR>')
+    call Repeat('DeleteLineAbove', 'd[<SPACE>', ':call DeleteLineAbove()<CR>')
+    call Repeat('DeleteLineBelow', 'd]<SPACE>', ':call DeleteLineBelow()<CR>')
 
     " delete line above and below a line
-    call Repeat('d<SPACE>[', ':call DeleteBlankLineAboveAndBelow()<CR>')
-    call Repeat('d<SPACE>]', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('DeleteBlankLineAboveAndBelow1', 'd]]<SPACE>', ':call DeleteBlankLineAboveAndBelow()<CR>')
+    call Repeat('DeleteBlankLineAboveAndBelow2', 'd[[<SPACE>', ':call DeleteBlankLineAboveAndBelow()<CR>')
 
     " create line above and below a line
-    call Repeat('<SPACE>[', ':call CreateBlankLineAboveAndBelow()<CR>')
-    call Repeat('<SPACE>]', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('CreateBlankLineAboveAndBelow1', ']]<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('CreateBlankLineAboveAndBelow2', '[[<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " create some space either side of a character
-    call Repeat('cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
+    call Repeat('CreateSurroundingSpace', 'cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
 
     " delete all space adjacent to contiguous non-whitespace under cursor
-    call Repeat('ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
+    call Repeat('DeleteSurroundingSpace', 'ds<SPACE>', ':call DeleteSurroundingSpace()<CR>')
 
     " delete/yank surrounding funtion
-    call Repeat('dsf', ':call DeleteSurroundingFunction("small")<CR>')
-    call Repeat('dsF', ':call DeleteSurroundingFunction("big")<CR>')
-    call Repeat('csf', ':call ChangeSurroundingFunction("small")<CR>')
-    call Repeat('csF', ':call ChangeSurroundingFunction("big")<CR>')
-    call Repeat('ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
-    call Repeat('ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
-    call Repeat('gsf', ':call PasteFunctionAroundFunction("small")<CR>')
-    call Repeat('gsF', ':call PasteFunctionAroundFunction("big")<CR>')
-    call Repeat('gsw', ':call PasteFunctionAroundWord("small")<CR>')
-    call Repeat('gsW', ':call PasteFunctionAroundWord("big")<CR>')
+    call Repeat('DeleteSurroundingFunction', 'dsf', ':call DeleteSurroundingFunction("small")<CR>')
+    call Repeat('DeleteSurroundingFUNCTION', 'dsF', ':call DeleteSurroundingFunction("big")<CR>')
+    call Repeat('ChangeSurroundingFunction', 'csf', ':call ChangeSurroundingFunction("small")<CR>')
+    call Repeat('ChangeSurroundingFUNCTION', 'csF', ':call ChangeSurroundingFunction("big")<CR>')
+    call Repeat('YankSurroundingFunction', 'ysf', ':call Preserve(function("YankSurroundingFunction", ["small"]), 1)<CR>')
+    call Repeat('YankSurroundingFUNCTION', 'ysF', ':call Preserve(function("YankSurroundingFunction", ["big"]), 1)<CR>')
+    call Repeat('PasteFunctionAroundFunction', 'gsf', ':call PasteFunctionAroundFunction("small")<CR>')
+    call Repeat('PasteFunctionAroundFUNCTION', 'gsF', ':call PasteFunctionAroundFunction("big")<CR>')
+    call Repeat('PasteFunctionAroundWord', 'gsw', ':call PasteFunctionAroundWord("small")<CR>')
+    call Repeat('PasteFunctionAroundWORD', 'gsW', ':call PasteFunctionAroundWord("big")<CR>')
    
     "}}}-----------------------------------------------------------------------
     "{{{- splits --------------------------------------------------------------
