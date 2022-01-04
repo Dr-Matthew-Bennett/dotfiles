@@ -124,7 +124,7 @@ nnoremap <LEADER>b :Buffers<CR>
 " search for and jump to line in any open buffer
 nnoremap <LEADER>l :Lines<CR>
 " insert mode line completion (include all text in other tmux panes)
-imap ;l <Esc>:call PopulateTmuxBuffer()<CR>a<Plug>(fzf-complete-line)
+imap ;l <Esc>:call AllTmuxPanesToBuffer()<CR>a<Plug>(fzf-complete-line)
 
 augroup fzf
     " once fzf window is poplulated, remove the buffer holding the tmux stuff
@@ -206,19 +206,6 @@ let g:slime_default_config =
 " since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
 
-" function to change slime target pane mid-session
-function SlimeOverrideConfig()
-    " bring up the pane numbers as a background job
-    call job_start(["tmux", "display-pane", "-d", "350"])
-    " get the input from user
-    let input = input("target_pane:")
-    " set the new pane target (if any was given)
-    if input
-        let g:slime_default_config["target_pane"] = input
-    endif
-endfunction
-nnoremap <LEADER>ss :call SlimeOverrideConfig()<CR>
-
 " from :help s
 " s is a synonym for 'cl'
 " S is a synonym for 'cc'
@@ -230,6 +217,8 @@ nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
 nmap S <Plug>SlimeLineSend
+" change slime target pane mid-session 
+nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
@@ -285,6 +274,12 @@ function! Repeat(map, command)
                 \' :call repeat#set("\<Plug>'.mapname.'")<CR>'
     execute 'nmap '.a:map.' <Plug>'.mapname
 endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- display tmux pane indices for N milliseconds-----------------------------
+function! DisplayTmuxPaneIndices(duration)
+    " bring up the pane numbers as a background job
+    call job_start(["tmux", "display-pane", "-d", a:duration])
+endfunction                             
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
@@ -679,13 +674,36 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
     set nopaste
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- copy all visible tmux lines to buffer -----------------------------------
-function! PopulateTmuxBuffer()
-    edit .tmux | %!sh ~/.vim/bundle/tmux-complete.vim/sh/tmuxcomplete -s lines -e
+"{{{- change slime target pane mid-session ------------------------------------
+function ChangeBufferSlimeConfig()
+    call DisplayTmuxPaneIndices("350")
+    let b:slime_config = 
+            \ {"socket_name": "default"}
+    let b:slime_config["target_pane"] = input("target_pane: ")
+endfunction
+"}}}---------------------------------------------------------------------------
+"{{{- copy from tmux panes to buffer ------------------------------------------
+function! AllTmuxPanesToBuffer()
+    edit .tmux | %!sh ~/linux_config_files/bin/tmuxcomplete.sh -s lines -e -n
     setlocal buftype=nofile
     setlocal bufhidden=hide
     setlocal noswapfile
     buffer #
+endfunction                             
+
+function! TmuxPaneToBuffer()
+    call DisplayTmuxPaneIndices("350")
+    " get the input from user
+    let targetpane = input("target_pane:")
+    if targetpane =~ '\d\+'
+        silent execute 'split .tmux_pane_'.targetpane
+        silent execute '%!sh ~/linux_config_files/bin/tmuxcomplete.sh -t '.targetpane.' -s lines -n'
+        set filetype=bash
+        setlocal buftype=nofile
+        setlocal bufhidden=hide
+        setlocal noswapfile
+        setlocal nobuflisted
+    endif
 endfunction                             
 "}}}---------------------------------------------------------------------------
 "==============================================================================
@@ -904,9 +922,7 @@ augroup general
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
-    " remove blank lines
-    nnoremap <silent> <LEADER>t :g/^\s*$/d<HOME>
-    vnoremap <silent> <LEADER>t <ESC>:'<,'>g/^\s*$/d<CR>
+    nnoremap <silent> <LEADER>t :call TmuxPaneToBuffer()<CR>
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
