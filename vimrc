@@ -203,7 +203,8 @@ let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " set default target where slime will send text
 let g:slime_default_config =
-            \ {"socket_name": "default", "target_pane": "{top-left}"}
+        \ {"socket_name": "default", "target_pane": "{top-left}"}
+
 " since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
 
