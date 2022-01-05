@@ -61,7 +61,6 @@ Plugin 'ycm-core/YouCompleteMe'
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'junegunn/vim-peekaboo'
-Plugin 'wellle/context.vim'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
@@ -103,19 +102,6 @@ let mapleader=" "
 " " other symbols: https://coolsymbol.com/
 " let g:ale_sign_error = '☠ '
 " let g:ale_sign_warning = '⚠ '
-"}}}---------------------------------------------------------------------------
-"{{{- context -----------------------------------------------------------------
-" don't run plugin by default
-let g:context_enabled = 0
-" I want results shown in a split (not a floating window)
-let g:context_presenter = 'preview'
-let g:context_border_char = '▬'
-augroup context
-    autocmd!
-    " when I close a window, also close the context window
-    autocmd BufHidden * :ContextDisableWindow
-    nnoremap <LEADER>c :ContextToggleWindow<CR>
-augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- fzf.vim -----------------------------------------------------------------
 " search for and open file under the fzf default directory
@@ -250,7 +236,7 @@ let g:ycm_filetype_blacklist = {
             \}
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-  
+
 "==== FUNCTIONS ===============================================================
 "{{{- helper functions (for use in other functions) ---------------------------
 "{{{- get character under the cursor ------------------------------------------
@@ -688,21 +674,6 @@ function! AllTmuxPanesToBuffer()
     setlocal noswapfile
     buffer #
 endfunction                             
-
-function! TmuxPaneToBuffer()
-    call DisplayTmuxPaneIndices("350")
-    " get the input from user
-    let targetpane = input("target_pane:")
-    if targetpane =~ '\d\+'
-        silent execute 'split .tmux_pane_'.targetpane
-        silent execute '%!sh ~/linux_config_files/bin/tmuxcomplete.sh -t '.targetpane.' -s lines -n'
-        set filetype=bash
-        setlocal buftype=nofile
-        setlocal bufhidden=hide
-        setlocal noswapfile
-        setlocal nobuflisted
-    endif
-endfunction                             
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -920,7 +891,8 @@ augroup general
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
-    nnoremap <silent> <LEADER>t :call TmuxPaneToBuffer()<CR>
+    " nnoremap <silent> <LEADER>t :call TmuxPaneToBuffer()<CR>
+    " nnoremap <LEADER>t <Plug>tmuxcomplete#tmux_pane_to_buffer
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>

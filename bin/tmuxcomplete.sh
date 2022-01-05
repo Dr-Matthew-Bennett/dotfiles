@@ -4,7 +4,6 @@
 #     sh tmuxcomplete
 #
 # Words visible in current window, excluding current pane
-# (can't be used alongside the -t option)
 #     sh tmuxcomplete -e
 #
 # Words visible in specified pane in current window
@@ -62,18 +61,17 @@ esac
 done
 
 listpanes() {
-    tmux list-panes $LISTARGS -F '#{pane_active}#{window_active}-#{session_id} #{pane_index}'
+    tmux list-panes $LISTARGS -F '#{pane_active}#{window_active}-#{session_id} #{pane_id}'
 }
 
-targetpanes() {
+excludecurrent() {
     if [ "$EXCLUDE" = "1" ]; then
         currentpane=$(tmux display-message -p '11-#{session_id} ')
         # echo 1>&2 'current' "$currentpane"
         # use -F to match $ in session id
         grep -v -F "$currentpane"
     elif ! [ "$TARGET" = "-1" ]; then
-        targetpane=$(tmux display-message -p '01-#{session_id} ')$TARGET
-        grep -F "$targetpane"
+        echo $(tmux display-message -p '01-#{session_id} ')$TARGET
     else
         cat
     fi
@@ -163,7 +161,6 @@ splitwords() {
     grep -o "\\w.*\\w"
 }
 
-# modified
 sortu() {
     if [ "$NOSORT" = "1" ]; then
         cat
@@ -175,7 +172,7 @@ sortu() {
 # list all panes
 listpanes |
 # filter out current pane
-targetpanes |
+excludecurrent |
 # take the pane id
 paneids |
 # capture panes
