@@ -62,7 +62,8 @@ Plugin 'ycm-core/YouCompleteMe'
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'wellle/context.vim'
-Plugin 'wellle/tmux-complete.vim'
+" Plugin 'wellle/tmux-complete.vim'
+Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
