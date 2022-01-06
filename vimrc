@@ -173,6 +173,10 @@ let g:UltiSnipsEditSplit="vertical"
 " (I think you can add multiple items in the list)
 let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 "}}}---------------------------------------------------------------------------
+"{{{ - tmuxcomplete.vim -------------------------------------------------------
+let g:tmuxcomplete#trigger = 'omnifunc'
+let g:tmuxcomplete_pane_index_display_duration_ms = '350'
+"}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
 " make repeatable
 nnoremap <Plug>innerindent ii ii :call repeat#set("\<Plug>innerindent")<CR>
@@ -891,9 +895,6 @@ augroup general
     " substitute word under the cursor
     nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
 
-    " nnoremap <silent> <LEADER>t :call TmuxPaneToBuffer()<CR>
-    " nnoremap <LEADER>t <Plug>tmuxcomplete#tmux_pane_to_buffer
-
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
     "}}}-----------------------------------------------------------------------
@@ -917,6 +918,9 @@ augroup general
     cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
+
+    " get all the visible text in a tmux pane and put it into a buffer 
+    nnoremap <LEADER>t :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 
     " paste from system CTRL-C clipboard
     nnoremap <LEADER>p :call PasteFromRegister('+', 'same', 'noautoindent')<CR>
