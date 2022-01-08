@@ -889,6 +889,9 @@ augroup general
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :buffer# \| bdelete #<CR>
 
+    " turn on indent foldmethod
+    nnoremap <LEADER>i :set foldmethod=indent<CR>
+
     " open/close horizontal split containing w3m_scratch
     nnoremap <LEADER>W :call ToggleW3M()<CR>
 
