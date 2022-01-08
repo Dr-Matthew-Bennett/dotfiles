@@ -625,15 +625,15 @@ function! Help_AG()
     let v2 = v:version[2]
     " search in the help docs with ag-silver-search and fzf and open file
     execute "normal! :Ag /usr/share/vim/vim".v1.v2."/doc/\<CR>"
-    " if we opened a help doc
-    if orig_file !=# expand(@%)
-        set nomodifiable
-        " for some reason not all the tags work unless I open the 'real' help
-        " so get whichever help was found and open it through Ag
-        let help_doc=expand("%:t")
-        " open and close that help doc - now the tags will work
-        execute "normal! :tab :help " help_doc "\<CR>:q\<CR>"
-    endif
+    " " if we opened a help doc
+    " if orig_file !=# expand(@%)
+    "     set nomodifiable
+    "     " for some reason not all the tags work unless I open the 'real' help
+    "     " so get whichever help was found and open it through Ag
+    "     let help_doc=expand("%:t")
+    "     " open and close that help doc - now the tags will work
+    "     execute "normal! :tab :help " help_doc "\<CR>:q\<CR>"
+    " endif
 endfunction
 
 " get some help
@@ -911,12 +911,8 @@ augroup general
     nnoremap <LEADER>n :%s///gn<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
-    " edit/source common file in split window
+    " edit common files
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
-    nnoremap <LEADER>sv :source $MYVIMRC<CR>
-    " run current vimrc line as a command (useful when modifying vimrc)
-    nnoremap <silent> <LEADER>sl :execute getline(line('.'))<cr>
-
     nnoremap <LEADER>eb :vsplit
                 \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
     nnoremap <LEADER>ea :vsplit
@@ -925,6 +921,13 @@ augroup general
                 \ /home/mattb/linux_config_files/functions_multihost/base<CR>
     nnoremap <LEADER>et :vsplit
                 \ /home/mattb/linux_config_files/tmux.conf<CR>
+
+    " source common things
+    nnoremap <LEADER>sv :source $MYVIMRC<CR>
+    " run current vimrc line as a command (useful when modifying vimrc)
+    nnoremap <silent> <LEADER>sl :execute getline(line('.'))<cr>
+    " source any yanked block of text
+    nnoremap <silent> <LEADER>sy :@"<CR>
 
     " force write a readonly file with root privileges 
     cnoremap w!! w !sudo tee %
