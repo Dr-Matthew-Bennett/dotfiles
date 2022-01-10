@@ -272,32 +272,6 @@ function! DisplayTmuxPaneIndices(duration)
     call job_start(["tmux", "display-pane", "-d", a:duration])
 endfunction                             
 "}}}---------------------------------------------------------------------------
-"{{{- move to start of function -----------------------------------------------
-function! MoveToStartOfFunction(word_size, pasting)
-    " move forward to one of function's parentheses (unless already on one)
-    call search('(\|)', 'c', line('.'))
-    " if we're on the closing parenthsis, move to other side
-    if GetCharUnderCursor() ==# ')'
-        silent! execute 'normal! %'
-    endif
-    " move onto function name 
-    silent! execute 'normal! b'
-    if a:word_size ==# 'big'
-        " if we've pasted in a function, then there will be a ')' right before
-        " the one we need to move inside - so we can go to the start easily
-        if a:pasting
-            silent! execute 'normal! F)l'
-        else
-            " find first boundary before function that we don't want to cross
-            call search(' \|,\|;\|(\|^', 'b', line('.'))
-            " If we're not at the start of the line, or if we're on whitespace
-            if col('.') > 1 || GetCharUnderCursor() ==# ' '
-                silent! execute 'normal! l'
-            endif
-        endif
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
