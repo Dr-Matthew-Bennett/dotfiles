@@ -21,3 +21,6 @@ xinput set-button-map $wireless_mouse_id 1 2 3 0 0
 
 # fzf config: debian has a different binary name
 export FZF_DEFAULT_COMMAND="fd . $HOME"
+
+# so I can use ttygif (https://github.com/icholy/ttygif)
+export WINDOWID=$(xdotool getwindowfocus)
