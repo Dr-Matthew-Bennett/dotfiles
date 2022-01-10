@@ -76,6 +76,9 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
 Plugin 'Matt-A-Bennett/surround-funk.vim'
+augroup plugin_dev
+    nnoremap sf :source refunk.vim
+augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
