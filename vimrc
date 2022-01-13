@@ -10,7 +10,7 @@
 " Create a funtion like Preserve() that preserves the unnamed register
 "}}}---------------------------------------------------------------------------
 
-"==== PLUGINS AND ASSOCIATED CONFIGURATIONS AND REMAPS ========================
+"==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
 "{{{- load plugins (and setup vundle) -----------------------------------------
 "{{{- required ----------------------------------------------------------------
 if &compatible
@@ -60,7 +60,6 @@ Plugin 'ycm-core/YouCompleteMe'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
-Plugin 'junegunn/vim-peekaboo'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
@@ -77,7 +76,14 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "{{{- plugins I'm working on --------------------------------------------------
 Plugin 'Matt-A-Bennett/surround-funk.vim'
 augroup plugin_dev
-    nnoremap sf :source refunk.vim
+    " source functions as regular uppercase and no s:
+    command! SF :g/s:/s/s:/XXX/g | g/XXX/norm fX3x~fX3x~
+
+    " revert back to having the s: lowercase (may need more than 100@s one day)
+    command! SFF :call search('^[^"].* \u', 'ceW') | normal! ~
+    let @s = ':SFFhis:'
+    command SFFF :normal 100@s
+    command Sf :execute "normal gg0 :SFFF\<CR> :s/ss\\+:\\+/s:\<CR>"
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
