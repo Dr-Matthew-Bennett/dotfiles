@@ -224,7 +224,7 @@ nmap ss <Plug>SlimeLineSend
 " change slime target pane mid-session 
 nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
-nnoremap si :call tmuxcomplete#tmux_pane_to_buffer()<CR>
+nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
