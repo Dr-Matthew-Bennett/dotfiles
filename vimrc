@@ -221,7 +221,6 @@ xmap s <Plug>SlimeRegionSend
 nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
-nmap S <Plug>SlimeLineSend
 " change slime target pane mid-session 
 nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
