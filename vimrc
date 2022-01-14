@@ -778,9 +778,10 @@ augroup general
     autocmd BufReadPost * :call WriteW3MToScratch()
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
-    " autocenter search results 
-    nnoremap n nzvzz
-    nnoremap N Nzvzz
+    " autocenter search results with zvzz,
+    " always have n go down, N go up
+    nnoremap <expr> n (v:searchforward ? 'nzvzz' : 'Nzvzz')
+    nnoremap <expr> N (v:searchforward ? 'Nzvzz' : 'nzvzz')
 
     " toggle highlighted searches
     nnoremap <silent> <expr> <LEADER>/ 
