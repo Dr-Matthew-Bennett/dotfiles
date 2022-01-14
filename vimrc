@@ -188,6 +188,7 @@ let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete#trigger = 'omnifunc'
 let g:tmuxcomplete_pane_index_display_duration_ms = '350'
+
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
 " make repeatable
@@ -223,6 +224,8 @@ nmap ss <Plug>SlimeLineSend
 nmap S <Plug>SlimeLineSend
 " change slime target pane mid-session 
 nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
+" get all the visible text in a particular tmux pane and suck it in to a buffer 
+nnoremap si :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
@@ -816,9 +819,6 @@ augroup general
     cnoremap w!! w !sudo tee %
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
-
-    " get all the visible text in a tmux pane and put it into a buffer 
-    nnoremap <LEADER>t :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 
     " paste from system CTRL-C clipboard
     nnoremap <LEADER>p :call PasteFromRegister('+', 'same', 'noautoindent')<CR>
