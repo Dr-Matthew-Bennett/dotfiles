@@ -39,12 +39,11 @@ Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins that do more exotic things
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'jeetsukumaran/vim-indentwise'
 Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
-Plugin 'Matt-A-Bennett/vim-indent-object'
+Plugin 'Matt-A-Bennett/surround-funk.vim'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
 Plugin 'SirVer/ultisnips'
@@ -53,10 +52,14 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 " neovim and vim (since version 8.2.2345) have native support for this
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'wellle/targets.vim'
 Plugin 'ycm-core/YouCompleteMe'
+
+" plugins that I've forgotten what they do
+Plugin 'jeetsukumaran/vim-indentwise'
+Plugin 'Matt-A-Bennett/vim-indent-object'
+Plugin 'vim-scripts/indentpython.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
@@ -74,17 +77,7 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 " Plugin 'tpope/vim-vinegar'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
-Plugin 'Matt-A-Bennett/surround-funk.vim'
-augroup plugin_dev
-    " source functions as regular uppercase and no s:
-    command! SF :g/s:/s/s:/XXX/g | g/XXX/norm fX3x~fX3x~
-
-    " revert back to having the s: lowercase (may need more than 100@s one day)
-    command! SFF :call search('^[^"].* \u', 'ceW') | normal! ~
-    let @s = ':SFFhis:'
-    command SFFF :normal 100@s
-    command Sf :execute "normal gg0 :SFFF\<CR> :s/ss\\+:\\+/s:\<CR>"
-augroup END
+Plugin 'Matt-A-Bennett/unit-test.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
@@ -708,17 +701,17 @@ augroup general
 
     " inner/around file text objects (define i and a for consistency's sake)
     " visual mode
-    xnoremap <silent> if <ESC>gg0VG
-    xnoremap <silent> af <ESC>gg0VG
+    xnoremap <silent> ie <ESC>gg0VG
+    xnoremap <silent> ae <ESC>gg0VG
     " operator pending mode
-    onoremap <silent> if :<C-u>normal! gg0VG<CR>
-    onoremap <silent> af :<C-u>normal! gg0VG<CR>
+    onoremap <silent> ie :<C-u>normal! gg0VG<CR>
+    onoremap <silent> ae :<C-u>normal! gg0VG<CR>
     
-    " nummber text object (n=forwards, N=backwards)
-    xnoremap in :<C-u>call VisualNumber('c')<CR>
-    onoremap in :<C-u>normal vin<CR>
-    xnoremap iN :<C-u>call VisualNumber('b')<CR>
-    onoremap iN :<C-u>normal viN<CR>
+    " " nummber text object (n=forwards, N=backwards)
+    " xnoremap in :<C-u>call VisualNumber('c')<CR>
+    " onoremap in :<C-u>normal vin<CR>
+    " xnoremap iN :<C-u>call VisualNumber('b')<CR>
+    " onoremap iN :<C-u>normal viN<CR>
 
     " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
     " the prev/next one
