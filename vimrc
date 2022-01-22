@@ -531,13 +531,33 @@ function! VisualNumber(direction)
     call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- start insertmode completion ---------------------------------------------
+"{{{- start/stop insertmode completion ----------------------------------------
 " if completion menu closed, and last typed char is a letter, call autocomplete
 function! OpenCompletion()
     if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') 
                      \|| (v:char >= 'A' && v:char <= 'Z'))
         call feedkeys("\<C-n>", "n")
     endif
+endfunction
+
+function! TurnOnAutoComplete()
+    augroup autocomplete
+        autocmd!
+        autocmd InsertCharPre * call OpenCompletion()
+    augroup END
+endfunction
+
+function! TurnOffAutoComplete()
+    augroup autocomplete
+        autocmd!
+    augroup END
+endfunction
+
+function! ReplayMacroWithoutAutoComplete()
+    let reg = getcharstr()
+    call TurnOffAutoComplete()
+    execute "normal! @".reg
+    call TurnOnAutoComplete()
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
@@ -684,9 +704,14 @@ augroup general
     autocmd BufReadPost * :call CheckBashEdit()
     
     "{{{- insert mode completion ----------------------------------------------
+    call TurnOnAutoComplete()
+
     " use tab for navigating the autocomplete menu
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+
+    " don't let the replay get clobberd by the OpenCompletion
+    nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
@@ -862,20 +887,6 @@ augroup general
     iabbrev @u matthew.bennett@uclouvain.be
     "}}}-----------------------------------------------------------------------
 augroup END
-"}}}---------------------------------------------------------------------------
-"{{{- continuous autocomplete while in insert mode ----------------------------
-augroup autocomplete
-    autocmd!
-    autocmd InsertCharPre * call OpenCompletion()
-augroup END
-
-" but the above would interfere with recording macros
-function! TurnOffAutoComplete()
-    augroup autocomplete
-        autocmd!
-    augroup END
-endfunction
-nnoremap q :call TurnOffAutoComplete()<CR>q
 "}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
 augroup vim "{{{---------------------------------------------------------------
