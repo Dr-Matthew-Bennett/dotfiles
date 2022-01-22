@@ -525,10 +525,10 @@ endfunction
 "{{{- visual text object for number -------------------------------------------
 function! VisualNumber(direction)
     " find the end of a number (we assume a decimal means it's not the end)
- 	call search('\d\([^0-9\.]\|$\)', a:direction.'W')
-	normal! v
+    call search('\d\([^0-9\.]\|$\)', a:direction.'W')
+    normal! v
     " find the beggininng of that number (again, we don't stop for a decimal)
-	call search('\(^\|[^0-9\.]\d\)', 'becW')
+    call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- start insertmode completion ---------------------------------------------
@@ -561,7 +561,7 @@ endfunction
 function! ChangeBufferSlimeConfig()
     call DisplayTmuxPaneIndices("350")
     let b:slime_config = 
-            \ {"socket_name": "default"}
+                \ {"socket_name": "default"}
     let b:slime_config["target_pane"] = input("target_pane:")
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -578,7 +578,7 @@ endfunction
 function! LeftAlignAtCurrentCol()
     normal! `<
     let c = col(".")-1
-     :'<,'>j
+    :'<,'>j
     call cursor(line("."), &textwidth)
     execute "normal! bi\<CR>"
     execute "normal! ".c."I\<SPACE>"
@@ -678,7 +678,6 @@ set statusline+=%P
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
-
     " if we ended up in vim by pressing <ESC-v>, put a # at the beggining of
     " the line to prevent accidental execution (since bash will execute no
     " matter what! Imagine if rm -rf <forward slash> was there...)
@@ -688,9 +687,6 @@ augroup general
     " use tab for navigating the autocomplete menu
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-
-    " continuous autocomplete while in insert mode
-    autocmd InsertCharPre * call OpenCompletion()
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
@@ -866,6 +862,20 @@ augroup general
     iabbrev @u matthew.bennett@uclouvain.be
     "}}}-----------------------------------------------------------------------
 augroup END
+"}}}---------------------------------------------------------------------------
+"{{{- continuous autocomplete while in insert mode ----------------------------
+augroup autocomplete
+    autocmd!
+    autocmd InsertCharPre * call OpenCompletion()
+augroup END
+
+" but the above would interfere with recording macros
+function! TurnOffAutoComplete()
+    augroup autocomplete
+        autocmd!
+    augroup END
+endfunction
+nnoremap q :call TurnOffAutoComplete()<CR>q
 "}}}---------------------------------------------------------------------------
 "{{{- file specific settings --------------------------------------------------
 augroup vim "{{{---------------------------------------------------------------
