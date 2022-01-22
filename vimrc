@@ -540,7 +540,7 @@ function! OpenCompletion()
     else                    
         let s:insert_count += 1
     endif
-    if !pumvisible() && s:insert_count > 1
+    if !pumvisible() && s:insert_count >= 2
         silent! call feedkeys("\<C-n>", "n")
     endif
 endfunction
