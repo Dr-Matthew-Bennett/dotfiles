@@ -531,6 +531,15 @@ function! VisualNumber(direction)
 	call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- start insertmode completion ---------------------------------------------
+" if completion menu closed, and last typed char is a letter, call autocomplete
+function! OpenCompletion()
+    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') 
+                     \|| (v:char >= 'A' && v:char <= 'Z'))
+        call feedkeys("\<C-n>", "n")
+    endif
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
     set paste
@@ -586,6 +595,7 @@ set backupdir=~/linux_config_files/.vim/backup//
 set directory=~/linux_config_files/.vim/swap//
 set undodir=~/linux_config_files/.vim/undo//
 set encoding=utf-8
+set path+=** " let vim search recursively in the current directory
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
 set hidden " when switching buffers, don't complain about unsaved changes
@@ -600,6 +610,8 @@ set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
+set completeopt+=menuone,noselect,noinsert " don't insert text automatically
+set pumheight=5 " keep the autocomplete suggestion menu small
 set wildmenu " list completion options when typing in command line mode
 set wildmode=list,full
 " set wildmode=longest,list " behave like bash autocomplete rather than zsh
@@ -671,6 +683,14 @@ augroup general
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
     
+    "{{{- insert mode completion ----------------------------------------------
+    " use tab for navigating the autocomplete menu
+    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+
+    " continuous autocomplete while in insert mode
+    autocmd InsertCharPre * call OpenCompletion()
+    "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
