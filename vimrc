@@ -43,7 +43,7 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
-Plugin 'Matt-A-Bennett/surround-funk.vim'
+Plugin 'Matt-A-Bennett/vim-surround-funk'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
 Plugin 'SirVer/ultisnips'
@@ -54,7 +54,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'wellle/targets.vim'
-Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'ycm-core/YouCompleteMe'
 
 " plugins that I've forgotten what they do
 Plugin 'jeetsukumaran/vim-indentwise'
