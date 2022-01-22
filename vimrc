@@ -532,18 +532,24 @@ function! VisualNumber(direction)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- start/stop insertmode completion ----------------------------------------
-" if completion menu closed, and last typed char is a letter, call autocomplete
+" if completion menu closed, and two non-spaces typed, call autocomplete
+let s:insert_count = 0
 function! OpenCompletion()
-    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') 
-                     \|| (v:char >= 'A' && v:char <= 'Z'))
-        call feedkeys("\<C-n>", "n")
+    if string(v:char) =~ ' '
+        let s:insert_count = 0
+    else                    
+        let s:insert_count += 1
+    endif
+    if !pumvisible() && s:insert_count > 1
+        silent! call feedkeys("\<C-n>", "n")
     endif
 endfunction
 
 function! TurnOnAutoComplete()
     augroup autocomplete
         autocmd!
-        autocmd InsertCharPre * call OpenCompletion()
+        autocmd InsertLeave * let s:insert_count = 0
+        autocmd InsertCharPre * silent! call OpenCompletion()
     augroup END
 endfunction
 
@@ -650,6 +656,7 @@ set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
 set hlsearch | noh " highlight matches for searched (turn off when sourcing)
 set shortmess-=S " show the number of search results (up to 99)
+set shortmess+=c " don't give ins-completion-menu messages
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
