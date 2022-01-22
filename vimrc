@@ -548,7 +548,7 @@ endfunction
 function! TurnOnAutoComplete()
     augroup autocomplete
         autocmd!
-        autocmd InsertLeave * let s:insert_count = 0
+        autocmd InsertLeave let s:insert_count = 0
         autocmd InsertCharPre * silent! call OpenCompletion()
     augroup END
 endfunction
