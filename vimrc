@@ -170,9 +170,9 @@ let g:traces_preserve_view_state = 1
 "{{{- ultisnips ---------------------------------------------------------------
 " Ultisnips trigger configuration.
 " Do not use <TAB> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<C-s>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+let g:UltiSnipsExpandTrigger=";s"
+let g:UltiSnipsJumpForwardTrigger="<C-n>"
+let g:UltiSnipsJumpBackwardTrigger="<C-p>"
 let g:UltiSnipsEditSplit="vertical"
 " where ultisnips looks for snippets
 " (I think you can add multiple items in the list)
