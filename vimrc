@@ -648,6 +648,7 @@ highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 " check if we're on a light or dark colorscheme in tmux, and pick accordingly
 call SetColorScheme()
 
+let g:netrw_banner=0 " hide that huge banner
 "}}}---------------------------------------------------------------------------
 "{{{- status line -------------------------------------------------------------
 " path/file LEAVE THE TRAILING SPACES AT THE $!! 
