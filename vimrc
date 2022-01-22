@@ -561,8 +561,7 @@ endfunction
 
 function! ReplayMacroWithoutAutoComplete()
     call TurnOffAutoComplete()
-    let reg = getcharstr()
-    execute "normal! @".reg
+    execute "normal! @".getcharstr()
     call TurnOnAutoComplete()
 endfunction
 "}}}---------------------------------------------------------------------------
