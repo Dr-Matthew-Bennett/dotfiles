@@ -535,10 +535,10 @@ endfunction
 " if completion menu closed, and two non-spaces typed, call autocomplete
 let s:insert_count = 0
 function! OpenCompletion()
-    if string(v:char) =~ ' '
-        let s:insert_count = 0
-    else                    
+    if string(v:char) =~? '[a-z]'
         let s:insert_count += 1
+    else                    
+        let s:insert_count = 0
     endif
     if s:insert_count >= 2 && !pumvisible()
         silent! call feedkeys("\<C-n>", "n")
