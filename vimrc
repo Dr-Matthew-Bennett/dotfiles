@@ -676,31 +676,6 @@ call SetColorScheme()
 
 let g:netrw_banner=0 " hide that huge banner
 "}}}---------------------------------------------------------------------------
-"{{{- status line -------------------------------------------------------------
-" path/file LEAVE THE TRAILING SPACES AT THE $!! 
-set statusline=%<%f\ 
-" current git branch
-set statusline+=%{FugitiveStatusline()}
-" is this file: help? modified? read only?
-set statusline+=%h%m%r%=
-" space (there must be a proper way to do this)
-set statusline+=\ \ \ \ \ 
-if v:version > 801
-    " add remaining number of jumps
-    set statusline+=%{'jumps:\ '.RemainingJumps()}
-    " space (there must be a proper way to do this)
-    set statusline+=\ \ \ \ \ 
-endif
-" last search term
-set statusline+=\/%{@/}\/
-" space (there must be a proper way to do this)
-set statusline+=\ \ \ \ \ 
-" line / column number
-set statusline+=%-14.(%l,%c%V%)
-" percent through the file (or top/bottom)
-set statusline+=%P
-
-"}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
     autocmd!
@@ -1071,6 +1046,31 @@ augroup cursor_behaviour
     autocmd InsertLeave * set nocursorline
 augroup END
 "}}}---------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- status line -------------------------------------------------------------
+" path/file LEAVE THE TRAILING SPACES AT THE $!! 
+set statusline=%<%f\ 
+" current git branch
+set statusline+=%{FugitiveStatusline()}
+" is this file: help? modified? read only?
+set statusline+=%h%m%r%=
+" space (there must be a proper way to do this)
+set statusline+=\ \ \ \ \ 
+if v:version > 801
+    " add remaining number of jumps
+    set statusline+=%{'jumps:\ '.RemainingJumps()}
+    " space (there must be a proper way to do this)
+    set statusline+=\ \ \ \ \ 
+endif
+" last search term
+set statusline+=\/%{@/}\/
+" space (there must be a proper way to do this)
+set statusline+=\ \ \ \ \ 
+" line / column number
+set statusline+=%-14.(%l,%c%V%)
+" percent through the file (or top/bottom)
+set statusline+=%P
+
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 "
