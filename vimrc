@@ -535,7 +535,7 @@ endfunction
 " if completion menu closed, and two non-spaces typed, call autocomplete
 let s:insert_count = 0
 function! OpenCompletion()
-    if string(v:char) =~? '[a-z]'
+    if string(v:char) =~? '\w'
         let s:insert_count += 1
     else                    
         let s:insert_count = 0
