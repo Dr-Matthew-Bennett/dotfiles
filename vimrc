@@ -188,10 +188,6 @@ let g:tmuxcomplete_pane_index_display_duration_ms = '350'
 nnoremap <Plug>innerindent ii ii :call repeat#set("\<Plug>innerindent")<CR>
 nnoremap <Plug>aroundindent ai ai :call repeat#set("\<Plug>aroundindent")<CR>
 "}}}---------------------------------------------------------------------------
-"{{{- vim-peekaboo ------------------------------------------------------------
-let g:peekaboo_window = 'vertical botright 80 new'
-let g:peekaboo_delay = 1000
-"}}}---------------------------------------------------------------------------
 "{{{- vim-slime ---------------------------------------------------------------
 " vim-slime lets me send text objects and visual selections from vim to a tmux
 " pane of my choice. 
