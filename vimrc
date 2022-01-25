@@ -265,7 +265,11 @@ endfunction
 "{{{- apply the repeat plugin to any mapping ----------------------------------
 " (commands with a quote single will likely cause problems...)
 function! Repeat(mapname, map, command)
-    execute 'nnoremap <silent> <Plug>'.a:mapname.' '.a:command.
+    " temporarily turn of autocomplete while we do the command
+    let command = ':call TurnOffAutoComplete()<CR>'
+                 \.a:command.
+                 \':call TurnOnAutoComplete()<CR>'
+    execute 'nnoremap <silent> <Plug>'.a:mapname.' '.command.
                 \' :call repeat#set("\<Plug>'.a:mapname.'")<CR>'
     execute 'nmap '.a:map.' <Plug>'.a:mapname
 endfunction
