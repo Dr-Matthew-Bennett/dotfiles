@@ -599,18 +599,6 @@ function! AllTmuxPanesToBuffer()
     buffer #
 endfunction                             
 "}}}---------------------------------------------------------------------------
-"{{{- left-align a visual block of text at current column ---------------------------------------------------
-function! LeftAlignAtCurrentCol()
-    normal! `<
-    let c = col(".")-1
-    :'<,'>j
-    call cursor(line("."), &textwidth)
-    execute "normal! bi\<CR>"
-    execute "normal! ".c."I\<SPACE>"
-    execute "normal! gw$"
-    call cursor(line("."), c+1)
-endfunction
-"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -857,12 +845,15 @@ augroup general
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
-    nnoremap <LEADER>sp a<C-x>s<ESC>
+    nnoremap [s [sa<C-x>s<DOWN><CR><ESC>
+    nnoremap ]s ]sa<C-x>s<DOWN><CR><ESC>
+
     " common mispellings
     iabbrev keybaord keyboard
     iabbrev laod load
     iabbrev hte the
     iabbrev teh the
+
     " emails
     iabbrev @g bennettmatt4@gmail.com
     iabbrev @u matthew.bennett@uclouvain.be
@@ -887,7 +878,8 @@ augroup vim help "{{{----------------------------------------------------------
 augroup python "{{{------------------------------------------------------------
     autocmd!
     set completeopt-=preview "don't have preview window on python autocomplete
-    " avoid conversion issues when checking into github and/or sharing with other users.
+    " avoid conversion issues when checking into github and/or sharing with
+    " other users.
     autocmd FileType python setlocal fileformat=unix
     " enable all Python syntax highlighting features
     autocmd FileType python let python_highlight_all=1
@@ -913,7 +905,8 @@ augroup END
 "}}}---------------------------------------------------------------------------
 augroup r "{{{-----------------------------------------------------------------
     autocmd!
-    " avoid conversion issues when checking into github and/or sharing with other users.
+    " avoid conversion issues when checking into github and/or sharing with
+    " other users.
     autocmd FileType r,rmd setlocal fileformat=unix
     autocmd FileType r,rmd setlocal foldmethod=indent
 
@@ -1074,3 +1067,7 @@ set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 "
+
+" let g:surround_funk_default_parens = '['
+" let g:surround_funk_default_hot_switch = 1
+" let g:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
