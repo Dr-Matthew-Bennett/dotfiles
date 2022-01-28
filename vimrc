@@ -1071,4 +1071,18 @@ set statusline+=%P
 
 " let g:surround_funk_default_parens = '['
 " let g:surround_funk_default_hot_switch = 1
-" let g:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
+" let g:surround_funk_legal_func_name_chars = ['[A-Z]', '[a-z]', '_', '\.']
+
+" augroup py_surround
+"     autocmd!
+"     autocmd FileType python let b:surround_funk_default_parens = '('
+"     autocmd FileType python let b:surround_funk_default_hot_switch = 1
+" augroup END
+" augroup latex_surround
+"     autocmd!
+"     autocmd FileType tex let b:surround_funk_default_parens = '{'
+"     autocmd FileType tex let b:surround_funk_default_hot_switch = 0
+"     autocmd FileType tex let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
+" augroup END
+
+
