@@ -853,6 +853,7 @@ augroup general
     iabbrev laod load
     iabbrev hte the
     iabbrev teh the
+    iabbrev gaurd guard
 
     " emails
     iabbrev @g bennettmatt4@gmail.com
