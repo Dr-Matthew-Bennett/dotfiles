@@ -53,7 +53,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/MatlabFilesEdition'
-" Plugin 'wellle/targets.vim'
+Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
 " plugins that I've forgotten what they do
