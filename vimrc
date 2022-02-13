@@ -53,7 +53,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/MatlabFilesEdition'
-Plugin 'wellle/targets.vim'
+" Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
 " plugins that I've forgotten what they do
@@ -77,7 +77,8 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 " Plugin 'tpope/vim-vinegar'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
-Plugin 'Matt-A-Bennett/unit-test.vim'
+Plugin 'Matt-A-Bennett/vim-unit-test'
+Plugin 'Matt-A-Bennett/vim-visual-history'
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
@@ -214,6 +215,16 @@ nmap ss <Plug>SlimeLineSend
 nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
 nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
+"}}}---------------------------------------------------------------------------
+"{{{- vim-surround-funk -------------------------------------------------------
+augroup surround_funk
+    autocmd!
+    autocmd FileType python let b:surround_funk_default_parens = '('
+    autocmd FileType python let b:surround_funk_default_hot_switch = 1
+
+    autocmd FileType tex let b:surround_funk_default_parens = '{'
+    autocmd FileType tex let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
+augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
 " disable tmux navigator when zooming the vim pane
@@ -522,6 +533,22 @@ function! BetterGmNormalMode()
     execute 'normal! ' . (first_col + last_col) / 2 . '|'
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- contiguously scroll left right along a line -----------------------------
+function! HorizontalScrollMode(call_char)
+    if &wrap
+        return
+    endif
+    echohl Title
+    let typed_char = a:call_char
+    while index(['h', 'l', 'H', 'L'], typed_char) != -1
+        execute 'normal! z'.typed_char
+        redraws
+        echon '-- Horizontal scrolling mode (h/l/H/L)'
+        let typed_char = nr2char(getchar())
+    endwhile
+    echohl None | echo '' | redraws
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- visual text object for number -------------------------------------------
 function! VisualNumber(direction)
     " find the end of a number (we assume a decimal means it's not the end)
@@ -697,6 +724,12 @@ augroup general
     " move to halfway between first and last non-whitespace characters on line
     nnoremap <silent> gm :call BetterGmNormalMode()<CR>
     onoremap <silent> gm :call BetterGmNormalMode()<CR>
+
+    " contiguously scroll left right along a line
+    nnoremap <silent> zh :call HorizontalScrollMode('h')<CR>
+    nnoremap <silent> zl :call HorizontalScrollMode('l')<CR>
+    nnoremap <silent> zH :call HorizontalScrollMode('H')<CR>
+    nnoremap <silent> zL :call HorizontalScrollMode('L')<CR>
 
     " store relative line number jumps in the jumplist.
     nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -1068,21 +1101,3 @@ set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 "
-
-" let g:surround_funk_default_parens = '['
-" let g:surround_funk_default_hot_switch = 1
-" let g:surround_funk_legal_func_name_chars = ['[A-Z]', '[a-z]', '_', '\.']
-
-" augroup py_surround
-"     autocmd!
-"     autocmd FileType python let b:surround_funk_default_parens = '('
-"     autocmd FileType python let b:surround_funk_default_hot_switch = 1
-" augroup END
-" augroup latex_surround
-"     autocmd!
-"     autocmd FileType tex let b:surround_funk_default_parens = '{'
-"     autocmd FileType tex let b:surround_funk_default_hot_switch = 0
-"     autocmd FileType tex let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
-" augroup END
-
-
