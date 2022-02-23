@@ -586,6 +586,12 @@ function! TurnOffAutoComplete()
     augroup END
 endfunction
 
+function! ToggleAutoComplete(command)
+    call TurnOffAutoComplete()
+    execute "normal! ".a:command
+    call TurnOnAutoComplete()
+endfunction
+
 function! ReplayMacroWithoutAutoComplete()
     call TurnOffAutoComplete()
     execute "normal! @".getcharstr()
@@ -708,6 +714,7 @@ augroup general
 
     " don't let the replay get clobberd by the OpenCompletion
     nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
+    nnoremap <silent> . :call ToggleAutoComplete('.')<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
