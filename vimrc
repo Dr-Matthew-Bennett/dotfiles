@@ -290,7 +290,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
 function! SetColorScheme()
-    " check if tmux colorsheme is light or dark, and pick for vim accordingly
+    " check if tmux colorscheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
         colorscheme zenburn
         let $BAT_THEME=''
