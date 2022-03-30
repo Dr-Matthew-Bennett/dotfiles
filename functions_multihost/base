@@ -101,12 +101,6 @@ catc () {
     cat $options | cut -c -$(($width-3))
     }
 
-# quick function to let me do maths on the command line
-calc() {
-    expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g')
-    echo "scale=2; $expression" | bc
-}
-
 temp () {
     gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature $1
     }
