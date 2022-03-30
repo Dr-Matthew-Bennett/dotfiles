@@ -103,7 +103,8 @@ catc () {
 
 # quick function to let me do maths on the command line
 calc() {
-    echo "scale=2; $@" | bc
+    expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g')
+    echo "scale=2; $expression" | bc
 }
 
 temp () {
