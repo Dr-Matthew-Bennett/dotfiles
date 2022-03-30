@@ -2,8 +2,10 @@
 
 # quick function to let me do maths on the command line
 
-# so I don't need quotes, change `[` to `(` and `]` to `)`
-expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g')
+# convert intput:
+# change `[` to `(` and `]` to `)` (so I don't need quotes)
+# recognise `x` as multiplication (to avoid expansion by the shell)
+expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g; s/x/*/g')
 
 # compute expression to 2dp
 echo "scale=2; $expression" | bc
