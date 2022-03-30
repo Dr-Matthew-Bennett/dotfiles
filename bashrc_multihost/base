@@ -148,6 +148,9 @@ cism='mbennett@storage.cism.ucl.ac.be'
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
+# add personal bin directory for scripts
+export PATH="$HOME/linux_config_files/bin:$PATH"
+
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'
 

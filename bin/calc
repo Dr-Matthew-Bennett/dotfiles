@@ -1,0 +1,4 @@
+#!/bin/bash
+
+expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g')
+echo "scale=2; $expression" | bc
