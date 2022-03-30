@@ -1,4 +1,9 @@
 #!/bin/bash
 
+# quick function to let me do maths on the command line
+
+# so I don't need quotes, change `[` to `(` and `]` to `)`
 expression=$(echo $@ | sed 's/\[/\(/g; s/\]/\)/g')
+
+# compute expression to 2dp
 echo "scale=2; $expression" | bc
