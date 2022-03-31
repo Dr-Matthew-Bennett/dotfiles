@@ -5,7 +5,7 @@ data () {
     days_in_month=$(date --date="$(date +%Y-%m-01) +1 month -1 day" '+%d')
     days_left_in_month=$(echo $days_in_month - $(date +%d) + 1 | bc)
     data_left=$(vnstat -m -i eno1 | awk '/estimated/ {print 100 - $8}')
-    av_per_day=$(echo "scale=2; $data_left / ($days_left_in_month)" | bc)
+    av_per_day=$(echo "scale=2; $data_left / $days_left_in_month" | bc)
     echo "days left:        $days_left_in_month"
     echo "total GiB left:   $data_left"
     echo "use GiB per day:  $av_per_day"
