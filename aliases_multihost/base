@@ -83,6 +83,8 @@ alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
 # open R with vi shortcuts
 alias vr='rlwrap -a R'
+# open python3
+alias py='python3'
 
 alias zathura='zathura --mode fullscreen'
 
