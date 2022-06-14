@@ -101,6 +101,7 @@ alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-tem
 alias night='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2575'
 # I can't spell
 alias ngiht='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2575'
+alias nihgt='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2575'
 
 # ssh conenctions
 # access the pony with or without X11 Forwarding
