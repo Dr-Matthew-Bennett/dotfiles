@@ -948,14 +948,14 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with
     " other users.
-    autocmd FileType r,rmd setlocal fileformat=unix
-    autocmd FileType r,rmd setlocal foldmethod=indent
+    autocmd FileType R,r,rmd setlocal fileformat=unix
+    autocmd FileType R,r,rmd setlocal foldmethod=indent
 
     " easier to type assignment
-    autocmd FileType r,rmd iabbrev <buffer> << <-
+    autocmd FileType R,r,rmd iabbrev <buffer> << <-
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
-    autocmd FileType r,rmd set iskeyword-=.
+    autocmd FileType R,r,rmd set iskeyword-=.
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
