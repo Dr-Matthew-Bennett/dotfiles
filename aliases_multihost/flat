@@ -32,9 +32,20 @@ alias ut='utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 alias wcut='windscribe connect && utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &'
 alias wdut='pkill utserver && windscribe disconnect; windscribe account'
 
-# read book
-alias nerd='zathura ~/documents/books/linux/UNIX*.pdf &'
-alias la=' zathura ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g_solutions.pdf ~/documents/books/maths/introduction_to_linear_algebra_5th_ed_strang_g.pdf &'
+# practice R coding
+alias rds="zathura /home/mattb/documents/books/data_science/r_for_data_science_wickham_and_grolemund_2017.pdf &
+    tmux new-window -n 'r_for_data_science'
+    tmux split-window -v
+    tmux send-keys -t 'main:r_for_data_science.1' 'cd /home/mattb/code/r/r_for_data_science' Enter
+    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises.R scratch.R' Enter
+    tmux send-keys -t 'main:r_for_data_science.2' 'cd /home/mattb/code/r/r_for_data_science' Enter
+    tmux send-keys -t main:r_for_data_science.2 'R' Enter
+    " 
+
+alias krds='pkill zathura; tmux kill-window -t r_for_data_science'
+
+# in case I want to have the split of a particular size, use this
+# tmux split-window -vb -l 5;\
 
 # compose stack answers in a separate window, with 3 splits and vim ready to go
 alias st="tmux new-window -n 'stack';\
@@ -46,15 +57,6 @@ alias st="tmux new-window -n 'stack';\
 
 alias kst='tmux kill-window -t stack'
 
-# open r code and books
-alias r="tmux new-window -n 'r_practice';\
-    tmux send-keys -t 'r_practice' 'cd ~/test/r_stuff;\
-    tmux split-window -vb -l 5;\
-    zathura ~/documents/books/maths/statistical_rethinking_* &\
-    vim -o rethinking.R scratch1.R' Enter
-    "
-
-alias kr='pkill zathura; tmux kill-window -t r_practice'
 
     # vim -o rethinking.R scratch1.R' Enter"
 
