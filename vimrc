@@ -954,7 +954,6 @@ augroup r "{{{-----------------------------------------------------------------
     " easier to type assignment
     autocmd FileType R,r,rmd iabbrev <buffer> << <-
     autocmd FileType R,r,rmd iabbrev <buffer> >> %>%
-    autocmd FileType R,r,rmd iabbrev <buffer> in %in%
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd set iskeyword-=.
