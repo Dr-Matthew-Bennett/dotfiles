@@ -24,3 +24,7 @@ export FZF_DEFAULT_COMMAND="fd . $HOME"
 
 # so I can use ttygif (https://github.com/icholy/ttygif)
 export WINDOWID=$(xdotool getwindowfocus)
+
+# connect or dissconnect to UCLouvain vpn
+alias uvc='openvpn3 session-start --config downloads/profile-10367.ovpn'
+alias uvd='openvpn3 session-manage --config downloads/profile-10367.ovpn --disconnect'
