@@ -181,7 +181,7 @@ let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 "}}}---------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete#trigger = 'omnifunc'
-let g:tmuxcomplete_pane_index_display_duration_ms = '350'
+let g:tmuxcomplete_pane_index_display_duration_ms = '250'
 
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
