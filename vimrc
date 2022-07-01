@@ -948,15 +948,15 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with
     " other users.
-    autocmd FileType R,r,rmd setlocal fileformat=unix
-    autocmd FileType R,r,rmd setlocal foldmethod=indent
+    autocmd FileType R,r,rmd,Rd setlocal fileformat=unix
+    autocmd FileType R,r,rmd,Rd setlocal foldmethod=indent
 
     " easier to type assignment
-    autocmd FileType R,r,rmd iabbrev <buffer> << <-
-    autocmd FileType R,r,rmd iabbrev <buffer> >> %>%
+    autocmd FileType R,r,rmd,Rd iabbrev <buffer> << <-
+    autocmd FileType R,r,rmd,Rd iabbrev <buffer> >> %>%
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
-    autocmd FileType R,r,rmd set iskeyword-=.
+    autocmd FileType R,r,rmd,Rd set iskeyword-=.
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
@@ -1062,7 +1062,7 @@ augroup END
 augroup tidy_code_matlab_and_python "{{{---------------------------------------
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
-    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
+    " autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
     autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
 "}}}---------------------------------------------------------------------------
