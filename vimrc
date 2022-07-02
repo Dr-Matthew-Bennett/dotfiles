@@ -586,7 +586,7 @@ function! TurnOffAutoComplete()
     augroup END
 endfunction
 
-function! ToggleAutoComplete(command)
+function! NormalCommandWithoutAutoComplete(command)
     call TurnOffAutoComplete()
     let l = line(".")
     let c = col(".")
@@ -717,7 +717,7 @@ augroup general
 
     " don't let the replay get clobberd by the OpenCompletion
     nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
-    nnoremap <silent> . :call ToggleAutoComplete('.')<CR>
+    nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
