@@ -560,6 +560,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- start/stop insertmode completion ----------------------------------------
 " if completion menu closed, and two non-spaces typed, call autocomplete
+" similar/identical(?) to https://github.com/skywind3000/vim-auto-popmenu
 let s:insert_count = 0
 function! OpenCompletion()
     if string(v:char) =~? '\w'
