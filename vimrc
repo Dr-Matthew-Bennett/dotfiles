@@ -573,7 +573,6 @@ function! OpenCompletion()
 endfunction
 
 function! TurnOnAutoComplete()
-    augroup autocomplete
         autocmd!
         autocmd InsertCharPre * silent! call OpenCompletion()
         autocmd InsertLeave let s:insert_count = 0
@@ -588,7 +587,10 @@ endfunction
 
 function! ToggleAutoComplete(command)
     call TurnOffAutoComplete()
+    let l = line(".")
+    let c = col(".")
     execute "normal! ".a:command
+    call cursor(l, c)
     call TurnOnAutoComplete()
 endfunction
 
