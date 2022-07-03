@@ -101,6 +101,29 @@ catc () {
     cat $options | cut -c -$(($width-3))
     }
 
+# pipe tldr into less with colour
+tldrl () {
+    # store the program
+    program="$1"
+
+    # remove first argument off the list
+    shift
+
+    # store any option flags
+    options="$@"
+
+    # figure out the how many lines we have and how much space there is
+    n_lines=$(tldr $program $options | wc -l)
+    height=$(tmux display-message -p '#{pane_height}')
+
+    if [ "$n_lines" -gt "$height" ]
+    then
+        tldr $program $options | less -R
+    else
+        tldr $program $options 
+    fi
+    }        
+
 temp () {
     gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature $1
     }

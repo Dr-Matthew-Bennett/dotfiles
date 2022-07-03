@@ -95,6 +95,9 @@ alias chrome='google-chrome & tmux new-window'
 # access to contents of system clipboard (commands I plan on using start with this form)
 alias clip='xclip -selection clipboard'
 
+# if the file has colours, show them
+alias less='less -R'
+
 # set night light temp (default=4000) (<2530 causes flickering on flat monitor)
 alias day='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000'
 alias eve='gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3750'
