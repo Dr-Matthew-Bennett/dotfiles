@@ -65,6 +65,7 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'bronson/vim-visual-star-search'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
+Plugin 'christoomey/vim-system-copy'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
