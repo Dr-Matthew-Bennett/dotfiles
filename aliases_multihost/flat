@@ -37,7 +37,7 @@ alias rds="zathura /home/mattb/documents/books/data_science/r_for_data_science_w
     tmux new-window -n 'r_for_data_science'
     tmux split-window -v
     tmux send-keys -t 'main:r_for_data_science.1' 'cd /home/mattb/code/r/r_for_data_science' Enter
-    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch5.R scratch.R' Enter
+    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch7.R scratch.R' Enter
     tmux send-keys -t 'main:r_for_data_science.2' 'cd /home/mattb/code/r/r_for_data_science' Enter
     tmux send-keys -t main:r_for_data_science.2 'R' Enter
     " 
