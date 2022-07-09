@@ -588,9 +588,9 @@ function! TurnOffAutoComplete()
 endfunction
 
 function! NormalCommandWithoutAutoComplete(command)
-    call TurnOffAutoComplete()
     let l = line(".")
     let c = col(".")
+    call TurnOffAutoComplete()
     execute "normal! ".a:command
     call cursor(l, c)
     call TurnOnAutoComplete()
