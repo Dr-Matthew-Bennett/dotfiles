@@ -9,8 +9,10 @@
 
 " Create a funtion like Preserve() that preserves the unnamed register
 "
-" For autocomplete not to move cursor on: >p >P <p <P ]w ]W [w [W
+" For autocomplete not to move cursor on: ]w ]W [w [W
 " Probably need to make these into functions, not crazy normal mode sequences
+
+" Make repeatable: >p >P <p <P 
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
@@ -499,6 +501,33 @@ function! DeleteSurroundingSpace()
     call cursor(line('.'), c-shrink+1)
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- paste at end of line ----------------------------------------------------
+function! PasteAtEndOfLine(motion)
+    let to_paste = getreg('"')
+    execute 'normal! '.a:motion
+    let l = line(".")
+    let c = col(".")
+    let left = a:motion == '^'
+    let right = a:motion == '$'
+    call append(l-left, to_paste)
+    call cursor(l, c)
+    exec ':join'
+    exec ':substitute/[\x0]//e'
+    call cursor(l, c - left + right)
+endfunction
+
+" function! TrimWhiteSpace(str, where)
+"     if a:where == 'lead' || a:where == 'both'
+"         let pattern = '^\s*\(.*\)\s*'
+"     elseif a:where == 'lead'
+"         let pattern = '^\s*\(.*\)'
+"     elseif a:where == 'end'
+"         let pattern = '\(.*\)\s*'
+"     endif
+"     let str = substitute(a:str, pattern, '\1', 'g')
+"     return str
+" endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- calculate remaining jumps -----------------------------------------------
 if v:version > 801
     function! RemainingJumps()
@@ -779,11 +808,11 @@ augroup general
     call Repeat('WORDBackward', '[W', 'mx$ox<ESC>kJ`xdaWBPhmx$"_daw`xh')
 
     " paste at end of line, with an automatic space
-    call Repeat('PasteToRightOfLine1', '>p', 'o<C-r>"<ESC>kJ') 
-    call Repeat('PasteToRightOfLine2', '>P', 'o<C-r>"<ESC>kJ') 
+    call Repeat('PasteToRightOfLine1', '>p', ':call PasteAtEndOfLine("$")<CR>') 
+    call Repeat('PasteToRightOfLine2', '>P', ':call PasteAtEndOfLine("$")<CR>') 
     " paste at start of line, with an automatic space
-    call Repeat('PasteToLeftOfLine1', '<p', 'O<C-r>"<ESC>J')
-    call Repeat('PasteToLeftOfLine2', '<P', 'O<C-r>"<ESC>J')
+    call Repeat('PasteToLeftOfLine1', '<p', ':call PasteAtEndOfLine("^")<CR>') 
+    call Repeat('PasteToLeftOfLine2', '<P', ':call PasteAtEndOfLine("^")<CR>') 
 
     " delete line, but leave it blank
     call Repeat('EmptyLine', '<LEADER>dd', 'cc<Esc>')
