@@ -8,6 +8,9 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 
 " Create a funtion like Preserve() that preserves the unnamed register
+"
+" For autocomplete not to move cursor on: >p >P <p <P ]w ]W [w [W
+" Probably need to make these into functions, not crazy normal mode sequences
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
