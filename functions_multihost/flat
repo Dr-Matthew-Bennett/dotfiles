@@ -6,6 +6,8 @@ data () {
     days_in_month=$(date --date="$(date +%Y-%m-01) +1 month -1 day" '+%d')
     days_left_in_month=$(echo $days_in_month - $(date +%d) + 1 | bc)
     data_left=$(vnstat -m -i eno1 | awk -v pattern=$current_month '$0 ~ pattern {print 100 - $9}')
+    # but the vpn reset isn't at the end of the month...
+    # used_vpn=$(windscribe account | awk '/Usage/ {print $3}')
     av_per_day=$(echo "scale=2; $data_left / $days_left_in_month" | bc)
     used_today=$(vnstat -d -i eno1 | awk '/estimated/ {print $8, $9}')
     echo "days left:          $days_left_in_month"
