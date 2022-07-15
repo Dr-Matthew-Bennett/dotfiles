@@ -295,13 +295,21 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 "{{{- toggle between light and dark colorscheme -------------------------------
-function! SetColorScheme()
+function! SetColorScheme(focus)
     " check if tmux colorscheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
-        colorscheme zenburn
+        if a:focus == 1
+            colorscheme zenburn
+        else
+            colorscheme darkburn
+        endif
         let $BAT_THEME=''
     else
-        colorscheme seoul256-light
+        if a:focus == 1
+            colorscheme gruvbox
+        else
+            colorscheme seoul256-light
+        endif
         let $BAT_THEME='Monokai Extended Light'
     endif
 endfunction
@@ -314,7 +322,7 @@ function! ToggleLightDarkColorscheme()
         :silent :!tmux set-environment THEME 'dark'
         :silent :!tmux source-file ~/.tmux_dark.conf
     endif
-    :call SetColorScheme()
+    :call SetColorScheme(1)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- handle w3m_scratch file and toggle split to use it ----------------------
@@ -729,7 +737,7 @@ syntax enable " highlight special words to aid readability
 " make the highlighted searched words less distracting
 highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 " check if we're on a light or dark colorscheme in tmux, and pick accordingly
-call SetColorScheme()
+call SetColorScheme(1)
 
 let g:netrw_banner=0 " hide that huge banner
 "}}}---------------------------------------------------------------------------
@@ -756,7 +764,8 @@ augroup general
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
     nnoremap <LEADER>o :call ToggleLightDarkColorscheme()<CR>
-    autocmd FocusGained * :call SetColorScheme()
+    autocmd FocusGained * :call SetColorScheme(1)
+    autocmd FocusLost * :call SetColorScheme(0)
     "}}}-----------------------------------------------------------------------
     "{{{- movements and text objects ------------------------------------------
     " let g modify insert/append to work on wrapped lines, in the same way as
