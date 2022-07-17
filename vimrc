@@ -308,6 +308,7 @@ function! SetColorScheme(focus)
         let $BAT_THEME='Monokai Extended Light'
         if a:focus == 1
             highlight Normal ctermbg=white
+            highlight LineNr ctermbg=lightgrey
         endif
     endif
 endfunction
