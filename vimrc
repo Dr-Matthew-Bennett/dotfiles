@@ -306,7 +306,7 @@ function! SetColorScheme(focus)
         let $BAT_THEME=''
     else
         if a:focus == 1
-            colorscheme gruvbox
+            colorscheme pencil
         else
             colorscheme seoul256-light
         endif
