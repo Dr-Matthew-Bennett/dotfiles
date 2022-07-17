@@ -298,19 +298,17 @@ endfunction
 function! SetColorScheme(focus)
     " check if tmux colorscheme is light or dark, and pick for vim accordingly
     if system('tmux show-environment THEME')[0:9] ==# 'THEME=dark'
-        if a:focus == 1
-            colorscheme zenburn
-        else
-            colorscheme darkburn
-        endif
+        colorscheme zenburn
         let $BAT_THEME=''
-    else
-        if a:focus == 1
-            colorscheme pencil
-        else
-            colorscheme seoul256-light
+        if a:focus == 0
+            highlight Normal ctermbg=none
         endif
+    else
+        colorscheme seoul256-light
         let $BAT_THEME='Monokai Extended Light'
+        if a:focus == 1
+            highlight Normal ctermbg=white
+        endif
     endif
 endfunction
 
