@@ -62,6 +62,7 @@ ln -s ~/linux_config_files/w3m/keymap ~/.w3m/keymap
 ln -s ~/linux_config_files/w3m/config ~/.w3m/config
 ln -s ~/linux_config_files/w3m/functions_info.txt ~/.w3m/functions_info.txt 
 ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
+ln -sd ~/linux_config_files/.vim/after ~/.vim/after
 mkdir -p ~/.config/bat; ln -s ~/linux_config_files/bat_config ~/.config/bat/config
 mkdir -p ~/.ipython/profile_default/; ln -s ~/linux_config_files/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 ```
