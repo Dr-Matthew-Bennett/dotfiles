@@ -632,8 +632,8 @@ function! NormalCommandWithoutAutoComplete(command)
     let c = col(".")
     call TurnOffAutoComplete()
     execute "normal! ".a:command
-    call cursor(l, c)
     call TurnOnAutoComplete()
+    call cursor(l, c)
 endfunction
 
 function! ReplayMacroWithoutAutoComplete()
