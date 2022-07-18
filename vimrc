@@ -84,7 +84,7 @@ Plugin 'christoomey/vim-system-copy'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
 Plugin 'Matt-A-Bennett/vim-unit-test'
-Plugin 'Matt-A-Bennett/vim-visual-history'
+" Plugin 'Matt-A-Bennett/vim-visual-history'
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
