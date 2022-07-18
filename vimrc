@@ -756,7 +756,9 @@ augroup general
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
     " don't let the replay get clobberd by the OpenCompletion
-    nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
+    if v:version > 801
+        nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
+    endif
     nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
