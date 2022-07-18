@@ -756,7 +756,7 @@ augroup general
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
     " don't let the replay get clobberd by the OpenCompletion
-    if v:version > 801
+    if has('patch-8.2-2957')
         nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
     endif
     nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
