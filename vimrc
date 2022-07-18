@@ -614,31 +614,52 @@ function! OpenCompletion()
 endfunction
 
 function! TurnOnAutoComplete()
+    augroup autocomplete
         autocmd!
         autocmd InsertCharPre * silent! call OpenCompletion()
         autocmd InsertLeave let s:insert_count = 0
+        let s:autocomplete = 1
     augroup END
 endfunction
 
 function! TurnOffAutoComplete()
     augroup autocomplete
         autocmd!
+        let s:autocomplete = 0
     augroup END
 endfunction
 
+function! ToggleAutoComplete()
+    if s:autocomplete == 0
+        call TurnOnAutoComplete()
+        echo 'Autocomplete ON'
+    elseif s:autocomplete == 1
+        call TurnOffAutoComplete()
+        echo 'Autocomplete OFF'
+    endif
+endfunction
+
 function! NormalCommandWithoutAutoComplete(command)
-    let l = line(".")
-    let c = col(".")
-    call TurnOffAutoComplete()
-    execute "normal! ".a:command
-    call TurnOnAutoComplete()
-    call cursor(l, c)
+    if s:autocomplete == 1
+        let l = line(".")
+        let c = col(".")
+        call TurnOffAutoComplete()
+        execute "normal! ".a:command
+        call TurnOnAutoComplete()
+        call cursor(l, c)
+    else
+        execute "normal! ".a:command
+    endif
 endfunction
 
 function! ReplayMacroWithoutAutoComplete()
-    call TurnOffAutoComplete()
-    execute "normal! @".getcharstr()
-    call TurnOnAutoComplete()
+    if s:autocomplete == 1
+        call TurnOffAutoComplete()
+        execute "normal! @".getcharstr()
+        call TurnOnAutoComplete()
+    else
+        execute "normal! @".getcharstr()
+    endif
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
@@ -749,17 +770,22 @@ augroup general
     autocmd BufReadPost * :call CheckBashEdit()
     
     "{{{- insert mode completion ----------------------------------------------
+    let s:autocomplete = 0
     call TurnOnAutoComplete()
+
+    nnoremap <LEADER>c :call ToggleAutoComplete()<CR>
 
     " use tab for navigating the autocomplete menu
     inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
     " don't let the replay get clobberd by the OpenCompletion
+    nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
+
     if has('patch-8.2-2957')
         nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
     endif
-    nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
+
     "}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
