@@ -121,8 +121,10 @@ alias sshgla='ssh gpuws4-pc.psy.gla.ac.uk'
 alias sshglax='ssh -X gpuws4-pc.psy.gla.ac.uk'
 
 # connect or dissconnect to UCLouvain vpn
-alias uvc='nmcli con up ae483762-6fb0-49b0-a450-a280099d5eb8 UCL'
-alias uvd='nmcli con down ae483762-6fb0-49b0-a450-a280099d5eb8 UCL'
+vpn_login_hints="Auth User name: matthew.bennett@uclouvain.be\n
+Auth Password: the one I always use, cap first, 3 exclamations"
+alias uvc='echo -e ${vpn_login_hints} && openvpn3 session-start --config downloads/profile-10367.ovpn'
+alias uvd='echo running command "sudo pkill openvpn3" && sudo pkill openvpn3'
 
 # connect or dissconnect to Glasgow vpn
 alias gvc='nmcli con up 8b9c5955-9ba5-42c7-bdc4-9464ec4f2a49 Glasgow'
