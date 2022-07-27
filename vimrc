@@ -844,6 +844,19 @@ augroup general
 
     " count the number of matched patterns
     nnoremap <LEADER>n :%s///gn<CR>
+
+    " increment all numbers in visual selection
+    xnoremap <silent> <C-a> :<C-u>let vcount = v:count ? v:count : 1 \|
+                \ '<,'>s/\%V-\zs\<\d\+\>/\=submatch(0) - vcount/ge \|
+                \ '<,'>s/\%V[-.]\@<!\<\d\+\>/\=submatch(0) + vcount/ge \|
+                \ '<,'>s/\%V-0/0/ge \|
+                \<CR>gv
+
+    " decrement all numbers in visual selection
+    xnoremap <silent> <C-x> :<C-u>let vcount = v:count ? v:count : 1 \|
+                \ '<,'>s/\%V-\zs\d\+/\=submatch(0) + vcount/ge \|
+                \ '<,'>s/\%V[-.]\@<!\<\d\+\>/\=submatch(0) - vcount/ge \|
+                \<CR>gv
     "}}}-----------------------------------------------------------------------
     "{{{- common files to edit/source -----------------------------------------
     " edit common files
