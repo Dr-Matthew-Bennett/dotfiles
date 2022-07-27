@@ -8,11 +8,6 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 
 " Create a funtion like Preserve() that preserves the unnamed register
-"
-" For autocomplete not to move cursor on: ]w ]W [w [W
-" Probably need to make these into functions, not crazy normal mode sequences
-
-" Make repeatable: >p >P <p <P 
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
@@ -304,10 +299,6 @@ endfunction
 "{{{- apply the repeat plugin to any mapping ----------------------------------
 " (commands with a quote single will likely cause problems...)
 function! Repeat(mapname, map, command)
-    " temporarily turn of autocomplete while we do the command
-    " let command = ':call TurnOffAutoComplete()<CR>'
-    "              \.a:command.
-    "              \':call TurnOnAutoComplete()<CR>'
     execute 'nnoremap <silent> <Plug>'.a:mapname.' '.a:command.
                 \' :call repeat#set("\<Plug>'.a:mapname.'")<CR>'
     execute 'nmap '.a:map.' <Plug>'.a:mapname
@@ -624,70 +615,6 @@ function! VisualNumber(direction)
     call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
 "}}}---------------------------------------------------------------------------
-""{{{- start/stop insertmode completion ----------------------------------------
-"" if completion menu closed, and two non-spaces typed, call autocomplete
-"" similar/identical(?) to https://github.com/skywind3000/vim-auto-popmenu
-"let s:insert_count = 0
-"function! OpenCompletion()
-"    if string(v:char) =~? '\w'
-"        let s:insert_count += 1
-"    else                    
-"        let s:insert_count = 0
-"    endif
-"    if s:insert_count >= 2 && !pumvisible()
-"        silent! call feedkeys("\<C-n>", "n")
-"    endif
-"endfunction
-
-"function! TurnOnAutoComplete()
-"    augroup autocomplete
-"        autocmd!
-"        autocmd InsertCharPre * silent! call OpenCompletion()
-"        autocmd InsertLeave let s:insert_count = 0
-"        let s:autocomplete = 1
-"    augroup END
-"endfunction
-
-"function! TurnOffAutoComplete()
-"    augroup autocomplete
-"        autocmd!
-"        let s:autocomplete = 0
-"    augroup END
-"endfunction
-
-"function! ToggleAutoComplete()
-"    if s:autocomplete == 0
-"        call TurnOnAutoComplete()
-"        echo 'Autocomplete ON'
-"    elseif s:autocomplete == 1
-"        call TurnOffAutoComplete()
-"        echo 'Autocomplete OFF'
-"    endif
-"endfunction
-
-"function! NormalCommandWithoutAutoComplete(command)
-"    if s:autocomplete == 1
-"        let l = line(".")
-"        let c = col(".")
-"        call TurnOffAutoComplete()
-"        execute "normal! ".a:command
-"        call TurnOnAutoComplete()
-"        call cursor(l, c)
-"    else
-"        execute "normal! ".a:command
-"    endif
-"endfunction
-
-"function! ReplayMacroWithoutAutoComplete()
-"    if s:autocomplete == 1
-"        call TurnOffAutoComplete()
-"        execute "normal! @".getcharstr()
-"        call TurnOnAutoComplete()
-"    else
-"        execute "normal! @".getcharstr()
-"    endif
-"endfunction
-""}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
     set paste
@@ -794,24 +721,6 @@ augroup general
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
     
-    ""{{{- insert mode completion ----------------------------------------------
-    "let s:autocomplete = 0
-    "call TurnOnAutoComplete()
-
-    "nnoremap <LEADER>c :call ToggleAutoComplete()<CR>
-
-    "" use tab for navigating the autocomplete menu
-    "inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    "inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-
-    "" don't let the replay get clobberd by the OpenCompletion
-    "nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
-
-    "if has('patch-8.2-2957')
-    "    nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
-    "endif
-
-    ""}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
