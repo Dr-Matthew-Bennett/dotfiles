@@ -274,6 +274,16 @@ set completeopt+=menu,menuone,noselect
 
 " suppress annoying messages.
 set shortmess+=c
+
+" function to toggle autocomplete of all words in spelling dictionary
+function ToggleSpellDict()
+    if &dictionary =~ 'spell'
+        set dictionary-=spell
+    else
+        set dictionary+=spell
+    endif
+endfunction
+nnoremap <silent> <LEADER>c :call ToggleSpellDict()<CR>
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
