@@ -70,7 +70,7 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'bronson/vim-visual-star-search'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
-Plugin 'christoomey/vim-system-copy'
+Plugin 'skywind3000/vim-auto-popmenu'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -259,6 +259,22 @@ let g:ycm_filetype_blacklist = {
             \ 'mail': 1
             \}
 "}}}---------------------------------------------------------------------------
+"{{{- vim-auto-popmenu --------------------------------------------------------
+" enable this plugin for filetypes, '*' for all files.
+" {<str>:<int>}
+" <str>: filetype
+" <int>: number of letters to trigger autocomplete
+let g:apc_enable_ft = {'*':1}
+
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
+
+" don't select the first item.
+set completeopt+=menu,menuone,noselect
+
+" suppress annoying messages.
+set shortmess+=c
+"}}}---------------------------------------------------------------------------
 "==============================================================================
 
 "==== FUNCTIONS ===============================================================
@@ -279,10 +295,10 @@ endfunction
 " (commands with a quote single will likely cause problems...)
 function! Repeat(mapname, map, command)
     " temporarily turn of autocomplete while we do the command
-    let command = ':call TurnOffAutoComplete()<CR>'
-                 \.a:command.
-                 \':call TurnOnAutoComplete()<CR>'
-    execute 'nnoremap <silent> <Plug>'.a:mapname.' '.command.
+    " let command = ':call TurnOffAutoComplete()<CR>'
+    "              \.a:command.
+    "              \':call TurnOnAutoComplete()<CR>'
+    execute 'nnoremap <silent> <Plug>'.a:mapname.' '.a:command.
                 \' :call repeat#set("\<Plug>'.a:mapname.'")<CR>'
     execute 'nmap '.a:map.' <Plug>'.a:mapname
 endfunction
@@ -598,70 +614,70 @@ function! VisualNumber(direction)
     call search('\(^\|[^0-9\.]\d\)', 'becW')
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- start/stop insertmode completion ----------------------------------------
-" if completion menu closed, and two non-spaces typed, call autocomplete
-" similar/identical(?) to https://github.com/skywind3000/vim-auto-popmenu
-let s:insert_count = 0
-function! OpenCompletion()
-    if string(v:char) =~? '\w'
-        let s:insert_count += 1
-    else                    
-        let s:insert_count = 0
-    endif
-    if s:insert_count >= 2 && !pumvisible()
-        silent! call feedkeys("\<C-n>", "n")
-    endif
-endfunction
+""{{{- start/stop insertmode completion ----------------------------------------
+"" if completion menu closed, and two non-spaces typed, call autocomplete
+"" similar/identical(?) to https://github.com/skywind3000/vim-auto-popmenu
+"let s:insert_count = 0
+"function! OpenCompletion()
+"    if string(v:char) =~? '\w'
+"        let s:insert_count += 1
+"    else                    
+"        let s:insert_count = 0
+"    endif
+"    if s:insert_count >= 2 && !pumvisible()
+"        silent! call feedkeys("\<C-n>", "n")
+"    endif
+"endfunction
 
-function! TurnOnAutoComplete()
-    augroup autocomplete
-        autocmd!
-        autocmd InsertCharPre * silent! call OpenCompletion()
-        autocmd InsertLeave let s:insert_count = 0
-        let s:autocomplete = 1
-    augroup END
-endfunction
+"function! TurnOnAutoComplete()
+"    augroup autocomplete
+"        autocmd!
+"        autocmd InsertCharPre * silent! call OpenCompletion()
+"        autocmd InsertLeave let s:insert_count = 0
+"        let s:autocomplete = 1
+"    augroup END
+"endfunction
 
-function! TurnOffAutoComplete()
-    augroup autocomplete
-        autocmd!
-        let s:autocomplete = 0
-    augroup END
-endfunction
+"function! TurnOffAutoComplete()
+"    augroup autocomplete
+"        autocmd!
+"        let s:autocomplete = 0
+"    augroup END
+"endfunction
 
-function! ToggleAutoComplete()
-    if s:autocomplete == 0
-        call TurnOnAutoComplete()
-        echo 'Autocomplete ON'
-    elseif s:autocomplete == 1
-        call TurnOffAutoComplete()
-        echo 'Autocomplete OFF'
-    endif
-endfunction
+"function! ToggleAutoComplete()
+"    if s:autocomplete == 0
+"        call TurnOnAutoComplete()
+"        echo 'Autocomplete ON'
+"    elseif s:autocomplete == 1
+"        call TurnOffAutoComplete()
+"        echo 'Autocomplete OFF'
+"    endif
+"endfunction
 
-function! NormalCommandWithoutAutoComplete(command)
-    if s:autocomplete == 1
-        let l = line(".")
-        let c = col(".")
-        call TurnOffAutoComplete()
-        execute "normal! ".a:command
-        call TurnOnAutoComplete()
-        call cursor(l, c)
-    else
-        execute "normal! ".a:command
-    endif
-endfunction
+"function! NormalCommandWithoutAutoComplete(command)
+"    if s:autocomplete == 1
+"        let l = line(".")
+"        let c = col(".")
+"        call TurnOffAutoComplete()
+"        execute "normal! ".a:command
+"        call TurnOnAutoComplete()
+"        call cursor(l, c)
+"    else
+"        execute "normal! ".a:command
+"    endif
+"endfunction
 
-function! ReplayMacroWithoutAutoComplete()
-    if s:autocomplete == 1
-        call TurnOffAutoComplete()
-        execute "normal! @".getcharstr()
-        call TurnOnAutoComplete()
-    else
-        execute "normal! @".getcharstr()
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
+"function! ReplayMacroWithoutAutoComplete()
+"    if s:autocomplete == 1
+"        call TurnOffAutoComplete()
+"        execute "normal! @".getcharstr()
+"        call TurnOnAutoComplete()
+"    else
+"        execute "normal! @".getcharstr()
+"    endif
+"endfunction
+""}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
     set paste
@@ -720,7 +736,7 @@ set colorcolumn=80 " show vertical bar at 80 columns
 set textwidth=79 " at 79 columns, wrap text
 set linebreak " wrap long lines at char in 'breakat' (default " ^I!@*-+;:,./?")
 set nowrap " don't wrap lines by default
-set completeopt+=menuone,noselect,noinsert " don't insert text automatically
+set completeopt+=noinsert " don't insert text automatically
 set pumheight=5 " keep the autocomplete suggestion menu small
 set wildmenu " list completion options when typing in command line mode
 set wildmode=list,full
@@ -740,7 +756,6 @@ set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
 set hlsearch | noh " highlight matches for searched (turn off when sourcing)
 set shortmess-=S " show the number of search results (up to 99)
-set shortmess+=c " don't give ins-completion-menu messages
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
@@ -769,24 +784,24 @@ augroup general
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
     
-    "{{{- insert mode completion ----------------------------------------------
-    let s:autocomplete = 0
-    call TurnOnAutoComplete()
+    ""{{{- insert mode completion ----------------------------------------------
+    "let s:autocomplete = 0
+    "call TurnOnAutoComplete()
 
-    nnoremap <LEADER>c :call ToggleAutoComplete()<CR>
+    "nnoremap <LEADER>c :call ToggleAutoComplete()<CR>
 
-    " use tab for navigating the autocomplete menu
-    inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+    "" use tab for navigating the autocomplete menu
+    "inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    "inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
-    " don't let the replay get clobberd by the OpenCompletion
-    nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
+    "" don't let the replay get clobberd by the OpenCompletion
+    "nnoremap <silent> . :call NormalCommandWithoutAutoComplete('.')<CR>
 
-    if has('patch-8.2-2957')
-        nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
-    endif
+    "if has('patch-8.2-2957')
+    "    nnoremap <silent> @ :call ReplayMacroWithoutAutoComplete()<CR>
+    "endif
 
-    "}}}-----------------------------------------------------------------------
+    ""}}}-----------------------------------------------------------------------
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
@@ -990,7 +1005,6 @@ augroup vim help "{{{----------------------------------------------------------
 "}}}---------------------------------------------------------------------------
 augroup python "{{{------------------------------------------------------------
     autocmd!
-    set completeopt-=preview "don't have preview window on python autocomplete
     " avoid conversion issues when checking into github and/or sharing with
     " other users.
     autocmd FileType python setlocal fileformat=unix
