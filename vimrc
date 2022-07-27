@@ -1148,7 +1148,7 @@ augroup END
 augroup tidy_code_matlab_and_python "{{{---------------------------------------
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
-    " autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
+    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
     autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
 augroup END
 "}}}---------------------------------------------------------------------------
