@@ -46,13 +46,14 @@ Plugin 'markonm/traces.vim'
 Plugin 'Matt-A-Bennett/vim-surround-funk'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
+Plugin 'skywind3000/vim-auto-popmenu'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 " Update: vim-tmux-focus-events is now obsolete and no longer needed as both
 " neovim and vim (since version 8.2.2345) have native support for this
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/MatlabFilesEdition'
+" Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
@@ -65,7 +66,6 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'bronson/vim-visual-star-search'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
-Plugin 'skywind3000/vim-auto-popmenu'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -169,21 +169,20 @@ let g:traces_preview_window = "below 5new"
 " preview window setting above
 let g:traces_preserve_view_state = 1
 "}}}---------------------------------------------------------------------------
-"{{{- ultisnips ---------------------------------------------------------------
-" Ultisnips trigger configuration.
-" Do not use <TAB> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger=";s"
-let g:UltiSnipsJumpForwardTrigger="<C-n>"
-let g:UltiSnipsJumpBackwardTrigger="<C-p>"
-let g:UltiSnipsEditSplit="vertical"
-" where ultisnips looks for snippets
-" (I think you can add multiple items in the list)
-let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-"}}}---------------------------------------------------------------------------
+""{{{- ultisnips ---------------------------------------------------------------
+"" Ultisnips trigger configuration.
+"" Do not use <TAB> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger=";s"
+"let g:UltiSnipsJumpForwardTrigger="<C-n>"
+"let g:UltiSnipsJumpBackwardTrigger="<C-p>"
+"let g:UltiSnipsEditSplit="vertical"
+"" where ultisnips looks for snippets
+"" (I think you can add multiple items in the list)
+"let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
+""}}}---------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete#trigger = 'omnifunc'
 let g:tmuxcomplete_pane_index_display_duration_ms = '250'
-
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
 " make repeatable
@@ -236,23 +235,6 @@ let g:tmux_navigator_disable_when_zoomed = 1
 let g:winresizer_start_key = '<LEADER>w'
 let g:winresizer_vert_resize=5
 let g:winresizer_horiz_resize=3
-"}}}---------------------------------------------------------------------------
-"{{{- YouCompleteMe -----------------------------------------------------------
-let g:ycm_complete_in_comments = 1
-
-" YouCompleteMe has a few filetypes that it doesn't work on by default.
-" I removed markdown and text from this list and they seem to work just fine.
-let g:ycm_filetype_blacklist = {
-            \ 'tagbar': 1,
-            \ 'notes': 1,
-            \ 'netrw': 1,
-            \ 'unite': 1,
-            \ 'vimwiki': 1,
-            \ 'pandoc': 1,
-            \ 'infolog': 1,
-            \ 'leaderf': 1,
-            \ 'mail': 1
-            \}
 "}}}---------------------------------------------------------------------------
 "{{{- vim-auto-popmenu --------------------------------------------------------
 " enable this plugin for filetypes, '*' for all files.
@@ -341,23 +323,23 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme(1)
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- handle w3m_scratch file and toggle split to use it ----------------------
-function! WriteW3MToScratch()
-    " only if the file matches this highly specific reg exp will we do anything
-    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
-    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") !=# -1
-        :silent! wq! /tmp/w3m_scratch
-    endif
-endfunction
+""{{{- handle w3m_scratch file and toggle split to use it ----------------------
+"function! WriteW3MToScratch()
+"    " only if the file matches this highly specific reg exp will we do anything
+"    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
+"    if match(@%, "\.w3m/w3mtmp\\d\\+-\\d") !=# -1
+"        :silent! wq! /tmp/w3m_scratch
+"    endif
+"endfunction
 
-function! ToggleW3M()
-    if bufexists("/tmp/w3m_scratch")
-        :bwipeout! /tmp/w3m_scratch
-    else
-        :silent! split /tmp/w3m_scratch
-    endif
-endfunction
-"}}}---------------------------------------------------------------------------
+"function! ToggleW3M()
+"    if bufexists("/tmp/w3m_scratch")
+"        :bwipeout! /tmp/w3m_scratch
+"    else
+"        :silent! split /tmp/w3m_scratch
+"    endif
+"endfunction
+""}}}---------------------------------------------------------------------------
 "{{{- if vim was initiated by <Esc-v> in bash, take evasive action ------------
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
@@ -398,91 +380,6 @@ function! Preserve(command, is_func)
     " restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- matlab functions for easy interrogation of variables --------------------
-function! MatlabImagesc(type)
-    :call MatlabPrepCode()
-    silent :execute "normal! o figure, imagesc(V__), axis image"
-    :call MatlabExecuteCode()
-endfunction
-
-function! MatlabPlot(type)
-    :call MatlabPrepCode()
-    silent :execute "normal! o figure, plot(V__), axis image"
-    :call MatlabExecuteCode()
-endfunction
-
-function! MatlabHist(type)
-    :call MatlabPrepCode()
-    silent :execute "normal! o figure, hist(V__,100), axis image"
-    :call MatlabExecuteCode()
-endfunction
-
-function! MatlabSummarise(type)
-    :call MatlabPrepCode()
-    silent :execute "normal! o whos V__"
-    silent :execute "normal! o V__(1:min(size(V__, 1), 5), 1:min(size(V__, 2), 5))"
-    silent :execute "normal! o [min(V__(:)), max(V__(:)), length(unique(V__(:)))]"
-    :call MatlabExecuteCode()
-endfunction
-
-" helper functions
-function! MatlabPrepCode()
-    " mark the current cursor position
-    silent :execute "normal! mx"
-    " visually select and yank between opfunc marks
-    silent :execute "normal! `[v`]\"my"
-    " drop down to a new line, ready for composition
-    " silent :execute "normal! o \<ESC>"
-    " reassign variable for use in code
-    silent :execute "normal! o V__ = \<ESC>\"mpA;"
-    :call MatlabExecuteCode()
-endfunction
-
-function! MatlabExecuteCode()
-    " create a space after
-    silent :execute "normal! o \<ESC>"
-    " move back line below mark, and visually select to end of paragraph
-    silent :execute "normal! `xj0v}"
-    " send it to the tmux window
-    silent :execute "normal\<Plug>SlimeRegionSend"
-    " move cursor back to original position
-    silent :execute "normal! \"_dd`xu"
-endfunction
-"}}}---------------------------------------------------------------------------
-"{{{- function to refactor code in python -------------------------------------
-function! RefactorPython()
-    " mark the location
-    execute "normal mx"
-    " search backwards for the word import at start of line
-    if search("^import \| ^from ", 'b', 'W') !=# 0
-        " create 2 blank lines below it
-        execute "normal 2o"
-        " execute "normal k"
-    else
-        " search for the first def or class in the file
-        execute "normal gg"
-        :call search("^\\<def\\> .*:\\|\\<class\\>.*:")
-        " create 2 blank lines above it
-        execute "normal 2O"
-        execute "normal k"
-    endif
-    " if we found none of the above this will happen at the start of file
-    " define a new function
-    execute "normal Idef my_function():"
-    " drop down a line to make a mark y, then go up again
-    execute "normal jmyk"
-    " paste the refactored lines into it and indent until end (mark y)
-    execute "normal ]p>'y"
-    " put a dummy return statement at end (mark y)
-    execute "normal 'yIreturn None"
-    " indent the return statement
-    execute "normal <<........>>"
-    " make a blank line below the return statement
-    execute "normal o"
-    " move input arguments, turn off search highlighting
-    execute "normal ?^\\<def\\>.*)?e\<CR>:nohlsearch\<CR>"
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- create/delete space around cursor/current line --------------------------
@@ -606,15 +503,15 @@ function! HorizontalScrollMode(call_char)
     echohl None | echo '' | redraws
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- visual text object for number -------------------------------------------
-function! VisualNumber(direction)
-    " find the end of a number (we assume a decimal means it's not the end)
-    call search('\d\([^0-9\.]\|$\)', a:direction.'W')
-    normal! v
-    " find the beggininng of that number (again, we don't stop for a decimal)
-    call search('\(^\|[^0-9\.]\d\)', 'becW')
-endfunction
-"}}}---------------------------------------------------------------------------
+""{{{- visual text object for number -------------------------------------------
+"function! VisualNumber(direction)
+"    " find the end of a number (we assume a decimal means it's not the end)
+"    call search('\d\([^0-9\.]\|$\)', a:direction.'W')
+"    normal! v
+"    " find the beggininng of that number (again, we don't stop for a decimal)
+"    call search('\(^\|[^0-9\.]\d\)', 'becW')
+"endfunction
+""}}}---------------------------------------------------------------------------
 "{{{- paste from system clipboard ---------------------------------------------
 function! PasteFromRegister(reg, up_or_down, autoindent)
     set paste
@@ -696,9 +593,6 @@ set shortmess-=S " show the number of search results (up to 99)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
 set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
-" if v:version > 801
-"     set nrformats=unsigned " ignore any minus sign when using <C-a/x>
-" endif
 set spell spelllang=en
 set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
@@ -787,17 +681,13 @@ augroup general
     " delete line, but leave it blank
     call Repeat('EmptyLine', '<LEADER>dd', 'cc<Esc>')
 
-    " delete line above/below current line
-    call Repeat('DeleteLineAbove', 'd[<SPACE>', ':call DeleteLineAbove()<CR>')
-    call Repeat('DeleteLineBelow', 'd]<SPACE>', ':call DeleteLineBelow()<CR>')
+    " create line above and below a line
+    call Repeat('CreateBlankLineAboveAndBelow1', ']]<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
+    call Repeat('CreateBlankLineAboveAndBelow2', '[[<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " delete line above and below a line
     call Repeat('DeleteBlankLineAboveAndBelow1', 'd]]<SPACE>', ':call DeleteBlankLineAboveAndBelow()<CR>')
     call Repeat('DeleteBlankLineAboveAndBelow2', 'd[[<SPACE>', ':call DeleteBlankLineAboveAndBelow()<CR>')
-
-    " create line above and below a line
-    call Repeat('CreateBlankLineAboveAndBelow1', ']]<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
-    call Repeat('CreateBlankLineAboveAndBelow2', '[[<SPACE>', ':call CreateBlankLineAboveAndBelow()<CR>')
 
     " create some space either side of a character
     call Repeat('CreateSurroundingSpace', 'cs<SPACE>', ':call CreateSurroundingSpace()<CR>')
@@ -823,11 +713,11 @@ augroup general
     " turn on indent foldmethod
     nnoremap <LEADER>i :set foldmethod=indent<CR>
 
-    " open/close horizontal split containing w3m_scratch
-    nnoremap <LEADER>W :call ToggleW3M()<CR>
+    " " open/close horizontal split containing w3m_scratch
+    " nnoremap <LEADER>W :call ToggleW3M()<CR>
 
-    " anytime we read in a buffer, if it came from w3m then write to scratch
-    autocmd BufReadPost * :call WriteW3MToScratch()
+    " " anytime we read in a buffer, if it came from w3m then write to scratch
+    " autocmd BufReadPost * :call WriteW3MToScratch()
     "}}}-----------------------------------------------------------------------
     "{{{- searching and substitution ------------------------------------------
     " autocenter search results with zvzz,
@@ -944,19 +834,6 @@ augroup python "{{{------------------------------------------------------------
     autocmd FileType python let python_highlight_all=1
     autocmd FileType python setlocal foldmethod=indent
 
-    " print a variable under the cursor
-    autocmd FileType python nmap <LEADER>q mxyiwO<ESC>pIprint(<ESC>A)<ESC>
-                \<Plug>SlimeLineSend<ESC>ddg`xu
-
-    " refactor visually selected lines, first leave a blank line then call func
-    autocmd FileType python vnoremap <LEADER>r s<ESC>:call RefactorPython()<CR>
-
-    " insert refactored function where lines were taken from (after func above)
-    autocmd FileType python nnoremap <LEADER>r 
-                \?^\<def\>.*:<CR>:noh<CR>
-                \Wyt:
-                \'x]p
-
     " common imports
     autocmd FileType python abbreviate implt import matplotlib.pyplot as plt
     autocmd FileType python abbreviate imnp import numpy as np
@@ -988,48 +865,6 @@ augroup matlab "{{{------------------------------------------------------------
     autocmd FileType matlab iabbrev <buffer> key keyboard
     autocmd FileType matlab iabbrev <buffer> dbq dbquit
     autocmd FileType matlab iabbrev <buffer> dbc dbcont
-
-    "{{{- variables/functions under the cursor --------------------------------
-    " send the variable under the cursor to matlab
-    autocmd FileType matlab nmap <LEADER>cq viw<Plug>SlimeRegionSend
-
-    " print documentation of matlab function
-    autocmd FileType matlab nmap <LEADER>cd mxyiwO<ESC>pIhelp <ESC>
-                \<Plug>SlimeLineSend<ESC>ddg`xu
-
-    " ask whos a variable under the cursor
-    autocmd FileType matlab nmap <LEADER>cw mxyiwO<ESC>pIwhos <ESC>
-                \<Plug>SlimeLineSend<ESC>ddg`xu
-
-    " imagesc <motion>
-    autocmd FileType matlab noremap <silent> <LEADER>ci
-                \ :set opfunc=MatlabImagesc<CR>g@
-    " plot <motion>
-    autocmd FileType matlab noremap <silent> <LEADER>cp
-                \ :set opfunc=MatlabPlot<CR>g@
-    " histogram <motion>
-    autocmd FileType matlab noremap <silent> <LEADER>ch
-                \ :set opfunc=MatlabHist<CR>g@
-    " summary info of <motion>
-    autocmd FileType matlab noremap <silent> <LEADER>cs
-                \ :set opfunc=MatlabSummarise<CR>g@
-    "}}}-----------------------------------------------------------------------
-    "{{{- function documentation ----------------------------------------------
-    " clean documentation after func snip (remove lines with unused arguments)
-    autocmd FileType matlab nnoremap <LEADER>dc
-                \ :g/% arg :/norm dap <CR>
-                \ :g/optional_/d <CR> :%s/arg, //g <CR>G
-
-    " add any optional variables to the help docs LEAVE THE SPACE AT THE $!! 
-    autocmd FileType matlab nnoremap <LEADER>dh 
-                \/set default values for optional variables<CR>j0wy}zR
-                \/'\\n'],<CR>pms
-                \v}k$:norm f=d$<CR>
-                \}yy'sPjwv}k$
-                \:norm ^i['\n<CR>
-                \'sv}k$: norm $i'],...<CR>
-                \'skdd=}}2ddG
-    "}}}-----------------------------------------------------------------------
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup markdown "{{{----------------------------------------------------------
