@@ -893,7 +893,7 @@ augroup END
 "}}}---------------------------------------------------------------------------
 augroup tex "{{{---------------------------------------------------------------
     autocmd!
-    autocmd FileType tex setlocal foldmethod=marker
+    autocmd FileType tex setlocal foldmethod=indent
     " start out with everything folded away
     autocmd FileType tex setlocal foldlevel=0
     autocmd FileType tex setlocal foldlevelstart=0
