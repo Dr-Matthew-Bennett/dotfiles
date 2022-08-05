@@ -852,6 +852,9 @@ augroup r "{{{-----------------------------------------------------------------
     
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rd set iskeyword-=.
+
+    " compile the R markdown document
+    autocmd FileType rmd nnoremap <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
