@@ -782,10 +782,10 @@ augroup general
     nnoremap <LEADER>[P :call PasteFromRegister('*', 'up', 'autoindent')<CR>
 
     " copy contents of unnamed register to system CTRL-C clipboard
-    nnoremap <silent> <LEADER>y :call Preserve("normal! Gp\"+dGu", 0)<CR>
+    nnoremap <silent> <LEADER>y :let @+=@0<CR>
                 \ :echo 'copied to CTRL-C clipboard'<CR>
     " copy contents of unnamed register to system highlighted clipboard
-    nnoremap <silent> <LEADER>Y :call Preserve("normal! Gp\"*dGu", 0)<CR>
+    nnoremap <silent> <LEADER>Y :let @*=@0<CR>
                 \ :echo 'copied to highlight clipboard'<CR>
 
     " format and yank buffer in a good way for pasting outside of vim
