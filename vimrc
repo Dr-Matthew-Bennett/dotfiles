@@ -843,18 +843,21 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd!
     " avoid conversion issues when checking into github and/or sharing with
     " other users.
-    autocmd FileType R,r,rmd,Rd setlocal fileformat=unix
-    autocmd FileType R,r,rmd,Rd setlocal foldmethod=indent
+    autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
+    autocmd FileType R,r,rmd,Rmd setlocal foldmethod=indent
 
     " easier to type assignment
-    autocmd FileType R,r,rmd,Rd inoremap <buffer> << <-
-    autocmd FileType R,r,rmd,Rd inoremap <buffer> >> %>%
+    autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
+    autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> %>%
     
     " don't consider dots part of words (i.e. keep acting like normal vim)
-    autocmd FileType R,r,rmd,Rd set iskeyword-=.
+    autocmd FileType R,r,rmd,Rmd set iskeyword-=.
 
     " compile the R markdown document
     autocmd FileType rmd nnoremap <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
+
+    " common mispellings
+    autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
