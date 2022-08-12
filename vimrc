@@ -35,7 +35,6 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins that do more exotic things
 Plugin 'christoomey/vim-tmux-navigator'
@@ -54,6 +53,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 " Plugin 'vim-scripts/MatlabFilesEdition'
+Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
