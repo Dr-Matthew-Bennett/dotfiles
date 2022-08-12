@@ -182,7 +182,7 @@ let g:traces_preserve_view_state = 1
 ""}}}---------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete#trigger = 'omnifunc'
-let g:tmuxcomplete_pane_index_display_duration_ms = '250'
+let g:tmuxcomplete_pane_index_display_duration_ms = '200'
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
 " make repeatable
@@ -531,7 +531,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- change slime target pane mid-session ------------------------------------
 function! ChangeBufferSlimeConfig()
-    call DisplayTmuxPaneIndices("350")
+    call DisplayTmuxPaneIndices("200")
     let b:slime_config = 
                 \ {"socket_name": "default"}
     let b:slime_config["target_pane"] = input("target_pane:")
