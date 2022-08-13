@@ -1,4 +1,4 @@
-# linux_config_files
+# dotfiles
 
 This is how I keep all my configuration files synched across machines. It was
 inspired by a [blog
@@ -19,10 +19,10 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
 ## To make this work
 
 1) Clone this repository into your home directory (you should then have a
-linux_config_files directory):
+dotfiles directory):
 
 ```shell
-git clone https://github.com/Matt-A-Bennett/linux_config_files.git
+git clone https://github.com/Matt-A-Bennett/dotfiles.git
 ```
 
 2) Rename files in the \*\_multihost directories to match the hostnames of your
@@ -47,24 +47,24 @@ that you want to keep synched across machines with symbolic links from your
 
 ```shell
 cd ~/
-ln -s ~/linux_config_files/bashrc_multihost/base .bashrc
-ln -s ~/linux_config_files/inputrc .inputrc
-ln -s ~/linux_config_files/tmux.conf .tmux.conf
-ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
-ln -s ~/linux_config_files/tmux_dark.conf .tmux_dark.conf
+ln -s ~/dotfiles/bashrc_multihost/base .bashrc
+ln -s ~/dotfiles/inputrc .inputrc
+ln -s ~/dotfiles/tmux.conf .tmux.conf
+ln -s ~/dotfiles/tmux_light.conf .tmux_light.conf
+ln -s ~/dotfiles/tmux_dark.conf .tmux_dark.conf
 mkdir -p ~/.config/zathura/zathurarc
-ln -s ~/linux_config_files/zathurarc ~/.config/zathura/zathurarc
-mkdir -p linux_config_files/.vim/{backup,undo,swap}
-ln -s ~/linux_config_files/vimrc .vimrc
+ln -s ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
+mkdir -p dotfiles/.vim/{backup,undo,swap}
+ln -s ~/dotfiles/vimrc .vimrc
 mkdir ~/.w3m
 mkdir -p ~/.vim/ultisnips
-ln -s ~/linux_config_files/w3m/keymap ~/.w3m/keymap
-ln -s ~/linux_config_files/w3m/config ~/.w3m/config
-ln -s ~/linux_config_files/w3m/functions_info.txt ~/.w3m/functions_info.txt 
-ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
-ln -sd ~/linux_config_files/.vim/after ~/.vim/after
-mkdir -p ~/.config/bat; ln -s ~/linux_config_files/bat_config ~/.config/bat/config
-mkdir -p ~/.ipython/profile_default/; ln -s ~/linux_config_files/ipython_config.py ~/.ipython/profile_default/ipython_config.py
+ln -s ~/dotfiles/w3m/keymap ~/.w3m/keymap
+ln -s ~/dotfiles/w3m/config ~/.w3m/config
+ln -s ~/dotfiles/w3m/functions_info.txt ~/.w3m/functions_info.txt 
+ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
+ln -sd ~/dotfiles/.vim/after ~/.vim/after
+mkdir -p ~/.config/bat; ln -s ~/dotfiles/bat_config ~/.config/bat/config
+mkdir -p ~/.ipython/profile_default/; ln -s ~/dotfiles/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 ```
 
 Note that I am intentionally making the files that I link to non-hidden. This
@@ -75,11 +75,11 @@ I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
 snippets in ~/.vim/ultisnips
 
 In order to keep my .snippets files synched across machines, I keep my ultisnip
-directory in the ~/linux_config_files and create a symbolic link to it from
+directory in the ~/dotfiles and create a symbolic link to it from
 ~/.vim/ultsnips
 
 ```shell
-ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
+ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
 ```
 ### FZF
 I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
@@ -100,16 +100,16 @@ git repository, but I don't think anyone does that...
 
 I created a .git directory and a .gitignore file in my home directory. The
 .gitignore file should be symbolically linked to a file in the
-linux_config_files repository [like in the steps above](#to-make-this-work).
+dotfiles repository [like in the steps above](#to-make-this-work).
 The only difference is that the file that it links to can't itself be called
 '.gitignore', since there is (or might one day) already exist the 'real
-.gitignore' associated with the linux_config_files repository! So I call it
+.gitignore' associated with the dotfiles repository! So I call it
 fzfhome_gitignore instead.
 
 ```shell
 cd ~/
 mkdir .git
-ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
+ln -s ~/dotfiles/fzfhome_gitignore .gitignore
 ```
 
 Then in your .bashrc, add the following line (already added for the .bashrc in

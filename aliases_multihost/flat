@@ -67,4 +67,4 @@ alias tc='python3 ~/code/python/python_flat/speed.py &'
 alias vidkeydisp='~/videos/vim/screenkey/screenkey -p fixed -g 750x100+1100+825 &'
 
 # for when I want to make a gif of something in vim
-alias vimgif='vim -u ~/linux_config_files/plugin_showcase.vim'
+alias vimgif='vim -u ~/dotfiles/plugin_showcase.vim'

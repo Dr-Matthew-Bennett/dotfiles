@@ -80,22 +80,22 @@ xterm*|rxvt*)
 esac
 
 # source host specific .bashrc file if it exists
-[ -f ~/linux_config_files/bashrc_multihost/$HOSTNAME ] &&
-source ~/linux_config_files/bashrc_multihost/$HOSTNAME
+[ -f ~/dotfiles/bashrc_multihost/$HOSTNAME ] &&
+source ~/dotfiles/bashrc_multihost/$HOSTNAME
 
 # source base .bash_functions if it exists
-[ -f ~/linux_config_files/functions_multihost/base ] &&
-source ~/linux_config_files/functions_multihost/base
+[ -f ~/dotfiles/functions_multihost/base ] &&
+source ~/dotfiles/functions_multihost/base
 # source host specific .bash_functions if they exist
-[ -f ~/linux_config_files/functions_multihost/$HOSTNAME ] &&
-source ~/linux_config_files/functions_multihost/$HOSTNAME
+[ -f ~/dotfiles/functions_multihost/$HOSTNAME ] &&
+source ~/dotfiles/functions_multihost/$HOSTNAME
 
 # source base .bash_aliases if it exists
-[ -f ~/linux_config_files/aliases_multihost/base ] &&
-source ~/linux_config_files/aliases_multihost/base
+[ -f ~/dotfiles/aliases_multihost/base ] &&
+source ~/dotfiles/aliases_multihost/base
 # source host specific .bash_aliases if they exist
-[ -f ~/linux_config_files/aliases_multihost/$HOSTNAME ] &&
-source ~/linux_config_files/aliases_multihost/$HOSTNAME
+[ -f ~/dotfiles/aliases_multihost/$HOSTNAME ] &&
+source ~/dotfiles/aliases_multihost/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -149,7 +149,7 @@ export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
 # add personal bin directory for scripts
-export PATH="$HOME/linux_config_files/bin:$PATH"
+export PATH="$HOME/dotfiles/bin:$PATH"
 
 # todo path
 export TODO_PATH='/home/mattb/documents/work_notes/.todo'

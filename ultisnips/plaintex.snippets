@@ -1,1 +1,51 @@
-tex.snippets
+snippet \b "\begin"
+\begin{$1}
+$0
+\end{$1}
+endsnippet
+
+snippet fig "\begin{figure}"
+\begin{figure}[h] %{{{
+        \centering
+        \includegraphics[width=\linewidth]{${1:path/to/figure.ext}}
+        \caption[${2:toc shows this}]
+        {${3: Full caption}}
+        \label{fig:$4}
+\end{figure} %}}}
+endsnippet
+
+snippet tab "make a table"
+\begin{table}[h!] %{{{
+    \begin{center}
+        \caption{${1: descibe what this table shows}}
+        \label{tab:${2:}}
+        \begin{tabular}{${3:l|c|c|r}}
+            \textbf{} & \textbf{} & \textbf{} & \textbf{}\\
+
+            \end{tabular}
+    \end{center}
+\end{table} %}}}
+endsnippet
+
+snippet template "article template"
+\documentclass{${1:article}}
+
+\usepackage{graphicx}
+
+\title{$1}
+\author{Matthew Bennett}
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+    \listoffigures
+    \newpage
+
+    \section{$2}
+    $0
+
+    \newpage
+    \bibliography{mybib}
+    \bibliographystyle{apalike}
+\end{document}
+endsnippet

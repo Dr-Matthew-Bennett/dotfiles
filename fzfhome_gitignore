@@ -15,7 +15,7 @@ games/
 gems/
 ideas/
 installed/
-linux_config_files/
+dotfiles/
 maintenance/
 music/
 nltk_data/
@@ -43,7 +43,7 @@ documents/
 downloads/
 from_usb/
 gems/
-linux_config_files/
+dotfiles/
 maintenance/
 matlab/
 music/
@@ -65,7 +65,7 @@ Desktop/
 documents/
 downloads/
 fix/
-linux_config_files/
+dotfiles/
 local/
 maintenance/
 matlab/
@@ -84,7 +84,7 @@ Desktop/
 documents/
 downloads/
 fix/
-linux_config_files/
+dotfiles/
 local/
 maintenance/
 matlab/
@@ -107,7 +107,7 @@ Documents/
 Downloads/
 examples.desktop/
 laynii/
-linux_config_files/
+dotfiles/
 Music/
 Pictures/
 Public/
@@ -134,7 +134,7 @@ Videos/
 !fix/
 !games_like_EE/
 !laynii/
-!linux_config_files/
+!dotfiles/
 !maintenance/
 !music/
 !Music/

@@ -539,7 +539,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
-    edit .tmux | %!sh ~/linux_config_files/bin/tmuxcomplete -s lines -e -n
+    edit .tmux | %!sh ~/dotfiles/bin/tmuxcomplete -s lines -e -n
     setlocal buftype=nofile
     setlocal bufhidden=hide
     setlocal noswapfile
@@ -551,9 +551,9 @@ endfunction
 "==== CUSTOM CONFIGURATIONS ===================================================
 "{{{- general settings --------------------------------------------------------
 " keep all the annoying files in one place
-set backupdir=~/linux_config_files/.vim/backup//
-set directory=~/linux_config_files/.vim/swap//
-set undodir=~/linux_config_files/.vim/undo//
+set backupdir=~/dotfiles/.vim/backup//
+set directory=~/dotfiles/.vim/swap//
+set undodir=~/dotfiles/.vim/undo//
 set encoding=utf-8
 set path+=** " let vim search recursively in the current directory
 set number " put line number where the cursor is
@@ -752,13 +752,13 @@ augroup general
     " edit common files
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
     nnoremap <LEADER>eb :vsplit
-                \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
+                \ /home/mattb/dotfiles/bashrc_multihost/base<CR>
     nnoremap <LEADER>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base<CR>
+                \ /home/mattb/dotfiles/aliases_multihost/base<CR>
     nnoremap <LEADER>ef :vsplit
-                \ /home/mattb/linux_config_files/functions_multihost/base<CR>
+                \ /home/mattb/dotfiles/functions_multihost/base<CR>
     nnoremap <LEADER>et :vsplit
-                \ /home/mattb/linux_config_files/tmux.conf<CR>
+                \ /home/mattb/dotfiles/tmux.conf<CR>
 
     " source common things
     nnoremap <LEADER>sv :source $MYVIMRC<CR>
