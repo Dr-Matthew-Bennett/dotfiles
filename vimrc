@@ -212,7 +212,7 @@ nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
 " change slime target pane mid-session 
-nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
+nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
 nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
@@ -224,6 +224,8 @@ augroup surround_funk
 
     autocmd FileType tex let b:surround_funk_default_parens = '{'
     autocmd FileType tex let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
+
+    autocmd FileType R,r,rmd,Rmd let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', ':']
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
@@ -530,11 +532,17 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- change slime target pane mid-session ------------------------------------
-function! ChangeBufferSlimeConfig()
-    call DisplayTmuxPaneIndices("200")
-    let b:slime_config = 
-                \ {"socket_name": "default"}
-    let b:slime_config["target_pane"] = input("target_pane:")
+function! ChangeBufferSlimeConfig(...)
+    " 1st arg (optional) is the display duration of tmux pane indices
+    " 2nd arg (optional) is the target_pane
+    let duration = get(a:, 1, 200)
+    let target_pane = get(a:, 2, 0)
+    if target_pane == 0
+        call DisplayTmuxPaneIndices(duration)
+        let target_pane = input("target_pane:")
+    endif
+    let b:slime_config = {"socket_name": "default"}
+    let b:slime_config["target_pane"] = target_pane
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
