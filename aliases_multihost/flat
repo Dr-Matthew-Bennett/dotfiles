@@ -38,6 +38,12 @@ alias rds="zathura /home/mattb/documents/books/data_science/r_for_data_science_w
     tmux split-window -v
     tmux send-keys -t 'main:r_for_data_science.1' 'cd /home/mattb/code/r/r_for_data_science' Enter
     tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch16.R scratch.R' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':vertical resize 90' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':wincmd l' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:r_for_data_science.1 'ss' Enter
+    tmux send-keys -t main:r_for_data_science.1 'sap' Enter
     tmux send-keys -t 'main:r_for_data_science.2' 'cd /home/mattb/code/r/r_for_data_science' Enter
     tmux send-keys -t main:r_for_data_science.2 'R' Enter
     " 
