@@ -6,7 +6,9 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
 (see pdf in this repository).
 
 ## Quickstart
-Just run the `link_dotfiles.sh` script.
+Just source the `link_dotfiles.sh` script. You can supply additional arguments
+to the default `ln -s` commands such as `link_dotfiles.sh -f` to overide
+existing links.
 
 ## Dependencies for my setup
  - [fzf](https://github.com/junegunn/fzf)
