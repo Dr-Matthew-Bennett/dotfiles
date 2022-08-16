@@ -1,9 +1,14 @@
-# linux_config_files
+# dotfiles
 
 This is how I keep all my configuration files synched across machines. It was
 inspired by a [blog
 post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple-hosts/)
 (see pdf in this repository).
+
+## Quickstart
+Just source the `link_dotfiles.sh` script. You can supply additional arguments
+to the default `ln -s` commands such as `link_dotfiles.sh -f` to overide
+existing links.
 
 ## Dependencies for my setup
  - [fzf](https://github.com/junegunn/fzf)
@@ -19,10 +24,10 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
 ## To make this work
 
 1) Clone this repository into your home directory (you should then have a
-linux_config_files directory):
+dotfiles directory):
 
 ```shell
-git clone https://github.com/Matt-A-Bennett/linux_config_files.git
+git clone https://github.com/Matt-A-Bennett/dotfiles.git
 ```
 
 2) Rename files in the \*\_multihost directories to match the hostnames of your
@@ -46,25 +51,27 @@ that you want to keep synched across machines with symbolic links from your
 /home/user directory like so:
 
 ```shell
-cd ~/
-ln -s ~/linux_config_files/bashrc_multihost/base .bashrc
-ln -s ~/linux_config_files/inputrc .inputrc
-ln -s ~/linux_config_files/tmux.conf .tmux.conf
-ln -s ~/linux_config_files/tmux_light.conf .tmux_light.conf
-ln -s ~/linux_config_files/tmux_dark.conf .tmux_dark.conf
+ln -s ~/dotfiles/bashrc_multihost/base .bashrc
+ln -s ~/dotfiles/inputrc .inputrc
+ln -s ~/dotfiles/tmux.conf .tmux.conf
+ln -s ~/dotfiles/tmux_light.conf .tmux_light.conf
+ln -s ~/dotfiles/tmux_dark.conf .tmux_dark.conf
+ln -s ~/dotfiles/fdignore .fdignore
 mkdir -p ~/.config/zathura/zathurarc
-ln -s ~/linux_config_files/zathurarc ~/.config/zathura/zathurarc
-mkdir -p linux_config_files/.vim/{backup,undo,swap}
-ln -s ~/linux_config_files/vimrc .vimrc
-mkdir ~/.w3m
+ln -s ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
+mkdir -p dotfiles/.vim/{backup,undo,swap}
+ln -s ~/dotfiles/vimrc .vimrc
+ln -sd ~/dotfiles/.vim/after ~/.vim/after
 mkdir -p ~/.vim/ultisnips
-ln -s ~/linux_config_files/w3m/keymap ~/.w3m/keymap
-ln -s ~/linux_config_files/w3m/config ~/.w3m/config
-ln -s ~/linux_config_files/w3m/functions_info.txt ~/.w3m/functions_info.txt 
-ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
-ln -sd ~/linux_config_files/.vim/after ~/.vim/after
-mkdir -p ~/.config/bat; ln -s ~/linux_config_files/bat_config ~/.config/bat/config
-mkdir -p ~/.ipython/profile_default/; ln -s ~/linux_config_files/ipython_config.py ~/.ipython/profile_default/ipython_config.py
+ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
+mkdir ~/.w3m
+ln -s ~/dotfiles/w3m/keymap ~/.w3m/keymap
+ln -s ~/dotfiles/w3m/config ~/.w3m/config
+ln -s ~/dotfiles/w3m/functions_info.txt ~/.w3m/functions_info.txt 
+mkdir -p ~/.config/bat;
+ln -s ~/dotfiles/bat_config ~/.config/bat/config
+mkdir -p ~/.ipython/profile_default/;
+ln -s ~/dotfiles/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 ```
 
 Note that I am intentionally making the files that I link to non-hidden. This
@@ -75,18 +82,18 @@ I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
 snippets in ~/.vim/ultisnips
 
 In order to keep my .snippets files synched across machines, I keep my ultisnip
-directory in the ~/linux_config_files and create a symbolic link to it from
+directory in the ~/dotfiles and create a symbolic link to it from
 ~/.vim/ultsnips
 
 ```shell
-ln -sd ~/linux_config_files/ultisnips ~/.vim/ultisnips
+ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
 ```
 ### FZF
 I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
 from within Vim using the [fzf.vim
 plugin](https://github.com/junegunn/fzf.vim). I configured it to use
-[fd](https://github.com/sharkdp/fd#benchmark) in order to
-respect .gitignore files.
+[fd](https://github.com/sharkdp/fd#benchmark) in order to respect .fdignore
+files.
 
 Sometimes I want to jump to a file in another directory, and I don't want to
 have to specify the path for fzf. My solution is to configure fzf to always
@@ -95,21 +102,14 @@ directory (I only have about 15 or so containing ~5000 files that I would want
 to search, so this can certainly be handled by
 [fd](https://github.com/sharkdp/fd#benchmark). This way, no
 matter where I am in my file system, I can always find the file I want without
-thinking about where it is. To achieve this, your home directory must not be a
-git repository, but I don't think anyone does that...
+thinking about where it is
 
-I created a .git directory and a .gitignore file in my home directory. The
-.gitignore file should be symbolically linked to a file in the
-linux_config_files repository [like in the steps above](#to-make-this-work).
-The only difference is that the file that it links to can't itself be called
-'.gitignore', since there is (or might one day) already exist the 'real
-.gitignore' associated with the linux_config_files repository! So I call it
-fzfhome_gitignore instead.
+I created a .fdignore file in my home directory. The .fdignore file should be
+symbolically linked to a file in the dotfiles repository [like in the steps
+above](#to-make-this-work)
 
 ```shell
-cd ~/
-mkdir .git
-ln -s ~/linux_config_files/fzfhome_gitignore .gitignore
+ln -s ~/dotfiles/fdignore .fdignore
 ```
 
 Then in your .bashrc, add the following line (already added for the .bashrc in
@@ -124,7 +124,7 @@ then the above line needs to be modified like so:
 export FZF_DEFAULT_COMMAND="fdfind . $HOME"
 ```
 
-Then in the fzfhome_gitignore file, I first list all my home directories, each
+Then in the fdignore file, I first list all my home directories, each
 followed by a '/':
 ```shell
 # start by igoring every home directory
@@ -159,12 +159,12 @@ showing up in the fzf search, and so I explicitly created some
 '!path/to/missed/directory/' lines in this section...
 
 If you're doing this across multiple machines, you can make a separate home
-directory list per machine in the fzfhome_gitignore file (it doesn't matter if
+directory list per machine in the fdignore file (it doesn't matter if
 some directories don't exist on some machines, or if some directories are
 repeated between lists). Then after all those, add a single list of directories
 you want to search across any machine.
 
-If you're using Vim to create the fzfhome_gitignore file, an easy way to get a
+If you're using Vim to create the fdignore file, an easy way to get a
 list of all the directories in your home directory is the following command:
 ```shell
 :.!ls ~/

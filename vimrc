@@ -35,7 +35,6 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/ReplaceWithRegister'
 
 " other plugins that do more exotic things
 Plugin 'christoomey/vim-tmux-navigator'
@@ -54,6 +53,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 " Plugin 'vim-scripts/MatlabFilesEdition'
+Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
@@ -182,7 +182,7 @@ let g:traces_preserve_view_state = 1
 ""}}}---------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete#trigger = 'omnifunc'
-let g:tmuxcomplete_pane_index_display_duration_ms = '250'
+let g:tmuxcomplete_pane_index_display_duration_ms = '200'
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
 " make repeatable
@@ -212,7 +212,7 @@ nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
 " change slime target pane mid-session 
-nnoremap <LEADER>ss :call ChangeBufferSlimeConfig()<CR>
+nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
 nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
@@ -224,6 +224,8 @@ augroup surround_funk
 
     autocmd FileType tex let b:surround_funk_default_parens = '{'
     autocmd FileType tex let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', '\\']
+
+    autocmd FileType R,r,rmd,Rmd let b:surround_funk_legal_func_name_chars = ['[0-9]', '[A-Z]', '[a-z]', '_', '\.', ':']
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- vim-tmux-navigator ------------------------------------------------------
@@ -529,16 +531,22 @@ function! PasteFromRegister(reg, up_or_down, autoindent)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- change slime target pane mid-session ------------------------------------
-function! ChangeBufferSlimeConfig()
-    call DisplayTmuxPaneIndices("350")
-    let b:slime_config = 
-                \ {"socket_name": "default"}
-    let b:slime_config["target_pane"] = input("target_pane:")
+function! ChangeBufferSlimeConfig(...)
+    " 1st arg (optional) is the display duration of tmux pane indices
+    " 2nd arg (optional) is the target_pane
+    let duration = get(a:, 1, 200)
+    let target_pane = get(a:, 2, 0)
+    if target_pane == 0
+        call DisplayTmuxPaneIndices(duration)
+        let target_pane = input("target_pane:")
+    endif
+    let b:slime_config = {"socket_name": "default"}
+    let b:slime_config["target_pane"] = target_pane
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
-    edit .tmux | %!sh ~/linux_config_files/bin/tmuxcomplete -s lines -e -n
+    edit .tmux | %!sh ~/dotfiles/bin/tmuxcomplete -s lines -e -n
     setlocal buftype=nofile
     setlocal bufhidden=hide
     setlocal noswapfile
@@ -550,9 +558,9 @@ endfunction
 "==== CUSTOM CONFIGURATIONS ===================================================
 "{{{- general settings --------------------------------------------------------
 " keep all the annoying files in one place
-set backupdir=~/linux_config_files/.vim/backup//
-set directory=~/linux_config_files/.vim/swap//
-set undodir=~/linux_config_files/.vim/undo//
+set backupdir=~/dotfiles/.vim/backup//
+set directory=~/dotfiles/.vim/swap//
+set undodir=~/dotfiles/.vim/undo//
 set encoding=utf-8
 set path+=** " let vim search recursively in the current directory
 set number " put line number where the cursor is
@@ -751,13 +759,13 @@ augroup general
     " edit common files
     nnoremap <LEADER>ev :vsplit $MYVIMRC<CR>
     nnoremap <LEADER>eb :vsplit
-                \ /home/mattb/linux_config_files/bashrc_multihost/base<CR>
+                \ /home/mattb/dotfiles/bashrc_multihost/base<CR>
     nnoremap <LEADER>ea :vsplit
-                \ /home/mattb/linux_config_files/aliases_multihost/base<CR>
+                \ /home/mattb/dotfiles/aliases_multihost/base<CR>
     nnoremap <LEADER>ef :vsplit
-                \ /home/mattb/linux_config_files/functions_multihost/base<CR>
+                \ /home/mattb/dotfiles/functions_multihost/base<CR>
     nnoremap <LEADER>et :vsplit
-                \ /home/mattb/linux_config_files/tmux.conf<CR>
+                \ /home/mattb/dotfiles/tmux.conf<CR>
 
     " source common things
     nnoremap <LEADER>sv :source $MYVIMRC<CR>

@@ -50,9 +50,9 @@ alias mdkir='mkdir'
 alias sob='source ~/.bashrc'
 
 # edit dot files (using my v for vim function)
-alias et='v ~/linux_config_files/tmux.conf'
-alias ev='v ~/linux_config_files/vimrc'
-alias ez='v ~/linux_config_files/zathurarc'
+alias et='v ~/dotfiles/tmux.conf'
+alias ev='v ~/dotfiles/vimrc'
+alias ez='v ~/dotfiles/zathurarc'
 
 # generate aliases to open host specific dot files (using v function)
 declare -A dir_dict=([eb]=bashrc_ [ea]=aliases_ [ef]=functions_)
@@ -61,7 +61,7 @@ for dir_abbrv in "${!dir_dict[@]}"
 do
     for file_abbrv in "${!file_dict[@]}"
     do
-        alias $dir_abbrv$file_abbrv="v ~/linux_config_files/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
+        alias $dir_abbrv$file_abbrv="v ~/dotfiles/${dir_dict[$dir_abbrv]}multihost/${file_dict[$file_abbrv]}"
     done
 done
 

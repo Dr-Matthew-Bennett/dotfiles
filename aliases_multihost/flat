@@ -37,7 +37,13 @@ alias rds="zathura /home/mattb/documents/books/data_science/r_for_data_science_w
     tmux new-window -n 'r_for_data_science'
     tmux split-window -v
     tmux send-keys -t 'main:r_for_data_science.1' 'cd /home/mattb/code/r/r_for_data_science' Enter
-    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch13.R scratch.R' Enter
+    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch16.R scratch.R' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':vertical resize 90' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':wincmd l' Enter
+    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:r_for_data_science.1 'ss' Enter
+    tmux send-keys -t main:r_for_data_science.1 'sap' Enter
     tmux send-keys -t 'main:r_for_data_science.2' 'cd /home/mattb/code/r/r_for_data_science' Enter
     tmux send-keys -t main:r_for_data_science.2 'R' Enter
     " 
@@ -67,4 +73,4 @@ alias tc='python3 ~/code/python/python_flat/speed.py &'
 alias vidkeydisp='~/videos/vim/screenkey/screenkey -p fixed -g 750x100+1100+825 &'
 
 # for when I want to make a gif of something in vim
-alias vimgif='vim -u ~/linux_config_files/plugin_showcase.vim'
+alias vimgif='vim -u ~/dotfiles/plugin_showcase.vim'
