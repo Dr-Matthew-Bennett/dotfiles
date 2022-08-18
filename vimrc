@@ -65,6 +65,7 @@ Plugin 'vim-scripts/indentpython.vim'
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
 " Plugin 'wellle/tmux-complete.vim'
+Plugin 'Konfekt/complete-common-words.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
@@ -263,6 +264,9 @@ function ToggleSpellDict()
     endif
 endfunction
 nnoremap <silent> <LEADER>c :call ToggleSpellDict()<CR>
+"}}}---------------------------------------------------------------------------
+"{{{- complete-common-words.vim -----------------------------------------------
+let g:common_words_dicts_dir = '/home/mattb/.vim/bundle/complete-common-words.vim/dicts'
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
