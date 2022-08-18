@@ -514,20 +514,18 @@ endfunction
 "    call search('\(^\|[^0-9\.]\d\)', 'becW')
 "endfunction
 ""}}}---------------------------------------------------------------------------
-"{{{- paste from system clipboard ---------------------------------------------
-function! PasteFromRegister(reg, up_or_down, autoindent)
-    if a:up_or_down ==# 'up'
-        call append(line('.')-1, '')
+"{{{- paste to and from system clipboard --------------------------------------
+function! PasteFromRegister(above_or_below)
+    if a:above_or_below ==# 'above'
         execute "normal! k"
-    elseif a:up_or_down ==# 'down'
-        call append('.', '')
-        execute "normal! j"
     endif
-    " execute 'normal! "'.a:reg.'p'
     silent! execute ':r!xclip -o -sel clip'
-    if a:autoindent ==# 'autoindent'
-        execute 'normal! =='
-    endif
+    execute 'normal! =='
+endfunction
+
+function! YankToClipBoard(type)
+    execute "normal! `[v`]:!xclip -f -sel clip"
+    echo 'copied to highlight clipboard'
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- change slime target pane mid-session ------------------------------------
@@ -780,26 +778,12 @@ augroup general
     "{{{- copy and paste with clipboard ---------------------------------------
 
     " paste from system CTRL-C clipboard
-    " nnoremap <LEADER>p :call PasteFromRegister('noautoindent')<CR>
-    " nnoremap <LEADER>[p :call PasteFromRegister('autoindent')<CR>
+    nnoremap <LEADER>p :call PasteFromRegister('below')<CR>
+    nnoremap <LEADER>P :call PasteFromRegister('above')<CR>
 
-    " " paste from system CTRL-C clipboard
-    " nnoremap <LEADER>p :call PasteFromRegister('+', 'same', 'noautoindent')<CR>
-    " nnoremap <LEADER>]p :call PasteFromRegister('+', 'down', 'autoindent')<CR>
-    " nnoremap <LEADER>[p :call PasteFromRegister('+', 'up', 'autoindent')<CR>
-    " " paste from system highlighted clipboard
-    " nnoremap <LEADER>P :call PasteFromRegister('*', 'same', 'noautoindent')<CR>
-    " nnoremap <LEADER>]P :call PasteFromRegister('*', 'down', 'autoindent')<CR>
-    " nnoremap <LEADER>[P :call PasteFromRegister('*', 'up', 'autoindent')<CR>
-
-    vnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
-
-    " " copy contents of unnamed register to system CTRL-C clipboard
-    " nnoremap <silent> <LEADER>y :let @+=@0<CR>
-    "             \ :echo 'copied to CTRL-C clipboard'<CR>
-    " " copy contents of unnamed register to system highlighted clipboard
-    " nnoremap <silent> <LEADER>Y :let @*=@0<CR>
-    "             \ :echo 'copied to highlight clipboard'<CR>
+    " copy visual/motion selection to clipboard
+    xnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
+    nnoremap <silent> <LEADER>y :set opfunc=YankToClipBoard<CR>g@
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
@@ -980,5 +964,4 @@ set statusline+=%P
 
 "}}}---------------------------------------------------------------------------
 "==============================================================================
-"
 "
