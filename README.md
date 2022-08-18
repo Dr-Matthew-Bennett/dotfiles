@@ -7,8 +7,8 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
 
 ## Quickstart
 Just source the `link_dotfiles.sh` script. You can supply additional arguments
-to the default `ln -s` commands such as `link_dotfiles.sh -f` to overide
-existing links.
+to the default `ln -s` commands such as `link_dotfiles.sh -f` to override
+existing links (this performs step 4 below).
 
 ## Dependencies for my setup
  - [fzf](https://github.com/junegunn/fzf)
@@ -27,7 +27,7 @@ existing links.
 dotfiles directory):
 
 ```shell
-git clone https://github.com/Matt-A-Bennett/dotfiles.git
+git clone https://github.com/Matt-A-Bennett/dotfiles.git ~/dotfiles
 ```
 
 2) Rename files in the \*\_multihost directories to match the hostnames of your
@@ -38,11 +38,10 @@ configuration files how you like them.
 any other configuration files that you plan to keep synched across machines
 (alternatively you would have to delete them...):
 ```shell
-cd ~/
-mv .bashrc .old_bashrc
-mv .inputrc .old_inputrc
-mv .vimrc .old_vimrc
-mv .tmux.conf .old_tmux.conf
+mv ~/.bashrc ~/.old_bashrc
+mv ~/.inputrc ~/.old_inputrc
+mv ~/.vimrc ~/.old_vimrc
+mv ~/.tmux.conf ~/.old_tmux.conf
 mv ~/.ipython/profile_default/ipython_config.py ~/.ipython/profile_default/old_ipython_config.py
 ```
 
