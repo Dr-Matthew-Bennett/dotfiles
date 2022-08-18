@@ -25,7 +25,8 @@ existing links (this performs step 3 below).
 
 _(Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
 any other configuration files that you plan to keep synched across machines
-(alternatively you would have to delete them...)._
+(alternatively you would have to delete them...). You can do this manually, or
+by supplying the `--backup` argument to `ln` or to `link_dotfiles.sh`._
 
 1) Clone this repository into your home director:
 
