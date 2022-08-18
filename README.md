@@ -8,7 +8,7 @@ post](https://rafaelc.org/tech/p/a-way-to-organize-your-bash-aliases-on-multiple
 ## Quickstart
 Just source the `link_dotfiles.sh` script. You can supply additional arguments
 to the default `ln -s` commands such as `link_dotfiles.sh -f` to override
-existing links (this performs step 4 below).
+existing links (this performs step 3 below).
 
 ## Dependencies for my setup
  - [fzf](https://github.com/junegunn/fzf)
@@ -23,8 +23,11 @@ existing links (this performs step 4 below).
 
 ## To make this work
 
-1) Clone this repository into your home directory (you should then have a
-dotfiles directory):
+_(Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
+any other configuration files that you plan to keep synched across machines
+(alternatively you would have to delete them...)._
+
+1) Clone this repository into your home director:
 
 ```shell
 git clone https://github.com/Matt-A-Bennett/dotfiles.git ~/dotfiles
@@ -34,18 +37,7 @@ git clone https://github.com/Matt-A-Bennett/dotfiles.git ~/dotfiles
 machines (leave base as is). Fill in the base and system specific
 configuration files how you like them.
 
-3) (Optional, but recommended!) Make a backup of your .bashrc, .inputrc, and
-any other configuration files that you plan to keep synched across machines
-(alternatively you would have to delete them...):
-```shell
-mv ~/.bashrc ~/.old_bashrc
-mv ~/.inputrc ~/.old_inputrc
-mv ~/.vimrc ~/.old_vimrc
-mv ~/.tmux.conf ~/.old_tmux.conf
-mv ~/.ipython/profile_default/ipython_config.py ~/.ipython/profile_default/old_ipython_config.py
-```
-
-4) Replace .bashrc, .inputrc, and any other configuration files/directories
+3) Replace .bashrc, .inputrc, and any other configuration files/directories
 that you want to keep synched across machines with symbolic links from your
 /home/user directory like so:
 
@@ -76,17 +68,6 @@ ln -s ~/dotfiles/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 Note that I am intentionally making the files that I link to non-hidden. This
 is so that they show up when I search for them using fzf [(see below)](#fzf).
 
-### Ultisnips
-I use [Ultisnips](https://github.com/SirVer/ultisnips) in Vim, which stores the
-snippets in ~/.vim/ultisnips
-
-In order to keep my .snippets files synched across machines, I keep my ultisnip
-directory in the ~/dotfiles and create a symbolic link to it from
-~/.vim/ultsnips
-
-```shell
-ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
-```
 ### FZF
 I use [fzf](https://github.com/junegunn/fzf) both as a command line tool and
 from within Vim using the [fzf.vim
