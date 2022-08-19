@@ -519,16 +519,16 @@ endfunction
 "endfunction
 ""}}}---------------------------------------------------------------------------
 "{{{- paste to and from system clipboard --------------------------------------
-function! PasteFromRegister(above_or_below)
+function! PasteFromClipboard(clipboard, above_or_below)
     if a:above_or_below ==# 'above'
         execute "normal! k"
     endif
-    silent! execute ':r!xclip -o -sel clip'
+    silent! execute ':r! xclip -out -selection ' . a:clipboard
     execute 'normal! =='
 endfunction
 
 function! YankToClipBoard(type)
-    execute "normal! `[v`]:!xclip -f -sel clip"
+    execute "normal! `[v`]:! xclip -filter -selection clipboard"
     echo 'copied to highlight clipboard'
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -782,8 +782,10 @@ augroup general
     "{{{- copy and paste with clipboard ---------------------------------------
 
     " paste from system CTRL-C clipboard
-    nnoremap <LEADER>p :call PasteFromRegister('below')<CR>
-    nnoremap <LEADER>P :call PasteFromRegister('above')<CR>
+    nnoremap <LEADER>p :call PasteFromClipboard('clipboard', 'below')<CR>
+    nnoremap <LEADER>P :call PasteFromClipboard('clipboard', 'above')<CR>
+    nnoremap <LEADER><LEADER>p :call PasteFromClipboard('primary', 'below')<CR>
+    nnoremap <LEADER><LEADER>P :call PasteFromClipboard('primary', 'above')<CR>
 
     " copy visual/motion selection to clipboard
     xnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
