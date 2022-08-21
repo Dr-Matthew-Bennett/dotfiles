@@ -776,8 +776,9 @@ augroup general
     " source any yanked block of text
     nnoremap <silent> <LEADER>sy :@"<CR>
 
-    " force write a readonly file with root privileges 
-    cnoremap w!! w !sudo tee %
+    " force write a readonly file with root privileges (for : but not / or ?)
+    cnoreabbrev <expr> w!! !(getcmdtype() == ":" &&
+                \getcmdline() == "w!!") ? 'w!!' : 'w !sudo tee %'
     "}}}-----------------------------------------------------------------------
     "{{{- copy and paste with clipboard ---------------------------------------
 
