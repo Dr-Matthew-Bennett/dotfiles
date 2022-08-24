@@ -33,22 +33,23 @@ alias wcut='windscribe connect && utserver -settingspath /opt/utorrent-server-al
 alias wdut='pkill utserver && windscribe disconnect; windscribe account'
 
 # practice R coding
-alias rds="zathura /home/mattb/documents/books/data_science/r_for_data_science_wickham_and_grolemund_2017.pdf &
-    tmux new-window -n 'r_for_data_science'
+alias lr="
+    tmux new-window -n 'advanced_r'
     tmux split-window -v
-    tmux send-keys -t 'main:r_for_data_science.1' 'cd /home/mattb/code/r/r_for_data_science' Enter
-    tmux send-keys -t main:r_for_data_science.1 'vim -O exercises_ch16.R scratch.R' Enter
-    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
-    tmux send-keys -t main:r_for_data_science.1 ':vertical resize 90' Enter
-    tmux send-keys -t main:r_for_data_science.1 ':wincmd l' Enter
-    tmux send-keys -t main:r_for_data_science.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
-    tmux send-keys -t main:r_for_data_science.1 'ss' Enter
-    tmux send-keys -t main:r_for_data_science.1 'sap' Enter
-    tmux send-keys -t 'main:r_for_data_science.2' 'cd /home/mattb/code/r/r_for_data_science' Enter
-    tmux send-keys -t main:r_for_data_science.2 'R' Enter
+    tmux send-keys -t 'main:advanced_r.1' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
+    tmux send-keys -t main:advanced_r.1 'vim -O exercises_ch02.R README.md' Enter
+    tmux send-keys -t main:advanced_r.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:advanced_r.1 ':vertical resize 90' Enter
+    tmux send-keys -t main:advanced_r.1 ':wincmd l' Enter
+    tmux send-keys -t main:advanced_r.1 ':e scratch.R' Enter
+    tmux send-keys -t main:advanced_r.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:advanced_r.1 'ss' Enter
+    tmux send-keys -t main:advanced_r.1 'sap' Enter
+    tmux send-keys -t 'main:advanced_r.2' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
+    tmux send-keys -t main:advanced_r.2 'R' Enter
     " 
 
-alias krds='pkill zathura; tmux kill-window -t r_for_data_science'
+alias klr='tmux kill-window -t advanced_r'
 
 # in case I want to have the split of a particular size, use this
 # tmux split-window -vb -l 5;\
