@@ -519,12 +519,22 @@ endfunction
 "endfunction
 ""}}}---------------------------------------------------------------------------
 "{{{- paste to and from system clipboard --------------------------------------
-function! PasteFromClipboard(clipboard, above_or_below)
+function! PasteFromClipboard(clipboard, above_or_below, before_after)
+    execute "normal! mx"
     if a:above_or_below ==# 'above'
         execute "normal! k"
     endif
     silent! execute ':r! xclip -out -selection ' . a:clipboard
-    execute 'normal! =='
+    if a:above_or_below ==# 'inline'
+        execute "normal dil"
+        if a:before_after ==# 'after'
+            execute "normal `xp"
+        elseif a:before_after ==# 'before'
+            execute "normal `xP"
+        endif
+    else
+        execute 'normal! =='
+    endif
 endfunction
 
 function! YankToClipBoard(type)
@@ -783,10 +793,14 @@ augroup general
     "{{{- copy and paste with clipboard ---------------------------------------
 
     " paste from system CTRL-C clipboard
-    nnoremap <LEADER>p :call PasteFromClipboard('clipboard', 'below')<CR>
-    nnoremap <LEADER>P :call PasteFromClipboard('clipboard', 'above')<CR>
-    nnoremap <LEADER><LEADER>p :call PasteFromClipboard('primary', 'below')<CR>
-    nnoremap <LEADER><LEADER>P :call PasteFromClipboard('primary', 'above')<CR>
+    nnoremap <LEADER>p          :call PasteFromClipboard('clipboard', 'inline', 'after')<CR>
+    nnoremap <LEADER>P          :call PasteFromClipboard('clipboard', 'inline', 'before')<CR>
+    nnoremap <LEADER>]p         :call PasteFromClipboard('clipboard', 'below',  'NA')<CR>
+    nnoremap <LEADER>[p         :call PasteFromClipboard('clipboard', 'above',   'NA')<CR>
+    nnoremap <LEADER><LEADER>p  :call PasteFromClipboard('primary',   'inline', 'after')<CR>
+    nnoremap <LEADER><LEADER>P  :call PasteFromClipboard('primary',   'inline', 'before')<CR>
+    nnoremap <LEADER><LEADER>]p :call PasteFromClipboard('primary',   'below',  'NA')<CR>
+    nnoremap <LEADER><LEADER>[p :call PasteFromClipboard('primary',   'above',  'NA')<CR>
 
     " copy visual/motion selection to clipboard
     xnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
