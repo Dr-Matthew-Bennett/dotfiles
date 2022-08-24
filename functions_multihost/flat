@@ -9,10 +9,10 @@ data () {
     # vpn reset is on day 17, so if there are 13 or less days left, start
     # including the data used on the vpn in our estimate (since it's not caught
     # by vnstat)
-    if [[ $days_left_in_month -lt 14 ]] ; then
-        used_vpn=$(windscribe account | awk '/Usage/ {print $3}')
-        data_left=$(echo $data_left - $used_vpn | bc)
-    fi
+    # if [[ $days_left_in_month -lt 14 ]] ; then
+    #     used_vpn=$(windscribe account | awk '/Usage/ {print $3}')
+    #     data_left=$(echo $data_left - $used_vpn | bc)
+    # fi
     av_per_day=$(echo "scale=2; $data_left / $days_left_in_month" | bc)
     used_today=$(vnstat -d -i eno1 | awk '/estimated/ {print $8, $9}')
     echo "days left:          $days_left_in_month"
