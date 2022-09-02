@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# # replace configuration files/directories with symbolic links from your
+# replace configuration files/directories with symbolic links from your
 ln -s $@ ~/dotfiles/bashrc_multihost/base ~/.bashrc
 ln -s $@ ~/dotfiles/inputrc ~/.inputrc
 ln -s $@ ~/dotfiles/tmux.conf ~/.tmux.conf
