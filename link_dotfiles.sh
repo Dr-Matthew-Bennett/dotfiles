@@ -1,22 +1,21 @@
 #!/bin/bash
 
-# replace configuration files/directories with symbolic links from your
-ln -s $@ ~/dotfiles/bashrc_multihost/base .bashrc
-ln -s $@ ~/dotfiles/inputrc .inputrc
-ln -s $@ ~/dotfiles/tmux.conf .tmux.conf
-ln -s $@ ~/dotfiles/tmux_light.conf .tmux_light.conf
-ln -s $@ ~/dotfiles/tmux_dark.conf .tmux_dark.conf
-ln -s $@ ~/dotfiles/fdignore .fdignore
+# # replace configuration files/directories with symbolic links from your
+ln -s $@ ~/dotfiles/bashrc_multihost/base ~/.bashrc
+ln -s $@ ~/dotfiles/inputrc ~/.inputrc
+ln -s $@ ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s $@ ~/dotfiles/tmux_light.conf ~/.tmux_light.conf
+ln -s $@ ~/dotfiles/tmux_dark.conf ~/.tmux_dark.conf
+ln -s $@ ~/dotfiles/fdignore ~/.fdignore
 
 mkdir -p dotfiles/.vim/{backup,undo,swap}
-ln -s $@ ~/dotfiles/vimrc .vimrc
+ln -s $@ ~/dotfiles/vimrc ~/.vimrc
 
 if [[ ! -e ~/.vim/after ]]; then
     ln -sd $@ ~/dotfiles/.vim/after ~/.vim/after
 fi
 
 if [[ ! -e ~/.vim/ultisnips ]]; then
-    mkdir -p ~/.vim/ultisnips
     ln -sd $@ ~/dotfiles/ultisnips ~/.vim/ultisnips
 fi
 
