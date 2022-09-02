@@ -10,9 +10,15 @@ ln -s $@ ~/dotfiles/fdignore .fdignore
 
 mkdir -p dotfiles/.vim/{backup,undo,swap}
 ln -s $@ ~/dotfiles/vimrc .vimrc
-ln -sd $@ ~/dotfiles/.vim/after ~/.vim/after
-mkdir -p ~/.vim/ultisnips
-ln -sd $@ ~/dotfiles/ultisnips ~/.vim/ultisnips
+
+if [[ ! -e ~/.vim/after ]]; then
+    ln -sd $@ ~/dotfiles/.vim/after ~/.vim/after
+fi
+
+if [[ ! -e ~/.vim/ultisnips ]]; then
+    mkdir -p ~/.vim/ultisnips
+    ln -sd $@ ~/dotfiles/ultisnips ~/.vim/ultisnips
+fi
 
 mkdir -p ~/.config/zathura/zathurarc
 ln -s $@ ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
