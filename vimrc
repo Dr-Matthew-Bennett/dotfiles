@@ -509,7 +509,7 @@ function! HorizontalScrollMode(call_char)
     echohl None | echo '' | redraws
 endfunction
 "}}}---------------------------------------------------------------------------
-""{{{- visual text object for number -------------------------------------------
+""{{{- text object for visual number -------------------------------------------
 "function! VisualNumber(direction)
 "    " find the end of a number (we assume a decimal means it's not the end)
 "    call search('\d\([^0-9\.]\|$\)', a:direction.'W')
@@ -517,6 +517,17 @@ endfunction
 "    " find the beggininng of that number (again, we don't stop for a decimal)
 "    call search('\(^\|[^0-9\.]\d\)', 'becW')
 "endfunction
+""}}}---------------------------------------------------------------------------
+""{{{- text object for backtick defined code ----------------------------------
+function! BacktickCodeBlock(inner)
+    let start_row = searchpos('^\s*```', 'bnW')[0]
+    let end_row = searchpos('^\s*```', 'nW')[0]
+
+    call setpos("'<", [bufnr(), start_row + a:inner, 1, 0])
+    call setpos("'>", [bufnr(), end_row - a:inner, 1, 0])
+
+    execute 'normal! `<V`>'
+endfunction   
 ""}}}---------------------------------------------------------------------------
 "{{{- paste to and from system clipboard --------------------------------------
 function! PasteFromClipboard(clipboard, above_or_below, before_after)
@@ -676,7 +687,15 @@ augroup general
     " operator pending mode
     onoremap <silent> ie :<C-u>normal! gg0VG<CR>
     onoremap <silent> ae :<C-u>normal! gg0VG<CR>
-    
+
+    " inner/around backtick code block text objects
+    " visual mode
+    xnoremap <silent> it :<C-U>call BacktickCodeBlock(1)<CR>
+    xnoremap <silent> at :<C-U>call BacktickCodeBlock(0)<CR>
+    " operator mode     
+    onoremap <silent> it :<C-U>call BacktickCodeBlock(1)<CR>
+    onoremap <silent> at :<C-U>call BacktickCodeBlock(0)<CR>
+
     " " nummber text object (n=forwards, N=backwards)
     " xnoremap in :<C-u>call VisualNumber('c')<CR>
     " onoremap in :<C-u>normal vin<CR>
