@@ -520,13 +520,23 @@ endfunction
 ""}}}---------------------------------------------------------------------------
 ""{{{- text object for backtick defined code ----------------------------------
 function! BacktickCodeBlock(inner)
-    let start_row = searchpos('^\s*```', 'bnW')[0]
-    let end_row = searchpos('^\s*```', 'nW')[0]
 
-    call setpos("'<", [bufnr(), start_row + a:inner, 1, 0])
-    call setpos("'>", [bufnr(), end_row - a:inner, 1, 0])
+    let l = line('.')
+    let c = col('.')
 
-    execute 'normal! `<V`>'
+    normal! $
+
+    let start_row = searchpos('^\s*```', 'bnW')
+    let end_row = searchpos('^\s*```', 'nW')
+
+    " if a match was found
+    if start_row !=# [0, 0] && end_row !=# [0, 0]
+        call setpos("'<", [bufnr(), start_row[0] + a:inner, 1, 0])
+        call setpos("'>", [bufnr(), end_row[0] - a:inner, 1, 0])
+        execute 'normal! `<V`>'
+    else
+        call cursor(l, c)
+    endif
 endfunction   
 ""}}}---------------------------------------------------------------------------
 "{{{- paste to and from system clipboard --------------------------------------
@@ -697,14 +707,17 @@ augroup general
     onoremap <silent> ac :<C-U>call BacktickCodeBlock(0)<CR>
 
     " move to next/prev backtick code block
-    nnoremap ]c :call search('^\s*```{', 'W')<CR>
-    nnoremap [c :call search('^\s*```{', 'bW')<CR>
+    nnoremap <silent> ]c :call search('^\s*```{', 'W')<CR>
+    nnoremap <silent> [c :call search('^\s*```{', 'bW')<CR>
 
-    " " nummber text object (n=forwards, N=backwards)
-    " xnoremap in :<C-u>call VisualNumber('c')<CR>
-    " onoremap in :<C-u>normal vin<CR>
-    " xnoremap iN :<C-u>call VisualNumber('b')<CR>
-    " onoremap iN :<C-u>normal viN<CR>
+    " execute backtick code block and move to next block
+    nmap ]]c sic]c
+
+    " nummber text object (n=forwards, N=backwards)
+    xnoremap in :<C-u>call VisualNumber('c')<CR>
+    onoremap in :<C-u>normal vin<CR>
+    xnoremap iN :<C-u>call VisualNumber('b')<CR>
+    onoremap iN :<C-u>normal viN<CR>
 
     " use [w and ]w and [W and ]W to exchange a word/WORD under the cursor with
     " the prev/next one
