@@ -518,12 +518,10 @@ endfunction
 "    call search('\(^\|[^0-9\.]\d\)', 'becW')
 "endfunction
 ""}}}---------------------------------------------------------------------------
-""{{{- text object for backtick defined code ----------------------------------
+"{{{- text object for backtick defined code -----------------------------------
 function! BacktickCodeBlock(inner)
-
     let l = line('.')
     let c = col('.')
-
     normal! $
 
     let start_row = searchpos('^\s*```', 'bnW')
@@ -538,7 +536,14 @@ function! BacktickCodeBlock(inner)
         call cursor(l, c)
     endif
 endfunction   
-""}}}---------------------------------------------------------------------------
+"}}}---------------------------------------------------------------------------
+"{{{- motion for backtick defined code ----------------------------------------
+function! MoveToBacktickCodeBlock(opts)
+    call search('^\s*```{', a:opts)
+    " put the code in the center of the screen
+    normal! zz
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- paste to and from system clipboard --------------------------------------
 function! PasteFromClipboard(clipboard, above_or_below, before_after)
     execute "normal! mx"
@@ -707,8 +712,8 @@ augroup general
     onoremap <silent> ac :<C-U>call BacktickCodeBlock(0)<CR>
 
     " move to next/prev backtick code block
-    nnoremap <silent> ]c :call search('^\s*```{', 'W')<CR>
-    nnoremap <silent> [c :call search('^\s*```{', 'bW')<CR>
+    nnoremap <silent> ]c :call MoveToBacktickCodeBlock('W')<CR>
+    nnoremap <silent> [c :call MoveToBacktickCodeBlock('bW')<CR>
 
     " execute backtick code block and move to next block
     nmap ]]c sic]c
