@@ -12,12 +12,10 @@ mkdir -p dotfiles/.vim/{backup,undo,swap}
 ln -s $@ ~/dotfiles/vimrc ~/.vimrc
 
 if [[ ! -e ~/.vim/after ]]; then
-    mkdir -p ~/.vim/after
     ln -sd $@ ~/dotfiles/.vim/after ~/.vim/after
 fi
 
 if [[ ! -e ~/.vim/ultisnips ]]; then
-    mkdir -p ~/.vim/ultisnips
     ln -sd $@ ~/dotfiles/ultisnips ~/.vim/ultisnips
 fi
 
