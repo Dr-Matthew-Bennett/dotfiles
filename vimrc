@@ -690,11 +690,15 @@ augroup general
 
     " inner/around backtick code block text objects
     " visual mode
-    xnoremap <silent> it :<C-U>call BacktickCodeBlock(1)<CR>
-    xnoremap <silent> at :<C-U>call BacktickCodeBlock(0)<CR>
+    xnoremap <silent> ic :<C-U>call BacktickCodeBlock(1)<CR>
+    xnoremap <silent> ac :<C-U>call BacktickCodeBlock(0)<CR>
     " operator mode     
-    onoremap <silent> it :<C-U>call BacktickCodeBlock(1)<CR>
-    onoremap <silent> at :<C-U>call BacktickCodeBlock(0)<CR>
+    onoremap <silent> ic :<C-U>call BacktickCodeBlock(1)<CR>
+    onoremap <silent> ac :<C-U>call BacktickCodeBlock(0)<CR>
+
+    " move to next/prev backtick code block
+    nnoremap ]c :call search('^\s*```{', 'W')<CR>
+    nnoremap [c :call search('^\s*```{', 'bW')<CR>
 
     " " nummber text object (n=forwards, N=backwards)
     " xnoremap in :<C-u>call VisualNumber('c')<CR>
