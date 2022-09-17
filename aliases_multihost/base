@@ -81,8 +81,12 @@ alias gitlog="git log --graph --decorate --format=format:'%C(bold blue)%h%C(rese
 alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
-# open R with vi shortcuts
-alias vr='rlwrap -a R'
+
+# should make an alias to launch R and execute these statements (maybe I would
+# source a script with them in):
+# Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "true")
+# options(warnPartialMatchDollar = TRUE)
+
 # open python3
 alias py='python3'
 

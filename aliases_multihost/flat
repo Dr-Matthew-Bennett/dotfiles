@@ -37,7 +37,7 @@ alias lr="
     tmux new-window -n 'advanced_r'
     tmux split-window -v
     tmux send-keys -t 'main:advanced_r.1' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
-    tmux send-keys -t main:advanced_r.1 'vim -O exercises_ch02.R README.md' Enter
+    tmux send-keys -t main:advanced_r.1 'vim -O exercises_ch05.R README.md' Enter
     tmux send-keys -t main:advanced_r.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
     tmux send-keys -t main:advanced_r.1 ':vertical resize 90' Enter
     tmux send-keys -t main:advanced_r.1 ':wincmd l' Enter
