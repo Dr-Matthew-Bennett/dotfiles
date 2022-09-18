@@ -7,6 +7,9 @@ Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "true")
 # some other column partially matched (i.e. variance)
 options(warnPartialMatchDollar = TRUE)
 
+# always warn when R 'takes advantage' of partial matching of arguments
+options(warnPartialMatchArgs = TRUE)
+
 ### aliasing and functions ####################################################
 cl <- function() {
     system('clear')
