@@ -7,6 +7,7 @@ ln -s $@ ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s $@ ~/dotfiles/tmux_light.conf ~/.tmux_light.conf
 ln -s $@ ~/dotfiles/tmux_dark.conf ~/.tmux_dark.conf
 ln -s $@ ~/dotfiles/fdignore ~/.fdignore
+ln -s $@ ~/dotfiles/Rprofile ~/.Rprofile
 
 mkdir -p dotfiles/.vim/{backup,undo,swap}
 ln -s $@ ~/dotfiles/vimrc ~/.vimrc

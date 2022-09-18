@@ -82,12 +82,6 @@ alias matlabnd='/usr/local/MATLAB/R2019b/bin/matlab -nodesktop -nosplash'
 # with vi shortcuts
 alias vmatlabnd='rlwrap -a matlab -nodesktop -nosplash'
 
-# launch R and execute config file
-alias R="
-tmux send-keys '\R' Enter
-tmux send-keys 'source(\"~/dotfiles/r_config.R\")' Enter
-"
-
 # open python3
 alias py='python3'
 

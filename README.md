@@ -43,16 +43,17 @@ that you want to keep synched across machines with symbolic links from your
 /home/user directory like so:
 
 ```shell
-ln -s ~/dotfiles/bashrc_multihost/base .bashrc
-ln -s ~/dotfiles/inputrc .inputrc
-ln -s ~/dotfiles/tmux.conf .tmux.conf
-ln -s ~/dotfiles/tmux_light.conf .tmux_light.conf
-ln -s ~/dotfiles/tmux_dark.conf .tmux_dark.conf
-ln -s ~/dotfiles/fdignore .fdignore
+ln -s ~/dotfiles/bashrc_multihost/base ~/.bashrc
+ln -s ~/dotfiles/inputrc ~/.inputrc
+ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/tmux_light.conf ~/.tmux_light.conf
+ln -s ~/dotfiles/tmux_dark.conf ~/.tmux_dark.conf
+ln -s ~/dotfiles/fdignore ~/.fdignore
+ln -s ~/dotfiles/Rprofile ~/.Rprofile
 mkdir -p ~/.config/zathura/zathurarc
 ln -s ~/dotfiles/zathurarc ~/.config/zathura/zathurarc
 mkdir -p dotfiles/.vim/{backup,undo,swap}
-ln -s ~/dotfiles/vimrc .vimrc
+ln -s ~/dotfiles/vimrc ~/.vimrc
 ln -sd ~/dotfiles/.vim/after ~/.vim/after
 mkdir -p ~/.vim/ultisnips
 ln -sd ~/dotfiles/ultisnips ~/.vim/ultisnips
