@@ -584,7 +584,7 @@ endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
-    edit .tmux | %!sh ~/dotfiles/bin/tmuxcomplete -s lines -e -n
+    edit .tmux | %!sh ~/dotfiles/bin/tmuxcomplete.sh -s lines -e -n
     setlocal buftype=nofile
     setlocal bufhidden=hide
     setlocal noswapfile
