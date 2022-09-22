@@ -182,7 +182,6 @@ let g:traces_preserve_view_state = 1
 "let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
 ""}}}---------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
-let g:tmuxcomplete#trigger = 'omnifunc'
 let g:tmuxcomplete_pane_index_display_duration_ms = '200'
 "}}} --------------------------------------------------------------------------
 "{{{- vim-indent-object -------------------------------------------------------
