@@ -15,14 +15,16 @@
 !Desktop/
 !documents/
 !Documents/
+!dotfiles/
 !downloads/
 !Downloads/
 !fix/
 !games_like_EE/
-!dotfiles/
+!goffaux_lab_github/
 !maintenance/
 !music/
 !Music/
+!nhs/
 !pictures/
 !Pictures/
 !projects/
@@ -37,5 +39,3 @@ projects/glasgow/Project0136/matlab_codes/0136_tmpfolder/
 !Videos/
 !vim_cmds/
 !website/
-
- 
