@@ -28,7 +28,7 @@ any other configuration files that you plan to keep synched across machines
 (alternatively you would have to delete them...). You can do this manually, or
 by supplying the `--backup` argument to `ln` or to `link_dotfiles.sh`._
 
-1) Clone this repository into your home director:
+1) Clone this repository into your home directory:
 
 ```shell
 git clone https://github.com/Matt-A-Bennett/dotfiles.git ~/dotfiles
