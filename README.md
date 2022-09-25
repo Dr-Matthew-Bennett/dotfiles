@@ -82,9 +82,9 @@ have to specify the path for fzf. My solution is to configure fzf to always
 search a certain set of directories (and all their subdirectories) in my home
 directory (I only have about 15 or so containing ~5000 files that I would want
 to search, so this can certainly be handled by
-[fd](https://github.com/sharkdp/fd#benchmark). This way, no
-matter where I am in my file system, I can always find the file I want without
-thinking about where it is
+[fd](https://github.com/sharkdp/fd#benchmark). This way, no matter where I am
+in my file system, I can always find the file I want without thinking about
+where it is
 
 I created a .fdignore file in my home directory. The .fdignore file should be
 symbolically linked to a file in the dotfiles repository [like in the steps
@@ -134,26 +134,4 @@ showing up in the fzf search, and so I explicitly created some
 If you're doing this across multiple machines, you can make a separate home
 directory list per machine in the fdignore file (it doesn't matter if
 some directories don't exist on some machines, or if some directories are
-repeated between lists). Then after all those, add a single list of directories
-you want to search across any machine.
-
-If you're using Vim to create the fdignore file, an easy way to get a
-list of all the directories in your home directory is the following command:
-```shell
-:.!ls ~/
-```
-
-Append a '/' to all lines by putting the cursor on the first directory in the
-list and entering the following command:
-```shell
-:.,$ norm A/
-```
-
-Now you can just copy the directories that you do want to search, and place
-them **below** with a '!' preceding them.
-
-Similar to above, insert the '!' before each one by putting the cursor on the
-first directory in the list and entering the following command:
-```shell
-:.,$ norm I!
-```
+repeated between lists).
