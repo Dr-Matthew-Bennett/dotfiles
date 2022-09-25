@@ -106,24 +106,15 @@ then the above line needs to be modified like so:
 export FZF_DEFAULT_COMMAND="fdfind . $HOME"
 ```
 
-Then in the fdignore file, I first list all my home directories, each
-followed by a '/':
+Then in the fdignore file, I first list all my directories. Then **below**
+those, put the directories that you want to be searched, each preceded by a '!'
+and followed by a '/':
+
 ```shell
 # start by igoring every home directory
-anaconda3/
-arch/
-cache/
-code/
-Desktop/
-  .
-  .
-  .
-```
+/*
+/*/
 
-Then **below** those, put the directories that you want to be searched, each
-preceded by a '!' and followed by a '/':
-
-```shell
 # now un-ignore the ones I care about
 !code/
 !Desktop/
