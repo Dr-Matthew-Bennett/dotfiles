@@ -77,6 +77,7 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 " Plugin 'tpope/vim-eunuch'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'tpope/vim-vinegar'
+" Plugin 'junegunn/vim-easy-align'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
 Plugin 'Matt-A-Bennett/vim-unit-test'
