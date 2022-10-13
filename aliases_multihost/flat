@@ -35,18 +35,20 @@ alias wdut='pkill utserver && windscribe disconnect; windscribe account'
 # practice R coding
 alias lr="
     tmux new-window -n 'advanced_r'
-    tmux split-window -v
-    tmux send-keys -t 'main:advanced_r.1' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
-    tmux send-keys -t main:advanced_r.1 'vim -O exercises_ch05.R README.md' Enter
-    tmux send-keys -t main:advanced_r.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
-    tmux send-keys -t main:advanced_r.1 ':vertical resize 90' Enter
-    tmux send-keys -t main:advanced_r.1 ':wincmd l' Enter
-    tmux send-keys -t main:advanced_r.1 ':e scratch.R' Enter
-    tmux send-keys -t main:advanced_r.1 ':call ChangeBufferSlimeConfig(200, 2)' Enter
-    tmux send-keys -t main:advanced_r.1 'ss' Enter
-    tmux send-keys -t main:advanced_r.1 'sap' Enter
+    tmux split-window -h
     tmux send-keys -t 'main:advanced_r.2' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
-    tmux send-keys -t main:advanced_r.2 'R' Enter
+    tmux send-keys -t main:advanced_r.2 'vim -o exercises_ch07.R scratch.R' Enter
+    tmux send-keys -t main:advanced_r.2 ':call ChangeBufferSlimeConfig(200, 2)' Enter
+    tmux send-keys -t main:advanced_r.2 'G' Enter
+    tmux send-keys -t main:advanced_r.2 ':wincmd j' Enter
+    tmux send-keys -t main:advanced_r.2 ':resize 10' Enter
+    tmux send-keys -t main:advanced_r.2 ':call ChangeBufferSlimeConfig(200, 1)' Enter
+    tmux send-keys -t main:advanced_r.2 'ss' Enter
+    tmux send-keys -t main:advanced_r.2 'sap' Enter
+    tmux send-keys -t main:advanced_r.2 ':e README.md' Enter
+    tmux send-keys -t main:advanced_r.2 ':wincmd k' Enter
+    tmux send-keys -t 'main:advanced_r.1' 'cd /home/mattb/code/r/learning_r/advanced_r' Enter
+    tmux send-keys -t main:advanced_r.1 'R' Enter
     " 
 
 alias klr='tmux kill-window -t advanced_r'
