@@ -61,10 +61,12 @@ mkdir ~/.w3m
 ln -s ~/dotfiles/w3m/keymap ~/.w3m/keymap
 ln -s ~/dotfiles/w3m/config ~/.w3m/config
 ln -s ~/dotfiles/w3m/functions_info.txt ~/.w3m/functions_info.txt 
-mkdir -p ~/.config/bat;
+mkdir -p ~/.config/bat
 ln -s ~/dotfiles/bat_config ~/.config/bat/config
-mkdir -p ~/.ipython/profile_default/;
+mkdir -p ~/.ipython/profile_default/
 ln -s ~/dotfiles/ipython_config.py ~/.ipython/profile_default/ipython_config.py
+mkdir -p ~/.config/i3/
+ln -s ~/dotfiles/i3_config ~/.config/i3/i3_config
 ```
 
 Note that I am intentionally making the files that I link to non-hidden. This
