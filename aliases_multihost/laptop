@@ -1,6 +1,6 @@
 #!/bin/bash
 
-alias sd='shutdown'
+alias sd='systemctl poweroff'
 
 # removed and restore fzf default options (if I want to use it in an usual directory)
 alias fzfcl="export FZF_DEFAULT_COMMAND='fdfind .'"
