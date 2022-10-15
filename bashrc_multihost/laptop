@@ -3,3 +3,9 @@ export TERM=xterm-256color
 
 # fzf config: debian has a different binary name
 export FZF_DEFAULT_COMMAND="fdfind . $HOME"
+
+# # make touchpad work
+# $ xinput list
+# $ xinput list-props 14 
+#   > libinput Tapping Enabled (332): 1
+xinput set-prop 14 332 1
