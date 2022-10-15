@@ -626,7 +626,7 @@ set tabstop=4 " a tab is the same as 4 spaces
 set softtabstop=4 " when I hit <TAB> in insert mode, put 4 spaces
 set shiftwidth=4 " when auto-indenting, use 4 spaces per tab
 set autoindent " when creating a new line, copy indent from line above
-if v:version > 801
+if has("patch-8.2.2454")
     set listchars=lead:. " show leading whitespace as grey dots
     set list " show leading whitespace as grey dots
 endif
