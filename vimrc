@@ -266,7 +266,8 @@ endfunction
 nnoremap <silent> <LEADER>c :call ToggleSpellDict()<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- complete-common-words.vim -----------------------------------------------
-let g:common_words_dicts_dir = '/home/mattb/.vim/bundle/complete-common-words.vim/dicts'
+let username = trim(system('whoami'))
+let g:common_words_dicts_dir = '/home/'.username.'/.vim/bundle/complete-common-words.vim/dicts'
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -659,7 +660,11 @@ augroup general
     " the line to prevent accidental execution (since bash will execute no
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
-    
+
+    " exit insert mode with the jk/kj
+    inoremap jk <esc>
+    inoremap kj <esc>
+
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
@@ -862,10 +867,14 @@ augroup general
     iabbrev hte the
     iabbrev teh the
     iabbrev gaurd guard
+    iabbrev actual acutal
+    iabbrev actuals acutals
+    iabbrev appearence appearance
 
     " emails
     iabbrev @g bennettmatt4@gmail.com
     iabbrev @u matthew.bennett@uclouvain.be
+    iabbrev @n matthew.bennett16@nhs.net
     "}}}-----------------------------------------------------------------------
 augroup END
 "}}}---------------------------------------------------------------------------
