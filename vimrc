@@ -913,14 +913,14 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
 
     " compile the R markdown document
-    autocmd FileType rmd nnoremap <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
+    autocmd FileType rmd nnoremap <buffer> <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
 
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
 
     " snips
     " create a new function
-    nnoremap <LEADER>sf :put = readfile(expand('~/dotfiles/snips/r.snip.function'))<CR>k%0
+    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sf :put = readfile(expand('~/dotfiles/snips/function.r'))<CR>k%0
 
 augroup END
 "}}}---------------------------------------------------------------------------
@@ -948,16 +948,16 @@ augroup markdown "{{{----------------------------------------------------------
     autocmd FileType markdown setlocal foldlevelstart=0
 
     " inside headed title:
-    autocmd FileType markdown onoremap iht :<C-u>execute "normal!
+    autocmd FileType markdown onoremap <buffer> iht :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rwvg_"<CR>
     " around headed title:
-    autocmd FileType markdown onoremap aht :<C-u>execute "normal!
+    autocmd FileType markdown onoremap <buffer> aht :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rvg_"<CR>
     " inside headed body:
-    autocmd FileType markdown onoremap ihb :<C-u>execute "normal!
+    autocmd FileType markdown onoremap <buffer> ihb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rjv/^#\\+ \\w\\+.*$\rk"<CR>
     " around headed body:
-    autocmd FileType markdown onoremap ahb :<C-u>execute "normal!
+    autocmd FileType markdown onoremap <buffer> ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
 augroup END
 "}}}---------------------------------------------------------------------------
@@ -971,7 +971,7 @@ augroup tex "{{{---------------------------------------------------------------
     " <LEADER>m to compile the doc - errors go to quickfix list
     autocmd FileType tex :let b:tex_flavor = 'pdflatex'
     autocmd FileType tex :compiler tex
-    autocmd FileType tex nnoremap <LEADER>m :silent make % <CR>
+    autocmd FileType tex nnoremap <buffer> <LEADER>m :silent make % <CR>
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup tmux "{{{--------------------------------------------------------------
