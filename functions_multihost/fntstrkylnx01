@@ -1,0 +1,5 @@
+# if on nhs machine, just default to vim
+v () {
+    arguments="$@"
+    vim $arguments
+    }

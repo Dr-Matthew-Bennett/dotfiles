@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# fzf config: debian has a different binary name
+export FZF_DEFAULT_COMMAND="fd . $HOME"
+
+
+
