@@ -10,8 +10,9 @@ options(warnPartialMatchDollar = TRUE)
 # always warn when R 'takes advantage' of partial matching of arguments
 options(warnPartialMatchArgs = TRUE)
 
-# print as wide as possible
-options("width" = Sys.getenv("COLUMNS"))
+# print as wide as possible (but adjust as terminal is resized)
+options(width = Sys.getenv("COLUMNS"))
+options(setWidthOnResize = TRUE)
 
 ### aliasing and functions ####################################################
 cl <- function() {
