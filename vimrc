@@ -584,9 +584,9 @@ function! ChangeBufferSlimeConfig(...)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- slime apply function to word under cursor -------------------------------
-function! SlimeApplyFunctionToWordUnderCursor(fn, args)
+function! SlimeApplyFunctionToWordUnderCursor(fn, args, word)
     let fn_call = 'SlimeSend1 ' . a:fn . '('
-    let word = expand('<cword>')
+    let word = expand('<c' . a:word . '>')
     :execute fn_call . word . a:args . ')'
 endfunction
 "}}}---------------------------------------------------------------------------
@@ -944,13 +944,17 @@ augroup r "{{{-----------------------------------------------------------------
 
     " query object:
     " names
-    noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '')<CR>
+    noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word')<CR>
+    noremap <silent> <Leader>qN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD')<CR>
     " length
-    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '')<CR>
+    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word')<CR>
+    noremap <silent> <Leader>qL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD')<CR>
     " summary
-    noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '')<CR>
+    noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word')<CR>
+    noremap <silent> <Leader>qS :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD')<CR>
     " histogram
-    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100')<CR>
+    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word')<CR>
+    noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD')<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
