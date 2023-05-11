@@ -583,6 +583,13 @@ function! ChangeBufferSlimeConfig(...)
     let b:slime_config["target_pane"] = target_pane
 endfunction
 "}}}---------------------------------------------------------------------------
+"{{{- slime apply function to word under cursor -------------------------------
+function! SlimeApplyFunctionToWordUnderCursor(fn, args)
+    let fn_call = 'SlimeSend1 ' . a:fn . '('
+    let word = expand('<cword>')
+    :execute fn_call . word . a:args . ')'
+endfunction
+"}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
     edit .tmux | %!sh ~/dotfiles/bin/tmuxcomplete.sh -s lines -e -n
@@ -925,10 +932,25 @@ augroup r "{{{-----------------------------------------------------------------
 
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
+    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
+    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
+    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
 
     " snips
     " create a new function
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sf :put = readfile(expand('~/dotfiles/snips/function.r'))<CR>k%0
+    " create a ggplot
+    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sp :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
+
+    " query object:
+    " names
+    noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '')<CR>
+    " length
+    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '')<CR>
+    " summary
+    noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '')<CR>
+    " histogram
+    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100')<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
