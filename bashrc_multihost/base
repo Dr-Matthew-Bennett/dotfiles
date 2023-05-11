@@ -79,6 +79,13 @@ xterm*|rxvt*)
     ;;
 esac
 
+# source base .bash_aliases if it exists
+[ -f ~/dotfiles/aliases_multihost/base ] &&
+source ~/dotfiles/aliases_multihost/base
+# source host specific .bash_aliases if they exist
+[ -f ~/dotfiles/aliases_multihost/$HOSTNAME ] &&
+source ~/dotfiles/aliases_multihost/$HOSTNAME
+
 # source host specific .bashrc file if it exists
 [ -f ~/dotfiles/bashrc_multihost/$HOSTNAME ] &&
 source ~/dotfiles/bashrc_multihost/$HOSTNAME
@@ -89,13 +96,6 @@ source ~/dotfiles/functions_multihost/base
 # source host specific .bash_functions if they exist
 [ -f ~/dotfiles/functions_multihost/$HOSTNAME ] &&
 source ~/dotfiles/functions_multihost/$HOSTNAME
-
-# source base .bash_aliases if it exists
-[ -f ~/dotfiles/aliases_multihost/base ] &&
-source ~/dotfiles/aliases_multihost/base
-# source host specific .bash_aliases if they exist
-[ -f ~/dotfiles/aliases_multihost/$HOSTNAME ] &&
-source ~/dotfiles/aliases_multihost/$HOSTNAME
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -139,6 +139,7 @@ if command -v tmux>/dev/null; then
     tmux set-environment THEME light 
 fi
 
+
 # set IPs as variables so I don't have to look them up all the time
 gla='gpuws4-pc.psy.gla.ac.uk'
 pony='130.104.83.192'
@@ -169,3 +170,6 @@ fzf4='--bind ctrl-y:preview-up,ctrl-e:preview-down'
 
 # enter the above into one long string
 export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3} ${fzf4}"
+. "$HOME/.cargo/env"
+
+

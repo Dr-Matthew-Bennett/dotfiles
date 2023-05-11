@@ -266,7 +266,8 @@ endfunction
 nnoremap <silent> <LEADER>c :call ToggleSpellDict()<CR>
 "}}}---------------------------------------------------------------------------
 "{{{- complete-common-words.vim -----------------------------------------------
-let g:common_words_dicts_dir = '/home/mattb/.vim/bundle/complete-common-words.vim/dicts'
+let username = trim(system('whoami'))
+let g:common_words_dicts_dir = '/home/'.username.'/.vim/bundle/complete-common-words.vim/dicts'
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 
@@ -641,7 +642,7 @@ set nrformats= " don't interpret 007 as octal (<C-a/x> will make 008, not 010)
 set spell spelllang=en
 set nospell " don't highlight misspellings unless I say so
 set lazyredraw " don't redraw screen during macros (let them complete faster)
-set foldlevelstart=1 " when opening new files, start with only top folds open
+set foldlevel=1 " when opening new files, start with only top folds open
 set t_Co=256 " use full colours
 syntax enable " highlight special words to aid readability
 
@@ -659,7 +660,11 @@ augroup general
     " the line to prevent accidental execution (since bash will execute no
     " matter what! Imagine if rm -rf <forward slash> was there...)
     autocmd BufReadPost * :call CheckBashEdit()
-    
+
+    " exit insert mode with the jk/kj
+    inoremap jk <esc>
+    inoremap kj <esc>
+
     "{{{- colorscheme switches ------------------------------------------------
     " If the syntax highlighting goes weird, F12 to redo it
     nnoremap <F12> :syntax sync fromstart<CR>
@@ -845,7 +850,7 @@ augroup general
 
     " copy visual/motion selection to clipboard
     xnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
-    nnoremap <silent> <LEADER>y :set opfunc=YankToClipBoard<CR>g@
+    nnoremap <silent> <LEADER>y :set operatorfunc=YankToClipBoard<CR>g@
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
@@ -862,10 +867,14 @@ augroup general
     iabbrev hte the
     iabbrev teh the
     iabbrev gaurd guard
+    iabbrev actual acutal
+    iabbrev actuals acutals
+    iabbrev appearence appearance
 
     " emails
     iabbrev @g bennettmatt4@gmail.com
     iabbrev @u matthew.bennett@uclouvain.be
+    iabbrev @n matthew.bennett16@nhs.net
     "}}}-----------------------------------------------------------------------
 augroup END
 "}}}---------------------------------------------------------------------------
@@ -875,7 +884,6 @@ augroup vim "{{{---------------------------------------------------------------
     " start out with everything folded away
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevel=0
-    autocmd FileType vim setlocal foldlevelstart=0
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup vim help "{{{----------------------------------------------------------
@@ -946,7 +954,6 @@ augroup markdown "{{{----------------------------------------------------------
     autocmd FileType markdown setlocal foldmethod=expr 
     autocmd FileType markdown setlocal foldexpr=getline(v:lnum)=~'^[^#]\\\|^\\s*$'
     autocmd FileType markdown setlocal foldlevel=0
-    autocmd FileType markdown setlocal foldlevelstart=0
 
     " inside headed title:
     autocmd FileType markdown onoremap <buffer> iht :<C-u>execute "normal!
@@ -967,7 +974,6 @@ augroup tex "{{{---------------------------------------------------------------
     autocmd FileType tex setlocal foldmethod=indent
     " start out with everything folded away
     autocmd FileType tex setlocal foldlevel=0
-    autocmd FileType tex setlocal foldlevelstart=0
 
     " <LEADER>m to compile the doc - errors go to quickfix list
     autocmd FileType tex :let b:tex_flavor = 'pdflatex'
@@ -980,7 +986,6 @@ augroup tmux "{{{--------------------------------------------------------------
     autocmd FileType tmux setlocal foldmethod=marker
     " start out with everything folded away
     autocmd FileType tmux setlocal foldlevel=0
-    autocmd FileType tmux setlocal foldlevelstart=0
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup tidy_code_matlab_and_python "{{{---------------------------------------
