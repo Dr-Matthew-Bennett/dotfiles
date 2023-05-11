@@ -850,7 +850,7 @@ augroup general
 
     " copy visual/motion selection to clipboard
     xnoremap <silent> <LEADER>y :!xclip -f -sel clip<CR>
-    nnoremap <silent> <LEADER>y :set opfunc=YankToClipBoard<CR>g@
+    nnoremap <silent> <LEADER>y :set operatorfunc=YankToClipBoard<CR>g@
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
