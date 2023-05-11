@@ -11,7 +11,8 @@ options(warnPartialMatchDollar = TRUE)
 options(warnPartialMatchArgs = TRUE)
 
 # print as wide as possible (but adjust as terminal is resized)
-options(width = Sys.getenv("COLUMNS"))
+# options(width = Sys.getenv("COLUMNS"))
+options(width = 210)
 options(setWidthOnResize = TRUE)
 
 ### aliasing and functions ####################################################
@@ -22,6 +23,4 @@ cl <- function() {
 pwd <- function() {
     system('pwd')
 }
-
-
 
