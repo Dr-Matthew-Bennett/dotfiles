@@ -429,7 +429,7 @@ function! DeleteSurroundingSpace()
     call cursor(line('.'), c-shrink+1)
 endfunction
 "}}}---------------------------------------------------------------------------
-"{{{- paste at end of line ----------------------------------------------------
+"{{{- paste at above/below/end of line ----------------------------------------
 function! PasteAtEndOfLine(motion)
     let to_paste = getreg('"')
     execute 'normal! '.a:motion
@@ -442,6 +442,16 @@ function! PasteAtEndOfLine(motion)
     execute ':join'
     execute ':substitute/[\x0]//e'
     call cursor(l, c - left + right)
+endfunction
+
+function! PasteUnammedLinewise(motion)
+    if a:motion ==# 'j'
+        :put
+    elseif a:motion ==# 'k'
+        :-put
+    endif
+    execute 'normal! =='
+    execute 'normal! ^h'
 endfunction
 
 " function! TrimWhiteSpace(str, where)
@@ -749,6 +759,10 @@ augroup general
     " paste at start of line, with an automatic space
     call Repeat('PasteToLeftOfLine1', '<p', ':call PasteAtEndOfLine("^")<CR>') 
     call Repeat('PasteToLeftOfLine2', '<P', ':call PasteAtEndOfLine("^")<CR>') 
+
+    " past below/above line, regardless whether it was yanked linewise or not
+    call Repeat('PasteBelowLine', '<LEADER>jp', ':call PasteUnammedLinewise("j")<CR>') 
+    call Repeat('PasteAboveLine', '<LEADER>kp', ':call PasteUnammedLinewise("k")<CR>') 
 
     " delete line, but leave it blank
     call Repeat('EmptyLine', '<LEADER>dd', 'cc<Esc>')
