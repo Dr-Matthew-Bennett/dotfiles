@@ -945,6 +945,11 @@ augroup r "{{{-----------------------------------------------------------------
     " easier to type assignment
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> %>%
+    autocmd FileType R,r,rmd,Rmd iabbrev lib library("")
+    autocmd FileType R,r,rmd,Rmd iabbrev ins install.packages("")
+    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
+    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
+    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
     
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
@@ -954,9 +959,6 @@ augroup r "{{{-----------------------------------------------------------------
 
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
-    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
-    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
-    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
 
     " snips
     " create a new function
