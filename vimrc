@@ -962,7 +962,7 @@ augroup r "{{{-----------------------------------------------------------------
     " create a new function
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sf :put = readfile(expand('~/dotfiles/snips/function.r'))<CR>k%0
     " create a ggplot
-    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sp :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
+    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sg :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
 
     " query object:
     " help
