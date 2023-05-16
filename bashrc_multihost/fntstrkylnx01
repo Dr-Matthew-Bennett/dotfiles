@@ -6,3 +6,9 @@ export FZF_DEFAULT_COMMAND="fd . $HOME"
 LS_COLORS=$LS_COLORS:'tw=01;35:ow=01;35:di=0,35:'
 export LS_COLORS
 
+ PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;39m\]\w\[\e[38;5;208m\]\n\$\e[m '
+
+. "$HOME/.cargo/env"
+
+
+
