@@ -594,10 +594,18 @@ function! ChangeBufferSlimeConfig(...)
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- slime apply function to word under cursor -------------------------------
-function! SlimeApplyFunctionToWordUnderCursor(fn, args, word)
-    let fn_call = 'SlimeSend1 ' . a:fn . '('
-    let word = expand('<c' . a:word . '>')
-    :execute fn_call . word . a:args . ')'
+function! SlimeApplyFunctionToWordUnderCursor(fn, args, word, use_parens)
+    let fn_call = 'SlimeSend1 ' . a:fn
+    if a:word ==# ''
+        let word = a:word
+    else 
+        let word = expand('<c' . a:word . '>')
+    endif
+    if a:use_parens ==# 'no_parens'
+        :execute fn_call . word
+    else
+        :execute fn_call . '(' . word . a:args . ')'
+    endif
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
@@ -957,18 +965,23 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sp :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
 
     " query object:
+    " help
+    noremap <silent> <Leader>q? :call SlimeApplyFunctionToWordUnderCursor('?', '', 'word', 'no_parens')<CR>
+    noremap <silent> <Leader>Q? :call SlimeApplyFunctionToWordUnderCursor('?', '', 'WORD', 'no_parens')<CR>
+    " exit help
+    noremap <silent> <Leader>? :call SlimeApplyFunctionToWordUnderCursor('q', '', '', 'no_parens')<CR>
     " names
-    noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word')<CR>
-    noremap <silent> <Leader>qN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD')<CR>
+    noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word', '')<CR>
+    noremap <silent> <Leader>QN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
     " length
-    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word')<CR>
-    noremap <silent> <Leader>qL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD')<CR>
+    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
+    noremap <silent> <Leader>QL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
     " summary
-    noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word')<CR>
-    noremap <silent> <Leader>qS :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD')<CR>
+    noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word', '')<CR>
+    noremap <silent> <Leader>QS :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
     " histogram
-    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word')<CR>
-    noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD')<CR>
+    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
+    noremap <silent> <Leader>QH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
