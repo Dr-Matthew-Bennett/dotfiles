@@ -60,7 +60,7 @@ fi
 if [ "$color_prompt" = yes ]; then
     # the \n\$ at the end puts the prompt on a newline
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    # PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;39m\]\w\[\e[38;5;208m\]\$\e[m '
+    # PS1='${debian_chroot:+($debian_chroot)}\[\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;39m\]\w\[\e[38;5;208m\]\n\$\e[m '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -170,6 +170,4 @@ fzf4='--bind ctrl-y:preview-up,ctrl-e:preview-down'
 
 # enter the above into one long string
 export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3} ${fzf4}"
-. "$HOME/.cargo/env"
-
 
