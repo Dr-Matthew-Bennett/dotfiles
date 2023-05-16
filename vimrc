@@ -439,8 +439,8 @@ function! PasteAtEndOfLine(motion)
     let right = a:motion == '$'
     call append(l-left, to_paste)
     call cursor(l, c)
-    exec ':join'
-    exec ':substitute/[\x0]//e'
+    execute ':join'
+    execute ':substitute/[\x0]//e'
     call cursor(l, c - left + right)
 endfunction
 
