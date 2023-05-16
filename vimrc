@@ -970,6 +970,8 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>Q? :call SlimeApplyFunctionToWordUnderCursor('?', '', 'WORD', 'no_parens')<CR>
     " exit help
     noremap <silent> <Leader>? :call SlimeApplyFunctionToWordUnderCursor('q', '', '', 'no_parens')<CR>
+    " clear console
+    noremap <silent> <Leader>cl :call SlimeApplyFunctionToWordUnderCursor('cl', '', '', '')<CR>
     " names
     noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word', '')<CR>
     noremap <silent> <Leader>QN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
