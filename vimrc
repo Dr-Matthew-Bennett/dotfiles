@@ -1029,6 +1029,9 @@ augroup markdown "{{{----------------------------------------------------------
     " around headed body:
     autocmd FileType markdown onoremap <buffer> ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
+
+    "note taking
+    autocmd FileType markdown iabbrev <buffer> -- - [ ]
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup tex "{{{---------------------------------------------------------------
