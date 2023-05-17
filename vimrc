@@ -942,6 +942,11 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
     autocmd FileType R,r,rmd,Rmd setlocal foldmethod=indent
 
+    " in R, a tab is the same as 2 spaces
+    autocmd FileType R,r,rmd,Rmd setlocal tabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal softtabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal shiftwidth=2
+
     " easier to type assignment
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> %>%
