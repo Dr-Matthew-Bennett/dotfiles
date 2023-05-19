@@ -1,5 +1,11 @@
 ### environment and options ###################################################
 
+# specify which cran mirror to use so I don't have to pick on startup
+local({r <- getOption("repos")
+        r["CRAN"] <- "https://cran.r-project.org" 
+        options(repos=r)
+        })
+
 # error when using if condition logical vector of greater than length 1
 Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "true")
 
