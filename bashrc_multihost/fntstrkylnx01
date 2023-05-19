@@ -12,3 +12,7 @@ export LS_COLORS
 
 # add path to libcrypto.so.1.1 for Rstudio
 export LD_LIBRARY_PATH=/usr/local/library:/usr/local/lib64
+
+# this fixes a git push error
+GPG_TTY=$(tty)
+export GPG_TTY
