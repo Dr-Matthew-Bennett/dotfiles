@@ -13,7 +13,7 @@
 #'
 function_name <- function(df) {
   type = class(df) 
-  dt = data.table::copy(df)
+  dt = data.table::copy(data.table::setDT(df))
 
   return (restore_class(dt))
 }
