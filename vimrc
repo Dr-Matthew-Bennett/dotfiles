@@ -896,8 +896,8 @@ augroup general
     iabbrev hte the
     iabbrev teh the
     iabbrev gaurd guard
-    iabbrev actual acutal
-    iabbrev actuals acutals
+    iabbrev acutal actual 
+    iabbrev acutals actuals 
     iabbrev appearence appearance
 
     " emails
@@ -941,6 +941,11 @@ augroup r "{{{-----------------------------------------------------------------
     " other users.
     autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
     autocmd FileType R,r,rmd,Rmd setlocal foldmethod=indent
+
+    " in R, a tab is the same as 2 spaces
+    autocmd FileType R,r,rmd,Rmd setlocal tabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal softtabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal shiftwidth=2
 
     " easier to type assignment
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
@@ -1024,6 +1029,9 @@ augroup markdown "{{{----------------------------------------------------------
     " around headed body:
     autocmd FileType markdown onoremap <buffer> ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
+
+    "note taking
+    autocmd FileType markdown iabbrev <buffer> -- - [ ]
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup tex "{{{---------------------------------------------------------------
