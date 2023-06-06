@@ -896,8 +896,8 @@ augroup general
     iabbrev hte the
     iabbrev teh the
     iabbrev gaurd guard
-    iabbrev actual acutal
-    iabbrev actuals acutals
+    iabbrev acutal actual 
+    iabbrev acutals actuals 
     iabbrev appearence appearance
 
     " emails
