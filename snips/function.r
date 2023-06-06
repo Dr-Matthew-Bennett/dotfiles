@@ -2,10 +2,10 @@
 #' 
 #' @description a longer description
 #' 
-#' @param x A number.
-#' @param y A number.
+#' @param x A number
+#' @param y A number
 #'
-#' @returns A numeric vector.
+#' @return A numeric vector
 #'
 #' @example
 #'
@@ -15,6 +15,6 @@ function_name <- function(df) {
   type = class(df) 
   dt = data.table::copy(data.table::setDT(df))
 
-  return (restore_class(dt))
+  return (f_restore_class(dt, type))
 }
 
