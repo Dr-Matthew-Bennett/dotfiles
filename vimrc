@@ -607,6 +607,13 @@ function! SlimeApplyFunctionToWordUnderCursor(fn, args, word, use_parens)
         :execute fn_call . '(' . word . a:args . ')'
     endif
 endfunction
+
+" get date range of df under cursor
+function! GetDateRange()
+    let fn_call = 'SlimeSend1 '
+    let word = expand('<cword>')
+    :execute fn_call . 'range(' . word . '$date)'
+endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
@@ -992,6 +999,9 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
     noremap <silent> <Leader>QH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
 
+    " get date range of df under cursor
+    noremap <silent> <Leader>qd :call GetDateRange()<CR>
+                                       
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
