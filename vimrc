@@ -614,6 +614,19 @@ function! GetDateRange()
     let word = expand('<cword>')
     :execute fn_call . 'range(' . word . '$date)'
 endfunction
+
+" get date range of df under cursor
+function! SearchNames(space)
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('search pattern: ')
+    if a:space ==# 'names'
+        let word = expand('<cword>')
+    else 
+        let word = ''
+    endif
+    :execute fn_call . a:space . '(' . word . ')[grep("' . to_search . '", ' . a:space .'(' . word .'))]'
+endfunction
+
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
@@ -1002,6 +1015,11 @@ augroup r "{{{-----------------------------------------------------------------
     " get date range of df under cursor
     noremap <silent> <Leader>qd :call GetDateRange()<CR>
                                        
+    " grep for pattern among columns names of df under curser
+    noremap <silent> <Leader>qgn :call SearchNames('names')<CR>
+    " grep for pattern among variables in workspace
+    noremap <silent> <Leader>qgl :call SearchNames('ls')<CR>
+ 
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
