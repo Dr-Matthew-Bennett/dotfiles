@@ -627,6 +627,14 @@ function! SearchNames(space)
     :execute fn_call . a:space . '(' . word . ')[grep("' . to_search . '", ' . a:space .'(' . word .'))]'
 endfunction
 
+" get date range of df under cursor
+function! ShowUnique()
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('column name: ')
+    let word = expand('<cword>')
+    :execute fn_call . 'unique(' . word . '[, .(' . to_search . ')])'
+endfunction
+
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
@@ -1020,6 +1028,10 @@ augroup r "{{{-----------------------------------------------------------------
     " grep for pattern among variables in workspace
     noremap <silent> <Leader>qgl :call SearchNames('ls')<CR>
  
+    " show unique entires of column
+    noremap <silent> <Leader>qu :call ShowUnique()<CR>
+    
+
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup matlab "{{{------------------------------------------------------------
