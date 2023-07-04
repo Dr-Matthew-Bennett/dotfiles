@@ -8,6 +8,8 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 
 " Create a funtion like Preserve() that preserves the unnamed register
+
+" A way to set all vim buffers to target a particular tmux pane via slime
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
