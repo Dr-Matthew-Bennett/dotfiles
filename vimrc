@@ -837,6 +837,9 @@ augroup general
     " turn on indent foldmethod
     nnoremap <LEADER>i :set foldmethod=indent<CR>
 
+    " send a ctrl+c to pane
+    nnoremap <LEADER>sc :SlimeSend0 "\x03"<CR> 
+
     " " open/close horizontal split containing w3m_scratch
     " nnoremap <LEADER>W :call ToggleW3M()<CR>
 
