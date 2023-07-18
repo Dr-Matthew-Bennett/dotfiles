@@ -8,6 +8,8 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 
 " Create a funtion like Preserve() that preserves the unnamed register
+
+" A way to set all vim buffers to target a particular tmux pane via slime
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
@@ -607,6 +609,34 @@ function! SlimeApplyFunctionToWordUnderCursor(fn, args, word, use_parens)
         :execute fn_call . '(' . word . a:args . ')'
     endif
 endfunction
+
+" get date range of df under cursor
+function! GetDateRange()
+    let fn_call = 'SlimeSend1 '
+    let word = expand('<cword>')
+    :execute fn_call . 'range(' . word . '$date)'
+endfunction
+
+" get date range of df under cursor
+function! SearchNames(space)
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('search pattern: ')
+    if a:space ==# 'names'
+        let word = expand('<cword>')
+    else 
+        let word = ''
+    endif
+    :execute fn_call . a:space . '(' . word . ')[grep("' . to_search . '", ' . a:space .'(' . word .'))]'
+endfunction
+
+" get date range of df under cursor
+function! ShowUnique()
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('column name: ')
+    let word = expand('<cword>')
+    :execute fn_call . 'unique(' . word . '[, .(' . to_search . ')])'
+endfunction
+
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
@@ -807,6 +837,9 @@ augroup general
     " turn on indent foldmethod
     nnoremap <LEADER>i :set foldmethod=indent<CR>
 
+    " send a ctrl+c to pane
+    nnoremap <LEADER>sc :SlimeSend0 "\x03"<CR> 
+
     " " open/close horizontal split containing w3m_scratch
     " nnoremap <LEADER>W :call ToggleW3M()<CR>
 
@@ -991,6 +1024,18 @@ augroup r "{{{-----------------------------------------------------------------
     " histogram
     noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
     noremap <silent> <Leader>QH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
+
+    " get date range of df under cursor
+    noremap <silent> <Leader>qd :call GetDateRange()<CR>
+                                       
+    " grep for pattern among columns names of df under curser
+    noremap <silent> <Leader>qgn :call SearchNames('names')<CR>
+    " grep for pattern among variables in workspace
+    noremap <silent> <Leader>qgl :call SearchNames('ls')<CR>
+ 
+    " show unique entires of column
+    noremap <silent> <Leader>qu :call ShowUnique()<CR>
+    
 
 augroup END
 "}}}---------------------------------------------------------------------------
