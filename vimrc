@@ -66,6 +66,7 @@ Plugin 'vim-scripts/indentpython.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
+Plugin 'romainl/vim-cool'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Konfekt/complete-common-words.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
@@ -974,6 +975,7 @@ augroup r "{{{-----------------------------------------------------------------
     " other users.
     autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
     autocmd FileType R,r,rmd,Rmd setlocal foldmethod=indent
+    autocmd FileType R,r,rmd,Rmd setlocal nofoldenable
 
     " in R, a tab is the same as 2 spaces
     autocmd FileType R,r,rmd,Rmd setlocal tabstop=2
