@@ -1016,16 +1016,19 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>cl :call SlimeApplyFunctionToWordUnderCursor('cl', '', '', '')<CR>
     " names
     noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word', '')<CR>
-    noremap <silent> <Leader>QN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>Qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
     " length
-    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
-    noremap <silent> <Leader>QL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>qL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
+    noremap <silent> <Leader>Ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
     " summary
     noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word', '')<CR>
-    noremap <silent> <Leader>QS :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>Qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
+    " structure
+    noremap <silent> <Leader>qr :call SlimeApplyFunctionToWordUnderCursor('str', '', 'word', '')<CR>
+    noremap <silent> <Leader>Qr :call SlimeApplyFunctionToWordUnderCursor('str', '', 'WORD', '')<CR>
     " histogram
-    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
-    noremap <silent> <Leader>QH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
+    noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
+    noremap <silent> <Leader>Qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
 
     " get date range of df under cursor
     noremap <silent> <Leader>qd :call GetDateRange()<CR>
@@ -1038,6 +1041,10 @@ augroup r "{{{-----------------------------------------------------------------
     " show unique entires of column
     noremap <silent> <Leader>qu :call ShowUnique()<CR>
     
+    " install packages which I don't yet have
+    nnoremap <LEADER>qi ^ct(install.packages<ESC>
+    " use library that has been installed
+    " nnoremap <LEADER>ql ^ct(library<ESC>
 
 augroup END
 "}}}---------------------------------------------------------------------------
