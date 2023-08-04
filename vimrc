@@ -1045,6 +1045,9 @@ augroup r "{{{-----------------------------------------------------------------
     nnoremap <LEADER>qi ^ct(install.packages<ESC>
     " use library that has been installed
     " nnoremap <LEADER>ql ^ct(library<ESC>
+    
+    " toggle figure window
+    nnoremap <LEADER>qf :execute 'SlimeSend1 system2("/bin/bash", args = c("-ic","ff"))'<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
