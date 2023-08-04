@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# bring the R Graphics window to the front, but leave control in the terminal
+alias ff='xdotool search --name Graphics windowstate --add ABOVE'
+
+# bring the R Graphics window to the back, leave control in the terminal
+alias fb='xdotool search --name Graphics windowstate --add BELOW'
