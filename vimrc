@@ -1047,7 +1047,7 @@ augroup r "{{{-----------------------------------------------------------------
     " nnoremap <LEADER>ql ^ct(library<ESC>
     
     " toggle figure window
-    nnoremap <LEADER>qf :execute 'SlimeSend1 system2("/bin/bash", args = c("-ic","ff"))'<CR>
+    nnoremap <LEADER>qf :execute 'silent !source ~/dotfiles/functions_multihost/fntstrkylnx01 && ff &'<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
