@@ -162,3 +162,6 @@ cleanname () {
     # rename 's/_\w+$/.test/g' *
     }
 
+printmonths () {
+    locale mon | sed 's/;/\n/g' | nl
+}
