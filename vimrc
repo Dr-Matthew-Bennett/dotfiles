@@ -1018,14 +1018,14 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word', '')<CR>
     noremap <silent> <Leader>Qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
     " length
-    noremap <silent> <Leader>qL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
+    noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
     noremap <silent> <Leader>Ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
     " summary
     noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word', '')<CR>
     noremap <silent> <Leader>Qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
-    " structure
-    noremap <silent> <Leader>qr :call SlimeApplyFunctionToWordUnderCursor('str', '', 'word', '')<CR>
-    noremap <silent> <Leader>Qr :call SlimeApplyFunctionToWordUnderCursor('str', '', 'WORD', '')<CR>
+    " nrow
+    noremap <silent> <Leader>qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'word', '')<CR>
+    noremap <silent> <Leader>Qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'WORD', '')<CR>
     " histogram
     noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
     noremap <silent> <Leader>Qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
