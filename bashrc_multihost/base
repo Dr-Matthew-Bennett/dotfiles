@@ -170,4 +170,3 @@ fzf4='--bind ctrl-y:preview-up,ctrl-e:preview-down'
 
 # enter the above into one long string
 export FZF_DEFAULT_OPTS="${fzf1} ${fzf2} ${fzf3} ${fzf4}"
-

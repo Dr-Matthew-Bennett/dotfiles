@@ -46,6 +46,9 @@ alias untar='tar zxvf'
 # I can't spell
 alias mdkir='mkdir'
 
+# I don't know the order of the months
+alias months='printmonths'
+
 # source .bashrc
 alias sob='source ~/.bashrc'
 

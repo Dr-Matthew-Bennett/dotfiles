@@ -8,6 +8,8 @@
 " vim (since version 8.2.2345) have native support for this functionality.
 
 " Create a funtion like Preserve() that preserves the unnamed register
+
+" A way to set all vim buffers to target a particular tmux pane via slime
 "}}}---------------------------------------------------------------------------
 
 "==== PLUGINS, ASSOCIATED CONFIGURATIONS AND REMAPS ===========================
@@ -64,6 +66,7 @@ Plugin 'vim-scripts/indentpython.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
 Plugin 'bronson/vim-visual-star-search'
+Plugin 'romainl/vim-cool'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Konfekt/complete-common-words.vim'
 Plugin 'Matt-A-Bennett/tmux-complete.vim'
@@ -607,6 +610,34 @@ function! SlimeApplyFunctionToWordUnderCursor(fn, args, word, use_parens)
         :execute fn_call . '(' . word . a:args . ')'
     endif
 endfunction
+
+" get date range of df under cursor
+function! GetDateRange()
+    let fn_call = 'SlimeSend1 '
+    let word = expand('<cword>')
+    :execute fn_call . 'range(' . word . '$date)'
+endfunction
+
+" get date range of df under cursor
+function! SearchNames(space)
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('search pattern: ')
+    if a:space ==# 'names'
+        let word = expand('<cword>')
+    else 
+        let word = ''
+    endif
+    :execute fn_call . a:space . '(' . word . ')[grep("' . to_search . '", ' . a:space .'(' . word .'))]'
+endfunction
+
+" get date range of df under cursor
+function! ShowUnique()
+    let fn_call = 'SlimeSend1 '
+    let to_search = input('column name: ')
+    let word = expand('<cword>')
+    :execute fn_call . 'unique(' . word . '[, .(' . to_search . ')])'
+endfunction
+
 "}}}---------------------------------------------------------------------------
 "{{{- copy from tmux panes to buffer ------------------------------------------
 function! AllTmuxPanesToBuffer()
@@ -807,6 +838,9 @@ augroup general
     " turn on indent foldmethod
     nnoremap <LEADER>i :set foldmethod=indent<CR>
 
+    " send a ctrl+c to pane
+    nnoremap <LEADER>sc :SlimeSend0 "\x03"<CR> 
+
     " " open/close horizontal split containing w3m_scratch
     " nnoremap <LEADER>W :call ToggleW3M()<CR>
 
@@ -896,8 +930,8 @@ augroup general
     iabbrev hte the
     iabbrev teh the
     iabbrev gaurd guard
-    iabbrev actual acutal
-    iabbrev actuals acutals
+    iabbrev acutal actual 
+    iabbrev acutals actuals 
     iabbrev appearence appearance
 
     " emails
@@ -941,6 +975,12 @@ augroup r "{{{-----------------------------------------------------------------
     " other users.
     autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
     autocmd FileType R,r,rmd,Rmd setlocal foldmethod=indent
+    autocmd FileType R,r,rmd,Rmd setlocal nofoldenable
+
+    " in R, a tab is the same as 2 spaces
+    autocmd FileType R,r,rmd,Rmd setlocal tabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal softtabstop=2
+    autocmd FileType R,r,rmd,Rmd setlocal shiftwidth=2
 
     " easier to type assignment
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
@@ -976,16 +1016,38 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>cl :call SlimeApplyFunctionToWordUnderCursor('cl', '', '', '')<CR>
     " names
     noremap <silent> <Leader>qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'word', '')<CR>
-    noremap <silent> <Leader>QN :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>Qn :call SlimeApplyFunctionToWordUnderCursor('names', '', 'WORD', '')<CR>
     " length
     noremap <silent> <Leader>ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'word', '')<CR>
-    noremap <silent> <Leader>QL :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>Ql :call SlimeApplyFunctionToWordUnderCursor('length', '', 'WORD', '')<CR>
     " summary
     noremap <silent> <Leader>qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'word', '')<CR>
-    noremap <silent> <Leader>QS :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
+    noremap <silent> <Leader>Qs :call SlimeApplyFunctionToWordUnderCursor('summary', '', 'WORD', '')<CR>
+    " nrow
+    noremap <silent> <Leader>qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'word', '')<CR>
+    noremap <silent> <Leader>Qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'WORD', '')<CR>
     " histogram
-    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
-    noremap <silent> <Leader>QH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
+    noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
+    noremap <silent> <Leader>Qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
+
+    " get date range of df under cursor
+    noremap <silent> <Leader>qd :call GetDateRange()<CR>
+                                       
+    " grep for pattern among columns names of df under curser
+    noremap <silent> <Leader>qgn :call SearchNames('names')<CR>
+    " grep for pattern among variables in workspace
+    noremap <silent> <Leader>qgl :call SearchNames('ls')<CR>
+ 
+    " show unique entires of column
+    noremap <silent> <Leader>qu :call ShowUnique()<CR>
+    
+    " install packages which I don't yet have
+    nnoremap <LEADER>qi ^ct(install.packages<ESC>
+    " use library that has been installed
+    " nnoremap <LEADER>ql ^ct(library<ESC>
+    
+    " toggle figure window
+    nnoremap <LEADER>qf :execute 'silent !source ~/dotfiles/functions_multihost/fntstrkylnx01 && ff &'<CR>
 
 augroup END
 "}}}---------------------------------------------------------------------------
@@ -1024,6 +1086,9 @@ augroup markdown "{{{----------------------------------------------------------
     " around headed body:
     autocmd FileType markdown onoremap <buffer> ahb :<C-u>execute "normal!
                 \ ?^#\\+ \\w\\+.*$\rv/^#\\+ \\w\\+.*$\rk"<CR>
+
+    "note taking
+    autocmd FileType markdown iabbrev <buffer> -- - [ ]
 augroup END
 "}}}---------------------------------------------------------------------------
 augroup tex "{{{---------------------------------------------------------------
