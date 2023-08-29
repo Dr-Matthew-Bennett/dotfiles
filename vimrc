@@ -174,7 +174,7 @@ let g:traces_preview_window = "below 5new"
 " preview window setting above
 let g:traces_preserve_view_state = 1
 "}}}---------------------------------------------------------------------------
-""{{{- ultisnips ---------------------------------------------------------------
+""{{{- ultisnips --------------------------------------------------------------
 "" Ultisnips trigger configuration.
 "" Do not use <TAB> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger=";s"
@@ -184,7 +184,7 @@ let g:traces_preserve_view_state = 1
 "" where ultisnips looks for snippets
 "" (I think you can add multiple items in the list)
 "let g:UltiSnipsSnippetDirectories=["/home/mattb/.vim/ultisnips"]
-""}}}---------------------------------------------------------------------------
+""}}}--------------------------------------------------------------------------
 "{{{ - tmuxcomplete.vim -------------------------------------------------------
 let g:tmuxcomplete_pane_index_display_duration_ms = '200'
 "}}} --------------------------------------------------------------------------
@@ -333,7 +333,7 @@ function! ToggleLightDarkColorscheme()
     :call SetColorScheme(1)
 endfunction
 "}}}---------------------------------------------------------------------------
-""{{{- handle w3m_scratch file and toggle split to use it ----------------------
+""{{{- handle w3m_scratch file and toggle split to use it ---------------------
 "function! WriteW3MToScratch()
 "    " only if the file matches this highly specific reg exp will we do anything
 "    "(e.g. a file that looks like: .w3m/w3mtmp{some numbers}-{number})
@@ -349,7 +349,7 @@ endfunction
 "        :silent! split /tmp/w3m_scratch
 "    endif
 "endfunction
-""}}}---------------------------------------------------------------------------
+""}}}--------------------------------------------------------------------------
 "{{{- if vim was initiated by <Esc-v> in bash, take evasive action ------------
 function! CheckBashEdit()
     " if the file matches this highly specific reg exp, comment the line
@@ -523,7 +523,7 @@ function! HorizontalScrollMode(call_char)
     echohl None | echo '' | redraws
 endfunction
 "}}}---------------------------------------------------------------------------
-""{{{- text object for visual number -------------------------------------------
+""{{{- text object for visual number ------------------------------------------
 "function! VisualNumber(direction)
 "    " find the end of a number (we assume a decimal means it's not the end)
 "    call search('\d\([^0-9\.]\|$\)', a:direction.'W')
@@ -531,7 +531,7 @@ endfunction
 "    " find the beggininng of that number (again, we don't stop for a decimal)
 "    call search('\(^\|[^0-9\.]\d\)', 'becW')
 "endfunction
-""}}}---------------------------------------------------------------------------
+""}}}--------------------------------------------------------------------------
 "{{{- text object for backtick defined code -----------------------------------
 function! BacktickCodeBlock(inner)
     let l = line('.')
