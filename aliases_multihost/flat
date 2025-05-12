@@ -2,19 +2,27 @@
 
 alias sd='shutdown'
 
+alias fo='cat ~/focus'
 # removed and restore fzf default options (if I want to use it in an usual directory)
 alias fzfcl="export FZF_DEFAULT_COMMAND='fd .'"
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 
+# watch a secret film
+alias sf='source /home/mattb/code/bash/play_secret_film.sh'
+
 # ufc
 alias ufc='cat ~/videos/ufc/ufc_database.txt | fzf | sort'
 alias ufcud='python3 /home/mattb/code/python/python_flat/random/ufc_database.py' 
+
+alias vlc='vlc "$@" 2>/dev/null'
 
 # motivation to train
 alias mma='vlc --random --loop --fullscreen ~/videos/mma_highlights/*.mp4 &'
 
 # play all the music
 alias mu='vlc ~/music/[^hitchhiker]*/*mp3 &'
+alias jp='vlc ~/music/jurassic-park-theme-song-made-with-Voicemod.mp3 &'
+
 
 # # display the ufc video I am watching/should watch next
 # alias ufc='path="/home/mattb/videos/ufc/"; \
@@ -77,3 +85,9 @@ alias vidkeydisp='~/videos/vim/screenkey/screenkey -p fixed -g 750x100+1100+825 
 
 # for when I want to make a gif of something in vim
 alias vimgif='vim -u ~/dotfiles/plugin_showcase.vim'
+
+# for when I want to make a gif of something in vim
+alias books='rsync -avz -e ssh ~/documents/books mattb@192.168.0.24:Documents/'
+
+
+

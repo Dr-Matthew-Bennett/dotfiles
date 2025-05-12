@@ -28,3 +28,9 @@ export WINDOWID=$(xdotool getwindowfocus)
 # connect or dissconnect to UCLouvain vpn
 alias uvc='openvpn3 session-start --config downloads/profile-10367.ovpn'
 alias uvd='openvpn3 session-manage --config downloads/profile-10367.ovpn --disconnect'
+
+# print a pattern to use for focuse adjustment
+cat ~/focus
+
+# start in dark mode
+tmux source-file ~/.tmux_dark.conf; tmux set-environment THEME 'dark'; export BAT_THEME=''

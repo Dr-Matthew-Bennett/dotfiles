@@ -51,11 +51,14 @@ f() {
     fi
 
     # sanitise the command:
-    # put an extra single quote next to any pre-existing single quotes
+    # if there's a single quote in the path, inject a literal quote in there:
+    # 'matt's path' -> 'matt'\''s path' (i.e. 'matt'    \'    's path')
     # put single quotes around each argument
     # put them all on one line.
+    #
+    # how to append multiple args here?
     for arg in "${arguments[@]}"; do
-        arguments=$(echo "$arg" | sed "s/'/''/g;
+        arguments=$(echo "$arg" | sed "s/'/'\\\''/g;
                                        s/.*/'&'/g;
                                        s/\n//g"
                    )
@@ -70,7 +73,8 @@ f() {
     history -w
 
     # add the command with the sanitised arguments to .bash_history
-    echo $program $options $arguments >> ~/.bash_history
+    # the quotes seem to help keep double spaces intact
+    echo "$program $options $arguments" >> ~/.bash_history
 
     # reload the ~/.bash_history into the shell's active history
     history -r

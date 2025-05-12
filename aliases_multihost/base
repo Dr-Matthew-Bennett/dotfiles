@@ -113,16 +113,7 @@ alias nigth=night
 
 # ssh conenctions
 # access the pony with or without X11 Forwarding
-alias sshpony='ssh mattb@130.104.83.192'
-alias sshponyx='ssh -Y mattb@130.104.83.192'
-# access jolien's pc with or without X11 Forwarding
-alias sshjolien='ssh mattb@130.104.83.35'
-alias sshjolienx='ssh -Y mattb@130.104.83.35'
-# CISM mass storage
-alias sshcism='ssh mbennett@storage.cism.ucl.ac.be'
-# Glasgow
-alias sshgla='ssh gpuws4-pc.psy.gla.ac.uk'
-alias sshglax='ssh -Y gpuws4-pc.psy.gla.ac.uk'
+alias sshflat='ssh -Y mattb@192.168.0.24'
 
 # connect or dissconnect to UCLouvain vpn
 vpn_login_hints="Auth User name: matthew.bennett@uclouvain.be\n

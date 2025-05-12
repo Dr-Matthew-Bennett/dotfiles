@@ -61,7 +61,7 @@ Plugin 'wellle/targets.vim'
 
 " plugins that I've forgotten what they do
 Plugin 'jeetsukumaran/vim-indentwise'
-Plugin 'Matt-A-Bennett/vim-indent-object'
+Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'vim-scripts/indentpython.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm trying out---------------------------------------------------
@@ -81,6 +81,7 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 " Plugin 'tpope/vim-obsession'
 " Plugin 'tpope/vim-vinegar'
 " Plugin 'junegunn/vim-easy-align'
+" Plugin 'kana/vim-arpeggio'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
 Plugin 'Matt-A-Bennett/vim-unit-test'
@@ -691,6 +692,7 @@ set nojoinspaces " don't join with double spaces when line ens with ./!/?
 set showmatch " show the matching part of the pair for [] {} and ()
 set incsearch " show matches for patterns while they are being typed
 set hlsearch | noh " highlight matches for searched (turn off when sourcing)
+set showcmd " display incomplete command in lower right corner of Vim window
 set shortmess-=S " show the number of search results (up to 99)
 set smartcase " with both on, searches with no capitals are case insensitive...
 set ignorecase " ...while searches with capital characters are case sensitive.
@@ -707,7 +709,7 @@ highlight Search term=reverse ctermfg=230 ctermbg=8 cterm=underline
 " check if we're on a light or dark colorscheme in tmux, and pick accordingly
 call SetColorScheme(1)
 
-let g:netrw_banner=0 " hide that huge banner
+let g:netrw_banner=1 " hide that huge banner
 "}}}---------------------------------------------------------------------------
 "{{{- general remaps ----------------------------------------------------------
 augroup general
@@ -917,7 +919,7 @@ augroup general
 
     " format and yank buffer in a good way for pasting outside of vim
     command! Format execute 'normal! :1,$!fmt --width=2500<CR>"+yGu'
- 
+
     "}}}-----------------------------------------------------------------------
     "{{{- spelling and abbreviations-------------------------------------------
     " instantly go with first spelling suggestion
@@ -990,7 +992,7 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
     autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
     autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
-    
+   
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
 
@@ -1032,20 +1034,20 @@ augroup r "{{{-----------------------------------------------------------------
 
     " get date range of df under cursor
     noremap <silent> <Leader>qd :call GetDateRange()<CR>
-                                       
+                                      
     " grep for pattern among columns names of df under curser
     noremap <silent> <Leader>qgn :call SearchNames('names')<CR>
     " grep for pattern among variables in workspace
     noremap <silent> <Leader>qgl :call SearchNames('ls')<CR>
- 
+
     " show unique entires of column
     noremap <silent> <Leader>qu :call ShowUnique()<CR>
-    
+   
     " install packages which I don't yet have
     nnoremap <LEADER>qi ^ct(install.packages<ESC>
     " use library that has been installed
     " nnoremap <LEADER>ql ^ct(library<ESC>
-    
+   
     " toggle figure window
     nnoremap <LEADER>qf :execute 'silent !source ~/dotfiles/functions_multihost/fntstrkylnx01 && ff &'<CR>
 
@@ -1160,4 +1162,3 @@ set statusline+=%P
 "}}}---------------------------------------------------------------------------
 "==============================================================================
 "
-"" hi
