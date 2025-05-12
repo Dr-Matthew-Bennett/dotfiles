@@ -31,7 +31,7 @@ by supplying the `--backup` argument to `ln` or to `link_dotfiles.sh`._
 1) Clone this repository into your home directory:
 
 ```shell
-git clone https://github.com/Matt-A-Bennett/dotfiles.git ~/dotfiles
+git clone https://github.com/Dr-Matthew-Bennett/dotfiles.git ~/dotfiles
 ```
 
 2) Rename files in the \*\_multihost directories to match the hostnames of your

@@ -44,7 +44,7 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'markonm/traces.vim'
-Plugin 'Matt-A-Bennett/vim-surround-funk'
+Plugin 'Dr-Matthew-Bennett/vim-surround-funk'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'simeji/winresizer'
 " Plugin 'SirVer/ultisnips'
@@ -69,7 +69,7 @@ Plugin 'bronson/vim-visual-star-search'
 Plugin 'romainl/vim-cool'
 " Plugin 'wellle/tmux-complete.vim'
 Plugin 'Konfekt/complete-common-words.vim'
-Plugin 'Matt-A-Bennett/tmux-complete.vim'
+Plugin 'Dr-Matthew-Bennett/tmux-complete.vim'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I may want to try one day ---------------------------------------
 " Plugin 'airblade/vim-gitgutter'
@@ -84,8 +84,8 @@ Plugin 'Matt-A-Bennett/tmux-complete.vim'
 " Plugin 'kana/vim-arpeggio'
 "}}}---------------------------------------------------------------------------
 "{{{- plugins I'm working on --------------------------------------------------
-Plugin 'Matt-A-Bennett/vim-unit-test'
-" Plugin 'Matt-A-Bennett/vim-visual-history'
+Plugin 'Dr-Matthew-Bennett/vim-unit-test'
+" Plugin 'Dr-Matthew-Bennett/vim-visual-history'
 "}}}---------------------------------------------------------------------------
 "{{{- call vundle and load things from runtime paths --------------------------
 " All of your Plugins must be added before the following line
