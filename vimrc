@@ -635,7 +635,7 @@ function! ShowUnique()
     let fn_call = 'SlimeSend1 '
     let to_search = input('column name: ')
     let word = expand('<cword>')
-    :execute fn_call . 'unique(' . word . '[, .(' . to_search . ')])'
+    :execute fn_call . 'unique(' . word . '$' . to_search . ')'
 endfunction
 
 "}}}---------------------------------------------------------------------------
