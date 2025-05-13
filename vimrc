@@ -54,7 +54,6 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 " neovim and vim (since version 8.2.2345) have native support for this
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
-" Plugin 'vim-scripts/MatlabFilesEdition'
 Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'wellle/targets.vim'
 " Plugin 'ycm-core/YouCompleteMe'
@@ -1054,20 +1053,6 @@ augroup r "{{{-----------------------------------------------------------------
 
 augroup END
 "}}}---------------------------------------------------------------------------
-augroup matlab "{{{------------------------------------------------------------
-    autocmd!
-    " make gcc comment matlab correctly
-    autocmd FileType matlab setlocal commentstring=%\ %s
-    autocmd FileType matlab setlocal foldmethod=indent
-
-    " abbreviations
-    autocmd FileType matlab iabbrev <buffer> fig figure
-    autocmd FileType matlab iabbrev <buffer> key keyboard
-    autocmd FileType matlab iabbrev <buffer> dbq dbquit
-    autocmd FileType matlab iabbrev <buffer> dbc dbcont
-
-augroup END
-"}}}---------------------------------------------------------------------------
 augroup markdown "{{{----------------------------------------------------------
     autocmd!
     autocmd FileType markdown setlocal spell
@@ -1113,11 +1098,10 @@ augroup tmux "{{{--------------------------------------------------------------
     autocmd FileType tmux setlocal foldlevel=0
 augroup END
 "}}}---------------------------------------------------------------------------
-augroup tidy_code_matlab_and_python "{{{---------------------------------------
+augroup tidy_code_python "{{{---------------------------------------
     autocmd!
     " remove trailing whitespace and perform auto indent when writing
-    autocmd BufWritePre *.py,*.m :call Preserve("%s/\\s\\+$//e", 0)
-    autocmd BufWritePre *.m :call Preserve("normal! gg=G", 0)
+    autocmd BufWritePre *.py :call Preserve("%s/\\s\\+$//e", 0)
 augroup END
 "}}}---------------------------------------------------------------------------
 "{{{- cursor behaviour --------------------------------------------------------
