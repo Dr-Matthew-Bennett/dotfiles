@@ -1007,6 +1007,8 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sf :put = readfile(expand('~/dotfiles/snips/function.r'))<CR>k%0
     " create a ggplot
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sg :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
+    " create a call to add_cols
+    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sa :put = readfile(expand('~/dotfiles/snips/add_cols.r'))<CR>kf"
 
     " query object:
     " help
