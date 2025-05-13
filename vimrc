@@ -986,7 +986,7 @@ augroup r "{{{-----------------------------------------------------------------
 
     " easier to type assignment
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
-    autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> %>%
+    autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
     autocmd FileType R,r,rmd,Rmd iabbrev lib library("")
     autocmd FileType R,r,rmd,Rmd iabbrev ins install.packages("")
     autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
@@ -1001,6 +1001,7 @@ augroup r "{{{-----------------------------------------------------------------
 
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
+    autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
 
     " snips
     " create a new function
