@@ -648,6 +648,14 @@ function! AllTmuxPanesToBuffer()
     buffer #
 endfunction                             
 "}}}---------------------------------------------------------------------------
+"{{{- cat all R like files into single buffer ---------------------------------
+function! RToBuffer()
+    edit .rbuf | .!fdfind . -e R -e Rmd -X cat
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    buffer #
+endfunction                             
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -972,6 +980,7 @@ augroup END
 "}}}---------------------------------------------------------------------------
 augroup r "{{{-----------------------------------------------------------------
     autocmd!
+
     " avoid conversion issues when checking into github and/or sharing with
     " other users.
     autocmd FileType R,r,rmd,Rmd setlocal fileformat=unix
@@ -991,16 +1000,18 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
     autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
     autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
+    autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
+    autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
    
+    " common mispellings
+    autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
+    autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
+
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
 
     " compile the R markdown document
     autocmd FileType rmd nnoremap <buffer> <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
-
-    " common mispellings
-    autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
-    autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
 
     " snips
     " create a new function
@@ -1031,7 +1042,7 @@ augroup r "{{{-----------------------------------------------------------------
     noremap <silent> <Leader>qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'word', '')<CR>
     noremap <silent> <Leader>Qr :call SlimeApplyFunctionToWordUnderCursor('nrow', '', 'WORD', '')<CR>
     " histogram
-    noremap <silent> <Leader>qH :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
+    noremap <silent> <Leader>qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'word', '')<CR>
     noremap <silent> <Leader>Qh :call SlimeApplyFunctionToWordUnderCursor('hist', ', breaks = 100', 'WORD', '')<CR>
 
     " get date range of df under cursor
@@ -1044,7 +1055,10 @@ augroup r "{{{-----------------------------------------------------------------
 
     " show unique entires of column
     noremap <silent> <Leader>qu :call ShowUnique()<CR>
-   
+       
+    " noremap ;l <Esc>:call RToBuffer()<CR>
+                    
+
     " install packages which I don't yet have
     nnoremap <LEADER>qi ^ct(install.packages<ESC>
     " use library that has been installed
