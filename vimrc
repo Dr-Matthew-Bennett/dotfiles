@@ -201,7 +201,6 @@ let g:slime_paste_file = "$HOME/.slime_paste"
 " set default target where slime will send text
 let g:slime_default_config =
         \ {"socket_name": "default", "target_pane": "{last}"}
-        " \ {"socket_name": "default", "target_pane": "{top-left}"}
 
 " since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
@@ -217,7 +216,7 @@ nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
 " change slime target pane mid-session 
-" nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
+nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
 nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
@@ -593,8 +592,15 @@ function! ChangeBufferSlimeConfig(...)
         call DisplayTmuxPaneIndices(duration)
         let target_pane = input("target_pane:")
     endif
-    let b:slime_config = {"socket_name": "default"}
-    let b:slime_config["target_pane"] = target_pane
+    if  target_pane == 0
+        echo 'no selection: defaulting to tmux {last} pane'
+        let b:slime_config = {"socket_name": "default"}
+        let b:slime_config["target_pane"] = "{last}"
+    else 
+        let b:slime_config = {"socket_name": "default"}
+        let b:slime_config["target_pane"] = target_pane
+    endif
+
 endfunction
 "}}}---------------------------------------------------------------------------
 "{{{- slime apply function to word under cursor -------------------------------
@@ -841,7 +847,8 @@ augroup general
     nnoremap <LEADER>- :split<CR>:bnext<CR>
 
     " open current split in own tab (like zoom in tmux) and keep cursor " pos
-    nnoremap <LEADER>z mx:tabedit %<CR>g`x
+    " turn off numbers for better copying
+    nnoremap <LEADER>z mx:tabedit %<CR>g`x:set nonumber<CR> :set norelativenumber<CR>
 
     " close current buffer, keep window and switch to last used buffer
     nnoremap <LEADER>x :buffer# \| bdelete #<CR>
