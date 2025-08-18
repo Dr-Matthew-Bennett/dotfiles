@@ -592,12 +592,11 @@ function! ChangeBufferSlimeConfig(...)
         call DisplayTmuxPaneIndices(duration)
         let target_pane = input("target_pane:")
     endif
+    let b:slime_config = {"socket_name": "default"}
     if  target_pane == 0
         echo 'no selection: defaulting to tmux {last} pane'
-        let b:slime_config = {"socket_name": "default"}
         let b:slime_config["target_pane"] = "{last}"
     else 
-        let b:slime_config = {"socket_name": "default"}
         let b:slime_config["target_pane"] = target_pane
     endif
 
