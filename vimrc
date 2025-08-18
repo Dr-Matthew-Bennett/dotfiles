@@ -200,7 +200,8 @@ let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " set default target where slime will send text
 let g:slime_default_config =
-        \ {"socket_name": "default", "target_pane": "{top-left}"}
+        \ {"socket_name": "default", "target_pane": "{last}"}
+        " \ {"socket_name": "default", "target_pane": "{top-left}"}
 
 " since I already set it above, don't ask what the default should be on startup
 let g:slime_dont_ask_default = 1
@@ -216,7 +217,7 @@ nmap s <Plug>SlimeMotionSend
 " send {count} line(s)
 nmap ss <Plug>SlimeLineSend
 " change slime target pane mid-session 
-nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
+" nnoremap <LEADER>ss :call ChangeBufferSlimeConfig(200)<CR>
 " get all the visible text in a particular tmux pane and suck it in to a buffer 
 nnoremap S :call tmuxcomplete#tmux_pane_to_buffer()<CR>
 "}}}---------------------------------------------------------------------------
@@ -656,6 +657,7 @@ function! RToBuffer()
     setlocal noswapfile
     buffer #
 endfunction                             
+"}}}
 "==============================================================================
 
 "==== CUSTOM CONFIGURATIONS ===================================================
@@ -1000,12 +1002,19 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
     autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
     autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
+    autocmd FileType R,r,rmd,Rmd iabbrev gae aes(y = )
     autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
     autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
+    autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
+    autocmd FileType R,r,rmd,Rmd iabbrev rmo rmote::rmote_device(width = 600, height = 500)
+    autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)
+    autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
    
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
     autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
+    autocmd FileType R,r,rmd,Rmd iabbrev tial tail
+    autocmd FileType R,r,rmd,Rmd iabbrev functino function
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
@@ -1020,6 +1029,9 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sg :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
     " create a call to add_cols
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sa :put = readfile(expand('~/dotfiles/snips/add_cols.r'))<CR>kf"
+
+
+    noremap <silent> <Leader>go :call SlimeApplyFunctionToWordUnderCursor('graphics.off', '', '', '')<CR>
 
     " query object:
     " help
