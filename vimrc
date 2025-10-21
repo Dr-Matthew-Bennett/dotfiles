@@ -1021,6 +1021,7 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
     autocmd FileType R,r,rmd,Rmd iabbrev tial tail
     autocmd FileType R,r,rmd,Rmd iabbrev functino function
+    autocmd FileType R,r,rmd,Rmd iabbrev wk floor_date(date, week_start = 1, "week")
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
@@ -1035,6 +1036,8 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sg :put = readfile(expand('~/dotfiles/snips/ggplot.r'))<CR>3k0fd
     " create a call to add_cols
     autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>sa :put = readfile(expand('~/dotfiles/snips/add_cols.r'))<CR>kf"
+    " create a call to add_cols
+    autocmd FileType R,r,rmd,Rmd nnoremap <buffer> <LEADER>ssl :put = readfile(expand('~/dotfiles/snips/slider.r'))<CR>k%
 
 
     noremap <silent> <Leader>go :call SlimeApplyFunctionToWordUnderCursor('graphics.off', '', '', '')<CR>
@@ -1042,9 +1045,10 @@ augroup r "{{{-----------------------------------------------------------------
     " query object:
     " help
     noremap <silent> <Leader>q? :call SlimeApplyFunctionToWordUnderCursor('?', '', 'word', 'no_parens')<CR>
-    noremap <silent> <Leader>Q? :call SlimeApplyFunctionToWordUnderCursor('?', '', 'WORD', 'no_parens')<CR>
     " exit help
     noremap <silent> <Leader>? :call SlimeApplyFunctionToWordUnderCursor('q', '', '', 'no_parens')<CR>
+    " exit browser mode
+    noremap <silent> <Leader>qq :call SlimeApplyFunctionToWordUnderCursor('Q', '', '', 'no_parens')<CR>
     " clear console
     noremap <silent> <Leader>cl :call SlimeApplyFunctionToWordUnderCursor('cl', '', '', '')<CR>
     " names

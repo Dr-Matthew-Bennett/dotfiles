@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# set up new tmux window for work
+alias nw="
+    tmux send-keys 'cd /data/core_renv/' Enter
+    tmux split-window -v
+    tmux send-keys 'cd /srv/shiny-server/' Enter
+    tmux resize-pane -D 10
+    tmux send-keys 'R' Enter
+    tmux select-pane -t 1
+    "

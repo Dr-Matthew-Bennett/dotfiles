@@ -1,5 +1,5 @@
-df = add_cols(from = "2025-01-01",
-              to = "2025-01-01",
-              groups = c("hour"),
-              rds_names = "")
+df = add_cols(from = today() - 7 * 8,
+              to = today() - 1,
+              groups = c("date", "hour"),
+              rds_names = c(""))
 
