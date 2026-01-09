@@ -8,6 +8,6 @@ result_df <- slide_period_dfr(
   .f = fn,
   .before = 8,                # look back 8 weeks
   .after =  0,                # up to but not including current week
-  .complete = true            # only return complete windows
+  .complete = TRUE            # only return complete windows
 )                             # extra args pass to fn
 

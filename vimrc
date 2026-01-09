@@ -140,8 +140,16 @@ let fzf3 = "--bind ctrl-a:select-all,ctrl-d:deselect-all"
 let fzf4 = "--bind ctrl-y:preview-up,ctrl-e:preview-down"
 let $FZF_DEFAULT_OPTS = fzf1.' '.fzf2.' '.fzf3.' '.fzf4
 
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+  copen
+  cc
+endfunction
+
 " Change CTRL-X to CTRL-l to open file from fzf in vertical split
 let g:fzf_action = {
+            \ 'ctrl-q': function('s:build_quickfix_list'),
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-d': 'split',
             \ 'ctrl-l': 'vsplit' }
@@ -1005,26 +1013,47 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
     autocmd FileType R,r,rmd,Rmd iabbrev lib library("")
     autocmd FileType R,r,rmd,Rmd iabbrev ins install.packages("")
-    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +
-    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line()
-    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point()
-    autocmd FileType R,r,rmd,Rmd iabbrev gae aes(y = )
+    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +<ESC>4h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gae aes(y = )<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
     autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
+    autocmd FileType R,r,rmd,Rmd iabbrev bor browser()
     autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
     autocmd FileType R,r,rmd,Rmd iabbrev rmo rmote::rmote_device(width = 600, height = 500)
-    autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)
+    autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
+    autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)
+    autocmd FileType R,r,rmd,Rmd iabbrev th theme_bw(base_size = 20)
+    autocmd FileType R,r,rmd,Rmd iabbrev fw facet_wrap(~)<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev fg facet_grid(~)<ESC>hh
+    autocmd FileType R,r,rmd,Rmd iabbrev f filter()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev m mutate()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev g group_by()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev su summarise()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev gsu group_by(date) \|><CR>summarise()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev se select()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev pw pivot_wider()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev l left_join()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
+    autocmd FileType R,r,rmd,Rmd iabbrev t totalcontacts
    
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
     autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
     autocmd FileType R,r,rmd,Rmd iabbrev tial tail
     autocmd FileType R,r,rmd,Rmd iabbrev functino function
-    autocmd FileType R,r,rmd,Rmd iabbrev wk floor_date(date, week_start = 1, "week")
+    autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")
+    autocmd FileType R,r,rmd,Rmd iabbrev cis ics
+    autocmd FileType R,r,rmd,Rmd iabbrev oss oos
+    autocmd FileType R,r,rmd,Rmd iabbrev OSS OOS
 
     " don't consider dots part of words (i.e. keep acting like normal vim)
     autocmd FileType R,r,rmd,Rmd set iskeyword-=.
+    " autocmd FileType R,r,rmd,Rmd set iskeyword+=;
 
     " compile the R markdown document
     autocmd FileType rmd nnoremap <buffer> <LEADER>m :silent !echo 'rmarkdown::render("%")' \| R --slave<CR>
