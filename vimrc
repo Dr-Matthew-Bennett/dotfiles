@@ -1014,8 +1014,15 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev lib library("")
     autocmd FileType R,r,rmd,Rmd iabbrev ins install.packages("")
     autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +<ESC>4h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggh geom_hline(yintercept = 0, linetype = "dashed") +<ESC>F0h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggv geom_vline(xintercept = 0, linetype = "dashed") +<ESC>F0h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggab geom_abline() +<Esc>3h
     autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line() +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev ggs geom_smooth() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev fw facet_wrap(~)<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev fg facet_grid(~)<ESC>hh
+    autocmd FileType R,r,rmd,Rmd iabbrev th theme_bw(base_size = 20)
     autocmd FileType R,r,rmd,Rmd iabbrev gae aes(y = )<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
     autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
@@ -1024,11 +1031,9 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev rmo rmote::rmote_device(width = 600, height = 500)
     autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
+    autocmd FileType R,r,rmd,Rmd iabbrev na is.na()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)
-    autocmd FileType R,r,rmd,Rmd iabbrev th theme_bw(base_size = 20)
-    autocmd FileType R,r,rmd,Rmd iabbrev fw facet_wrap(~)<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev fg facet_grid(~)<ESC>hh
+    autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev f filter()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev m mutate()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev g group_by()<ESC>h
@@ -1039,6 +1044,7 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev l left_join()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
+    autocmd FileType R,r,rmd,Rmd iabbrev d "2026-04-01"
     autocmd FileType R,r,rmd,Rmd iabbrev t totalcontacts
    
     " common mispellings
