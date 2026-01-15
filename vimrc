@@ -1008,51 +1008,59 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd setlocal softtabstop=2
     autocmd FileType R,r,rmd,Rmd setlocal shiftwidth=2
 
-    " easier to type assignment
-    autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
-    autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
-    autocmd FileType R,r,rmd,Rmd iabbrev lib library("")
-    autocmd FileType R,r,rmd,Rmd iabbrev ins install.packages("")
-    autocmd FileType R,r,rmd,Rmd iabbrev gg2 ggplot(df, aes()) +<ESC>4h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggh geom_hline(yintercept = 0, linetype = "dashed") +<ESC>F0h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggv geom_vline(xintercept = 0, linetype = "dashed") +<ESC>F0h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggab geom_abline() +<Esc>3h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggl geom_line() +<ESC>3h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggp geom_point() +<ESC>3h
-    autocmd FileType R,r,rmd,Rmd iabbrev ggs geom_smooth() +<ESC>3h
-    autocmd FileType R,r,rmd,Rmd iabbrev fw facet_wrap(~)<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev fg facet_grid(~)<ESC>hh
-    autocmd FileType R,r,rmd,Rmd iabbrev th theme_bw(base_size = 20)
-    autocmd FileType R,r,rmd,Rmd iabbrev gae aes(y = )<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
-    autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
-    autocmd FileType R,r,rmd,Rmd iabbrev bor browser()
-    autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
-    autocmd FileType R,r,rmd,Rmd iabbrev rmo rmote::rmote_device(width = 600, height = 500)
-    autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
-    autocmd FileType R,r,rmd,Rmd iabbrev na is.na()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)<ESC>h
+    " ggplot maps
+    autocmd FileType R,r,rmd,Rmd iabbrev g2 ggplot(aes()) +<ESC>4h
+    autocmd FileType R,r,rmd,Rmd iabbrev gh geom_hline(yintercept = 0, linetype = "dashed") +<ESC>F0h
+    autocmd FileType R,r,rmd,Rmd iabbrev gv geom_vline(xintercept = 0, linetype = "dashed") +<ESC>F0h
+    autocmd FileType R,r,rmd,Rmd iabbrev gab geom_abline() +<Esc>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gl geom_line() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gp geom_point() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gsm geom_smooth() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gfw facet_wrap(~)<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev gfg facet_grid(~)<ESC>hh
+    autocmd FileType R,r,rmd,Rmd iabbrev ga aes(y = )<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev gd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<Esc>F(l
+    autocmd FileType R,r,rmd,Rmd iabbrev gth theme_bw(base_size = 20)
+    
+    " dplyr maps
     autocmd FileType R,r,rmd,Rmd iabbrev f filter()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev m mutate()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev g group_by()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev u ungroup()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev su summarise()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gsu group_by(date) \|><CR>summarise()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev se select()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev gs group_by(date) \|><CR>summarise()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev s select()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev a arrange(date, hour)<ESC>Fhh
+    autocmd FileType R,r,rmd,Rmd iabbrev r rename_with(.fn = function(col) gsub("pattern", "replacement", col))<ESC>Fp;h
     autocmd FileType R,r,rmd,Rmd iabbrev pw pivot_wider()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev l left_join()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev bi bind_rows()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")<ESC>F(
+    autocmd FileType R,r,rmd,Rmd iabbrev if ifelse(var %in% c(this), new, var)<ESC>Fv;h
     autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
-    autocmd FileType R,r,rmd,Rmd iabbrev d "2026-04-01"
-    autocmd FileType R,r,rmd,Rmd iabbrev t totalcontacts
+    autocmd FileType R,r,rmd,Rmd iabbrev in %in% c("var", "var")<ESC>F(
+    autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
+    autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
    
+    " other maps
+    autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
+    autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
+    autocmd FileType R,r,rmd,Rmd iabbrev bro browser()
+    autocmd FileType R,r,rmd,Rmd iabbrev bor browser()
+    autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
+    autocmd FileType R,r,rmd,Rmd iabbrev na is.na()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev d "2026-04-01"<ESC>F4;h
+    autocmd FileType R,r,rmd,Rmd iabbrev t totalcontacts
+
     " common mispellings
     autocmd FileType R,r,rmd,Rmd iabbrev fliter filter
     autocmd FileType R,r,rmd,Rmd iabbrev fitler filter
     autocmd FileType R,r,rmd,Rmd iabbrev tial tail
     autocmd FileType R,r,rmd,Rmd iabbrev functino function
-    autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")
     autocmd FileType R,r,rmd,Rmd iabbrev cis ics
     autocmd FileType R,r,rmd,Rmd iabbrev oss oos
     autocmd FileType R,r,rmd,Rmd iabbrev OSS OOS
