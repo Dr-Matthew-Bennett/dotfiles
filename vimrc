@@ -1015,34 +1015,39 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gab geom_abline() +<Esc>3h
     autocmd FileType R,r,rmd,Rmd iabbrev gl geom_line() +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev gp geom_point() +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gr geom_ribbon(aes(ymin = lower_q05, ymax = upper_q95)) +<ESC>Flh
     autocmd FileType R,r,rmd,Rmd iabbrev gsm geom_smooth() +<ESC>3h
-    autocmd FileType R,r,rmd,Rmd iabbrev gfw facet_wrap(~)<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gfg facet_grid(~)<ESC>hh
+    autocmd FileType R,r,rmd,Rmd iabbrev gfw facet_wrap(~) +<ESC>3h
+    autocmd FileType R,r,rmd,Rmd iabbrev gfg facet_grid(~) +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev ga aes(y = )<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<Esc>F(l
+    autocmd FileType R,r,rmd,Rmd iabbrev gsd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<Esc>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev gsc scale_color_manual(values = c("NEL" = "red", "SEL" = "blue")) +<Esc>F(l
     autocmd FileType R,r,rmd,Rmd iabbrev gth theme_bw(base_size = 20)
     
     " dplyr maps
-    autocmd FileType R,r,rmd,Rmd iabbrev f filter()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev m mutate()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev g group_by()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev u ungroup()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev su summarise()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gs group_by(date) \|><CR>summarise()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev s select()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev a arrange(date, hour)<ESC>Fhh
-    autocmd FileType R,r,rmd,Rmd iabbrev r rename_with(.fn = function(col) gsub("pattern", "replacement", col))<ESC>Fp;h
-    autocmd FileType R,r,rmd,Rmd iabbrev pw pivot_wider()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev l left_join()<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev bi bind_rows()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev f filter() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev m mutate() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev g group_by() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev u ungroup() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev su summarise() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev gs group_by(date) \|><CR>summarise() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev s select() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev a arrange(date, hour) \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev r rename_with(.fn = function(col) gsub("pattern", "replacement", col)) \|><ESC>Fp;F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev pw pivot_wider(names_from = col, values_from = col) \|><ESC>Fc;F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer(cols = col, names_to = col, values_to = col) \|><ESC>Fc;;F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev l left_join() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev bi bind_rows() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev if ifelse(var %in% c(this), new, var)<ESC>Fv;h
+    autocmd FileType R,r,rmd,Rmd iabbrev cw case_when(var == condition ~ res, T ~ NA)<ESC>F,li<CR><ESC>k
     autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
     autocmd FileType R,r,rmd,Rmd iabbrev in %in% c("var", "var")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
     autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
-   
+
+    nnoremap <LEADER>< mx$F)c$)<ESC>`x
+
     " other maps
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
