@@ -1045,6 +1045,8 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev in %in% c("var", "var")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
     autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
+    autocmd FileType R,r,rmd,Rmd iabbrev an as.numeric(<ESC>
+    autocmd FileType R,r,rmd,Rmd iabbrev ac as.character(<ESC>
 
     nnoremap <LEADER>< mx$F)c$)<ESC>`x
 
