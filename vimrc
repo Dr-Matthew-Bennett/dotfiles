@@ -1040,9 +1040,11 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev bi bind_rows() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev if ifelse(var %in% c(this), new, var)<ESC>Fv;h
+    autocmd FileType R,r,rmd,Rmd iabbrev iff if<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev cw case_when(var == condition ~ res, T ~ NA)<ESC>F,li<CR><ESC>k
     autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
     autocmd FileType R,r,rmd,Rmd iabbrev in %in% c("var", "var")<ESC>F(
+    autocmd FileType R,r,rmd,Rmd iabbrev inn in<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
     autocmd FileType R,r,rmd,Rmd iabbrev pn print(n = 100)
     autocmd FileType R,r,rmd,Rmd iabbrev an as.numeric(<ESC>
