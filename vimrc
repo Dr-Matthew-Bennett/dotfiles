@@ -680,6 +680,7 @@ set backupdir=~/dotfiles/.vim/backup//
 set directory=~/dotfiles/.vim/swap//
 set undodir=~/dotfiles/.vim/undo//
 set encoding=utf-8
+set belloff=all " don't ring the bell for any reason
 set path+=** " let vim search recursively in the current directory
 set number " put line number where the cursor is
 set relativenumber " number all other lines relative to current line
