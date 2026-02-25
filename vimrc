@@ -1064,7 +1064,11 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev an as.numeric(<ESC>
     autocmd FileType R,r,rmd,Rmd iabbrev ac as.character(<ESC>
 
-    nnoremap <LEADER>< mx$F)c$)<ESC>`x
+    " remove |> at end of line
+    nnoremap <LEADER>> mx$F)c$)<ESC>`x
+    
+    " remove the next |>
+    nnoremap <leader>< mxh/\s*\|><CR>df><ESC>`x
 
     " other maps
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
