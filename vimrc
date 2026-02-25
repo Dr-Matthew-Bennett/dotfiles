@@ -1021,9 +1021,10 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gfw facet_wrap(~) +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev gfg facet_grid(~) +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev ga aes(y = )<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gsd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<Esc>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev gsd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev gsc scale_color_manual(values = c("NEL" = "red", "SEL" = "blue")) +<Esc>F(l
     autocmd FileType R,r,rmd,Rmd iabbrev gth theme_bw(base_size = 16)
+    autocmd FileType R,r,rmd,Rmd iabbrev th theme(legend.position = "none",<CR> strip.background = element_blank())<ESC>%h
     autocmd FileType R,r,rmd,Rmd iabbrev cow cowplot::plot_grid(p1, p2, ncol = 1)<ESC>F(h
     
     " dplyr maps
