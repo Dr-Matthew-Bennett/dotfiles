@@ -1079,6 +1079,8 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
     autocmd FileType R,r,rmd,Rmd iabbrev na is.na()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev T TRUE
+    autocmd FileType R,r,rmd,Rmd iabbrev F FALSE
     autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev d "2026-04-01"<ESC>F4;h
