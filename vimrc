@@ -1021,30 +1021,43 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev gfw facet_wrap(~) +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev gfg facet_grid(~) +<ESC>3h
     autocmd FileType R,r,rmd,Rmd iabbrev ga aes(y = )<ESC>h
-    autocmd FileType R,r,rmd,Rmd iabbrev gsd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<Esc>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev gsd scale_x_date(name = "", date_labels = "%b %Y", date_breaks = "2 month") +<ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev gsc scale_color_manual(values = c("NEL" = "red", "SEL" = "blue")) +<Esc>F(l
-    autocmd FileType R,r,rmd,Rmd iabbrev gth theme_bw(base_size = 20)
+    autocmd FileType R,r,rmd,Rmd iabbrev gth theme_bw(base_size = 16)
+    autocmd FileType R,r,rmd,Rmd iabbrev th theme(legend.position = "none",<CR> strip.background = element_blank())<ESC>%h
     autocmd FileType R,r,rmd,Rmd iabbrev cow cowplot::plot_grid(p1, p2, ncol = 1)<ESC>F(h
     
     " dplyr maps
     autocmd FileType R,r,rmd,Rmd iabbrev f filter() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev ff f<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev m mutate() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev mm m<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev g group_by() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev gg g<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev u ungroup() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev uu u<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev su summarise() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev gs group_by(date) \|><CR>summarise() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev s select() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev ss s<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev a arrange(date, hour) \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev aa a<ESC>a
+    autocmd FileType R,r,rmd,Rmd iabbrev n nest(newcol = c(col1, col2)) \|><ESC>F(;
+    autocmd FileType R,r,rmd,Rmd iabbrev nn n<ESC>a
+    autocmd FileType R,r,rmd,Rmd iabbrev un unnest() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev r rename_with(.fn = function(col) gsub("pattern", "replacement", col)) \|><ESC>Fp;F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev rr r<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev pw pivot_wider(names_from = col, values_from = col) \|><ESC>Fc;F(h
     autocmd FileType R,r,rmd,Rmd iabbrev pl pivot_longer(cols = col, names_to = col, values_to = col) \|><ESC>Fc;;F(h
     autocmd FileType R,r,rmd,Rmd iabbrev l left_join() \|><ESC>F(h
+    autocmd FileType R,r,rmd,Rmd iabbrev ll l<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev bi bind_rows() \|><ESC>F(h
     autocmd FileType R,r,rmd,Rmd iabbrev fd floor_date(date, week_start = 1, "week")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev if ifelse(var %in% c(this), new, var)<ESC>Fv;h
     autocmd FileType R,r,rmd,Rmd iabbrev iff if<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev cw case_when(var == condition ~ res, T ~ NA)<ESC>F,li<CR><ESC>k
     autocmd FileType R,r,rmd,Rmd iabbrev b %between% c("2025-04-01", "2025-04-01")<ESC>BF4h
+    autocmd FileType R,r,rmd,Rmd iabbrev bb b<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev in %in% c("var", "var")<ESC>F(
     autocmd FileType R,r,rmd,Rmd iabbrev inn in<ESC>a
     autocmd FileType R,r,rmd,Rmd iabbrev pred( predict(mod, newdata = df, type = "response")
@@ -1052,7 +1065,11 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev an as.numeric(<ESC>
     autocmd FileType R,r,rmd,Rmd iabbrev ac as.character(<ESC>
 
-    nnoremap <LEADER>< mx$F)c$)<ESC>`x
+    " remove |> at end of line
+    nnoremap <LEADER>> mx$F)c$)<ESC>`x
+    
+    " remove the next |>
+    nnoremap <leader>< mxh/\s*\|><CR>df><ESC>`x
 
     " other maps
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
@@ -1062,6 +1079,8 @@ augroup r "{{{-----------------------------------------------------------------
     autocmd FileType R,r,rmd,Rmd iabbrev nar na.rm = T
     autocmd FileType R,r,rmd,Rmd iabbrev na is.na()<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev nna !is.na()<ESC>h
+    autocmd FileType R,r,rmd,Rmd iabbrev T TRUE
+    autocmd FileType R,r,rmd,Rmd iabbrev F FALSE
     autocmd FileType R,r,rmd,Rmd iabbrev fp file.path(PATH_ASSETS)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev dtt datetime = f_create_ymdh_from_ymd_and_hour_cols(date, hour)<ESC>h
     autocmd FileType R,r,rmd,Rmd iabbrev d "2026-04-01"<ESC>F4;h
