@@ -1071,6 +1071,9 @@ augroup r "{{{-----------------------------------------------------------------
     " remove the next |>
     nnoremap <leader>< mxh/\s*\|><CR>df><ESC>`x
 
+    " read in some text from chatgpt
+    nnoremap <leader>r :read /data/samba/shared/tmp_data/for_vim.txt<CR>
+
     " other maps
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> << <-
     autocmd FileType R,r,rmd,Rmd inoremap <buffer> >> \|>
